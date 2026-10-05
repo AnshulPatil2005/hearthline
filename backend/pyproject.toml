@@ -1,0 +1,34 @@
+[project]
+name = "phoenix-api"
+version = "0.1.0"
+description = "Phoenix disaster recovery platform: API and worker"
+requires-python = ">=3.12"
+dependencies = [
+    "anthropic>=1.11.0",
+    "arq>=0.28.0",
+    "channel3-sdk>=4.1.0",
+    "fastapi>=0.142.2",
+    "httpx>=0.28.1",
+    "mcp>=2.3.0",
+    "paypal-server-sdk>=2.4.0",
+    "pillow>=12.3.0",
+    "pydantic-settings>=2.15.0",
+    "uvicorn[standard]>=0.54.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "ruff>=0.16.10",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

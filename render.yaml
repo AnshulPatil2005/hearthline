@@ -1,0 +1,76 @@
+# Render Blueprint: deploys the whole Phoenix stack.
+# Secrets marked `sync: false` are entered once in the Render dashboard (never committed).
+# Cron jobs and the docs site are added as their features land (see PLAN.md section 6).
+
+services:
+  - type: web
+    name: phoenix-api
+    runtime: python
+    plan: starter # free instances sleep; judges would hit cold starts
+    rootDir: backend
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: uv run --no-dev uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars: &backend_env
+      - key: PYTHON_VERSION
+        value: 3.12.10
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: phoenix-db
+          property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: keyvalue
+          name: phoenix-kv
+          property: connectionString
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: CHANNEL3_API_KEY
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_WEBHOOK_ID
+        sync: false
+      - key: PAYPAL_ENVIRONMENT
+        value: sandbox
+
+  - type: worker
+    name: phoenix-worker
+    runtime: python
+    plan: starter
+    rootDir: backend
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    startCommand: uv run --no-dev arq worker.WorkerSettings
+    envVars: *backend_env
+
+  - type: web
+    name: phoenix-web
+    runtime: static
+    rootDir: frontend
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_HOST
+        fromService:
+          type: web
+          name: phoenix-api
+          property: host
+
+  - type: keyvalue
+    name: phoenix-kv
+    plan: free
+    ipAllowList: [] # internal connections only
+
+databases:
+  - name: phoenix-db
+    plan: 0.1c-256mb # paid tier: free databases are deleted after 30 days, judging runs to Dec 15
+    databaseName: phoenix
+    user: phoenix
