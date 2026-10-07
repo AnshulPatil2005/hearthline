@@ -1,8 +1,8 @@
-# Phoenix
+# Hearthline
 
-**Disaster recovery for the people who live through it.** Phoenix helps a family document their home *before* a disaster, get help that can't be stolen or diverted *during* it, rebuild with contractors who are paid only for verified work, and helps local businesses reopen with support from their regulars.
+**Disaster recovery for the people who live through it.** Hearthline helps a family document their home *before* a disaster, get help that can't be stolen or diverted *during* it, rebuild with contractors who are paid only for verified work, and helps local businesses reopen with support from their regulars.
 
-Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on the PayPal developer platform (sandbox) with Claude, AG Grid, Bryntum, Channel3, APIMatic and Render.
+Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on the PayPal developer platform (sandbox) with Google Gemini (via its OpenAI-compatible API, with OpenRouter as a fallback), AG Grid, Bryntum, Channel3, APIMatic and Render.
 
 > Status: **Week 0 (setup)**. See [PLAN.md](PLAN.md) for the full product and build plan.
 

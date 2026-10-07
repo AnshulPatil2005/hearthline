@@ -1,4 +1,4 @@
-"""Background worker (Render `phoenix-worker`). Run with: uv run arq worker.WorkerSettings"""
+"""Background worker (Render `hearthline-worker`). Run with: uv run arq worker.WorkerSettings"""
 
 from arq.connections import RedisSettings
 

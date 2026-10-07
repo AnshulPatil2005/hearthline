@@ -1,12 +1,13 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app import ai
 from app.config import get_settings
 
 settings = get_settings()
 
 app = FastAPI(
-    title="Phoenix API",
+    title="Hearthline API",
     version="0.1.0",
     description="Disaster recovery platform: Prepare, Respond, Rebuild, Reopen.",
 )
@@ -27,7 +28,7 @@ def health() -> dict:
         "environment": settings.environment,
         "integrations": {
             "Database": bool(settings.database_url),
-            "Claude": bool(settings.anthropic_api_key),
+            "AI": ai.configured(),
             "Channel3": bool(settings.channel3_api_key),
             "PayPal": settings.paypal_configured,
         },

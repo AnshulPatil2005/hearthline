@@ -10,7 +10,7 @@ import uuid
 from app.config import get_settings
 from app.paypal.rest import PayPalREST
 
-NOTES = ["Phoenix cash aid", "Volunteer reimbursement", "Milestone 1: demolition"]
+NOTES = ["Hearthline cash aid", "Volunteer reimbursement", "Milestone 1: demolition"]
 
 
 async def main() -> None:
@@ -19,14 +19,14 @@ async def main() -> None:
         raise SystemExit("Set PAYPAL_SANDBOX_PAYOUT_RECEIVERS in backend/.env")
 
     async with PayPalREST.from_settings() as pp:
-        batch_id = f"phoenix-spike-{uuid.uuid4().hex[:12]}"
+        batch_id = f"hearthline-spike-{uuid.uuid4().hex[:12]}"
         created = await pp.request(
             "POST",
             "/v1/payments/payouts",
             json={
                 "sender_batch_header": {
                     "sender_batch_id": batch_id,
-                    "email_subject": "You have a payment from Phoenix",
+                    "email_subject": "You have a payment from Hearthline",
                     "email_message": "Funds released after human review.",
                 },
                 "items": [

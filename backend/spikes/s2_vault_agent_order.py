@@ -37,7 +37,7 @@ async def main() -> None:
             json={
                 "intent": "CAPTURE",
                 "purchase_units": [
-                    {"amount": {"currency_code": "USD", "value": "1.00"}, "description": "Phoenix fund setup"}
+                    {"amount": {"currency_code": "USD", "value": "1.00"}, "description": "Hearthline fund setup"}
                 ],
                 "payment_source": {
                     "paypal": {

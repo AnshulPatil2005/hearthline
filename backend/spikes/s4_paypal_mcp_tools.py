@@ -7,9 +7,8 @@ import asyncio
 import json
 import sys
 
-import httpx2
 from mcp import Client
-from mcp.client.streamable_http import streamable_http_client
+from mcp.client.sse import sse_client
 
 from app.paypal.rest import PayPalREST
 
@@ -19,20 +18,19 @@ async def main() -> None:
         token = await pp.access_token()
         mcp_url = pp.mcp_url
 
-    headers = {"Authorization": f"Bearer {token}"}
-    async with httpx2.AsyncClient(headers=headers, timeout=httpx2.Timeout(30, read=300)) as http:
-        async with Client(streamable_http_client(mcp_url, http_client=http)) as client:
-            tools = (await client.list_tools()).tools
-            print(f"{len(tools)} tools from {mcp_url}:")
-            for t in sorted(tools, key=lambda t: t.name):
-                print(f"  {t.name:<40} {(t.description or '').splitlines()[0][:70]}")
+    transport = sse_client(mcp_url, headers={"Authorization": f"Bearer {token}"}, timeout=30)
+    async with Client(transport, mode="legacy") as client:
+        tools = (await client.list_tools()).tools
+        print(f"{len(tools)} tools from {mcp_url}:")
+        for t in sorted(tools, key=lambda t: t.name):
+            print(f"  {t.name:<40} {(t.description or '').splitlines()[0][:70]}")
 
-            if len(sys.argv) >= 3 and sys.argv[1] == "--call":
-                args = json.loads(sys.argv[3]) if len(sys.argv) > 3 else {}
-                result = await client.call_tool(sys.argv[2], args)
-                print(f"\n{sys.argv[2]} ->")
-                for block in result.content:
-                    print(getattr(block, "text", block))
+        if len(sys.argv) >= 3 and sys.argv[1] == "--call":
+            args = json.loads(sys.argv[3]) if len(sys.argv) > 3 else {}
+            result = await client.call_tool(sys.argv[2], args)
+            print(f"\n{sys.argv[2]} ->")
+            for block in result.content:
+                print(getattr(block, "text", block))
 
 
 if __name__ == "__main__":

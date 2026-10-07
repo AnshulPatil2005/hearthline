@@ -1,17 +1,26 @@
-# Phoenix — Build Plan
+# Hearthline — Build Plan
 
 > Disaster recovery platform for households, donors, contractors, small businesses and relief organizations.
 > PayPal AI Hackathon entry · solo build · deadline **Thu Nov 12, 2026, 2:00 pm PT** (target submit: **Wed Nov 11**).
 
+## Decisions log
+
+| Date | Decision |
+|---|---|
+| Oct 7 | **AI uses free providers through their OpenAI-compatible APIs**: Google Gemini first (`gemini-flash-lite-latest`, about 5 s per photo), then OpenRouter's free models as a fallback. `backend/app/ai.py` is the only file that talks to the model, so providers and models can change without touching agents. |
+| Oct 7 | **Budget: free tier for now.** Free OpenRouter models (50 requests a day without credits), Render free plans (no worker or cron services, the API sleeps when idle, free Postgres expires after 30 days). Revisit before the demo video. |
+| Oct 7 | **Demo scenario is fictional**: a made-up wildfire in a made-up town, not a real disaster with real victims. |
+| Oct 7 | **Renamed from Phoenix to Hearthline.** An unrelated home-service CRM called Hearthline and a contractor-financing company called Hearth exist; judged acceptable for a hackathon entry. |
+
 ---
 
-## 1. What Phoenix is
+## 1. What Hearthline is
 
-Phoenix supports a family through four stages of a disaster:
+Hearthline supports a family through four stages of a disaster:
 
 | Stage | What happens |
 |---|---|
-| **Prepare** (before) | The family films a walk through their home. AI lists every item, Channel3 prices them, and Phoenix shows how underinsured they are. Weather alerts warn them when a fire or flood threatens. |
+| **Prepare** (before) | The family films a walk through their home. AI lists every item, Channel3 prices them, and Hearthline shows how underinsured they are. Weather alerts warn them when a fire or flood threatens. |
 | **Respond** (first weeks) | A **Rebuild Registry** lets donors pay for *specific* items. A Shopper agent buys those items under strict rules, and every dollar is traceable on a public ledger. |
 | **Rebuild** (months) | The family exports its insurance claim. Contractors work in milestones held in escrow, and each payment is released only after an AI photo check and human approval. |
 | **Reopen** (businesses) | Local shops and restaurants get a **Reopen Fund**: customers pre-buy gift cards to pay for reopening. |
@@ -23,7 +32,7 @@ Six product parts sit on one shared core (homes, items, funds, ledger, cases):
 3. **Contractor portal**
 4. **Business app** for the Reopen Fund
 5. **Command Center** for relief organizations and claim reviewers
-6. **Phoenix Public API + MCP server** for insurers and other organizations' AI agents
+6. **Hearthline Public API + MCP server** for insurers and other organizations' AI agents
 
 **Rules that apply everywhere:**
 - AI gathers the evidence and makes a recommendation, but **a human approves before any claim-related money moves.**
@@ -41,12 +50,12 @@ Six product parts sit on one shared core (homes, items, funds, ledger, cases):
 | Most Impactful | Disaster survivors, underinsurance, and fraud-safe aid, all reviewed by humans |
 | Best Demo Delivery | The video goes from one family to a whole community (§13) |
 | Best Use of PayPal + AI | 13 PayPal features (§5), 7 agents (§7), and PayPal's own MCP server |
-| Best Use of Agentic Commerce | The Shopper agent pays on its own using a saved PayPal payment method, within code-enforced rules. Outside donor agents can find and pay for needs through the Phoenix MCP server. |
+| Best Use of Agentic Commerce | The Shopper agent pays on its own using a saved PayPal payment method, within code-enforced rules. Outside donor agents can find and pay for needs through the Hearthline MCP server. |
 | AG Grid | 5 grids using Enterprise features plus the AI Toolkit (§6) |
 | Bryntum | 4 Bryntum products, all backed by our own database (§6) |
 | Channel3 | Search, image search, find products in an image, product details, price history and price tracking (§6) |
 | APIMatic | The PayPal plugin used during development, plus SDKs and a docs site for our own API, which our frontend also uses (§6) |
-| Render | The full deployment file: web, static, worker and cron services, Postgres, a Key Value store, and a one-click deploy button (§6) |
+| Render | The full deployment file: web and static services, Postgres, a Key Value store, and a one-click deploy button. Worker and cron services are added if we move off the free tier (§6). |
 
 Reminder: one project can win at most **2 prizes** (a Grand Prize or one Honorable Mention, plus one Sponsor Prize).
 
@@ -57,23 +66,22 @@ Reminder: one project can win at most **2 prizes** (a Grand Prize or one Honorab
 | Layer | Choice | Why |
 |---|---|---|
 | Backend | **Python 3.12, FastAPI**, SQLAlchemy and Alembic, `uv`, `ruff`, `pytest` | You prefer Python. FastAPI generates an OpenAPI spec automatically, which APIMatic needs. |
-| Jobs | `arq` (an async Redis job queue) on Render Key Value | AI and PayPal jobs that take a while run in the background |
-| Database | Postgres (Render, **paid basic tier**) | Render's free Postgres is deleted after 30 days, but judging runs until Dec 15 |
+| Jobs | `arq` (an async Redis job queue) on Render Key Value | AI and PayPal jobs that take a while run in the background. On the free tier they run inside the API process; a separate worker is a plan change later. |
+| Database | Postgres (Render **free tier** for now) | Free Postgres is deleted 30 days after creation and judging runs until Dec 15, so create it late or upgrade before judging |
 | Media | An S3-compatible bucket (Cloudflare R2 free tier) | Render's disks attach to only one service |
 | Frontend | **React + TypeScript + Vite**, TanStack Query, react-i18next, Tailwind | AG Grid and Bryntum are JavaScript components. The frontend stays thin and the logic lives in Python. |
-| AI | **Claude API** (`anthropic` Python SDK), model `claude-opus-5` | Vision, PDF reading, tool use, structured outputs and the Batches API |
-| PayPal | `paypal-server-sdk` (Orders, Payments, Vault), PayPal's **sandbox MCP server** (`https://mcp.sandbox.paypal.com`) used through the Python `mcp` client, a small `httpx` client for Payouts, and the PayPal JS SDK v6 in the browser | Payouts isn't in the Server SDK or the Agent Toolkit, so it gets its own client |
+| AI | **Google Gemini free tier, then OpenRouter free models**, all through OpenAI-compatible APIs with the `openai` Python SDK. `AI_MODELS` is a `provider:model` fallback list | Free. Structured output uses a forced `submit` tool call, which works on any tool-capable model. |
+| PayPal | `paypal-server-sdk` (Orders, Payments, Vault), PayPal's **sandbox MCP server** (SSE at `https://mcp.sandbox.paypal.com/sse`, 46 tools) used through the Python `mcp` client, a small `httpx` client for Payouts, and the PayPal JS SDK v6 in the browser | Payouts isn't in the Server SDK or the Agent Toolkit, so it gets its own client |
 | Products | `channel3-sdk` (Python) | |
 | Geo | `shapely`, the US Census Geocoder (free, no key), GeoJSON disaster boundaries | |
 | Trust | `imagehash` (perceptual image hashes), Pillow (photo metadata), ProPublica Nonprofit Explorer API | |
-| Voice | The browser's Web Speech API turns speech into text, and the text goes to Claude | The Claude API doesn't accept audio |
+| Voice | The browser's Web Speech API turns speech into text, and the text goes to the AI | Free, and works in Chrome and Edge |
 
-**Claude usage notes:**
-- Each agent runs on the **Tool Runner** (`@beta_tool` with `client.beta.messages.tool_runner`). Its per-turn hooks are where the rules engine and approval checks run.
-- Extraction tasks (items, receipts, insurance policies) use **structured outputs**.
-- Bulk pricing of Prepare scans uses the **Batches API**, which costs 50% less.
-- Fixed system prompts use **prompt caching**.
-- Adaptive thinking is on, and requests use the default refusal fallback.
+**AI usage notes:**
+- Agents run a tool-calling loop in our own code. Every tool call passes through the rules engine and approval checks before it runs.
+- Extraction tasks (items, receipts, insurance policies) use `ai.parse()`, which returns validated Pydantic models.
+- **Save AI requests**: free models allow 50 requests a day and are often rate-limited upstream. Store every AI result in the database and never recompute it. The demo data is generated once and saved.
+- **When the AI is unavailable**, Channel3's find-products-in-image still produces an inventory (up to 6 items per photo), and the household can add items by hand.
 
 ---
 
@@ -81,24 +89,24 @@ Reminder: one project can win at most **2 prizes** (a Grand Prize or one Honorab
 
 ```mermaid
 flowchart LR
-  subgraph WEB["phoenix-web (React, Render static site)"]
+  subgraph WEB["hearthline-web (React, Render static site)"]
     HH[Household app]
     REG[Rebuild Registry]
     CON[Contractor portal]
     BIZ[Business app]
     CMD[Command Center + Review]
   end
-  API["phoenix-api (FastAPI, Render web service)"]
-  WRK["phoenix-worker (agents + jobs, Render worker)"]
+  API["hearthline-api (FastAPI, Render web service)"]
+  WRK["hearthline-worker (agents + jobs, Render worker)"]
   CRON["Render cron jobs"]
   DB[(Postgres)]
   KV[(Key Value queue)]
   S3[(Media bucket)]
-  CLAUDE[Claude API]
+  CLAUDE["LLM via OpenRouter"]
   C3[Channel3]
   PP["PayPal sandbox: REST + MCP + webhooks"]
   EXT["Insurers / donor agents"]
-  DOCS["phoenix-docs (APIMatic portal, Render static)"]
+  DOCS["hearthline-docs (APIMatic portal, Render static)"]
 
   WEB --> API
   API --> DB
@@ -122,7 +130,7 @@ flowchart LR
 
 ## 5. PayPal features we use (13)
 
-| # | PayPal feature | Phoenix feature | Library |
+| # | PayPal feature | Hearthline feature | Library |
 |---|---|---|---|
 | 1 | **Orders v2** | Registry donations, Reopen gift cards, Shopper purchases | `paypal-server-sdk` |
 | 2 | **Payments v2** (capture, refund) | Captures, plus donor refunds when a fraud case is rejected | `paypal-server-sdk` |
@@ -139,7 +147,7 @@ flowchart LR
 | 13 | **PayPal MCP server** (Agent Toolkit tools) | The agents' PayPal tools, every call routed through our rules engine | `mcp` client |
 
 **Sandbox accounts needed:**
-- a platform business account (Phoenix)
+- a platform business account (Hearthline)
 - a "retailer" business account (stands in for the stores Channel3 finds)
 - a contractor business account
 - 3 personal accounts (household, donor, volunteer)
@@ -158,7 +166,7 @@ flowchart LR
 | Command Center households | **Server-side loading** for 2,000+ seeded households, set filters, sparklines, cells that flash on live updates |
 | Review queue | Sorting by risk, how long a case has waited and amount; row selection for batch payouts; a status bar summing the selected dollars |
 | Price-gouging report | Price-history sparklines, conditional formatting |
-| **"Ask the grid"** | The **AI Toolkit** (`getStructuredSchema()`) plus Claude structured outputs, so you can type requests like "households in the fire zone with unmet needs over $5k, grouped by street" |
+| **"Ask the grid"** | The **AI Toolkit** (`getStructuredSchema()`) plus the LLM's structured output, so you can type requests like "households in the fire zone with unmet needs over $5k, grouped by street" |
 
 ### Bryntum (4 products)
 | Product | Use |
@@ -182,7 +190,7 @@ All four save to our Postgres database. FastAPI implements Bryntum's **CrudManag
 
 ### APIMatic
 1. **PayPal Context Plugin** (`npx context-plugins install paypal`), used in Claude Code throughout development. The README explains how.
-2. **Phoenix Public API**: FastAPI produces the OpenAPI spec, and APIMatic **checks and lints** it.
+2. **Hearthline Public API**: FastAPI produces the OpenAPI spec, and APIMatic **checks and lints** it.
 3. **Generated SDKs** in Python, TypeScript, Java, C# and Go. **Our own frontend uses the generated TypeScript SDK** for public endpoints, and the donor-agent demo uses the Python SDK.
 4. **A docs site generated by APIMatic**, hosted as a Render static site.
 5. A **GitHub Action** regenerates the SDKs and docs whenever the spec changes.
@@ -190,17 +198,17 @@ All four save to our Postgres database. FastAPI implements Bryntum's **CrudManag
 ### Render (`render.yaml` deployment file)
 | Service | Type |
 |---|---|
-| `phoenix-api` | Web service (also receives PayPal and Channel3 webhooks) |
-| `phoenix-web` | Static site |
-| `phoenix-docs` | Static site (APIMatic portal) |
-| `phoenix-worker` | Background worker (agents, video processing, batch payouts) |
+| `hearthline-api` | Web service (also receives PayPal and Channel3 webhooks) |
+| `hearthline-web` | Static site |
+| `hearthline-docs` | Static site (APIMatic portal) |
+| `hearthline-worker` | Background worker (agents, video processing, batch payouts) |
 | `cron-alerts` | Every 10 minutes: poll National Weather Service alerts |
 | `cron-prices` | Hourly: refresh Channel3 prices and check for gouging |
 | `cron-sentinel` | Hourly: fraud sweep |
 | `cron-reminders` | Daily: claim-deadline reminders |
 | `cron-reconcile` | Nightly: check our ledger against PayPal Transaction Search |
-| `phoenix-db` | Postgres |
-| `phoenix-kv` | Key Value store (job queue and cache) |
+| `hearthline-db` | Postgres |
+| `hearthline-kv` | Key Value store (job queue and cache) |
 
 The file also defines shared groups of environment variables for secrets, uses private networking, health checks and preview environments, and includes a **"Deploy to Render" button in the README** so judges can deploy everything with one click.
 
@@ -215,12 +223,12 @@ A Postman collection exported from the OpenAPI spec, to make judges' testing eas
 
 | Agent | Job | Tools | What limits it |
 |---|---|---|---|
-| **Inventory** | Turns photos and video frames into a list of items: name, room, quantity, condition, evidence level | Claude vision, Channel3 find-in-image | The user confirms or edits every item |
+| **Inventory** | Turns photos and video frames into a list of items: name, room, quantity, condition, evidence level | Vision LLM, Channel3 find-in-image | The user confirms or edits every item |
 | **Valuation** | Finds the replacement price for each item | Channel3 search, image search, product detail, price history | Outliers need extra proof |
-| **Policy** | Reads the insurance policy PDF: coverage limits, sub-limits, deadlines | Claude PDF input, structured output | Read-only |
+| **Policy** | Reads the insurance policy PDF: coverage limits, sub-limits, deadlines | PDF text extraction, then the LLM with structured output | Read-only |
 | **Shopper** | Buys funded registry items and essentials | Channel3, PayPal order paid with the saved payment method, shipment tracking | **The rules engine**: per-item and per-day limits, allowed categories, verified address only, no new payees, approval above a threshold, gouging check |
 | **Funds** | Routes donations, maintains the ledger, writes impact reports | Ledger, PayPal Transaction Search | Can't move money; it only proposes |
-| **Site** | Checks contractor milestone photos against the phase description | Claude vision, photo metadata and location check | Homeowner approval, plus human review for large amounts |
+| **Site** | Checks contractor milestone photos against the phase description | Vision LLM, photo metadata and location check | Homeowner approval, plus human review for large amounts |
 | **Sentinel** | Flags possible fraud and explains each flag in plain English | Image hashes, duplicate-account graph, address checks, price outliers | **Never decides.** It only routes cases to human review. |
 
 Households chat with these agents in their own language, by typing or by voice.
@@ -280,7 +288,7 @@ Households chat with these agents in their own language, by typing or by voice.
 ## 10. Repo layout
 
 ```
-phoenix/
+hearthline/
   backend/
     app/
       api/          # FastAPI routers (public API kept separate under /v1)
@@ -293,7 +301,7 @@ phoenix/
       ledger/
       geo/          # disaster zones, geocoding, NWS alerts
       bryntum/      # CrudManager load/sync endpoints
-      mcp_server/   # Phoenix MCP server
+      mcp_server/   # Hearthline MCP server
     worker.py
     cron/
     tests/
@@ -324,12 +332,12 @@ phoenix/
 - [ ] Install the APIMatic PayPal Context Plugin in Claude Code
 - [ ] Create the GitHub repo with an MIT `LICENSE` and the skeleton above. Deploy a hello-world through `render.yaml`.
 - [ ] **Test runs (each one decides a design choice):**
-  1. Claude vision plus Channel3 find-products-in-image on 5 real room photos. Is it accurate enough?
+  1. Vision LLM plus Channel3 find-products-in-image on real room photos. Is it accurate enough?
   2. PayPal: save a payment method, then run an **agent-initiated order** with it in the sandbox
   3. PayPal: a sandbox **batch payout** to 3 recipients
   4. Connect to PayPal's sandbox MCP server from Python and list its tools
   5. Disputes in the sandbox: open a dispute as the buyer, then move it to a decision through the API
-  6. PayPal delayed payouts (holding money) for escrow. If too complex, Phoenix holds the funds itself.
+  6. PayPal delayed payouts (holding money) for escrow. If too complex, Hearthline holds the funds itself.
 
 ### Week 1: Tue Oct 6 – Sun Oct 11: Prepare and inventory
 *(Oct 6, 9 am PT: "Start building with PayPal" webinar. Oct 7: APIMatic webinar.)*
@@ -351,7 +359,7 @@ phoenix/
 
 ### Week 3: Oct 19 – Oct 25: trust and human review
 - [ ] Verification levels 0–3, caseworker vouching, image-hash duplicate checks, photo metadata checks, Channel3 price limits
-- [ ] Sentinel rules plus Claude explanations
+- [ ] Sentinel rules plus AI-written explanations
 - [ ] Review queue (AG Grid) and case view (map, evidence, flags, price comparisons)
 - [ ] Approve or reject each item, so PayPal releases funds or refunds donors
 - [ ] Two-person rule, random assignment, the 5% random check
@@ -376,12 +384,12 @@ phoenix/
 - [ ] AI impact reports (donor timelines and an organization grant-report PDF)
 - [ ] Voice input (Web Speech API)
 - [ ] Policy agent (insurance PDF)
-- [ ] Phoenix Public API v1, SDKs in all languages, the docs site on Render, the **Phoenix MCP server**, a donor-agent demo script, a Postman collection
+- [ ] Hearthline Public API v1, SDKs in all languages, the docs site on Render, the **Hearthline MCP server**, a donor-agent demo script, a Postman collection
 
 ### Week 6: Mon Nov 9 – Thu Nov 12: freeze and ship
 - [ ] **Mon Nov 9: feature freeze.** Only bug fixes and polish after this.
 - [ ] Final demo data (wildfire scenario), UI polish, empty states, a pass through every language
-- [ ] README: what Phoenix is, one-click Render deploy, local setup, **sandbox login details**, demo personas, which sponsor tools are used where, the sandbox limit on purchases, "how we built it" (APIMatic plugin)
+- [ ] README: what Hearthline is, one-click Render deploy, local setup, **sandbox login details**, demo personas, which sponsor tools are used where, the sandbox limit on purchases, "how we built it" (APIMatic plugin)
 - [ ] Record the final video (§13): **under 3:00**, public on YouTube, no copyrighted music
 - [ ] Devpost write-up. **Submit Wed Nov 11.** Nov 12 is the safety buffer.
 
@@ -391,7 +399,7 @@ phoenix/
 
 1. Policy agent (insurance PDF)
 2. Voice input (keep typed input in multiple languages)
-3. Phoenix MCP server and the agent-to-agent demo (keep the public API and SDKs)
+3. Hearthline MCP server and the agent-to-agent demo (keep the public API and SDKs)
 4. Disputes flow
 5. Contractor license and nonprofit checks (reviewers check them by hand instead)
 6. Organization grant-report PDF (keep donor timelines)
@@ -435,7 +443,7 @@ phoenix/
 |---|---|
 | AG Grid Enterprise and Bryntum are commercial (Bryntum's trial lasts 45 days, but judging runs to Dec 15) | Ask on Discord in week 0. Trials show watermarks but still work, so development isn't blocked. |
 | AI vision accuracy | Test run in week 0. A human confirms every item anyway. |
-| Agent-initiated payments or escrow are hard in the sandbox | Test runs in week 0. Fallback: Phoenix holds the funds itself and pays out with Payouts. |
+| Agent-initiated payments or escrow are hard in the sandbox | Test runs in week 0. Fallback: Hearthline holds the funds itself and pays out with Payouts. |
 | Purchases are simulated in the sandbox | Say so plainly in the README and the Devpost write-up |
 | Too much scope for one person | Feature-complete core by Nov 1, follow the cut list, freeze on Nov 9 |
 | Render's free database is deleted after 30 days | Use the paid Postgres tier from the start |

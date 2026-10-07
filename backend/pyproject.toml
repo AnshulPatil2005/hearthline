@@ -1,15 +1,15 @@
 [project]
-name = "phoenix-api"
+name = "hearthline-api"
 version = "0.1.0"
-description = "Phoenix disaster recovery platform: API and worker"
+description = "Hearthline disaster recovery platform: API and worker"
 requires-python = ">=3.12"
 dependencies = [
-    "anthropic>=1.11.0",
     "arq>=0.28.0",
     "channel3-sdk>=4.1.0",
     "fastapi>=0.142.2",
     "httpx>=0.28.1",
     "mcp>=2.3.0",
+    "openai>=3.26.0",
     "paypal-server-sdk>=2.4.0",
     "pillow>=12.3.0",
     "pydantic-settings>=2.15.0",

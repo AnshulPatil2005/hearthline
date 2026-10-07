@@ -1,32 +1,42 @@
-# Render Blueprint: deploys the whole Phoenix stack.
+# Render Blueprint: deploys the whole Hearthline stack on Render's free tier.
 # Secrets marked `sync: false` are entered once in the Render dashboard (never committed).
-# Cron jobs and the docs site are added as their features land (see PLAN.md section 6).
+#
+# Free-tier limits we design around (see PLAN.md section 14):
+# - Free web services sleep after ~15 min idle (first request then takes ~1 min).
+# - Background workers and cron jobs are paid-only, so background jobs run inside hearthline-api
+#   for now. Switching to a dedicated `worker` service and `cron` jobs is a plan change only.
+# - Free Postgres is deleted 30 days after creation: create it close to the submission date
+#   or upgrade it before judging (runs to Dec 15).
 
 services:
   - type: web
-    name: phoenix-api
+    name: hearthline-api
     runtime: python
-    plan: starter # free instances sleep; judges would hit cold starts
+    plan: free
     rootDir: backend
     buildCommand: pip install uv && uv sync --frozen --no-dev
     startCommand: uv run --no-dev uvicorn app.main:app --host 0.0.0.0 --port $PORT
     healthCheckPath: /health
-    envVars: &backend_env
+    envVars:
       - key: PYTHON_VERSION
         value: 3.12.10
       - key: ENVIRONMENT
         value: production
       - key: DATABASE_URL
         fromDatabase:
-          name: phoenix-db
+          name: hearthline-db
           property: connectionString
       - key: REDIS_URL
         fromService:
           type: keyvalue
-          name: phoenix-kv
+          name: hearthline-kv
           property: connectionString
-      - key: ANTHROPIC_API_KEY
+      - key: GEMINI_API_KEY
         sync: false
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: AI_MODELS
+        value: gemini:gemini-flash-lite-latest,gemini:gemma-4-31b-it,openrouter:google/gemma-4-31b-it:free,openrouter:openrouter/free
       - key: CHANNEL3_API_KEY
         sync: false
       - key: PAYPAL_CLIENT_ID
@@ -38,17 +48,8 @@ services:
       - key: PAYPAL_ENVIRONMENT
         value: sandbox
 
-  - type: worker
-    name: phoenix-worker
-    runtime: python
-    plan: starter
-    rootDir: backend
-    buildCommand: pip install uv && uv sync --frozen --no-dev
-    startCommand: uv run --no-dev arq worker.WorkerSettings
-    envVars: *backend_env
-
   - type: web
-    name: phoenix-web
+    name: hearthline-web
     runtime: static
     rootDir: frontend
     buildCommand: npm ci && npm run build
@@ -61,16 +62,16 @@ services:
       - key: VITE_API_HOST
         fromService:
           type: web
-          name: phoenix-api
+          name: hearthline-api
           property: host
 
   - type: keyvalue
-    name: phoenix-kv
+    name: hearthline-kv
     plan: free
     ipAllowList: [] # internal connections only
 
 databases:
-  - name: phoenix-db
-    plan: 0.1c-256mb # paid tier: free databases are deleted after 30 days, judging runs to Dec 15
-    databaseName: phoenix
-    user: phoenix
+  - name: hearthline-db
+    plan: free
+    databaseName: hearthline
+    user: hearthline

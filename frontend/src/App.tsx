@@ -16,7 +16,7 @@ export default function App() {
 
   return (
     <main style={{ maxWidth: 720, margin: '0 auto', padding: '48px 16px' }}>
-      <h1>Phoenix</h1>
+      <h1>Hearthline</h1>
       <p style={{ color: 'var(--muted)', marginTop: 8 }}>
         Prepare · Respond · Rebuild · Reopen
       </p>

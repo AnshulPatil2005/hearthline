@@ -16,9 +16,10 @@ BASE_URLS = {
     "sandbox": "https://api-m.sandbox.paypal.com",
     "live": "https://api-m.paypal.com",
 }
+# PayPal's remote MCP server speaks the SSE transport; the documented /http endpoint returns 404.
 MCP_URLS = {
-    "sandbox": "https://mcp.sandbox.paypal.com/http",
-    "live": "https://mcp.paypal.com/http",
+    "sandbox": "https://mcp.sandbox.paypal.com/sse",
+    "live": "https://mcp.paypal.com/sse",
 }
 
 

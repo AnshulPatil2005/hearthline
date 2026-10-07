@@ -1,4 +1,4 @@
-"""Spike 1: can Claude vision + Channel3 turn room photos into a priced inventory?
+"""Spike 1: can a vision LLM + Channel3 turn room photos into a priced inventory?
 
 Usage (from backend/):  uv run python -m spikes.s1_vision_inventory [photo_dir]
 Put 3-5 real room photos (jpg/png/webp) in spikes/samples/ first.
@@ -19,7 +19,7 @@ from pydantic import BaseModel
 from app import ai
 from app.config import get_settings
 
-MAX_EDGE = 1568  # Claude's recommended long edge; larger images only add tokens.
+MAX_EDGE = 1568  # larger images only add tokens
 OUT_DIR = Path(__file__).parent / "out"
 
 SYSTEM = """You catalogue household contents for insurance claims after a disaster.
@@ -59,8 +59,8 @@ def cheapest_new_offer(product) -> tuple[float | None, str | None]:
     offers = [o for o in (product.offers or []) if o.price and o.availability == "InStock"]
     if not offers:
         return None, None
-    best = min(offers, key=lambda o: o.price.amount)
-    return best.price.amount, best.domain
+    best = min(offers, key=lambda o: o.price.price)
+    return best.price.price, best.domain
 
 
 def run(photo: Path, c3: Channel3) -> dict:
@@ -71,17 +71,17 @@ def run(photo: Path, c3: Channel3) -> dict:
         RoomInventory,
         system=SYSTEM,
         content=[
-            {"type": "image", "source": {"type": "base64", "media_type": "image/jpeg", "data": b64}},
-            {"type": "text", "text": "Catalogue this room."},
+            ai.image_part(b64),
+            ai.text_part("Catalogue this room."),
         ],
     )
-    claude_s = time.perf_counter() - t0
+    llm_s = time.perf_counter() - t0
 
     t0 = time.perf_counter()
     priced = []
     for item in inventory.items:
         results = c3.products.search(query=item.search_query, limit=3)
-        product = results.products[0] if results.products else None
+        product = results.items[0] if results.items else None
         price, domain = cheapest_new_offer(product) if product else (None, None)
         priced.append(
             {
@@ -101,7 +101,7 @@ def run(photo: Path, c3: Channel3) -> dict:
 
     total = sum((p["unit_price"] or 0) * p["quantity"] for p in priced)
     print(f"\n=== {photo.name}: {inventory.room_type} - {len(priced)} items, ~${total:,.0f}")
-    print(f"    Claude {claude_s:.1f}s | Channel3 text search {search_s:.1f}s | find-in-image {scene_s:.1f}s")
+    print(f"    LLM {llm_s:.1f}s | Channel3 text search {search_s:.1f}s | find-in-image {scene_s:.1f}s")
     for p in priced:
         price = f"${p['unit_price']:,.2f}" if p["unit_price"] else "no price"
         print(f"  {p['quantity']:>2} x {p['name'][:40]:<40} {price:>12}  <- {(p['match_title'] or '-')[:45]}")
@@ -111,7 +111,7 @@ def run(photo: Path, c3: Channel3) -> dict:
         "photo": photo.name,
         "room_type": inventory.room_type,
         "estimated_total": total,
-        "timings_s": {"claude": claude_s, "channel3_search": search_s, "find_in_image": scene_s},
+        "timings_s": {"llm": llm_s, "channel3_search": search_s, "find_in_image": scene_s},
         "items": priced,
         "find_in_image": scene_things,
     }
@@ -119,8 +119,8 @@ def run(photo: Path, c3: Channel3) -> dict:
 
 def main() -> None:
     s = get_settings()
-    if not (s.anthropic_api_key and s.channel3_api_key):
-        sys.exit("Set ANTHROPIC_API_KEY and CHANNEL3_API_KEY in backend/.env")
+    if not (s.openrouter_api_key and s.channel3_api_key):
+        sys.exit("Set OPENROUTER_API_KEY and CHANNEL3_API_KEY in backend/.env")
 
     photo_dir = Path(sys.argv[1]) if len(sys.argv) > 1 else Path(__file__).parent / "samples"
     photos = sorted(p for p in photo_dir.iterdir() if p.suffix.lower() in {".jpg", ".jpeg", ".png", ".webp"})
