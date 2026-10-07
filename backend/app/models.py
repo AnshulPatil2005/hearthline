@@ -56,6 +56,7 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(255), unique=True)
     name: Mapped[str] = mapped_column(String(120))
     role: Mapped[Role] = mapped_column(String(20))
+    title: Mapped[str | None] = mapped_column(String(200))  # one-line description shown on persona cards
     locale: Mapped[str] = mapped_column(String(10), default="en")
     is_demo: Mapped[bool] = mapped_column(default=False)
     household_id: Mapped[int | None] = mapped_column(ForeignKey("households.id"))
