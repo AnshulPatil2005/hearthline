@@ -234,6 +234,41 @@
     "price": "Precio ($)",
     "notePlaceholder": "Una nota breve para los donantes (opcional)",
     "add": "Agregar a la lista",
-    "fundThis": "Financiar"
+    "fundThis": "Financiar",
+    "shopNow": "Comprar ahora"
+  },
+  "purchases": {
+    "title": "Lo que compró el Comprador",
+    "subtitle": "Cuando un artículo está totalmente financiado, el agente Comprador lo busca en una tienda aprobada, revisa las reglas de gasto y paga con PayPal.",
+    "agentSays": "Comprador:",
+    "confidence": "{{pct}}% de seguridad",
+    "checks": "Reglas de gasto: {{passed}} de {{total}} cumplidas",
+    "tracking": "Enviado con {{carrier}}, rastreo {{number}}",
+    "paypalRef": "Referencia de PayPal {{ref}}",
+    "approve": "Aprobar {{amount}}",
+    "reject": "No comprar esto",
+    "simulateShip": "Simular envío (demo)",
+    "simulateDeliver": "Simular entrega (demo)",
+    "status": {
+      "proposed": "Propuesto",
+      "awaiting_approval": "Necesita tu aprobación",
+      "approved": "Aprobado",
+      "paid": "Pagado",
+      "shipped": "Enviado",
+      "delivered": "Entregado",
+      "blocked": "Bloqueado por una regla",
+      "rejected": "Dijiste que no",
+      "failed": "Falló"
+    },
+    "rule": {
+      "funds_available": "Hay dinero suficiente",
+      "within_item_funding": "Dentro de lo donado para este artículo",
+      "per_item_limit": "Límite por compra",
+      "daily_limit": "Límite diario",
+      "category_allowed": "Categoría permitida",
+      "known_retailer": "Tienda aprobada",
+      "ships_to_verified_address": "Se envía a tu dirección verificada",
+      "price_sanity": "Precio justo"
+    }
   }
 }

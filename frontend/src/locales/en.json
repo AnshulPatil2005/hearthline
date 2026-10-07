@@ -234,6 +234,41 @@
     "price": "Price ($)",
     "notePlaceholder": "A short note for donors (optional)",
     "add": "Add to registry",
-    "fundThis": "Fund this"
+    "fundThis": "Fund this",
+    "shopNow": "Buy it now"
+  },
+  "purchases": {
+    "title": "What the Shopper bought",
+    "subtitle": "When an item is fully funded, the Shopper agent finds it at an approved store, checks the spending rules, and pays with PayPal.",
+    "agentSays": "Shopper:",
+    "confidence": "{{pct}}% sure",
+    "checks": "Spending rules: {{passed}} of {{total}} passed",
+    "tracking": "Shipped with {{carrier}}, tracking {{number}}",
+    "paypalRef": "PayPal reference {{ref}}",
+    "approve": "Approve {{amount}}",
+    "reject": "Don't buy this",
+    "simulateShip": "Simulate shipping (demo)",
+    "simulateDeliver": "Simulate delivery (demo)",
+    "status": {
+      "proposed": "Proposed",
+      "awaiting_approval": "Needs your OK",
+      "approved": "Approved",
+      "paid": "Paid",
+      "shipped": "Shipped",
+      "delivered": "Delivered",
+      "blocked": "Blocked by a rule",
+      "rejected": "You said no",
+      "failed": "Failed"
+    },
+    "rule": {
+      "funds_available": "Enough money held",
+      "within_item_funding": "Within this item's donations",
+      "per_item_limit": "Per-purchase limit",
+      "daily_limit": "Daily limit",
+      "category_allowed": "Allowed category",
+      "known_retailer": "Approved retailer",
+      "ships_to_verified_address": "Ships to your verified address",
+      "price_sanity": "Fair price"
+    }
   }
 }

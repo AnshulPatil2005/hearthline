@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { api, ApiError, type Fund, type Household, type Item, type Registry } from '../api'
+import PurchaseList from '../components/PurchaseList'
 import { money } from '../format'
 
 function CreateRegistry({ home }: { home: Household }) {
@@ -152,6 +153,13 @@ export default function RegistryManage() {
     void queryClient.invalidateQueries({ queryKey: ['my-registry'] })
     void queryClient.invalidateQueries({ queryKey: ['fund'] })
   }
+  const shop = useMutation({
+    mutationFn: (id: number) => api(`/households/me/registry/items/${id}/shop`, { method: 'POST' }),
+    onSuccess: () => {
+      refresh()
+      void queryClient.invalidateQueries({ queryKey: ['purchases'] })
+    },
+  })
   const remove = useMutation({
     mutationFn: (id: number) => api(`/households/me/registry/items/${id}`, { method: 'DELETE' }),
     onSuccess: refresh,
@@ -199,6 +207,8 @@ export default function RegistryManage() {
             </dl>
           )}
 
+          <PurchaseList />
+
           <section className="rounded-xl border border-line bg-surface shadow-sm">
             <ul className="divide-y divide-line">
               {reg.items.map((i) => (
@@ -217,6 +227,15 @@ export default function RegistryManage() {
                   >
                     {t(`registry.status.${i.status}`)}
                   </span>
+                  {i.status === 'funded' && (
+                    <button
+                      onClick={() => shop.mutate(i.id)}
+                      disabled={shop.isPending}
+                      className="rounded-md border border-ember px-2.5 py-1 text-sm font-medium text-ember hover:bg-ember-soft disabled:opacity-40"
+                    >
+                      {t('registry.shopNow')}
+                    </button>
+                  )}
                   {Number(i.funded_amount) === 0 && (
                     <button onClick={() => remove.mutate(i.id)} className="text-sm text-ink-faint hover:text-danger">
                       {t('registry.remove')}

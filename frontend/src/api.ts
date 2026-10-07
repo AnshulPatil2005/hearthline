@@ -178,3 +178,28 @@ export type Registry = {
 }
 
 export type Fund = { available: string; donated: string; spent: string }
+
+export type PolicyCheck = { rule: string; passed: boolean; detail: string }
+
+export type Purchase = {
+  id: number
+  registry_item_id: number | null
+  title: string
+  retailer: string
+  url: string | null
+  unit_price: string
+  quantity: number
+  total: string
+  status: 'proposed' | 'awaiting_approval' | 'approved' | 'paid' | 'shipped' | 'delivered' | 'blocked' | 'rejected' | 'failed'
+  policy_checks: PolicyCheck[]
+  ai_reasoning: string
+  ai_confidence: number | null
+  candidates_considered: number
+  payment_rail: string
+  paypal_ref: string | null
+  carrier: string | null
+  tracking_number: string | null
+  error: string | null
+  created_at: string
+  paid_at: string | null
+}

@@ -234,6 +234,41 @@
     "price": "Presyo ($)",
     "notePlaceholder": "Maikling paliwanag para sa mga donor (opsyonal)",
     "add": "Idagdag sa registry",
-    "fundThis": "Pondohan"
+    "fundThis": "Pondohan",
+    "shopNow": "Bilhin na ngayon"
+  },
+  "purchases": {
+    "title": "Ang binili ng Shopper",
+    "subtitle": "Kapag buo nang napondohan ang isang gamit, hahanapin ito ng Shopper agent sa aprubadong tindahan, susuriin ang mga patakaran sa paggastos, at magbabayad gamit ang PayPal.",
+    "agentSays": "Shopper:",
+    "confidence": "{{pct}}% sigurado",
+    "checks": "Mga patakaran sa paggastos: {{passed}} sa {{total}} ang pumasa",
+    "tracking": "Ipinadala sa {{carrier}}, tracking {{number}}",
+    "paypalRef": "PayPal reference {{ref}}",
+    "approve": "Aprubahan ang {{amount}}",
+    "reject": "Huwag itong bilhin",
+    "simulateShip": "Gayahin ang pagpapadala (demo)",
+    "simulateDeliver": "Gayahin ang paghahatid (demo)",
+    "status": {
+      "proposed": "Iminungkahi",
+      "awaiting_approval": "Kailangan ng OK mo",
+      "approved": "Inaprubahan",
+      "paid": "Nabayaran",
+      "shipped": "Naipadala",
+      "delivered": "Naihatid",
+      "blocked": "Hinarang ng patakaran",
+      "rejected": "Tinanggihan mo",
+      "failed": "Nabigo"
+    },
+    "rule": {
+      "funds_available": "May sapat na pera",
+      "within_item_funding": "Pasok sa donasyon para sa gamit na ito",
+      "per_item_limit": "Limit bawat bili",
+      "daily_limit": "Limit bawat araw",
+      "category_allowed": "Pinapayagang kategorya",
+      "known_retailer": "Aprubadong tindahan",
+      "ships_to_verified_address": "Ipapadala sa beripikadong address mo",
+      "price_sanity": "Makatarungang presyo"
+    }
   }
 }

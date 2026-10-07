@@ -46,13 +46,15 @@ def _money(value: float) -> Decimal:
     return Decimal(str(value)).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
 
 
-def best_offer(product):
-    offers = [
-        o
-        for o in (product.offers or [])
-        if o.price and o.price.price and o.availability == "InStock" and o.condition in (None, "new")
+def cheapest_new_offer(offers):
+    usable = [
+        o for o in offers if o.price and o.price.price and o.availability == "InStock" and o.condition in (None, "new")
     ]
-    return min(offers, key=lambda o: o.price.price) if offers else None
+    return min(usable, key=lambda o: o.price.price) if usable else None
+
+
+def best_offer(product):
+    return cheapest_new_offer(product.offers or [])
 
 
 def choose_price(products: list) -> Valuation | None:

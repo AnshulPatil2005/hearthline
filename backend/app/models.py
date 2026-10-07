@@ -355,3 +355,36 @@ class Donation(Base):
 
     rebuild_registry: Mapped[Registry] = relationship()
     item: Mapped[RegistryItem | None] = relationship()
+
+
+class Purchase(Base):
+    """Something the Shopper agent proposed or bought for a household, with the rule checks it passed."""
+
+    __tablename__ = "purchases"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    registry_item_id: Mapped[int | None] = mapped_column(ForeignKey("registry_items.id", ondelete="SET NULL"))
+    channel3_product_id: Mapped[str | None] = mapped_column(String(40))
+    title: Mapped[str] = mapped_column(String(300))
+    retailer: Mapped[str] = mapped_column(String(120))
+    url: Mapped[str | None] = mapped_column(String(600))
+    unit_price: Mapped[Decimal] = mapped_column(Money)
+    quantity: Mapped[int] = mapped_column(default=1)
+    total: Mapped[Decimal] = mapped_column(Money)
+    # proposed | awaiting_approval | approved | paid | shipped | delivered | blocked | rejected | failed
+    status: Mapped[str] = mapped_column(String(20), default="proposed")
+    policy_checks: Mapped[list] = mapped_column(JSON, default=list)
+    ai_reasoning: Mapped[str] = mapped_column(String(1000), default="")
+    ai_confidence: Mapped[float | None]
+    candidates_considered: Mapped[int] = mapped_column(default=0)
+    payment_rail: Mapped[str] = mapped_column(String(20), default="payouts")  # payouts | vault
+    paypal_ref: Mapped[str | None] = mapped_column(String(80))
+    carrier: Mapped[str | None] = mapped_column(String(40))
+    tracking_number: Mapped[str | None] = mapped_column(String(60))
+    error: Mapped[str | None] = mapped_column(String(500))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    paid_at: Mapped[datetime | None]
+
+    registry_item: Mapped[RegistryItem | None] = relationship()
+    household: Mapped[Household] = relationship()

@@ -230,6 +230,41 @@
     "price": "Giá ($)",
     "notePlaceholder": "Ghi chú ngắn cho nhà tài trợ (không bắt buộc)",
     "add": "Thêm vào danh sách",
-    "fundThis": "Tài trợ"
+    "fundThis": "Tài trợ",
+    "shopNow": "Mua ngay"
+  },
+  "purchases": {
+    "title": "Những gì trợ lý mua sắm đã mua",
+    "subtitle": "Khi một món đồ được tài trợ đủ, trợ lý mua sắm sẽ tìm nó ở cửa hàng được duyệt, kiểm tra các quy tắc chi tiêu và thanh toán bằng PayPal.",
+    "agentSays": "Trợ lý mua sắm:",
+    "confidence": "chắc chắn {{pct}}%",
+    "checks": "Quy tắc chi tiêu: đạt {{passed}}/{{total}}",
+    "tracking": "Đã gửi qua {{carrier}}, mã vận đơn {{number}}",
+    "paypalRef": "Mã tham chiếu PayPal {{ref}}",
+    "approve": "Duyệt {{amount}}",
+    "reject": "Đừng mua món này",
+    "simulateShip": "Mô phỏng gửi hàng (demo)",
+    "simulateDeliver": "Mô phỏng giao hàng (demo)",
+    "status": {
+      "proposed": "Đề xuất",
+      "awaiting_approval": "Cần bạn đồng ý",
+      "approved": "Đã duyệt",
+      "paid": "Đã thanh toán",
+      "shipped": "Đã gửi",
+      "delivered": "Đã giao",
+      "blocked": "Bị quy tắc chặn",
+      "rejected": "Bạn đã từ chối",
+      "failed": "Thất bại"
+    },
+    "rule": {
+      "funds_available": "Đủ tiền",
+      "within_item_funding": "Trong số tiền tài trợ cho món này",
+      "per_item_limit": "Giới hạn mỗi lần mua",
+      "daily_limit": "Giới hạn mỗi ngày",
+      "category_allowed": "Loại hàng được phép",
+      "known_retailer": "Cửa hàng được duyệt",
+      "ships_to_verified_address": "Gửi đến địa chỉ đã xác minh",
+      "price_sanity": "Giá hợp lý"
+    }
   }
 }

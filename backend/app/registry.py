@@ -5,7 +5,7 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, ledger
+from app import audit, ledger, shopping
 from app.models import Donation, now
 from app.paypal.orders import Capture
 from app.paypal.webhooks import on
@@ -24,10 +24,12 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
     if capture.payment_method == "venmo":
         donation.payment_method = "venmo"
     item = donation.item
+    newly_funded = False
     if item is not None:
         item.funded_amount += donation.amount
         if item.funded_amount >= item.target_amount and item.status == "open":
             item.status = "funded"
+            newly_funded = True
     household_id = donation.rebuild_registry.household_id
     ledger.record_donation(
         db,
@@ -53,6 +55,8 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
         },
     )
     db.commit()
+    if newly_funded:
+        shopping.start_auto_shop(item.id)  # the Shopper agent buys it in the background
     return donation
 
 

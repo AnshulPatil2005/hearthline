@@ -230,6 +230,41 @@
     "price": "价格（美元）",
     "notePlaceholder": "给捐助者的简短说明（可选）",
     "add": "加入清单",
-    "fundThis": "资助此项"
+    "fundThis": "资助此项",
+    "shopNow": "立即购买"
+  },
+  "purchases": {
+    "title": "采购助手买了什么",
+    "subtitle": "当某件物品筹满后，采购助手会在获批商店找到它，检查消费规则，并用 PayPal 付款。",
+    "agentSays": "采购助手：",
+    "confidence": "把握 {{pct}}%",
+    "checks": "消费规则：通过 {{passed}}/{{total}} 项",
+    "tracking": "已由 {{carrier}} 发货，运单号 {{number}}",
+    "paypalRef": "PayPal 参考号 {{ref}}",
+    "approve": "批准 {{amount}}",
+    "reject": "不要买这个",
+    "simulateShip": "模拟发货（演示）",
+    "simulateDeliver": "模拟送达（演示）",
+    "status": {
+      "proposed": "已提议",
+      "awaiting_approval": "需要您确认",
+      "approved": "已批准",
+      "paid": "已付款",
+      "shipped": "已发货",
+      "delivered": "已送达",
+      "blocked": "被规则拦截",
+      "rejected": "您已拒绝",
+      "failed": "失败"
+    },
+    "rule": {
+      "funds_available": "资金充足",
+      "within_item_funding": "未超出该物品的捐款",
+      "per_item_limit": "单笔限额",
+      "daily_limit": "每日限额",
+      "category_allowed": "类别允许",
+      "known_retailer": "获批零售商",
+      "ships_to_verified_address": "寄往您经核实的地址",
+      "price_sanity": "价格合理"
+    }
   }
 }
