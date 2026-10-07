@@ -5,6 +5,7 @@ import io
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 
+import imagehash
 import jwt
 from PIL import Image, ImageOps, UnidentifiedImageError
 
@@ -27,6 +28,7 @@ class PreparedImage:
     width: int
     height: int
     sha256: str  # of the original upload, so re-uploads of the same file are detectable
+    phash: str  # perceptual hash, so the same photo is matched even after resizing or re-compression
     captured_at: datetime | None
 
 
@@ -51,7 +53,9 @@ def prepare_image(raw: bytes) -> PreparedImage:
     img.thumbnail((MAX_EDGE, MAX_EDGE))
     buf = io.BytesIO()
     img.save(buf, format="JPEG", quality=85)
-    return PreparedImage(buf.getvalue(), img.width, img.height, hashlib.sha256(raw).hexdigest(), captured)
+    return PreparedImage(
+        buf.getvalue(), img.width, img.height, hashlib.sha256(raw).hexdigest(), str(imagehash.phash(img)), captured
+    )
 
 
 def media_url(media_id: int) -> str:

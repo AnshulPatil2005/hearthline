@@ -31,6 +31,10 @@ def run_migrations_online() -> None:
         config.get_section(config.config_ini_section, {}), prefix="sqlalchemy.", poolclass=pool.NullPool
     )
     with connectable.connect() as connection:
+        if connection.dialect.name == "sqlite":
+            # Batch mode rebuilds tables on SQLite; FK checks would block dropping a referenced table.
+            connection.exec_driver_sql("PRAGMA foreign_keys=OFF")
+            connection.commit()
         # Batch mode lets ALTER TABLE migrations work on SQLite (local dev) as well as Postgres.
         context.configure(connection=connection, target_metadata=target_metadata, render_as_batch=True)
         with context.begin_transaction():

@@ -165,6 +165,7 @@ async def create_scan(
                 width=img.width,
                 height=img.height,
                 sha256=img.sha256,
+                phash=img.phash,
                 captured_at=img.captured_at,
             )
         )

@@ -4,7 +4,7 @@ from datetime import UTC, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String
+from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.db import Base
@@ -62,7 +62,7 @@ class User(Base):
     household_id: Mapped[int | None] = mapped_column(ForeignKey("households.id"))
     created_at: Mapped[datetime] = mapped_column(default=now)
 
-    household: Mapped["Household | None"] = relationship(back_populates="members")
+    household: Mapped["Household | None"] = relationship(back_populates="members", foreign_keys=[household_id])
 
 
 class DisasterEvent(Base):
@@ -92,10 +92,18 @@ class Household(Base):
     lng: Mapped[float | None]
     insured_contents_value: Mapped[Decimal | None] = mapped_column(Money)
     verification_level: Mapped[int] = mapped_column(default=0)
+    # PayPal account that receives cash aid (set by Log in with PayPal; seeded for the demo).
+    payout_email: Mapped[str | None] = mapped_column(String(255), index=True)
+    residence_verified: Mapped[bool] = mapped_column(
+        default=False, server_default=false()
+    )  # proof accepted by a reviewer
+    # Plain id (no FK): users already reference households, and the audit log records who vouched.
+    vouched_by_user_id: Mapped[int | None]
+    vouch_note: Mapped[str | None] = mapped_column(String(500))
     disaster_event_id: Mapped[int | None] = mapped_column(ForeignKey("disaster_events.id"))
     created_at: Mapped[datetime] = mapped_column(default=now)
 
-    members: Mapped[list[User]] = relationship(back_populates="household")
+    members: Mapped[list[User]] = relationship(back_populates="household", foreign_keys="User.household_id")
     rooms: Mapped[list["Room"]] = relationship(back_populates="household", cascade="all, delete-orphan")
     items: Mapped[list["Item"]] = relationship(back_populates="household", cascade="all, delete-orphan")
     disaster_event: Mapped[DisasterEvent | None] = relationship()
@@ -127,6 +135,8 @@ class Media(Base):
     width: Mapped[int]
     height: Mapped[int]
     sha256: Mapped[str] = mapped_column(String(64), index=True)
+    phash: Mapped[str | None] = mapped_column(String(16), index=True)  # perceptual hash: survives resizing
+    kind: Mapped[str] = mapped_column(String(20), default="photo", server_default="photo")  # photo | document
     captured_at: Mapped[datetime | None]
     uploaded_at: Mapped[datetime] = mapped_column(default=now)
 

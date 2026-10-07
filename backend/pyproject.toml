@@ -8,6 +8,7 @@ dependencies = [
     "channel3-sdk>=4.1.0",
     "fastapi>=0.142.2",
     "httpx>=0.28.1",
+    "imagehash>=4.3.2",
     "mcp>=2.3.0",
     "openai>=3.26.0",
     "paypal-server-sdk>=2.4.0",

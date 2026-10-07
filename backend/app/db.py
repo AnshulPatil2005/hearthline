@@ -3,7 +3,7 @@
 from collections.abc import Iterator
 from datetime import datetime
 
-from sqlalchemy import DateTime, create_engine, event
+from sqlalchemy import DateTime, MetaData, create_engine, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
@@ -12,6 +12,13 @@ from app.config import BACKEND_DIR, get_settings
 
 class Base(DeclarativeBase):
     type_annotation_map = {datetime: DateTime(timezone=True)}
+    # Named foreign keys, so Alembic can add or drop them on SQLite (batch mode) as well as Postgres.
+    metadata = MetaData(
+        naming_convention={
+            "ix": "ix_%(column_0_label)s",  # SQLAlchemy default, kept
+            "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
+        }
+    )
 
 
 def database_url() -> str:
