@@ -16,7 +16,8 @@
     "signOut": "Cerrar sesión",
     "language": "Idioma",
     "registry": "Lista de ayuda",
-    "money": "Dinero"
+    "money": "Dinero",
+    "review": "Casos por revisar"
   },
   "roles": {
     "household": "Hogar",
@@ -297,6 +298,105 @@
       "refund": "Reembolso",
       "fee": "Comisión",
       "adjustment": "Ajuste"
+    }
+  },
+  "review": {
+    "queueTitle": "Casos por revisar",
+    "queueSubtitle": "Casos asignados a ti, {{name}}. La IA reunió la evidencia; tú decides.",
+    "mineOnly_one": "Solo casos que me esperan ({{count}})",
+    "mineOnly_other": "Solo casos que me esperan ({{count}})",
+    "empty": "No tienes casos pendientes.",
+    "queueHint": "Los casos se asignan al azar. Nunca revisas un hogar al que perteneces o por el que respondiste. Haz clic en una fila para abrir el caso.",
+    "col": {
+      "risk": "Riesgo",
+      "household": "Hogar",
+      "kind": "Caso",
+      "amount": "Monto",
+      "flags": "Alertas",
+      "reviews": "Revisiones",
+      "video": "Videollamada",
+      "status": "Estado",
+      "waiting": "Abierto"
+    },
+    "risk": {
+      "low": "Riesgo bajo",
+      "medium": "Riesgo medio",
+      "high": "Riesgo alto"
+    },
+    "kind": {
+      "cash_aid": "Ayuda en efectivo",
+      "registry_verification": "Lista nueva",
+      "contents_claim": "Reclamo de contenido"
+    },
+    "status": {
+      "in_review": "En revisión",
+      "needs_info": "Esperando al hogar",
+      "escalated": "Con la supervisora",
+      "approved": "Aprobado",
+      "rejected": "Rechazado"
+    },
+    "flag": {
+      "outside_zone": "Fuera del área del desastre",
+      "duplicate_photo": "Fotos copiadas",
+      "photo_copied_by_other": "Copiaron sus fotos",
+      "shared_payout_account": "Cuenta de PayPal compartida",
+      "photo_after_disaster": "Fotos tomadas después del desastre",
+      "no_photo_metadata": "Fotos sin fecha",
+      "price_outlier": "Precio muy por encima del mercado",
+      "high_value_no_evidence": "Artículos caros sin evidencia",
+      "new_account_large_claim": "Cuenta nueva, reclamo grande"
+    },
+    "yes": "Sí",
+    "no": "No",
+    "back": "Volver a la lista",
+    "needs": "{{done}} de {{required}} revisiones hechas",
+    "videoRequired": "requiere videollamada",
+    "randomAudit": "Auditoría aleatoria",
+    "sentinelTitle": "Resumen de Sentinel",
+    "askThem": "Preguntas para hacer",
+    "sentinelNote": "Sentinel es un asistente de IA. Señala y explica; nunca aprueba ni rechaza. Las víctimas reales a menudo pierden documentos, así que una alerta es motivo para preguntar, no una prueba.",
+    "flagsTitle_one": "{{count}} señal de alerta",
+    "flagsTitle_other": "{{count}} señales de alerta",
+    "noFlags": "No se encontraron señales de alerta.",
+    "photosTitle": "Fotos en el expediente",
+    "noDate": "Sin fecha",
+    "householdNote": "Lo que nos dijo el hogar",
+    "decisionTitle": "Tu decisión",
+    "videoFirst": "Este caso necesita una breve videollamada antes de aprobarlo.",
+    "reasonPlaceholder": "Tu motivo (obligatorio para rechazar o pedir más)",
+    "approve": "Aprobar",
+    "requestInfo": "Pedir más evidencia",
+    "reject": "Rechazar",
+    "reasonRule": "Tu decisión y motivo quedan en el registro de auditoría a prueba de alteraciones. No se paga nada hasta que coincidan las revisiones requeridas.",
+    "lastNote": "Última nota",
+    "householdTitle": "Hogar",
+    "address": "Dirección",
+    "inZone": "Dentro del área del desastre",
+    "level": "Verificación",
+    "levels": {
+      "0": "Nivel 0 · sin verificar",
+      "1": "Nivel 1 · en la zona",
+      "2": "Nivel 2 · residencia confirmada",
+      "3": "Nivel 3 · inventario previo"
+    },
+    "payout": "PayPal para la ayuda",
+    "inventory": "Inventario",
+    "registry": "Lista",
+    "vouch": "Aval del trabajador social",
+    "trailTitle": "Historial de revisión",
+    "assigned": "Asignado a: {{names}}",
+    "noReviews": "Aún no hay decisiones.",
+    "decided": {
+      "approve": "aprobó",
+      "reject": "rechazó",
+      "request_info": "pidió más evidencia"
+    },
+    "notYourTurn": {
+      "default": "No tienes nada que decidir en este caso ahora.",
+      "approved": "Este caso fue aprobado.",
+      "rejected": "Este caso fue rechazado.",
+      "needs_info": "Esperando la respuesta del hogar.",
+      "escalated": "Los revisores no coincidieron. Decide la supervisora."
     }
   }
 }

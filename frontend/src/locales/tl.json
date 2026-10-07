@@ -16,7 +16,8 @@
     "signOut": "Mag-sign out",
     "language": "Wika",
     "registry": "Registry",
-    "money": "Pera"
+    "money": "Pera",
+    "review": "Mga susuriin"
   },
   "roles": {
     "household": "Sambahayan",
@@ -297,6 +298,105 @@
       "refund": "Refund",
       "fee": "Singil",
       "adjustment": "Pagsasaayos"
+    }
+  },
+  "review": {
+    "queueTitle": "Mga susuriin",
+    "queueSubtitle": "Mga kasong nakatalaga sa iyo, {{name}}. Tinipon na ng AI ang ebidensya; ikaw ang magpapasya.",
+    "mineOnly_one": "Mga kasong naghihintay sa akin lang ({{count}})",
+    "mineOnly_other": "Mga kasong naghihintay sa akin lang ({{count}})",
+    "empty": "Walang naghihintay sa iyo.",
+    "queueHint": "Random ang pagtatalaga ng mga kaso. Hindi mo kailanman susuriin ang sambahayang kinabibilangan mo o pinanagutan mo. I-click ang row para buksan ang kaso.",
+    "col": {
+      "risk": "Panganib",
+      "household": "Sambahayan",
+      "kind": "Kaso",
+      "amount": "Halaga",
+      "flags": "Babala",
+      "reviews": "Pagsusuri",
+      "video": "Video call",
+      "status": "Status",
+      "waiting": "Binuksan"
+    },
+    "risk": {
+      "low": "Mababang panganib",
+      "medium": "Katamtamang panganib",
+      "high": "Mataas na panganib"
+    },
+    "kind": {
+      "cash_aid": "Cash aid",
+      "registry_verification": "Bagong registry",
+      "contents_claim": "Claim sa gamit"
+    },
+    "status": {
+      "in_review": "Sinusuri",
+      "needs_info": "Hinihintay ang sambahayan",
+      "escalated": "Nasa superbisor",
+      "approved": "Inaprubahan",
+      "rejected": "Tinanggihan"
+    },
+    "flag": {
+      "outside_zone": "Labas sa lugar ng sakuna",
+      "duplicate_photo": "Kinopyang larawan",
+      "photo_copied_by_other": "Kinopya ang kanilang larawan",
+      "shared_payout_account": "Iisang PayPal account",
+      "photo_after_disaster": "Kinunan pagkatapos ng sakuna",
+      "no_photo_metadata": "Walang petsa ang larawan",
+      "price_outlier": "Presyong sobrang taas",
+      "high_value_no_evidence": "Mamahaling gamit na walang ebidensya",
+      "new_account_large_claim": "Bagong account, malaking claim"
+    },
+    "yes": "Oo",
+    "no": "Hindi",
+    "back": "Bumalik sa listahan",
+    "needs": "{{done}} sa {{required}} pagsusuri ang tapos",
+    "videoRequired": "kailangan ng video call",
+    "randomAudit": "Random na audit",
+    "sentinelTitle": "Buod ni Sentinel",
+    "askThem": "Mga tanong na puwedeng itanong",
+    "sentinelNote": "AI assistant si Sentinel. Nagmamarka at nagpapaliwanag lang siya; hindi siya kailanman nag-aapruba o tumatanggi. Madalas mawalan ng dokumento ang totoong biktima, kaya ang babala ay dahilan para magtanong, hindi patunay.",
+    "flagsTitle_one": "{{count}} babala",
+    "flagsTitle_other": "{{count}} babala",
+    "noFlags": "Walang nakitang babala.",
+    "photosTitle": "Mga larawang nakatala",
+    "noDate": "Walang petsa",
+    "householdNote": "Sinabi ng sambahayan",
+    "decisionTitle": "Ang pasya mo",
+    "videoFirst": "Kailangan ng maikling video call bago aprubahan ang kasong ito.",
+    "reasonPlaceholder": "Ang dahilan mo (kailangan kung tatanggihan o hihingi ng dagdag)",
+    "approve": "Aprubahan",
+    "requestInfo": "Humingi ng dagdag na ebidensya",
+    "reject": "Tanggihan",
+    "reasonRule": "Mapupunta ang pasya at dahilan mo sa audit log na hindi mababago. Walang babayaran hangga't hindi nagkakasundo ang mga kinakailangang pagsusuri.",
+    "lastNote": "Huling tala",
+    "householdTitle": "Sambahayan",
+    "address": "Address",
+    "inZone": "Nasa loob ng lugar ng sakuna",
+    "level": "Beripikasyon",
+    "levels": {
+      "0": "Level 0 · hindi beripikado",
+      "1": "Level 1 · nasa zone",
+      "2": "Level 2 · kumpirmado ang tirahan",
+      "3": "Level 3 · imbentaryo bago ang sakuna"
+    },
+    "payout": "PayPal para sa cash aid",
+    "inventory": "Imbentaryo",
+    "registry": "Registry",
+    "vouch": "Pananagot ng caseworker",
+    "trailTitle": "Kasaysayan ng pagsusuri",
+    "assigned": "Nakatalaga: {{names}}",
+    "noReviews": "Wala pang pasya.",
+    "decided": {
+      "approve": "inaprubahan",
+      "reject": "tinanggihan",
+      "request_info": "humingi ng dagdag na ebidensya"
+    },
+    "notYourTurn": {
+      "default": "Wala kang kailangang pagpasyahan sa kasong ito ngayon.",
+      "approved": "Inaprubahan ang kasong ito.",
+      "rejected": "Tinanggihan ang kasong ito.",
+      "needs_info": "Hinihintay ang sagot ng sambahayan.",
+      "escalated": "Hindi nagkasundo ang mga tagasuri. Ang superbisor ang magpapasya."
     }
   }
 }

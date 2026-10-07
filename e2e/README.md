@@ -11,5 +11,6 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | Script | Checks |
 |---|---|
 | `registry_checkout.py` | The public registry loads; "Fund this" opens the donation panel; PayPal, Venmo and Pay Later buttons render; clicking PayPal creates a donation and opens the PayPal sandbox checkout |
+| `review_scam.py` | Two reviewers open the seeded impersonation registry from their queues and reject it with reasons; the registry closes and its donations are refunded (needs a freshly seeded database) |
 
 Screenshots land in `e2e/screenshots/` (git-ignored).

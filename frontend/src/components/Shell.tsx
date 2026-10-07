@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../auth'
 import { LANGUAGES } from '../i18n'
+import { STAFF_ROLES } from '../paths'
 
 export function Logo({ className = 'size-7' }: { className?: string }) {
   return (
@@ -67,6 +68,13 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               </NavLink>
               <NavLink to="/money" className={navClass}>
                 {t('nav.money')}
+              </NavLink>
+            </nav>
+          )}
+          {user && STAFF_ROLES.includes(user.role) && (
+            <nav className="flex gap-1">
+              <NavLink to="/review" className={navClass}>
+                {t('nav.review')}
               </NavLink>
             </nav>
           )}

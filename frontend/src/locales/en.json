@@ -16,7 +16,8 @@
     "signOut": "Sign out",
     "language": "Language",
     "registry": "Registry",
-    "money": "Money"
+    "money": "Money",
+    "review": "Review queue"
   },
   "roles": {
     "household": "Household",
@@ -297,6 +298,105 @@
       "refund": "Refund",
       "fee": "Fee",
       "adjustment": "Adjustment"
+    }
+  },
+  "review": {
+    "queueTitle": "Review queue",
+    "queueSubtitle": "Cases assigned to you, {{name}}. The AI has gathered the evidence; you decide.",
+    "mineOnly_one": "Only cases waiting for me ({{count}})",
+    "mineOnly_other": "Only cases waiting for me ({{count}})",
+    "empty": "Nothing waiting for you.",
+    "queueHint": "Cases are assigned at random. You never review a household you belong to or vouched for. Click a row to open the case.",
+    "col": {
+      "risk": "Risk",
+      "household": "Household",
+      "kind": "Case",
+      "amount": "Amount",
+      "flags": "Flags",
+      "reviews": "Reviews",
+      "video": "Video call",
+      "status": "Status",
+      "waiting": "Opened"
+    },
+    "risk": {
+      "low": "Low risk",
+      "medium": "Medium risk",
+      "high": "High risk"
+    },
+    "kind": {
+      "cash_aid": "Cash aid",
+      "registry_verification": "New registry",
+      "contents_claim": "Contents claim"
+    },
+    "status": {
+      "in_review": "In review",
+      "needs_info": "Waiting for household",
+      "escalated": "With supervisor",
+      "approved": "Approved",
+      "rejected": "Rejected"
+    },
+    "flag": {
+      "outside_zone": "Outside the disaster area",
+      "duplicate_photo": "Copied photos",
+      "photo_copied_by_other": "Their photos were copied",
+      "shared_payout_account": "Shared PayPal account",
+      "photo_after_disaster": "Photos taken after the disaster",
+      "no_photo_metadata": "No photo dates",
+      "price_outlier": "Price far above market",
+      "high_value_no_evidence": "Costly items without evidence",
+      "new_account_large_claim": "New account, large claim"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back to the queue",
+    "needs": "{{done}} of {{required}} reviews done",
+    "videoRequired": "video call required",
+    "randomAudit": "Random audit",
+    "sentinelTitle": "Sentinel's summary",
+    "askThem": "Questions to ask",
+    "sentinelNote": "Sentinel is an AI assistant. It flags and explains; it never approves or rejects. Real victims often lose documents, so a warning is a reason to ask, not proof.",
+    "flagsTitle_one": "{{count}} warning sign",
+    "flagsTitle_other": "{{count}} warning signs",
+    "noFlags": "No warning signs found.",
+    "photosTitle": "Photos on file",
+    "noDate": "No date",
+    "householdNote": "What the household told us",
+    "decisionTitle": "Your decision",
+    "videoFirst": "This case needs a short video call before you approve it.",
+    "reasonPlaceholder": "Your reason (required to reject or ask for more)",
+    "approve": "Approve",
+    "requestInfo": "Ask for more evidence",
+    "reject": "Reject",
+    "reasonRule": "Your decision and reason go into the tamper-evident audit log. Nothing is paid until the required reviews agree.",
+    "lastNote": "Latest note",
+    "householdTitle": "Household",
+    "address": "Address",
+    "inZone": "Inside the disaster area",
+    "level": "Verification",
+    "levels": {
+      "0": "Level 0 · unverified",
+      "1": "Level 1 · in the zone",
+      "2": "Level 2 · residence confirmed",
+      "3": "Level 3 · pre-disaster inventory"
+    },
+    "payout": "PayPal for cash aid",
+    "inventory": "Inventory",
+    "registry": "Registry",
+    "vouch": "Caseworker vouch",
+    "trailTitle": "Review trail",
+    "assigned": "Assigned: {{names}}",
+    "noReviews": "No decisions yet.",
+    "decided": {
+      "approve": "approved",
+      "reject": "rejected",
+      "request_info": "asked for more evidence"
+    },
+    "notYourTurn": {
+      "default": "Nothing for you to decide on this case right now.",
+      "approved": "This case was approved.",
+      "rejected": "This case was rejected.",
+      "needs_info": "Waiting for the household to reply.",
+      "escalated": "Reviewers disagreed. The supervisor decides."
     }
   }
 }

@@ -79,6 +79,7 @@ def open_case(
     note: str = "",
     actor_user_id: int | None = None,
     rng: random.Random | None = None,
+    explain: bool = True,  # False for seeding: rule messages instead of an AI call
 ) -> Case:
     rng = rng or random.Random()
     flags = trust.sentinel_flags(db, home, amount)
@@ -91,7 +92,15 @@ def open_case(
         "verification_level": trust.verification_level(db, home),
         "household_note": note,
     }
-    explained = sentinel.explain(facts, flags)
+    explained = (
+        sentinel.explain(facts, flags)
+        if explain
+        else sentinel.SentinelNote(
+            summary=" ".join(f.message for f in flags) or "No warning signs were found.",
+            questions=[],
+            recommendation="escalate" if flags else "approve",
+        )
+    )
     required, video = _depth(tier, kind, amount)
     case = Case(
         household_id=home.id,

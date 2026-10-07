@@ -16,7 +16,8 @@
     "signOut": "退出登录",
     "language": "语言",
     "registry": "援助清单",
-    "money": "资金"
+    "money": "资金",
+    "review": "审核队列"
   },
   "roles": {
     "household": "住户",
@@ -293,6 +294,103 @@
       "refund": "退款",
       "fee": "手续费",
       "adjustment": "调整"
+    }
+  },
+  "review": {
+    "queueTitle": "审核队列",
+    "queueSubtitle": "{{name}}，这些是分配给您的案件。AI 已整理好证据，由您来决定。",
+    "mineOnly_other": "只看等我处理的案件（{{count}}）",
+    "empty": "没有待您处理的案件。",
+    "queueHint": "案件随机分配。您不会审核自己所属或曾为其担保的家庭。点击某行即可打开案件。",
+    "col": {
+      "risk": "风险",
+      "household": "住户",
+      "kind": "案件",
+      "amount": "金额",
+      "flags": "警示",
+      "reviews": "审核",
+      "video": "视频通话",
+      "status": "状态",
+      "waiting": "开启日期"
+    },
+    "risk": {
+      "low": "低风险",
+      "medium": "中风险",
+      "high": "高风险"
+    },
+    "kind": {
+      "cash_aid": "现金援助",
+      "registry_verification": "新援助清单",
+      "contents_claim": "财物理赔"
+    },
+    "status": {
+      "in_review": "审核中",
+      "needs_info": "等待住户回复",
+      "escalated": "主管处理中",
+      "approved": "已批准",
+      "rejected": "已拒绝"
+    },
+    "flag": {
+      "outside_zone": "不在受灾区域内",
+      "duplicate_photo": "照片被复制",
+      "photo_copied_by_other": "其照片被他人复制",
+      "shared_payout_account": "共用 PayPal 账户",
+      "photo_after_disaster": "照片拍摄于灾后",
+      "no_photo_metadata": "照片无日期",
+      "price_outlier": "价格远高于市场",
+      "high_value_no_evidence": "高价物品无证据",
+      "new_account_large_claim": "新账户大额申请"
+    },
+    "yes": "是",
+    "no": "否",
+    "back": "返回队列",
+    "needs": "已完成 {{done}}/{{required}} 次审核",
+    "videoRequired": "需要视频通话",
+    "randomAudit": "随机抽查",
+    "sentinelTitle": "Sentinel 摘要",
+    "askThem": "可以询问的问题",
+    "sentinelNote": "Sentinel 是 AI 助手，只负责标记和解释，从不批准或拒绝。真正的受灾者常常丢失证件，因此警示只是需要询问的理由，而非证据。",
+    "flagsTitle_other": "{{count}} 个警示信号",
+    "noFlags": "未发现警示信号。",
+    "photosTitle": "存档照片",
+    "noDate": "无日期",
+    "householdNote": "住户的说明",
+    "decisionTitle": "您的决定",
+    "videoFirst": "批准此案件前需要进行简短的视频通话。",
+    "reasonPlaceholder": "您的理由（拒绝或要求补充时必填）",
+    "approve": "批准",
+    "requestInfo": "要求补充证据",
+    "reject": "拒绝",
+    "reasonRule": "您的决定和理由会记入防篡改的审计日志。在所需审核达成一致之前不会付款。",
+    "lastNote": "最新备注",
+    "householdTitle": "住户",
+    "address": "地址",
+    "inZone": "位于受灾区域内",
+    "level": "核实等级",
+    "levels": {
+      "0": "等级 0 · 未核实",
+      "1": "等级 1 · 位于灾区",
+      "2": "等级 2 · 住址已确认",
+      "3": "等级 3 · 灾前物品清单"
+    },
+    "payout": "现金援助 PayPal 账户",
+    "inventory": "物品清单",
+    "registry": "援助清单",
+    "vouch": "社工担保",
+    "trailTitle": "审核记录",
+    "assigned": "分配给：{{names}}",
+    "noReviews": "尚无决定。",
+    "decided": {
+      "approve": "已批准",
+      "reject": "已拒绝",
+      "request_info": "要求补充证据"
+    },
+    "notYourTurn": {
+      "default": "目前此案件没有需要您决定的事项。",
+      "approved": "此案件已批准。",
+      "rejected": "此案件已拒绝。",
+      "needs_info": "正在等待住户回复。",
+      "escalated": "审核员意见不一致，由主管决定。"
     }
   }
 }

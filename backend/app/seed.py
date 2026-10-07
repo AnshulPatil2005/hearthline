@@ -4,13 +4,33 @@ Idempotent: safe to run on every start-up. Run manually with `uv run python -m a
 Everything here is made up; no real disaster, place or person is depicted.
 """
 
+import io
+import random
+from datetime import timedelta
 from decimal import Decimal
 
+from PIL import Image, ImageDraw
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app import ledger, review
 from app.db import SessionLocal
-from app.models import DisasterEvent, DisasterKind, Household, Registry, RegistryItem, Role, User
+from app.media import prepare_image
+from app.models import (
+    Case,
+    DisasterEvent,
+    DisasterKind,
+    Donation,
+    EvidenceLevel,
+    Household,
+    Item,
+    Media,
+    Registry,
+    RegistryItem,
+    Role,
+    User,
+    now,
+)
 
 FIRE_SLUG = "sablewood-fire"
 
@@ -171,9 +191,202 @@ def seed(db: Session) -> None:
     db.commit()
 
 
+# --- Review demo: a small Sablewood caseload, including one impersonation scam ------------------
+
+SCAM_SENTINEL = (
+    "The claim has multiple high-severity warnings, including an address outside the active disaster area, "
+    "photos copied from another family, and a PayPal account shared with another applicant. These issues need "
+    "direct follow-up before any funds can be distributed.",
+    [
+        "Could you confirm your current home address and how it was affected by the fire?",
+        "Can you provide your own original photos of the damage to your property?",
+        "Why is this PayPal account also used by another household?",
+    ],
+)
+
+
+def _room_picture(seed: int) -> bytes:
+    """A simple generated 'room' picture (placeholder until real demo photos are added)."""
+    rnd = random.Random(seed)
+    img = Image.new("RGB", (640, 480), (rnd.randint(200, 240), rnd.randint(190, 230), rnd.randint(170, 210)))
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 340, 640, 480], fill=(120 + seed % 40, 90, 70))  # floor
+    d.rectangle([60, 220, 330, 360], fill=(90, 100, 120))  # sofa
+    d.rectangle([380, 120, 560, 260], fill=(30, 30, 35))  # TV
+    d.rectangle([400, 260, 540, 350], fill=(140, 100, 60))  # stand
+    d.ellipse([470 - seed * 7 % 60, 40, 520 - seed * 7 % 60, 90], fill=(250, 240, 200))  # lamp
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", quality=90)
+    return buf.getvalue()
+
+
+def _add_photo(db: Session, home: Household, raw: bytes, days_ago: int) -> None:
+    img = prepare_image(raw)
+    db.add(
+        Media(
+            household_id=home.id,
+            content_type="image/jpeg",
+            data=img.jpeg,
+            width=img.width,
+            height=img.height,
+            sha256=img.sha256,
+            phash=img.phash,
+            uploaded_at=now() - timedelta(days=days_ago),
+        )
+    )
+
+
+def _household(db: Session, fire: DisasterEvent | None, **values) -> Household:
+    home = db.scalar(select(Household).where(Household.name == values["name"]))
+    if home is None:
+        home = Household(
+            disaster_event=fire,
+            city=values.pop("city", "Sablewood"),
+            state=values.pop("state", "CA"),
+            postal_code=values.pop("postal_code", "95999"),
+            **values,
+        )
+        db.add(home)
+        db.flush()
+    return home
+
+
+def seed_review_demo(db: Session) -> None:
+    if db.scalar(select(Case.id).limit(1)) is not None:
+        return
+    fire = db.scalar(select(DisasterEvent).where(DisasterEvent.slug == FIRE_SLUG))
+    rng = random.Random(7)
+
+    rivera = db.scalar(select(Household).where(Household.name == "Rivera household"))
+    rivera.payout_email = "elena.rivera@personal.example.com"
+    for n in (1, 2):
+        _add_photo(db, rivera, _room_picture(n), days_ago=60)  # scanned well before the fire
+
+    haddad = _household(
+        db,
+        fire,
+        name="Haddad household",
+        address_line="38 Cedar Ridge Rd",
+        lat=38.700,
+        lng=-120.640,
+        payout_email="sami.haddad@personal.example.com",
+    )
+    kowalski = _household(
+        db,
+        fire,
+        name="Kowalski household",
+        address_line="5 Larch Court",
+        lat=38.716,
+        lng=-120.601,
+        payout_email="anna.kowalski@personal.example.com",
+    )
+    for name, price in (("Grand piano", "8000"), ("Jewelry collection", "3500")):
+        db.add(
+            Item(household_id=kowalski.id, name=name, unit_price=Decimal(price), evidence_level=EvidenceLevel.MEMORY)
+        )
+
+    scam = _household(
+        db,
+        None,
+        name="Rivera family fund",
+        address_line="1180 Desert Bloom Ct",
+        city="Henderson",
+        state="NV",
+        postal_code="89002",
+        lat=36.04,
+        lng=-114.98,
+        payout_email="help.riveras@personal.example.com",
+    )
+    _household(
+        db,
+        None,
+        name="M. Grey household",
+        address_line="77 Dune Way",
+        city="Henderson",
+        state="NV",
+        postal_code="89002",
+        lat=36.05,
+        lng=-114.97,
+        payout_email="help.riveras@personal.example.com",
+    )
+    for n in (1, 2):
+        _add_photo(db, scam, _room_picture(n), days_ago=1)  # the Riveras' photos, re-uploaded
+    reg = Registry(
+        household_id=scam.id,
+        slug="riveras-rebuild-fund",
+        title="Help the Rivera family rebuild",
+        story="Our home burned in the Sablewood Fire. Anything helps.",
+        status="active",
+    )
+    reg.items.append(RegistryItem(name="Laptop for school", unit_price=Decimal("450"), funded_amount=Decimal("125")))
+    db.add(reg)
+    db.flush()
+    for n, (donor, amount) in enumerate((("Jordan", "75"), (None, "50")), start=1):
+        db.add(
+            Donation(
+                registry_id=reg.id,
+                registry_item_id=reg.items[0].id,
+                donor_name=donor,
+                amount=Decimal(amount),
+                status="captured",
+                paypal_capture_id=f"DEMO-SCAM-{n}",
+                paypal_order_id=f"DEMO-ORDER-{n}",
+                captured_at=now(),
+            )
+        )
+        ledger.record_donation(
+            db,
+            household_id=scam.id,
+            gross=Decimal(amount),
+            fee=Decimal("0"),
+            capture_id=f"DEMO-SCAM-{n}",
+            description="Donation (demo data)",
+            meta={},
+        )
+    db.commit()
+
+    review.open_case(
+        db,
+        rivera,
+        kind="cash_aid",
+        title="Cash aid request",
+        amount=Decimal("800"),
+        note="Motel and groceries while we find a rental.",
+        rng=rng,
+        explain=False,
+    )
+    review.open_case(
+        db,
+        haddad,
+        kind="cash_aid",
+        title="Cash aid request",
+        amount=Decimal("1500"),
+        note="Deposit on a rental for our family of five.",
+        rng=rng,
+        explain=False,
+    )
+    review.open_case(
+        db,
+        kowalski,
+        kind="contents_claim",
+        title="Contents claim review",
+        amount=Decimal("11500"),
+        note="Our piano and my mother's jewelry were lost. No photos survived.",
+        rng=rng,
+        explain=False,
+    )
+    scam_case = review.open_case(
+        db, scam, kind="registry_verification", title="Registry: Help the Rivera family rebuild", rng=rng, explain=False
+    )
+    scam_case.sentinel_summary, scam_case.sentinel_questions = SCAM_SENTINEL
+    scam_case.sentinel_recommendation = "escalate"
+    db.commit()
+
+
 def main() -> None:
     with SessionLocal() as db:
         seed(db)
+        seed_review_demo(db)
     print("Seeded the Sablewood demo scenario.")
 
 

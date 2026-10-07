@@ -16,7 +16,8 @@
     "signOut": "Đăng xuất",
     "language": "Ngôn ngữ",
     "registry": "Danh sách hỗ trợ",
-    "money": "Tiền"
+    "money": "Tiền",
+    "review": "Hàng đợi xét duyệt"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -293,6 +294,103 @@
       "refund": "Hoàn tiền",
       "fee": "Phí",
       "adjustment": "Điều chỉnh"
+    }
+  },
+  "review": {
+    "queueTitle": "Hàng đợi xét duyệt",
+    "queueSubtitle": "Các hồ sơ được giao cho bạn, {{name}}. AI đã thu thập bằng chứng; bạn là người quyết định.",
+    "mineOnly_other": "Chỉ hồ sơ đang chờ tôi ({{count}})",
+    "empty": "Không có hồ sơ nào đang chờ bạn.",
+    "queueHint": "Hồ sơ được giao ngẫu nhiên. Bạn không bao giờ xét duyệt hộ gia đình mà bạn thuộc về hoặc đã bảo lãnh. Nhấp vào một dòng để mở hồ sơ.",
+    "col": {
+      "risk": "Rủi ro",
+      "household": "Hộ gia đình",
+      "kind": "Hồ sơ",
+      "amount": "Số tiền",
+      "flags": "Cảnh báo",
+      "reviews": "Xét duyệt",
+      "video": "Gọi video",
+      "status": "Trạng thái",
+      "waiting": "Ngày mở"
+    },
+    "risk": {
+      "low": "Rủi ro thấp",
+      "medium": "Rủi ro trung bình",
+      "high": "Rủi ro cao"
+    },
+    "kind": {
+      "cash_aid": "Hỗ trợ tiền mặt",
+      "registry_verification": "Danh sách mới",
+      "contents_claim": "Bồi thường tài sản"
+    },
+    "status": {
+      "in_review": "Đang xét duyệt",
+      "needs_info": "Chờ hộ gia đình",
+      "escalated": "Chuyển giám sát",
+      "approved": "Đã duyệt",
+      "rejected": "Đã từ chối"
+    },
+    "flag": {
+      "outside_zone": "Ngoài vùng thảm họa",
+      "duplicate_photo": "Ảnh bị sao chép",
+      "photo_copied_by_other": "Ảnh của họ bị sao chép",
+      "shared_payout_account": "Dùng chung tài khoản PayPal",
+      "photo_after_disaster": "Ảnh chụp sau thảm họa",
+      "no_photo_metadata": "Ảnh không có ngày",
+      "price_outlier": "Giá cao hơn nhiều so với thị trường",
+      "high_value_no_evidence": "Đồ đắt tiền không có bằng chứng",
+      "new_account_large_claim": "Tài khoản mới, yêu cầu lớn"
+    },
+    "yes": "Có",
+    "no": "Không",
+    "back": "Quay lại hàng đợi",
+    "needs": "Đã xong {{done}}/{{required}} lượt xét duyệt",
+    "videoRequired": "cần gọi video",
+    "randomAudit": "Kiểm tra ngẫu nhiên",
+    "sentinelTitle": "Tóm tắt của Sentinel",
+    "askThem": "Câu hỏi nên đặt ra",
+    "sentinelNote": "Sentinel là trợ lý AI. Nó chỉ đánh dấu và giải thích, không bao giờ duyệt hay từ chối. Nạn nhân thật thường mất giấy tờ, nên cảnh báo là lý do để hỏi thêm, không phải bằng chứng.",
+    "flagsTitle_other": "{{count}} dấu hiệu cảnh báo",
+    "noFlags": "Không phát hiện dấu hiệu cảnh báo.",
+    "photosTitle": "Ảnh trong hồ sơ",
+    "noDate": "Không có ngày",
+    "householdNote": "Hộ gia đình cho biết",
+    "decisionTitle": "Quyết định của bạn",
+    "videoFirst": "Hồ sơ này cần một cuộc gọi video ngắn trước khi duyệt.",
+    "reasonPlaceholder": "Lý do của bạn (bắt buộc khi từ chối hoặc yêu cầu thêm)",
+    "approve": "Duyệt",
+    "requestInfo": "Yêu cầu thêm bằng chứng",
+    "reject": "Từ chối",
+    "reasonRule": "Quyết định và lý do của bạn được ghi vào nhật ký kiểm toán chống chỉnh sửa. Không khoản tiền nào được chi cho đến khi đủ số lượt xét duyệt đồng ý.",
+    "lastNote": "Ghi chú mới nhất",
+    "householdTitle": "Hộ gia đình",
+    "address": "Địa chỉ",
+    "inZone": "Trong vùng thảm họa",
+    "level": "Xác minh",
+    "levels": {
+      "0": "Cấp 0 · chưa xác minh",
+      "1": "Cấp 1 · trong vùng",
+      "2": "Cấp 2 · đã xác nhận nơi ở",
+      "3": "Cấp 3 · có danh mục trước thảm họa"
+    },
+    "payout": "PayPal nhận hỗ trợ",
+    "inventory": "Danh mục tài sản",
+    "registry": "Danh sách hỗ trợ",
+    "vouch": "Bảo lãnh của nhân viên",
+    "trailTitle": "Lịch sử xét duyệt",
+    "assigned": "Được giao: {{names}}",
+    "noReviews": "Chưa có quyết định.",
+    "decided": {
+      "approve": "đã duyệt",
+      "reject": "đã từ chối",
+      "request_info": "đã yêu cầu thêm bằng chứng"
+    },
+    "notYourTurn": {
+      "default": "Hiện không có gì cần bạn quyết định cho hồ sơ này.",
+      "approved": "Hồ sơ này đã được duyệt.",
+      "rejected": "Hồ sơ này đã bị từ chối.",
+      "needs_info": "Đang chờ hộ gia đình trả lời.",
+      "escalated": "Người xét duyệt không thống nhất. Giám sát sẽ quyết định."
     }
   }
 }

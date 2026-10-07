@@ -6,6 +6,8 @@ import Login from './pages/Login'
 import Money from './pages/Money'
 import RegistryManage from './pages/RegistryManage'
 import RegistryPublic from './pages/RegistryPublic'
+import ReviewCase from './pages/ReviewCase'
+import ReviewQueue from './pages/ReviewQueue'
 import { HomeRedirect, RequireAuth } from './routes'
 
 export default function App() {
@@ -42,6 +44,22 @@ export default function App() {
         element={
           <RequireAuth role="household" wide>
             <Money />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/review"
+        element={
+          <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
+            <ReviewQueue />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/review/cases/:id"
+        element={
+          <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
+            <ReviewCase />
           </RequireAuth>
         }
       />

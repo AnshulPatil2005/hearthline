@@ -216,3 +216,51 @@ export type LedgerRow = {
   balance: string
   postings: LedgerPosting[]
 }
+
+export type RiskTier = 'low' | 'medium' | 'high'
+
+export type QueueRow = {
+  id: number
+  kind: 'cash_aid' | 'registry_verification' | 'contents_claim'
+  title: string
+  household_id: number
+  household_name: string
+  city: string
+  amount_requested: string
+  status: 'in_review' | 'needs_info' | 'escalated' | 'approved' | 'rejected'
+  risk_score: number
+  risk_tier: RiskTier
+  flag_count: number
+  required_reviews: number
+  reviews_done: number
+  video_call_required: boolean
+  my_role: string | null
+  awaiting_me: boolean
+  created_at: string
+}
+
+export type CaseFlag = { code: string; severity: 'low' | 'medium' | 'high'; message: string; evidence: Record<string, unknown> }
+
+export type CaseDetail = QueueRow & {
+  note: string
+  flags: CaseFlag[]
+  sentinel_summary: string
+  sentinel_questions: string[]
+  sentinel_recommendation: string | null
+  random_audit: boolean
+  decision_note: string | null
+  paypal_ref: string | null
+  address: string
+  lat: number | null
+  lng: number | null
+  in_disaster_zone: boolean
+  verification_level: number
+  payout_email: string | null
+  vouch_note: string | null
+  inventory_items: number
+  inventory_value: string
+  registry_slug: string | null
+  photos: { media_id: number; url: string; captured_at: string | null }[]
+  reviews: { reviewer_name: string; role: string; decision: string; reason: string; created_at: string }[]
+  reviewers: string[]
+}
