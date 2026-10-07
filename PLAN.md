@@ -350,10 +350,10 @@ hearthline/
 
 ### Week 2: Mon Oct 12 – Sun Oct 18: money core
 *(Oct 12: "payments dashboard" webinar.)*
-- [ ] Double-entry ledger, PayPal webhooks with signature verification, the audit log
-- [ ] Rebuild Registry page: **PayPal, Venmo and Pay Later** buttons (JS SDK v6); donations fund specific items; registry consent through Log in with PayPal
-- [ ] Shopper agent with the **rules engine**, payment with the saved method, shipment tracking, the donor timeline
-- [ ] AG Grid ledger (expandable rows, pivot)
+- [x] Double-entry ledger, PayPal webhooks with signature verification, the hash-chained audit log
+- [x] Rebuild Registry page: **PayPal, Venmo and Pay Later** buttons (JS SDK v6, verified rendering and opening sandbox checkout); donations fund specific items. *Pending: registry consent through Log in with PayPal (needs the return URL set in the PayPal app); a completed capture needs a personal sandbox buyer account.*
+- [x] Shopper agent with the **rules engine** (8 rules, approval over $300), paying the retailer with **Payouts** (live-verified), simulated shipment tracking, the donor feed. *Pending: paying with the saved PayPal method (spike 2 needs a personal sandbox buyer account).*
+- [x] AG Grid ledger: expandable rows (debits/credits), grouping, side panel with pivot, built-in charts, Excel export
 - [ ] Set up the APIMatic pipeline: spec check, then TypeScript SDK generation, then the GitHub Action
 - **Done when:** a donor funds a bed with Venmo, the agent buys it, the tracking number shows up, and the ledger balances.
 

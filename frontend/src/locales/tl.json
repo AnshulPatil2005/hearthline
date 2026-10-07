@@ -15,7 +15,8 @@
     "switchPersona": "Magpalit ng persona",
     "signOut": "Mag-sign out",
     "language": "Wika",
-    "registry": "Registry"
+    "registry": "Registry",
+    "money": "Pera"
   },
   "roles": {
     "household": "Sambahayan",
@@ -269,6 +270,33 @@
       "known_retailer": "Aprubadong tindahan",
       "ships_to_verified_address": "Ipapadala sa beripikadong address mo",
       "price_sanity": "Makatarungang presyo"
+    }
+  },
+  "money": {
+    "title": "Pera",
+    "subtitle": "Bawat dolyar na ibinigay para sa pamilya mo at bawat dolyar na nagastos, itinatala nang dalawang beses para laging balanse ang libro.",
+    "export": "I-export ang ledger (Excel)",
+    "empty": "Wala pang perang gumalaw. Lalabas dito ang mga donasyon at binili.",
+    "hint": "I-click ang arrow sa isang row para makita ang debit at credit nito. I-drag ang column sa bar sa itaas para mag-grupo, o pumili ng mga cell at i-right click para i-chart.",
+    "col": {
+      "date": "Petsa",
+      "kind": "Uri",
+      "description": "Ano ang nangyari",
+      "amount": "Pasok / labas",
+      "balance": "Balanse",
+      "paypalRef": "PayPal reference",
+      "account": "Account",
+      "accountCode": "Code ng account",
+      "debit": "Debit",
+      "credit": "Credit"
+    },
+    "kind": {
+      "donation": "Donasyon",
+      "purchase": "Binili",
+      "payout": "Bayad",
+      "refund": "Refund",
+      "fee": "Singil",
+      "adjustment": "Pagsasaayos"
     }
   }
 }

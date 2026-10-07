@@ -127,3 +127,17 @@ def test_shipping_simulation_marks_item_delivered(fakes):
     with SessionLocal() as db:
         assert db.get(RegistryItem, item_id).status == "delivered"
         assert db.query(Purchase).count() == 1
+
+
+def test_household_ledger_shows_running_balance(fakes):
+    fund("Steel-toe work boots")
+    rows = client.get("/households/me/ledger", headers=login_as("Elena Rivera")).json()
+    assert [(r["kind"], r["amount"], r["balance"]) for r in rows] == [
+        ("purchase", "-129.99", "9.01"),
+        ("donation", "139.00", "139.00"),
+    ]
+    postings = {
+        p["account_code"].rsplit(":", 1)[0] if "household" in p["account_code"] else p["account_code"]: p["amount"]
+        for p in rows[1]["postings"]
+    }
+    assert postings == {"assets:paypal": "136.00", "expenses:paypal_fees": "3.00", "liabilities:household": "-139.00"}

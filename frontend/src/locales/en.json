@@ -15,7 +15,8 @@
     "switchPersona": "Switch persona",
     "signOut": "Sign out",
     "language": "Language",
-    "registry": "Registry"
+    "registry": "Registry",
+    "money": "Money"
   },
   "roles": {
     "household": "Household",
@@ -269,6 +270,33 @@
       "known_retailer": "Approved retailer",
       "ships_to_verified_address": "Ships to your verified address",
       "price_sanity": "Fair price"
+    }
+  },
+  "money": {
+    "title": "Money",
+    "subtitle": "Every dollar given for your family and every dollar spent, recorded twice so the books always balance.",
+    "export": "Export ledger (Excel)",
+    "empty": "No money has moved yet. Donations and purchases will appear here.",
+    "hint": "Click the arrow on a row to see its debits and credits. Drag a column to the bar above to group, or select cells and right-click to chart them.",
+    "col": {
+      "date": "Date",
+      "kind": "Type",
+      "description": "What happened",
+      "amount": "In / out",
+      "balance": "Balance",
+      "paypalRef": "PayPal reference",
+      "account": "Account",
+      "accountCode": "Account code",
+      "debit": "Debit",
+      "credit": "Credit"
+    },
+    "kind": {
+      "donation": "Donation",
+      "purchase": "Purchase",
+      "payout": "Payout",
+      "refund": "Refund",
+      "fee": "Fee",
+      "adjustment": "Adjustment"
     }
   }
 }

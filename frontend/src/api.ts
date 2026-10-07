@@ -203,3 +203,16 @@ export type Purchase = {
   created_at: string
   paid_at: string | null
 }
+
+export type LedgerPosting = { account_code: string; account_name: string; amount: string }
+
+export type LedgerRow = {
+  id: number
+  kind: string
+  description: string
+  created_at: string
+  paypal_ref: string | null
+  amount: string
+  balance: string
+  postings: LedgerPosting[]
+}

@@ -15,7 +15,8 @@
     "switchPersona": "切换角色",
     "signOut": "退出登录",
     "language": "语言",
-    "registry": "援助清单"
+    "registry": "援助清单",
+    "money": "资金"
   },
   "roles": {
     "household": "住户",
@@ -265,6 +266,33 @@
       "known_retailer": "获批零售商",
       "ships_to_verified_address": "寄往您经核实的地址",
       "price_sanity": "价格合理"
+    }
+  },
+  "money": {
+    "title": "资金",
+    "subtitle": "每一笔为您家庭捐赠和支出的钱都会记录两次，确保账目始终平衡。",
+    "export": "导出账本 (Excel)",
+    "empty": "还没有资金往来。捐款和采购会显示在这里。",
+    "hint": "点击行上的箭头查看借贷明细。将列拖到上方栏中即可分组，或选中单元格后右键生成图表。",
+    "col": {
+      "date": "日期",
+      "kind": "类型",
+      "description": "事项",
+      "amount": "收入 / 支出",
+      "balance": "余额",
+      "paypalRef": "PayPal 参考号",
+      "account": "账户",
+      "accountCode": "账户代码",
+      "debit": "借方",
+      "credit": "贷方"
+    },
+    "kind": {
+      "donation": "捐款",
+      "purchase": "采购",
+      "payout": "付款",
+      "refund": "退款",
+      "fee": "手续费",
+      "adjustment": "调整"
     }
   }
 }

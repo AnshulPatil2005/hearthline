@@ -15,7 +15,8 @@
     "switchPersona": "Đổi vai",
     "signOut": "Đăng xuất",
     "language": "Ngôn ngữ",
-    "registry": "Danh sách hỗ trợ"
+    "registry": "Danh sách hỗ trợ",
+    "money": "Tiền"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -265,6 +266,33 @@
       "known_retailer": "Cửa hàng được duyệt",
       "ships_to_verified_address": "Gửi đến địa chỉ đã xác minh",
       "price_sanity": "Giá hợp lý"
+    }
+  },
+  "money": {
+    "title": "Tiền",
+    "subtitle": "Mọi đồng tiền quyên góp cho gia đình bạn và mọi đồng tiền đã chi đều được ghi hai lần để sổ sách luôn cân bằng.",
+    "export": "Xuất sổ cái (Excel)",
+    "empty": "Chưa có giao dịch nào. Các khoản quyên góp và mua hàng sẽ hiển thị ở đây.",
+    "hint": "Nhấp vào mũi tên trên một dòng để xem bút toán nợ và có. Kéo một cột lên thanh phía trên để nhóm, hoặc chọn ô rồi nhấp chuột phải để vẽ biểu đồ.",
+    "col": {
+      "date": "Ngày",
+      "kind": "Loại",
+      "description": "Nội dung",
+      "amount": "Vào / ra",
+      "balance": "Số dư",
+      "paypalRef": "Mã tham chiếu PayPal",
+      "account": "Tài khoản",
+      "accountCode": "Mã tài khoản",
+      "debit": "Nợ",
+      "credit": "Có"
+    },
+    "kind": {
+      "donation": "Quyên góp",
+      "purchase": "Mua hàng",
+      "payout": "Chi trả",
+      "refund": "Hoàn tiền",
+      "fee": "Phí",
+      "adjustment": "Điều chỉnh"
     }
   }
 }

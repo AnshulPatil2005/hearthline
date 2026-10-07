@@ -15,7 +15,8 @@
     "switchPersona": "Cambiar de persona",
     "signOut": "Cerrar sesión",
     "language": "Idioma",
-    "registry": "Lista de ayuda"
+    "registry": "Lista de ayuda",
+    "money": "Dinero"
   },
   "roles": {
     "household": "Hogar",
@@ -269,6 +270,33 @@
       "known_retailer": "Tienda aprobada",
       "ships_to_verified_address": "Se envía a tu dirección verificada",
       "price_sanity": "Precio justo"
+    }
+  },
+  "money": {
+    "title": "Dinero",
+    "subtitle": "Cada dólar donado para tu familia y cada dólar gastado, registrado dos veces para que las cuentas siempre cuadren.",
+    "export": "Exportar libro (Excel)",
+    "empty": "Todavía no se ha movido dinero. Aquí aparecerán las donaciones y compras.",
+    "hint": "Haz clic en la flecha de una fila para ver sus débitos y créditos. Arrastra una columna a la barra de arriba para agrupar, o selecciona celdas y haz clic derecho para graficarlas.",
+    "col": {
+      "date": "Fecha",
+      "kind": "Tipo",
+      "description": "Qué pasó",
+      "amount": "Entrada / salida",
+      "balance": "Saldo",
+      "paypalRef": "Referencia de PayPal",
+      "account": "Cuenta",
+      "accountCode": "Código de cuenta",
+      "debit": "Débito",
+      "credit": "Crédito"
+    },
+    "kind": {
+      "donation": "Donación",
+      "purchase": "Compra",
+      "payout": "Pago",
+      "refund": "Reembolso",
+      "fee": "Comisión",
+      "adjustment": "Ajuste"
     }
   }
 }
