@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { api, type Household, type InventorySummary } from '../api'
 import { useAuth } from '../auth'
 import AlertBanner, { SimulateAlertButton } from '../components/AlertBanner'
+import type { Call } from '../components/VideoCalls'
 import { money } from '../format'
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
@@ -19,7 +20,11 @@ function Card({ title, children }: { title: string; children: ReactNode }) {
 function DisasterBanner({ home }: { home: Household }) {
   const { t } = useTranslation()
   if (!home.in_disaster_zone || !home.disaster_event) {
-    return <p className="rounded-xl bg-sunken px-4 py-3 text-ink-soft">{t('home.notInZone')} {t('home.prepareHint')}</p>
+    return (
+      <p className="rounded-xl bg-sunken px-4 py-3 text-ink-soft">
+        {t('home.notInZone')} {t('home.prepareHint')}
+      </p>
+    )
   }
   return (
     <p className="flex items-start gap-3 rounded-xl border border-ember/30 bg-ember-soft px-4 py-3 text-ink">
@@ -51,10 +56,17 @@ function Coverage({ summary }: { summary: InventorySummary }) {
         </div>
       </dl>
       <div className="mt-4 h-2.5 overflow-hidden rounded-full bg-sunken" aria-hidden="true">
-        <div className={`h-full rounded-full ${gap > 0 ? 'bg-amber' : 'bg-sage'}`} style={{ width: `${covered * 100}%` }} />
+        <div
+          className={`h-full rounded-full ${gap > 0 ? 'bg-amber' : 'bg-sage'}`}
+          style={{ width: `${covered * 100}%` }}
+        />
       </div>
       <p className={`mt-3 text-sm font-medium ${gap > 0 ? 'text-amber' : 'text-sage'}`}>
-        {insured === null ? t('coverage.noPolicy') : gap > 0 ? t('coverage.gap', { amount: money(gap) }) : t('coverage.ok')}
+        {insured === null
+          ? t('coverage.noPolicy')
+          : gap > 0
+            ? t('coverage.gap', { amount: money(gap) })
+            : t('coverage.ok')}
       </p>
       <p className="mt-1 text-xs text-ink-faint">
         {t('coverage.counts', { count: summary.item_count, confirmed: summary.confirmed_count })}
@@ -83,7 +95,10 @@ function Rooms({ summary }: { summary: InventorySummary }) {
         </ul>
       )}
       <div className="mt-4 flex flex-wrap gap-2">
-        <Link to="/inventory" className="rounded-lg bg-ember px-4 py-2 text-sm font-medium text-on-ember hover:opacity-90">
+        <Link
+          to="/inventory"
+          className="rounded-lg bg-ember px-4 py-2 text-sm font-medium text-on-ember hover:opacity-90"
+        >
           {t('actions.scanRoom')}
         </Link>
         {summary.item_count > 0 && (
@@ -100,6 +115,7 @@ export default function HouseholdHome() {
   const { t } = useTranslation()
   const { user } = useAuth()
   const home = useQuery({ queryKey: ['household'], queryFn: () => api<Household>('/households/me') })
+  const calls = useQuery({ queryKey: ['my-calls'], queryFn: () => api<Call[]>('/households/me/appointments') })
   const summary = useQuery({
     queryKey: ['inventory-summary'],
     queryFn: () => api<InventorySummary>('/households/me/inventory-summary'),
@@ -117,12 +133,28 @@ export default function HouseholdHome() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('home.greeting', { name: user?.name.split(' ')[0] })}</h1>
+        <h1 className="text-3xl font-semibold tracking-tight">
+          {t('home.greeting', { name: user?.name.split(' ')[0] })}
+        </h1>
         <p className="mt-1 text-ink-soft">
           {home.data.name} · {home.data.address_line}, {home.data.city}, {home.data.state}
         </p>
       </div>
       <AlertBanner summary={summary.data} />
+      {calls.data?.[0] && (
+        <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
+          {t('home.upcomingCall', {
+            name: calls.data[0].reviewer_name.split(' ')[0],
+            when: new Date(calls.data[0].starts_at).toLocaleString(undefined, {
+              weekday: 'long',
+              month: 'short',
+              day: 'numeric',
+              hour: 'numeric',
+              minute: '2-digit',
+            }),
+          })}
+        </p>
+      )}
       <DisasterBanner home={home.data} />
       <div className="grid gap-6 lg:grid-cols-2">
         <Coverage summary={summary.data} />

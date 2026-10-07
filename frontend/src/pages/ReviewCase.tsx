@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router'
 import { api, ApiError, mediaUrl, type CaseDetail } from '../api'
 import RiskBadge from '../components/RiskBadge'
+import VideoCalls from '../components/VideoCalls'
 import { money } from '../format'
 
 const SEVERITY: Record<string, string> = {
@@ -197,6 +198,12 @@ export default function ReviewCase() {
               <p className="mt-2 text-xs text-ink-faint">{t('purchases.paypalRef', { ref: c.paypal_ref })}</p>
             )}
           </Panel>
+
+          {c.video_call_required && (
+            <Panel title={t('calls.title')}>
+              <VideoCalls caseId={c.id} canBook={c.my_role !== null && ['in_review', 'escalated'].includes(c.status)} />
+            </Panel>
+          )}
 
           <Panel title={t('review.householdTitle')}>
             <dl className="divide-y divide-line">

@@ -17,7 +17,9 @@
     "language": "语言",
     "registry": "援助清单",
     "money": "资金",
-    "review": "审核队列"
+    "review": "审核队列",
+    "calendar": "通话",
+    "board": "流程"
   },
   "roles": {
     "household": "住户",
@@ -38,7 +40,8 @@
     "greeting": "欢迎回来，{{name}}",
     "inZone": "您位于 {{address}} 的住宅在 {{event}} 受灾范围内。",
     "notInZone": "您的住宅不在当前受灾范围内。",
-    "prepareHint": "及时更新物品清单，一旦发生灾害，理赔材料即可备好。"
+    "prepareHint": "及时更新物品清单，一旦发生灾害，理赔材料即可备好。",
+    "upcomingCall": "救援网络的 {{name}} 将与您视频通话：{{when}}。如方便，请准备好身份证件或印有您地址的账单。"
   },
   "coverage": {
     "title": "保额检查",
@@ -392,5 +395,22 @@
       "needs_info": "正在等待住户回复。",
       "escalated": "审核员意见不一致，由主管决定。"
     }
+  },
+  "calendar": {
+    "title": "视频通话",
+    "subtitle": "您的核实通话。拖动通话可改期，删除即取消。点击通话可打开对应案件。"
+  },
+  "board": {
+    "title": "案件流程",
+    "subtitle": "按状态显示所有案件。案件只会因审核员的决定而变化，因此看板为只读。点击卡片即可打开。"
+  },
+  "calls": {
+    "title": "视频核实",
+    "none": "尚未预约通话。",
+    "completed": "已完成",
+    "markDone": "标记通话完成",
+    "when": "通话时间",
+    "book": "预约 20 分钟通话",
+    "openCalendar": "打开日历"
   }
 }

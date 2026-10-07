@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import ComingSoon from './pages/ComingSoon'
 import HouseholdHome from './pages/HouseholdHome'
@@ -9,6 +10,12 @@ import RegistryPublic from './pages/RegistryPublic'
 import ReviewCase from './pages/ReviewCase'
 import ReviewQueue from './pages/ReviewQueue'
 import { HomeRedirect, RequireAuth } from './routes'
+
+// Bryntum components are large; load them only when a reviewer opens those pages.
+const ReviewCalendar = lazy(() => import('./pages/ReviewCalendar'))
+const ReviewBoard = lazy(() => import('./pages/ReviewBoard'))
+const STAFF = ['reviewer', 'supervisor', 'org_admin'] as const
+const loading = <div className="h-96 animate-pulse rounded-xl bg-sunken" />
 
 export default function App() {
   return (
@@ -52,6 +59,26 @@ export default function App() {
         element={
           <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
             <ReviewQueue />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/review/calendar"
+        element={
+          <RequireAuth role={[...STAFF]} wide>
+            <Suspense fallback={loading}>
+              <ReviewCalendar />
+            </Suspense>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/review/board"
+        element={
+          <RequireAuth role={[...STAFF]} wide>
+            <Suspense fallback={loading}>
+              <ReviewBoard />
+            </Suspense>
           </RequireAuth>
         }
       />

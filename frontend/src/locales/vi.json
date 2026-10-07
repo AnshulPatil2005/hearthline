@@ -17,7 +17,9 @@
     "language": "Ngôn ngữ",
     "registry": "Danh sách hỗ trợ",
     "money": "Tiền",
-    "review": "Hàng đợi xét duyệt"
+    "review": "Hàng đợi xét duyệt",
+    "calendar": "Cuộc gọi",
+    "board": "Tiến trình"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -38,7 +40,8 @@
     "greeting": "Chào mừng trở lại, {{name}}",
     "inZone": "Nhà của bạn tại {{address}} nằm trong khu vực {{event}}.",
     "notInZone": "Nhà của bạn không nằm trong khu vực thảm họa đang diễn ra.",
-    "prepareHint": "Hãy cập nhật danh mục tài sản để hồ sơ bồi thường luôn sẵn sàng nếu thảm họa xảy ra."
+    "prepareHint": "Hãy cập nhật danh mục tài sản để hồ sơ bồi thường luôn sẵn sàng nếu thảm họa xảy ra.",
+    "upcomingCall": "Cuộc gọi video với {{name}} từ mạng lưới cứu trợ: {{when}}. Nếu được, hãy chuẩn bị giấy tờ tùy thân hoặc hóa đơn có địa chỉ của bạn."
   },
   "coverage": {
     "title": "Kiểm tra mức bảo hiểm",
@@ -392,5 +395,22 @@
       "needs_info": "Đang chờ hộ gia đình trả lời.",
       "escalated": "Người xét duyệt không thống nhất. Giám sát sẽ quyết định."
     }
+  },
+  "calendar": {
+    "title": "Cuộc gọi video",
+    "subtitle": "Các cuộc gọi xác minh của bạn. Kéo cuộc gọi để dời lịch; xóa để hủy. Nhấp vào cuộc gọi để mở hồ sơ."
+  },
+  "board": {
+    "title": "Tiến trình hồ sơ",
+    "subtitle": "Mọi hồ sơ theo trạng thái. Hồ sơ chỉ thay đổi khi người xét duyệt quyết định, nên bảng chỉ để xem. Nhấp vào thẻ để mở."
+  },
+  "calls": {
+    "title": "Xác minh qua video",
+    "none": "Chưa đặt cuộc gọi nào.",
+    "completed": "Đã xong",
+    "markDone": "Đánh dấu đã gọi",
+    "when": "Thời gian gọi",
+    "book": "Đặt cuộc gọi 20 phút",
+    "openCalendar": "Mở lịch"
   }
 }

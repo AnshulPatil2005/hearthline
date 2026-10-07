@@ -17,7 +17,9 @@
     "language": "Wika",
     "registry": "Registry",
     "money": "Pera",
-    "review": "Mga susuriin"
+    "review": "Mga susuriin",
+    "calendar": "Mga tawag",
+    "board": "Daloy"
   },
   "roles": {
     "household": "Sambahayan",
@@ -38,7 +40,8 @@
     "greeting": "Maligayang pagbabalik, {{name}}",
     "inZone": "Ang bahay mo sa {{address}} ay nasa loob ng lugar ng {{event}}.",
     "notInZone": "Wala ang bahay mo sa loob ng aktibong lugar ng sakuna.",
-    "prepareHint": "Panatilihing updated ang imbentaryo mo para handa na ang claim mo kung may sakuna."
+    "prepareHint": "Panatilihing updated ang imbentaryo mo para handa na ang claim mo kung may sakuna.",
+    "upcomingCall": "Video call kasama si {{name}} mula sa relief network: {{when}}. Kung kaya, ihanda ang ID o bill na may address mo."
   },
   "coverage": {
     "title": "Pagsusuri ng coverage",
@@ -398,5 +401,22 @@
       "needs_info": "Hinihintay ang sagot ng sambahayan.",
       "escalated": "Hindi nagkasundo ang mga tagasuri. Ang superbisor ang magpapasya."
     }
+  },
+  "calendar": {
+    "title": "Mga video call",
+    "subtitle": "Ang mga tawag mo para sa beripikasyon. I-drag ang tawag para ilipat; burahin para kanselahin. I-click ang tawag para buksan ang kaso nito."
+  },
+  "board": {
+    "title": "Daloy ng mga kaso",
+    "subtitle": "Lahat ng kaso ayon sa status. Gumagalaw lang ang mga kaso kapag nagpasya ang mga tagasuri, kaya read-only ang board. I-click ang card para buksan."
+  },
+  "calls": {
+    "title": "Video beripikasyon",
+    "none": "Wala pang naka-book na tawag.",
+    "completed": "Tapos na",
+    "markDone": "Markahang tapos ang tawag",
+    "when": "Oras ng tawag",
+    "book": "Mag-book ng 20 minutong tawag",
+    "openCalendar": "Buksan ang kalendaryo"
   }
 }

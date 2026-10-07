@@ -456,3 +456,20 @@ class CaseReview(Base):
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     reviewer: Mapped[User] = relationship()
+
+
+class Appointment(Base):
+    """A video-verification call between a reviewer and a household (shown in Bryntum Calendar)."""
+
+    __tablename__ = "appointments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    case_id: Mapped[int] = mapped_column(ForeignKey("cases.id", ondelete="CASCADE"), index=True)
+    reviewer_user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    starts_at: Mapped[datetime]
+    ends_at: Mapped[datetime]
+    status: Mapped[str] = mapped_column(String(20), default="scheduled")  # scheduled | completed | cancelled
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    case: Mapped[Case] = relationship()
+    reviewer: Mapped[User] = relationship()

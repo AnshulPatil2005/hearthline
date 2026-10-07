@@ -17,7 +17,9 @@
     "language": "Idioma",
     "registry": "Lista de ayuda",
     "money": "Dinero",
-    "review": "Casos por revisar"
+    "review": "Casos por revisar",
+    "calendar": "Llamadas",
+    "board": "Flujo"
   },
   "roles": {
     "household": "Hogar",
@@ -38,7 +40,8 @@
     "greeting": "Hola de nuevo, {{name}}",
     "inZone": "Tu casa en {{address}} está dentro del área del {{event}}.",
     "notInZone": "Tu casa no está dentro de un área de desastre activa.",
-    "prepareHint": "Mantén tu inventario al día para que tu reclamo esté listo si ocurre un desastre."
+    "prepareHint": "Mantén tu inventario al día para que tu reclamo esté listo si ocurre un desastre.",
+    "upcomingCall": "Videollamada con {{name}} de la red de ayuda: {{when}}. Si puedes, ten a mano una identificación o una factura con tu dirección."
   },
   "coverage": {
     "title": "Revisión de cobertura",
@@ -398,5 +401,22 @@
       "needs_info": "Esperando la respuesta del hogar.",
       "escalated": "Los revisores no coincidieron. Decide la supervisora."
     }
+  },
+  "calendar": {
+    "title": "Videollamadas",
+    "subtitle": "Tus llamadas de verificación. Arrastra una llamada para moverla; elimínala para cancelarla. Haz clic en una llamada para abrir su caso."
+  },
+  "board": {
+    "title": "Flujo de casos",
+    "subtitle": "Todos los casos por estado. Los casos solo avanzan cuando los revisores deciden, así que el tablero es de solo lectura. Haz clic en una tarjeta para abrirla."
+  },
+  "calls": {
+    "title": "Verificación por video",
+    "none": "Aún no hay llamada reservada.",
+    "completed": "Completada",
+    "markDone": "Marcar llamada hecha",
+    "when": "Hora de la llamada",
+    "book": "Reservar llamada de 20 minutos",
+    "openCalendar": "Abrir calendario"
   }
 }

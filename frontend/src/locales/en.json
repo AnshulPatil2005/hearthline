@@ -17,7 +17,9 @@
     "language": "Language",
     "registry": "Registry",
     "money": "Money",
-    "review": "Review queue"
+    "review": "Review queue",
+    "calendar": "Calls",
+    "board": "Pipeline"
   },
   "roles": {
     "household": "Household",
@@ -38,7 +40,8 @@
     "greeting": "Welcome back, {{name}}",
     "inZone": "Your home at {{address}} is inside the {{event}} area.",
     "notInZone": "Your home isn't inside an active disaster area.",
-    "prepareHint": "Keep your inventory current so your claim is ready if disaster strikes."
+    "prepareHint": "Keep your inventory current so your claim is ready if disaster strikes.",
+    "upcomingCall": "Video call with {{name}} from the relief network: {{when}}. Have an ID or a bill with your address ready if you can."
   },
   "coverage": {
     "title": "Coverage check",
@@ -398,5 +401,22 @@
       "needs_info": "Waiting for the household to reply.",
       "escalated": "Reviewers disagreed. The supervisor decides."
     }
+  },
+  "calendar": {
+    "title": "Video calls",
+    "subtitle": "Your verification calls. Drag a call to move it; delete it to cancel. Click a call to open its case."
+  },
+  "board": {
+    "title": "Case pipeline",
+    "subtitle": "Every case by status. Cases move only when reviewers decide, so the board is read-only. Click a card to open it."
+  },
+  "calls": {
+    "title": "Video verification",
+    "none": "No call booked yet.",
+    "completed": "Completed",
+    "markDone": "Mark call done",
+    "when": "Call time",
+    "book": "Book 20-minute call",
+    "openCalendar": "Open calendar"
   }
 }

@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 
 from app import audit, ledger, trust
 from app.agents import sentinel
-from app.models import Case, CaseAssignment, CaseReview, Donation, Household, Registry, Role, User, now
+from app.models import Appointment, Case, CaseAssignment, CaseReview, Donation, Household, Registry, Role, User, now
 from app.paypal import orders, payouts
 
 log = logging.getLogger(__name__)
@@ -161,6 +161,8 @@ def decide(
         raise ReviewError(f"This case is {case.status}")
     if any(r.reviewer_user_id == reviewer.id for r in case.reviews) and not supervisor_turn:
         raise ReviewError("You've already reviewed this case")
+    if decision == "approve" and case.video_call_required and not supervisor_turn and not _call_completed(db, case):
+        raise ReviewError("This case needs a completed video call before it can be approved")
 
     case.reviews.append(
         CaseReview(reviewer_user_id=reviewer.id, role=str(reviewer.role), decision=decision, reason=reason.strip())
@@ -195,6 +197,15 @@ def decide(
         apply_decision(db, case, final, reason.strip(), reviewer, rng)
     db.commit()
     return case
+
+
+def _call_completed(db: Session, case: Case) -> bool:
+    return (
+        db.scalar(
+            select(Appointment.id).where(Appointment.case_id == case.id, Appointment.status == "completed").limit(1)
+        )
+        is not None
+    )
 
 
 def respond(db: Session, case: Case, note: str, actor_user_id: int) -> Case:
