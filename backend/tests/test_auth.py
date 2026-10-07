@@ -1,10 +1,6 @@
-from fastapi.testclient import TestClient
-
 from app.db import SessionLocal
-from app.main import app
 from app.seed import seed
-
-client = TestClient(app)
+from tests.helpers import client
 
 
 def seeded():

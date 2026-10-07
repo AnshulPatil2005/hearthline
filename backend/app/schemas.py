@@ -1,8 +1,14 @@
 """API response and request shapes."""
 
-from pydantic import BaseModel, ConfigDict
+from decimal import ROUND_HALF_UP, Decimal
+from typing import Annotated
+
+from pydantic import AfterValidator, BaseModel, ConfigDict
 
 from app.models import Role
+
+# Dollar amounts: always exactly two decimal places, in and out.
+Money = Annotated[Decimal, AfterValidator(lambda v: v.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))]
 
 
 class ORM(BaseModel):
