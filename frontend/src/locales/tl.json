@@ -1,10 +1,21 @@
 {
   "app": {
     "tagline": "Pagbangon mula sa sakuna para sa mga taong dumaan dito",
-    "stages": { "prepare": "Maghanda", "respond": "Tumugon", "rebuild": "Muling Itayo", "reopen": "Muling Magbukas" },
+    "stages": {
+      "prepare": "Maghanda",
+      "respond": "Tumugon",
+      "rebuild": "Muling Itayo",
+      "reopen": "Muling Magbukas"
+    },
     "demoNotice": "Demo na may kathang-isip na bayan at mga tao · PayPal sandbox · walang totoong perang gumagalaw"
   },
-  "nav": { "home": "Home", "inventory": "Imbentaryo", "switchPersona": "Magpalit ng persona", "signOut": "Mag-sign out", "language": "Wika" },
+  "nav": {
+    "home": "Home",
+    "inventory": "Imbentaryo",
+    "switchPersona": "Magpalit ng persona",
+    "signOut": "Mag-sign out",
+    "language": "Wika"
+  },
   "roles": {
     "household": "Sambahayan",
     "donor": "Donor",
@@ -41,18 +52,112 @@
     "items_one": "{{count}} gamit",
     "items_other": "{{count}} gamit"
   },
-  "actions": { "scanRoom": "Mag-scan ng kuwarto", "openInventory": "Buksan ang imbentaryo", "retry": "Subukan ulit" },
+  "actions": {
+    "scanRoom": "Mag-scan ng kuwarto",
+    "openInventory": "Buksan ang imbentaryo",
+    "retry": "Subukan ulit"
+  },
   "comingSoon": {
     "title": "Workspace ng {{role}}",
     "body": "Ginagawa pa ang bahaging ito ng Hearthline. Malapit nang magawa ni {{name}} ang:",
     "features": {
-      "donor": ["Pondohan ang mga partikular na kailangan ng isang pamilya", "Makita kung saan napunta ang bawat dolyar", "Magbigay gamit ang PayPal, Venmo o Pay Later"],
-      "contractor": ["Tumanggap ng mga trabaho sa muling pagtatayo", "Mabayaran sa bawat beripikadong yugto", "Mag-upload ng mga larawan ng progreso"],
-      "reviewer": ["Suriin ang mga claim gamit ang ebidensyang tinipon ng AI", "Aprubahan o humingi ng dagdag na ebidensya", "Beripikahin ang mga sambahayan sa video call"],
-      "supervisor": ["Ayusin ang hindi pagkakasundo ng mga tagasuri", "Suriing muli ang random na sample ng mga inaprubahan", "Mapansin ang kakaibang pattern ng mga tagasuri"],
-      "org_admin": ["Makita ang bawat sambahayan sa lugar ng sakuna", "Magpadala ng cash aid sa isang PayPal batch", "Mag-iskedyul ng mga grupo ng boluntaryo"],
-      "business": ["Magsimula ng Reopen Fund", "Magbenta na ng gift card sa mga suki", "Makatanggap ng pondo habang naaabot ang mga yugto ng muling pagbubukas"]
+      "donor": [
+        "Pondohan ang mga partikular na kailangan ng isang pamilya",
+        "Makita kung saan napunta ang bawat dolyar",
+        "Magbigay gamit ang PayPal, Venmo o Pay Later"
+      ],
+      "contractor": [
+        "Tumanggap ng mga trabaho sa muling pagtatayo",
+        "Mabayaran sa bawat beripikadong yugto",
+        "Mag-upload ng mga larawan ng progreso"
+      ],
+      "reviewer": [
+        "Suriin ang mga claim gamit ang ebidensyang tinipon ng AI",
+        "Aprubahan o humingi ng dagdag na ebidensya",
+        "Beripikahin ang mga sambahayan sa video call"
+      ],
+      "supervisor": [
+        "Ayusin ang hindi pagkakasundo ng mga tagasuri",
+        "Suriing muli ang random na sample ng mga inaprubahan",
+        "Mapansin ang kakaibang pattern ng mga tagasuri"
+      ],
+      "org_admin": [
+        "Makita ang bawat sambahayan sa lugar ng sakuna",
+        "Magpadala ng cash aid sa isang PayPal batch",
+        "Mag-iskedyul ng mga grupo ng boluntaryo"
+      ],
+      "business": [
+        "Magsimula ng Reopen Fund",
+        "Magbenta na ng gift card sa mga suki",
+        "Makatanggap ng pondo habang naaabot ang mga yugto ng muling pagbubukas"
+      ]
     }
   },
-  "errors": { "generic": "May nangyaring mali. Pakisubukan ulit." }
+  "errors": {
+    "generic": "May nangyaring mali. Pakisubukan ulit."
+  },
+  "inventory": {
+    "title": "Imbentaryo",
+    "subtitle": "Lahat ng nasa bahay mo, may presyo para sa claim ng pamalit.",
+    "scan": {
+      "title": "Mag-scan ng kuwarto",
+      "room": "Kuwarto",
+      "newRoom": "Bagong kuwarto…",
+      "newRoomName": "Pangalan, hal. Sala",
+      "choose": "Magdagdag ng mga larawan o video ng paglibot sa kuwarto",
+      "hint": "Hanggang 12 larawan. Hinahati ang video sa mga still frame sa device mo.",
+      "extracting": "Inihahanda ang mga frame ng video…",
+      "selected_one": "{{count}} larawan ang handa",
+      "selected_other": "{{count}} larawan ang handa",
+      "start": "Hanapin at presyuhan ang mga gamit",
+      "working": "Hinahanap ang mga gamit at tinitingnan ang presyo. Mga 10–20 segundo ito.",
+      "done": "May nakitang {{count}} gamit sa {{room}}.",
+      "failed": "Hindi natapos ang scan: {{error}}"
+    },
+    "col": {
+      "room": "Kuwarto",
+      "item": "Gamit",
+      "category": "Kategorya",
+      "qty": "Dami",
+      "unitPrice": "Presyo bawat isa",
+      "range": "Saklaw ng presyo",
+      "total": "Kabuuan",
+      "evidence": "Ebidensya",
+      "match": "Pinresyuhan sa",
+      "confirmed": "Kumpirmado"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Scan bago ang sakuna",
+      "photo": "Larawan",
+      "receipt": "Resibo",
+      "memory": "Mula sa alaala"
+    },
+    "category": {
+      "furniture": "Muwebles",
+      "electronics": "Elektroniks",
+      "appliance": "Appliance",
+      "lighting": "Ilaw",
+      "bedding": "Kobre-kama",
+      "decor": "Dekorasyon",
+      "kitchenware": "Gamit sa kusina",
+      "clothing": "Damit",
+      "books": "Libro",
+      "toys": "Laruan",
+      "tools": "Kagamitan",
+      "sports": "Isports",
+      "musical": "Musika",
+      "other": "Iba pa"
+    },
+    "summary": {
+      "total": "Kabuuan",
+      "unconfirmed_one": "{{count}} ang kukumpirmahin",
+      "unconfirmed_other": "{{count}} ang kukumpirmahin"
+    },
+    "exportClaim": "I-export ang claim (Excel)",
+    "exportSheet": "Claim sa mga gamit",
+    "delete": "Burahin ang gamit",
+    "empty": "Wala pang gamit. Mag-scan ng kuwarto para magsimula.",
+    "saveFailed": "Hindi na-save ang pagbabago. Pakisubukan ulit.",
+    "hint": "I-double click ang cell para i-edit. I-right click ang row para burahin o i-export. Lagyan ng tsek ang Kumpirmado kapag nasuri mo na ang gamit."
+  }
 }

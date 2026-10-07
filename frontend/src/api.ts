@@ -91,3 +91,46 @@ export type InventorySummary = {
   coverage_gap: string | null
   by_room: RoomTotal[]
 }
+
+export type Room = { id: number; name: string }
+
+export type Scan = {
+  id: number
+  room_id: number
+  status: 'queued' | 'processing' | 'done' | 'failed'
+  error: string | null
+  photo_count: number
+  item_count: number
+}
+
+export type EvidenceLevel = 'pre_disaster_scan' | 'photo' | 'receipt' | 'memory'
+
+export type Item = {
+  id: number
+  room_id: number | null
+  room_name: string | null
+  name: string
+  category: string
+  quantity: number
+  brand: string | null
+  condition: string | null
+  ai_confidence: number | null
+  unit_price: string | null
+  price_low: string | null
+  price_high: string | null
+  total_value: string | null
+  price_source: string | null
+  match_title: string | null
+  match_url: string | null
+  retailer: string | null
+  offers_considered: number
+  evidence_level: EvidenceLevel
+  confirmed: boolean
+  user_edited: boolean
+  photo_url: string | null
+}
+
+export const CATEGORIES = [
+  'furniture', 'electronics', 'appliance', 'lighting', 'bedding', 'decor', 'kitchenware',
+  'clothing', 'books', 'toys', 'tools', 'sports', 'musical', 'other',
+] as const

@@ -1,10 +1,21 @@
 {
   "app": {
     "tagline": "为亲历灾难的人提供灾后重建支持",
-    "stages": { "prepare": "准备", "respond": "应对", "rebuild": "重建", "reopen": "复业" },
+    "stages": {
+      "prepare": "准备",
+      "respond": "应对",
+      "rebuild": "重建",
+      "reopen": "复业"
+    },
     "demoNotice": "演示：小镇和人物均为虚构 · PayPal 沙盒环境 · 不涉及真实资金"
   },
-  "nav": { "home": "首页", "inventory": "物品清单", "switchPersona": "切换角色", "signOut": "退出登录", "language": "语言" },
+  "nav": {
+    "home": "首页",
+    "inventory": "物品清单",
+    "switchPersona": "切换角色",
+    "signOut": "退出登录",
+    "language": "语言"
+  },
   "roles": {
     "household": "住户",
     "donor": "捐助者",
@@ -40,18 +51,110 @@
     "empty": "尚未扫描任何房间。建议从存放贵重物品最多的房间开始。",
     "items_other": "{{count}} 件物品"
   },
-  "actions": { "scanRoom": "扫描房间", "openInventory": "打开物品清单", "retry": "重试" },
+  "actions": {
+    "scanRoom": "扫描房间",
+    "openInventory": "打开物品清单",
+    "retry": "重试"
+  },
   "comingSoon": {
     "title": "{{role}}工作区",
     "body": "Hearthline 的这部分功能正在建设中。很快，{{name}} 将能够：",
     "features": {
-      "donor": ["资助家庭所需的具体物品", "查看每一笔钱的去向", "使用 PayPal、Venmo 或 Pay Later 捐款"],
-      "contractor": ["承接重建工程", "每完成一个经核实的阶段即获付款", "上传施工进度照片"],
-      "reviewer": ["借助 AI 整理的证据审核理赔", "批准或要求补充证据", "通过视频通话核实住户"],
-      "supervisor": ["裁决审核员之间的分歧", "随机抽查已批准的案件", "发现异常的审核模式"],
-      "org_admin": ["查看受灾区域内的所有住户", "通过一次 PayPal 批量付款发放现金援助", "安排志愿者队伍"],
-      "business": ["发起复业基金", "现在就向老顾客出售礼品卡", "达成复业里程碑后获得资金"]
+      "donor": [
+        "资助家庭所需的具体物品",
+        "查看每一笔钱的去向",
+        "使用 PayPal、Venmo 或 Pay Later 捐款"
+      ],
+      "contractor": [
+        "承接重建工程",
+        "每完成一个经核实的阶段即获付款",
+        "上传施工进度照片"
+      ],
+      "reviewer": [
+        "借助 AI 整理的证据审核理赔",
+        "批准或要求补充证据",
+        "通过视频通话核实住户"
+      ],
+      "supervisor": [
+        "裁决审核员之间的分歧",
+        "随机抽查已批准的案件",
+        "发现异常的审核模式"
+      ],
+      "org_admin": [
+        "查看受灾区域内的所有住户",
+        "通过一次 PayPal 批量付款发放现金援助",
+        "安排志愿者队伍"
+      ],
+      "business": [
+        "发起复业基金",
+        "现在就向老顾客出售礼品卡",
+        "达成复业里程碑后获得资金"
+      ]
     }
   },
-  "errors": { "generic": "出现问题，请重试。" }
+  "errors": {
+    "generic": "出现问题，请重试。"
+  },
+  "inventory": {
+    "title": "物品清单",
+    "subtitle": "家中所有物品，按重置价格估值，用于理赔。",
+    "scan": {
+      "title": "扫描房间",
+      "room": "房间",
+      "newRoom": "新房间…",
+      "newRoomName": "房间名称，例如：客厅",
+      "choose": "添加照片或房间巡视视频",
+      "hint": "最多 12 张照片。视频会在您的设备上拆分为静态画面。",
+      "extracting": "正在准备视频画面…",
+      "selected_other": "已准备 {{count}} 张照片",
+      "start": "识别物品并估价",
+      "working": "正在识别物品并查询价格，约需 10–20 秒。",
+      "done": "在{{room}}中找到 {{count}} 件物品。",
+      "failed": "扫描未完成：{{error}}"
+    },
+    "col": {
+      "room": "房间",
+      "item": "物品",
+      "category": "类别",
+      "qty": "数量",
+      "unitPrice": "单价",
+      "range": "价格区间",
+      "total": "合计",
+      "evidence": "证据",
+      "match": "估价来源",
+      "confirmed": "已确认"
+    },
+    "evidence": {
+      "pre_disaster_scan": "灾前扫描",
+      "photo": "照片",
+      "receipt": "收据",
+      "memory": "凭记忆"
+    },
+    "category": {
+      "furniture": "家具",
+      "electronics": "电子产品",
+      "appliance": "家电",
+      "lighting": "灯具",
+      "bedding": "床上用品",
+      "decor": "装饰",
+      "kitchenware": "厨具",
+      "clothing": "衣物",
+      "books": "书籍",
+      "toys": "玩具",
+      "tools": "工具",
+      "sports": "运动",
+      "musical": "乐器",
+      "other": "其他"
+    },
+    "summary": {
+      "total": "合计",
+      "unconfirmed_other": "{{count}} 件待确认"
+    },
+    "exportClaim": "导出理赔清单 (Excel)",
+    "exportSheet": "财物理赔",
+    "delete": "删除物品",
+    "empty": "还没有物品。扫描一个房间即可开始。",
+    "saveFailed": "无法保存修改，请重试。",
+    "hint": "双击单元格即可编辑。右键点击某行可删除或导出。核对物品后勾选“已确认”。"
+  }
 }

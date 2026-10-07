@@ -1,10 +1,21 @@
 {
   "app": {
     "tagline": "Phục hồi sau thảm họa cho những người đã trải qua",
-    "stages": { "prepare": "Chuẩn bị", "respond": "Ứng phó", "rebuild": "Xây dựng lại", "reopen": "Mở cửa lại" },
+    "stages": {
+      "prepare": "Chuẩn bị",
+      "respond": "Ứng phó",
+      "rebuild": "Xây dựng lại",
+      "reopen": "Mở cửa lại"
+    },
     "demoNotice": "Bản demo với thị trấn và con người hư cấu · PayPal sandbox · không có tiền thật"
   },
-  "nav": { "home": "Trang chủ", "inventory": "Danh mục tài sản", "switchPersona": "Đổi vai", "signOut": "Đăng xuất", "language": "Ngôn ngữ" },
+  "nav": {
+    "home": "Trang chủ",
+    "inventory": "Danh mục tài sản",
+    "switchPersona": "Đổi vai",
+    "signOut": "Đăng xuất",
+    "language": "Ngôn ngữ"
+  },
   "roles": {
     "household": "Hộ gia đình",
     "donor": "Nhà tài trợ",
@@ -40,18 +51,110 @@
     "empty": "Chưa quét phòng nào. Hãy bắt đầu với phòng có nhiều đồ giá trị nhất.",
     "items_other": "{{count}} món"
   },
-  "actions": { "scanRoom": "Quét một phòng", "openInventory": "Mở danh mục tài sản", "retry": "Thử lại" },
+  "actions": {
+    "scanRoom": "Quét một phòng",
+    "openInventory": "Mở danh mục tài sản",
+    "retry": "Thử lại"
+  },
   "comingSoon": {
     "title": "Không gian làm việc: {{role}}",
     "body": "Phần này của Hearthline đang được xây dựng. Sắp tới {{name}} sẽ có thể:",
     "features": {
-      "donor": ["Tài trợ những món đồ cụ thể mà một gia đình cần", "Xem từng đồng tiền đã đi đâu", "Quyên góp bằng PayPal, Venmo hoặc Pay Later"],
-      "contractor": ["Nhận các công trình xây dựng lại", "Được thanh toán theo từng giai đoạn đã xác minh", "Tải lên ảnh tiến độ"],
-      "reviewer": ["Xét duyệt hồ sơ với bằng chứng do AI thu thập", "Phê duyệt hoặc yêu cầu thêm bằng chứng", "Xác minh hộ gia đình qua cuộc gọi video"],
-      "supervisor": ["Giải quyết bất đồng giữa các người xét duyệt", "Kiểm tra lại ngẫu nhiên các hồ sơ đã duyệt", "Phát hiện dấu hiệu bất thường của người xét duyệt"],
-      "org_admin": ["Xem mọi hộ gia đình trong vùng thảm họa", "Gửi tiền hỗ trợ trong một đợt chi trả PayPal", "Lên lịch cho các nhóm tình nguyện"],
-      "business": ["Mở Quỹ Mở cửa lại", "Bán thẻ quà tặng cho khách quen ngay từ bây giờ", "Nhận tiền khi đạt các mốc mở cửa lại"]
+      "donor": [
+        "Tài trợ những món đồ cụ thể mà một gia đình cần",
+        "Xem từng đồng tiền đã đi đâu",
+        "Quyên góp bằng PayPal, Venmo hoặc Pay Later"
+      ],
+      "contractor": [
+        "Nhận các công trình xây dựng lại",
+        "Được thanh toán theo từng giai đoạn đã xác minh",
+        "Tải lên ảnh tiến độ"
+      ],
+      "reviewer": [
+        "Xét duyệt hồ sơ với bằng chứng do AI thu thập",
+        "Phê duyệt hoặc yêu cầu thêm bằng chứng",
+        "Xác minh hộ gia đình qua cuộc gọi video"
+      ],
+      "supervisor": [
+        "Giải quyết bất đồng giữa các người xét duyệt",
+        "Kiểm tra lại ngẫu nhiên các hồ sơ đã duyệt",
+        "Phát hiện dấu hiệu bất thường của người xét duyệt"
+      ],
+      "org_admin": [
+        "Xem mọi hộ gia đình trong vùng thảm họa",
+        "Gửi tiền hỗ trợ trong một đợt chi trả PayPal",
+        "Lên lịch cho các nhóm tình nguyện"
+      ],
+      "business": [
+        "Mở Quỹ Mở cửa lại",
+        "Bán thẻ quà tặng cho khách quen ngay từ bây giờ",
+        "Nhận tiền khi đạt các mốc mở cửa lại"
+      ]
     }
   },
-  "errors": { "generic": "Đã xảy ra lỗi. Vui lòng thử lại." }
+  "errors": {
+    "generic": "Đã xảy ra lỗi. Vui lòng thử lại."
+  },
+  "inventory": {
+    "title": "Danh mục tài sản",
+    "subtitle": "Mọi thứ trong nhà bạn, được định giá cho hồ sơ bồi thường thay thế.",
+    "scan": {
+      "title": "Quét một phòng",
+      "room": "Phòng",
+      "newRoom": "Phòng mới…",
+      "newRoomName": "Tên phòng, ví dụ: Phòng khách",
+      "choose": "Thêm ảnh hoặc video đi một vòng quanh phòng",
+      "hint": "Tối đa 12 ảnh. Video được tách thành ảnh tĩnh ngay trên thiết bị của bạn.",
+      "extracting": "Đang chuẩn bị khung hình từ video…",
+      "selected_other": "{{count}} ảnh đã sẵn sàng",
+      "start": "Tìm và định giá đồ vật",
+      "working": "Đang tìm đồ vật và kiểm tra giá. Mất khoảng 10–20 giây.",
+      "done": "Đã tìm thấy {{count}} món trong {{room}}.",
+      "failed": "Quá trình quét chưa hoàn tất: {{error}}"
+    },
+    "col": {
+      "room": "Phòng",
+      "item": "Đồ vật",
+      "category": "Loại",
+      "qty": "SL",
+      "unitPrice": "Đơn giá",
+      "range": "Khoảng giá",
+      "total": "Thành tiền",
+      "evidence": "Bằng chứng",
+      "match": "Định giá tại",
+      "confirmed": "Đã xác nhận"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Quét trước thảm họa",
+      "photo": "Ảnh",
+      "receipt": "Hóa đơn",
+      "memory": "Theo trí nhớ"
+    },
+    "category": {
+      "furniture": "Nội thất",
+      "electronics": "Điện tử",
+      "appliance": "Thiết bị gia dụng",
+      "lighting": "Đèn",
+      "bedding": "Chăn ga gối",
+      "decor": "Trang trí",
+      "kitchenware": "Đồ bếp",
+      "clothing": "Quần áo",
+      "books": "Sách",
+      "toys": "Đồ chơi",
+      "tools": "Dụng cụ",
+      "sports": "Thể thao",
+      "musical": "Nhạc cụ",
+      "other": "Khác"
+    },
+    "summary": {
+      "total": "Tổng",
+      "unconfirmed_other": "{{count}} món cần xác nhận"
+    },
+    "exportClaim": "Xuất hồ sơ bồi thường (Excel)",
+    "exportSheet": "Hồ sơ tài sản",
+    "delete": "Xóa đồ vật",
+    "empty": "Chưa có đồ vật nào. Hãy quét một phòng để bắt đầu.",
+    "saveFailed": "Không lưu được thay đổi. Vui lòng thử lại.",
+    "hint": "Nhấp đúp vào ô để sửa. Nhấp chuột phải vào một dòng để xóa hoặc xuất. Đánh dấu Đã xác nhận khi bạn đã kiểm tra đồ vật."
+  }
 }

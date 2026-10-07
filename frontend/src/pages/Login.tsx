@@ -34,7 +34,7 @@ export default function Login() {
   const [params] = useSearchParams()
   const autoTried = useRef(false)
 
-  // Deep links for judges and the README: /login?as=elena.rivera or /login?as=reviewer
+  // Deep links for judges and the README: /login?as=elena.rivera&next=/inventory or /login?as=reviewer
   useEffect(() => {
     const wanted = params.get('as')?.toLowerCase()
     if (!wanted || !personas.data || autoTried.current) return
@@ -48,7 +48,8 @@ export default function Login() {
     setError(false)
     try {
       const signedIn = await signInAsPersona(user.id)
-      navigate(homePathFor(signedIn.role))
+      const next = params.get('next')
+      navigate(next?.startsWith('/') && !next.startsWith('//') ? next : homePathFor(signedIn.role))
     } catch {
       setError(true)
     } finally {

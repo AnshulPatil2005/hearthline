@@ -1,10 +1,21 @@
 {
   "app": {
     "tagline": "Disaster recovery for the people who live through it",
-    "stages": { "prepare": "Prepare", "respond": "Respond", "rebuild": "Rebuild", "reopen": "Reopen" },
+    "stages": {
+      "prepare": "Prepare",
+      "respond": "Respond",
+      "rebuild": "Rebuild",
+      "reopen": "Reopen"
+    },
     "demoNotice": "Demo with a fictional town and fictional people · PayPal sandbox · no real money moves"
   },
-  "nav": { "home": "Home", "inventory": "Inventory", "switchPersona": "Switch persona", "signOut": "Sign out", "language": "Language" },
+  "nav": {
+    "home": "Home",
+    "inventory": "Inventory",
+    "switchPersona": "Switch persona",
+    "signOut": "Sign out",
+    "language": "Language"
+  },
   "roles": {
     "household": "Household",
     "donor": "Donor",
@@ -41,18 +52,112 @@
     "items_one": "{{count}} item",
     "items_other": "{{count}} items"
   },
-  "actions": { "scanRoom": "Scan a room", "openInventory": "Open inventory", "retry": "Try again" },
+  "actions": {
+    "scanRoom": "Scan a room",
+    "openInventory": "Open inventory",
+    "retry": "Try again"
+  },
   "comingSoon": {
     "title": "{{role}} workspace",
     "body": "This part of Hearthline is being built. Soon {{name}} will be able to:",
     "features": {
-      "donor": ["Fund specific things a family needs", "See where every dollar went", "Give with PayPal, Venmo or Pay Later"],
-      "contractor": ["Take on rebuild jobs", "Get paid for each verified milestone", "Upload progress photos"],
-      "reviewer": ["Review claims with evidence the AI has gathered", "Approve, or ask for more evidence", "Verify households on a video call"],
-      "supervisor": ["Settle disagreements between reviewers", "Re-check a random sample of approvals", "Spot unusual reviewer patterns"],
-      "org_admin": ["See every household in the disaster area", "Send cash aid in one PayPal batch", "Schedule volunteer crews"],
-      "business": ["Start a Reopen Fund", "Sell gift cards to regulars now", "Receive funds as reopening milestones are met"]
+      "donor": [
+        "Fund specific things a family needs",
+        "See where every dollar went",
+        "Give with PayPal, Venmo or Pay Later"
+      ],
+      "contractor": [
+        "Take on rebuild jobs",
+        "Get paid for each verified milestone",
+        "Upload progress photos"
+      ],
+      "reviewer": [
+        "Review claims with evidence the AI has gathered",
+        "Approve, or ask for more evidence",
+        "Verify households on a video call"
+      ],
+      "supervisor": [
+        "Settle disagreements between reviewers",
+        "Re-check a random sample of approvals",
+        "Spot unusual reviewer patterns"
+      ],
+      "org_admin": [
+        "See every household in the disaster area",
+        "Send cash aid in one PayPal batch",
+        "Schedule volunteer crews"
+      ],
+      "business": [
+        "Start a Reopen Fund",
+        "Sell gift cards to regulars now",
+        "Receive funds as reopening milestones are met"
+      ]
     }
   },
-  "errors": { "generic": "Something went wrong. Please try again." }
+  "errors": {
+    "generic": "Something went wrong. Please try again."
+  },
+  "inventory": {
+    "title": "Inventory",
+    "subtitle": "Everything in your home, priced for a replacement claim.",
+    "scan": {
+      "title": "Scan a room",
+      "room": "Room",
+      "newRoom": "New room…",
+      "newRoomName": "Room name, e.g. Living room",
+      "choose": "Add photos or a walkthrough video",
+      "hint": "Up to 12 photos. Videos are split into still frames on your device.",
+      "extracting": "Preparing video frames…",
+      "selected_one": "{{count}} photo ready",
+      "selected_other": "{{count}} photos ready",
+      "start": "Find and price items",
+      "working": "Finding items and checking prices. This takes about 10–20 seconds.",
+      "done": "Found {{count}} items in {{room}}.",
+      "failed": "The scan didn't finish: {{error}}"
+    },
+    "col": {
+      "room": "Room",
+      "item": "Item",
+      "category": "Category",
+      "qty": "Qty",
+      "unitPrice": "Unit price",
+      "range": "Price range",
+      "total": "Total",
+      "evidence": "Evidence",
+      "match": "Priced at",
+      "confirmed": "Confirmed"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Pre-disaster scan",
+      "photo": "Photo",
+      "receipt": "Receipt",
+      "memory": "From memory"
+    },
+    "category": {
+      "furniture": "Furniture",
+      "electronics": "Electronics",
+      "appliance": "Appliance",
+      "lighting": "Lighting",
+      "bedding": "Bedding",
+      "decor": "Decor",
+      "kitchenware": "Kitchenware",
+      "clothing": "Clothing",
+      "books": "Books",
+      "toys": "Toys",
+      "tools": "Tools",
+      "sports": "Sports",
+      "musical": "Musical",
+      "other": "Other"
+    },
+    "summary": {
+      "total": "Total",
+      "unconfirmed_one": "{{count}} to confirm",
+      "unconfirmed_other": "{{count}} to confirm"
+    },
+    "exportClaim": "Export claim (Excel)",
+    "exportSheet": "Contents claim",
+    "delete": "Delete item",
+    "empty": "No items yet. Scan a room to get started.",
+    "saveFailed": "Couldn't save that change. Please try again.",
+    "hint": "Double-click a cell to edit. Right-click a row to delete it or export. Tick Confirmed once you've checked an item."
+  }
 }

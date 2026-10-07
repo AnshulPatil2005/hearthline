@@ -41,7 +41,7 @@ export function LanguageSelect() {
 const navClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-sunken text-ink' : 'text-ink-soft hover:text-ink'}`
 
-export function Shell({ children }: { children: ReactNode }) {
+export function Shell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   const { t } = useTranslation()
   const { user, signOut } = useAuth()
   const navigate = useNavigate()
@@ -49,7 +49,7 @@ export function Shell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-svh flex-col">
       <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
+        <div className={`mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3`}>
           <Link to="/" className="flex items-center gap-2 font-semibold text-ink">
             <Logo />
             Hearthline
@@ -86,7 +86,7 @@ export function Shell({ children }: { children: ReactNode }) {
           </div>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-8">{children}</main>
+      <main className={`mx-auto w-full ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-1 px-4 py-8`}>{children}</main>
       <footer className="border-t border-line px-4 py-3 text-center text-xs text-ink-faint">{t('app.demoNotice')}</footer>
     </div>
   )
