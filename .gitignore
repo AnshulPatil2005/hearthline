@@ -27,3 +27,6 @@ Thumbs.db
 
 # Local SQLite database
 backend/hearthline.db
+
+# E2E screenshots
+e2e/screenshots/

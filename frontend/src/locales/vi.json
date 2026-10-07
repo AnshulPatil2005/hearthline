@@ -14,7 +14,8 @@
     "inventory": "Danh mục tài sản",
     "switchPersona": "Đổi vai",
     "signOut": "Đăng xuất",
-    "language": "Ngôn ngữ"
+    "language": "Ngôn ngữ",
+    "registry": "Danh sách hỗ trợ"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -172,5 +173,63 @@
     "savedTitle": "Danh mục tài sản của bạn đã được lưu",
     "savedBody": "{{count}} món trị giá {{value}} đã được lưu an toàn trực tuyến. Bạn có thể mở hoặc xuất hồ sơ bồi thường từ bất kỳ thiết bị nào.",
     "simulate": "Mô phỏng cảnh báo sơ tán (demo)"
+  },
+  "registry": {
+    "needs": "Những gì chúng tôi cần",
+    "affectedBy": "bị ảnh hưởng bởi {{disaster}}",
+    "raisedOf": "{{raised}} / {{target}}",
+    "raisedOfTotal": "đã quyên góp trên tổng {{target}} cần",
+    "donors_other": "{{count}} nhà tài trợ",
+    "fund": {
+      "donated": "Đã nhận được",
+      "spent": "Đã chi cho đồ của bạn",
+      "available": "Còn lại cho bạn"
+    },
+    "giveGeneral": "Góp vào quỹ của gia đình",
+    "fundItem": "Tài trợ: {{name}}",
+    "fundGeneral": "Góp vào quỹ của gia đình",
+    "amount": "Số tiền",
+    "fullItem": "phần còn lại",
+    "customAmount": "Số tiền khác",
+    "yourName": "Tên của bạn (không bắt buộc, sẽ hiển thị công khai)",
+    "message": "Lời nhắn cho gia đình (không bắt buộc)",
+    "paymentNote": "Thanh toán an toàn qua PayPal. Khoản thanh toán của bạn được chuyển cho Hearthline, bên sẽ mua món đồ và gửi đến gia đình.",
+    "paypalUnavailable": "Không tải được thanh toán PayPal. Vui lòng tải lại trang và thử lại.",
+    "thanks": "Cảm ơn bạn! Bạn đã đóng góp {{amount}}.",
+    "thanksBody": "Chúng tôi sẽ mua món đồ và gửi đến gia đình. Khoản đóng góp của bạn đã hiển thị trên trang này.",
+    "close": "Đóng",
+    "howTitle": "Khoản đóng góp được dùng thế nào",
+    "howBody": "Hearthline mua từng món đồ từ cửa hàng thật và gửi đến địa chỉ đã xác minh của gia đình. Tiền đóng góp không bao giờ vào tài khoản ngân hàng của người lạ, và mọi đồng tiền đều được ghi trong sổ cái công khai.",
+    "recent": "Đóng góp gần đây",
+    "anonymous": "Một người",
+    "gave": "đã góp {{amount}}",
+    "gaveFor": "đã góp {{amount}} cho {{item}}",
+    "notFound": "Không tìm thấy danh sách này.",
+    "status": {
+      "open": "Đang cần",
+      "funded": "Đã đủ tiền",
+      "purchased": "Đã mua",
+      "delivered": "Đã giao"
+    },
+    "manageTitle": "Danh sách hỗ trợ xây dựng lại",
+    "manageSubtitle": "Liệt kê những món đồ cụ thể bạn cần. Nhà tài trợ góp tiền, Hearthline sẽ mua và gửi đến bạn.",
+    "createTitle": "Tạo danh sách của bạn",
+    "createBody": "Danh sách chỉ hiển thị thị trấn của bạn, không bao giờ hiển thị địa chỉ.",
+    "defaultTitle": "Giúp gia đình {{name}} trở về nhà",
+    "storyPlaceholder": "Kể cho nhà tài trợ chuyện gì đã xảy ra và điều gì giúp ích nhất.",
+    "create": "Tạo danh sách",
+    "shareLink": "Chia sẻ liên kết này:",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "viewAsDonor": "Xem như nhà tài trợ",
+    "remove": "Xóa",
+    "addTitle": "Thêm thứ bạn cần",
+    "custom": "Món mới (nhập bên dưới)",
+    "fromInventory": "Từ danh mục tài sản: {{name}} ({{price}})",
+    "itemName": "Bạn cần gì?",
+    "price": "Giá ($)",
+    "notePlaceholder": "Ghi chú ngắn cho nhà tài trợ (không bắt buộc)",
+    "add": "Thêm vào danh sách",
+    "fundThis": "Tài trợ"
   }
 }

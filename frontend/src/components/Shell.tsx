@@ -62,6 +62,9 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               <NavLink to="/inventory" className={navClass}>
                 {t('nav.inventory')}
               </NavLink>
+              <NavLink to="/registry" className={navClass}>
+                {t('nav.registry')}
+              </NavLink>
             </nav>
           )}
           <div className="ml-auto flex items-center gap-4">

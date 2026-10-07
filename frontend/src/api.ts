@@ -134,3 +134,47 @@ export const CATEGORIES = [
   'furniture', 'electronics', 'appliance', 'lighting', 'bedding', 'decor', 'kitchenware',
   'clothing', 'books', 'toys', 'tools', 'sports', 'musical', 'other',
 ] as const
+
+export type RegistryItem = {
+  id: number
+  name: string
+  note: string
+  category: string
+  quantity: number
+  unit_price: string
+  target_amount: string
+  funded_amount: string
+  remaining: string
+  status: 'open' | 'funded' | 'purchased' | 'delivered'
+  priority: number
+  retailer: string | null
+  match_url: string | null
+}
+
+export type PublicDonation = {
+  id: number
+  donor_name: string | null
+  message: string
+  amount: string
+  payment_method: string
+  item_name: string | null
+  captured_at: string | null
+}
+
+export type Registry = {
+  slug: string
+  title: string
+  story: string
+  status: string
+  household_name: string
+  city: string
+  state: string
+  disaster_name: string | null
+  items: RegistryItem[]
+  total_target: string
+  total_funded: string
+  donor_count: number
+  recent_donations: PublicDonation[]
+}
+
+export type Fund = { available: string; donated: string; spent: string }
