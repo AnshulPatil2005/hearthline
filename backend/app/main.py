@@ -4,7 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app import ai
-from app.api import auth, households
+from app.api import auth, households, inventory
 from app.config import get_settings
 from app.db import engine
 
@@ -25,6 +25,7 @@ app.add_middleware(
 )
 app.include_router(auth.router)
 app.include_router(households.router)
+app.include_router(inventory.router)
 
 
 def database_ok() -> bool:

@@ -146,6 +146,8 @@ class Scan(Base):
     finished_at: Mapped[datetime | None]
 
     media: Mapped[list[Media]] = relationship()
+    household: Mapped[Household] = relationship()
+    room: Mapped[Room] = relationship()
 
 
 class Item(Base):
@@ -166,6 +168,8 @@ class Item(Base):
     search_query: Mapped[str | None] = mapped_column(String(200))
 
     unit_price: Mapped[Decimal | None] = mapped_column(Money)
+    price_low: Mapped[Decimal | None] = mapped_column(Money)  # range across the offers considered
+    price_high: Mapped[Decimal | None] = mapped_column(Money)
     price_source: Mapped[str | None] = mapped_column(String(20))  # channel3 | user
     channel3_product_id: Mapped[str | None] = mapped_column(String(40))
     match_title: Mapped[str | None] = mapped_column(String(300))
@@ -181,3 +185,7 @@ class Item(Base):
 
     household: Mapped[Household] = relationship(back_populates="items")
     room: Mapped[Room | None] = relationship()
+
+    @property
+    def total_value(self) -> Decimal | None:
+        return self.unit_price * self.quantity if self.unit_price is not None else None
