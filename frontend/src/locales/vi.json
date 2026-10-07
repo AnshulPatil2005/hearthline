@@ -156,5 +156,21 @@
     "empty": "Chưa có đồ vật nào. Hãy quét một phòng để bắt đầu.",
     "saveFailed": "Không lưu được thay đổi. Vui lòng thử lại.",
     "hint": "Nhấp đúp vào ô để sửa. Nhấp chuột phải vào một dòng để xóa hoặc xuất. Đánh dấu Đã xác nhận khi bạn đã kiểm tra đồ vật."
+  },
+  "alerts": {
+    "sourceNws": "Cơ quan Khí tượng Quốc gia Hoa Kỳ",
+    "sourceSimulated": "Cảnh báo mô phỏng cho bản demo này",
+    "dismiss": "Đóng",
+    "grabTitle": "Mang theo những thứ này nếu bạn rời đi",
+    "checklist": [
+      "Giấy tờ tùy thân, giấy tờ bảo hiểm và các tài liệu khác",
+      "Thuốc và kính",
+      "Điện thoại, sạc và pin dự phòng",
+      "Thú cưng, dây dắt và thức ăn cho thú cưng",
+      "Ảnh và kỷ vật không thể thay thế"
+    ],
+    "savedTitle": "Danh mục tài sản của bạn đã được lưu",
+    "savedBody": "{{count}} món trị giá {{value}} đã được lưu an toàn trực tuyến. Bạn có thể mở hoặc xuất hồ sơ bồi thường từ bất kỳ thiết bị nào.",
+    "simulate": "Mô phỏng cảnh báo sơ tán (demo)"
   }
 }

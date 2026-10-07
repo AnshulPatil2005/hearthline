@@ -189,3 +189,23 @@ class Item(Base):
     @property
     def total_value(self) -> Decimal | None:
         return self.unit_price * self.quantity if self.unit_price is not None else None
+
+
+class Alert(Base):
+    """A hazard alert for a household: from the National Weather Service, or simulated for demos."""
+
+    __tablename__ = "alerts"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    source: Mapped[str] = mapped_column(String(20))  # nws | simulated
+    external_id: Mapped[str] = mapped_column(String(200))
+    event: Mapped[str] = mapped_column(String(120))
+    headline: Mapped[str] = mapped_column(String(500))
+    severity: Mapped[str] = mapped_column(String(20))
+    description: Mapped[str] = mapped_column(String(4000), default="")
+    instruction: Mapped[str] = mapped_column(String(2000), default="")
+    effective: Mapped[datetime | None]
+    expires: Mapped[datetime | None]
+    dismissed: Mapped[bool] = mapped_column(default=False)
+    created_at: Mapped[datetime] = mapped_column(default=now)

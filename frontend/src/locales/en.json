@@ -159,5 +159,21 @@
     "empty": "No items yet. Scan a room to get started.",
     "saveFailed": "Couldn't save that change. Please try again.",
     "hint": "Double-click a cell to edit. Right-click a row to delete it or export. Tick Confirmed once you've checked an item."
+  },
+  "alerts": {
+    "sourceNws": "National Weather Service",
+    "sourceSimulated": "Simulated for this demo",
+    "dismiss": "Dismiss",
+    "grabTitle": "Grab these if you leave",
+    "checklist": [
+      "IDs, insurance papers and other documents",
+      "Medications and glasses",
+      "Phone, chargers and a battery pack",
+      "Pets, leashes and pet food",
+      "Irreplaceable photos and keepsakes"
+    ],
+    "savedTitle": "Your inventory is saved",
+    "savedBody": "{{count}} items worth {{value}} are stored safely online. You can open or export your claim from any device.",
+    "simulate": "Simulate an evacuation warning (demo)"
   }
 }

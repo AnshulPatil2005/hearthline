@@ -159,5 +159,21 @@
     "empty": "Aún no hay artículos. Escanea una habitación para empezar.",
     "saveFailed": "No se pudo guardar el cambio. Inténtalo de nuevo.",
     "hint": "Haz doble clic en una celda para editarla. Clic derecho en una fila para eliminarla o exportar. Marca Confirmado cuando revises un artículo."
+  },
+  "alerts": {
+    "sourceNws": "Servicio Meteorológico Nacional",
+    "sourceSimulated": "Simulada para esta demostración",
+    "dismiss": "Descartar",
+    "grabTitle": "Lleva esto si te vas",
+    "checklist": [
+      "Identificaciones, papeles del seguro y otros documentos",
+      "Medicamentos y lentes",
+      "Teléfono, cargadores y batería externa",
+      "Mascotas, correas y comida para mascotas",
+      "Fotos y recuerdos irremplazables"
+    ],
+    "savedTitle": "Tu inventario está guardado",
+    "savedBody": "{{count}} artículos con un valor de {{value}} están guardados de forma segura en línea. Puedes abrir o exportar tu reclamo desde cualquier dispositivo.",
+    "simulate": "Simular una advertencia de evacuación (demo)"
   }
 }

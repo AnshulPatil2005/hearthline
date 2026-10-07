@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { api, type Household, type InventorySummary } from '../api'
 import { useAuth } from '../auth'
+import AlertBanner, { SimulateAlertButton } from '../components/AlertBanner'
 import { money } from '../format'
 
 function Card({ title, children }: { title: string; children: ReactNode }) {
@@ -121,10 +122,14 @@ export default function HouseholdHome() {
           {home.data.name} · {home.data.address_line}, {home.data.city}, {home.data.state}
         </p>
       </div>
+      <AlertBanner summary={summary.data} />
       <DisasterBanner home={home.data} />
       <div className="grid gap-6 lg:grid-cols-2">
         <Coverage summary={summary.data} />
         <Rooms summary={summary.data} />
+      </div>
+      <div className="flex justify-end">
+        <SimulateAlertButton />
       </div>
     </div>
   )

@@ -159,5 +159,21 @@
     "empty": "Wala pang gamit. Mag-scan ng kuwarto para magsimula.",
     "saveFailed": "Hindi na-save ang pagbabago. Pakisubukan ulit.",
     "hint": "I-double click ang cell para i-edit. I-right click ang row para burahin o i-export. Lagyan ng tsek ang Kumpirmado kapag nasuri mo na ang gamit."
+  },
+  "alerts": {
+    "sourceNws": "National Weather Service",
+    "sourceSimulated": "Kunwaring alerto para sa demo na ito",
+    "dismiss": "Isara",
+    "grabTitle": "Dalhin ang mga ito kung aalis ka",
+    "checklist": [
+      "Mga ID, papeles ng insurance at iba pang dokumento",
+      "Mga gamot at salamin",
+      "Telepono, charger at power bank",
+      "Mga alagang hayop, tali at pagkain nila",
+      "Mga larawan at alaala na hindi mapapalitan"
+    ],
+    "savedTitle": "Naka-save ang imbentaryo mo",
+    "savedBody": "Ligtas na naka-save online ang {{count}} gamit na nagkakahalaga ng {{value}}. Mabubuksan o mai-export mo ang claim mo mula sa kahit anong device.",
+    "simulate": "Gayahin ang babala sa paglikas (demo)"
   }
 }
