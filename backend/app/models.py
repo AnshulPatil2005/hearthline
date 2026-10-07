@@ -209,3 +209,77 @@ class Alert(Base):
     expires: Mapped[datetime | None]
     dismissed: Mapped[bool] = mapped_column(default=False)
     created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class LedgerAccount(Base):
+    """Chart of accounts. `code` examples: `assets:paypal`, `liabilities:household:7`, `expenses:paypal_fees`."""
+
+    __tablename__ = "ledger_accounts"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    code: Mapped[str] = mapped_column(String(120), unique=True)
+    name: Mapped[str] = mapped_column(String(200))
+    kind: Mapped[str] = mapped_column(String(20))  # asset | liability | income | expense
+    household_id: Mapped[int | None] = mapped_column(ForeignKey("households.id", ondelete="SET NULL"))
+
+
+class LedgerTransaction(Base):
+    """One business event (a donation, a purchase, a payout) as balanced postings."""
+
+    __tablename__ = "ledger_transactions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    kind: Mapped[str] = mapped_column(String(40))  # donation | purchase | payout | refund | fee | adjustment
+    description: Mapped[str] = mapped_column(String(300))
+    household_id: Mapped[int | None] = mapped_column(ForeignKey("households.id", ondelete="SET NULL"), index=True)
+    paypal_ref: Mapped[str | None] = mapped_column(
+        String(80), unique=True
+    )  # capture/payout id; makes posting idempotent
+    meta: Mapped[dict] = mapped_column(JSON, default=dict)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    postings: Mapped[list["LedgerPosting"]] = relationship(back_populates="transaction", cascade="all, delete-orphan")
+
+
+class LedgerPosting(Base):
+    """Signed amount on one account: positive = debit, negative = credit. Postings of a transaction sum to zero."""
+
+    __tablename__ = "ledger_postings"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    transaction_id: Mapped[int] = mapped_column(ForeignKey("ledger_transactions.id", ondelete="CASCADE"), index=True)
+    account_id: Mapped[int] = mapped_column(ForeignKey("ledger_accounts.id"), index=True)
+    amount: Mapped[Decimal] = mapped_column(Money)
+
+    transaction: Mapped[LedgerTransaction] = relationship(back_populates="postings")
+    account: Mapped[LedgerAccount] = relationship()
+
+
+class AuditEvent(Base):
+    """Append-only, hash-chained record of every money and review decision."""
+
+    __tablename__ = "audit_events"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    actor_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    action: Mapped[str] = mapped_column(String(80))
+    subject_type: Mapped[str] = mapped_column(String(40))
+    subject_id: Mapped[str] = mapped_column(String(80))
+    data: Mapped[dict] = mapped_column(JSON, default=dict)
+    prev_hash: Mapped[str] = mapped_column(String(64))
+    hash: Mapped[str] = mapped_column(String(64), unique=True)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class WebhookEvent(Base):
+    """Every PayPal webhook delivery, stored once (PayPal retries) before it is processed."""
+
+    __tablename__ = "webhook_events"
+
+    id: Mapped[str] = mapped_column(String(80), primary_key=True)  # PayPal event id
+    event_type: Mapped[str] = mapped_column(String(80), index=True)
+    resource: Mapped[dict] = mapped_column(JSON)
+    verified: Mapped[bool]
+    received_at: Mapped[datetime] = mapped_column(default=now)
+    processed_at: Mapped[datetime | None]
+    error: Mapped[str | None] = mapped_column(String(500))
