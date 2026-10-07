@@ -89,18 +89,29 @@ def sentinel_flags(db: Session, home: Household, claim_amount: Decimal = Decimal
             )
         )
 
-    dupes = duplicate_photos(db, home)
-    if dupes:
+    # Whoever uploaded a matching photo *later* is the likely copier. The original owner only gets a
+    # low-severity notice, so a family whose pictures were stolen isn't treated as a suspect.
+    copied, original = [], []
+    for mine, other, distance in duplicate_photos(db, home):
+        match = {"media_id": mine.id, "other_household_id": other.household_id, "distance": distance}
+        (copied if _aware(mine.uploaded_at) >= _aware(other.uploaded_at) else original).append(match)
+    if copied:
         flags.append(
             Flag(
                 "duplicate_photo",
                 "high",
-                f"{len(dupes)} photo(s) match photos uploaded by another household.",
-                {
-                    "matches": [
-                        {"media_id": m.id, "other_household_id": o.household_id, "distance": d} for m, o, d in dupes
-                    ]
-                },
+                f"{len(copied)} photo(s) match photos another household uploaded earlier.",
+                {"matches": copied},
+            )
+        )
+    if original:
+        flags.append(
+            Flag(
+                "photo_copied_by_other",
+                "low",
+                f"{len(original)} of this household's photos were later uploaded by someone else. "
+                "They may be the target of an impersonation scam.",
+                {"matches": original},
             )
         )
 
@@ -178,8 +189,11 @@ def sentinel_flags(db: Session, home: Household, claim_amount: Decimal = Decimal
 
 
 def risk(flags: list[Flag]) -> tuple[int, str]:
+    """Any single high-severity sign makes the case high risk (two independent reviewers)."""
     score = min(100, sum(SEVERITY_POINTS[f.severity] for f in flags))
-    return score, "high" if score >= 50 else "medium" if score >= 20 else "low"
+    if score >= 50 or any(f.severity == "high" for f in flags):
+        return score, "high"
+    return score, "medium" if score >= 15 else "low"
 
 
 def flags_json(flags: list[Flag]) -> list[dict]:

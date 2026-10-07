@@ -74,3 +74,11 @@ def parse_capture(order: dict) -> Capture:
         fee=Decimal(breakdown.get("paypal_fee", {}).get("value", "0")),
         payment_method=next(iter(order.get("payment_source", {"paypal": None})), "paypal"),
     )
+
+
+def refund_capture(capture_id: str) -> str:
+    """Full refund of a captured payment. Returns PayPal's refund status (COMPLETED, PENDING, ...)."""
+    response = client().payments.refund_captured_payment(
+        {"capture_id": capture_id, "paypal_request_id": f"refund-{capture_id}", "prefer": "return=minimal"}
+    )
+    return json.loads(response.text)["status"]

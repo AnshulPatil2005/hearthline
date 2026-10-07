@@ -4,7 +4,7 @@ from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
 from app import ai
-from app.api import alerts, auth, households, inventory, ledger, purchases, registry, trust, webhooks
+from app.api import alerts, auth, households, inventory, ledger, purchases, registry, review, trust, webhooks
 from app.config import get_settings
 from app.db import engine
 
@@ -31,6 +31,7 @@ app.include_router(registry.router)
 app.include_router(purchases.router)
 app.include_router(ledger.router)
 app.include_router(trust.router)
+app.include_router(review.router)
 app.include_router(webhooks.router)
 
 

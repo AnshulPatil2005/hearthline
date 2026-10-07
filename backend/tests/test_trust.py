@@ -106,7 +106,8 @@ def test_cloned_registry_is_flagged_high_risk():
     assert dupe["evidence"]["matches"][0]["other_household_id"] == real_id
 
     honest = client.get(f"/trust/households/{real_id}", headers=staff).json()
-    assert {f["code"] for f in honest["flags"]} == {"duplicate_photo"}  # someone copied *their* photo
+    assert [(f["code"], f["severity"]) for f in honest["flags"]] == [("photo_copied_by_other", "low")]
+    assert honest["risk_tier"] == "low"  # the family whose photo was stolen is not a suspect
     assert client.get(f"/trust/households/{clone_id}", headers=login_as("Elena Rivera")).status_code == 403
 
 

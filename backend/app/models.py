@@ -305,7 +305,7 @@ class Registry(Base):
     slug: Mapped[str] = mapped_column(String(80), unique=True)
     title: Mapped[str] = mapped_column(String(120))
     story: Mapped[str] = mapped_column(String(2000), default="")
-    status: Mapped[str] = mapped_column(String(20), default="active")  # active | paused | closed
+    status: Mapped[str] = mapped_column(String(20), default="active")  # pending_review | active | paused | closed
     created_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     created_at: Mapped[datetime] = mapped_column(default=now)
 
@@ -398,3 +398,61 @@ class Purchase(Base):
 
     registry_item: Mapped[RegistryItem | None] = relationship()
     household: Mapped[Household] = relationship()
+
+
+class Case(Base):
+    """Something a human must approve before money moves: cash aid, a new registry, a contents claim."""
+
+    __tablename__ = "cases"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(30))  # cash_aid | registry_verification | contents_claim
+    title: Mapped[str] = mapped_column(String(200))
+    note: Mapped[str] = mapped_column(String(1000), default="")
+    amount_requested: Mapped[Decimal] = mapped_column(Money, default=Decimal("0"))
+    # submitted | in_review | needs_info | escalated | approved | rejected
+    status: Mapped[str] = mapped_column(String(20), default="in_review")
+    risk_score: Mapped[int] = mapped_column(default=0)
+    risk_tier: Mapped[str] = mapped_column(String(10), default="low")
+    flags: Mapped[list] = mapped_column(JSON, default=list)
+    sentinel_summary: Mapped[str] = mapped_column(String(1500), default="")
+    sentinel_questions: Mapped[list] = mapped_column(JSON, default=list)
+    sentinel_recommendation: Mapped[str | None] = mapped_column(String(20))
+    required_reviews: Mapped[int] = mapped_column(default=1)
+    video_call_required: Mapped[bool] = mapped_column(default=False)
+    random_audit: Mapped[bool] = mapped_column(default=False)
+    decision_note: Mapped[str | None] = mapped_column(String(1000))
+    paypal_ref: Mapped[str | None] = mapped_column(String(80))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    decided_at: Mapped[datetime | None]
+
+    household: Mapped[Household] = relationship()
+    assignments: Mapped[list["CaseAssignment"]] = relationship(cascade="all, delete-orphan")
+    reviews: Mapped[list["CaseReview"]] = relationship(cascade="all, delete-orphan", order_by="CaseReview.id")
+
+
+class CaseAssignment(Base):
+    __tablename__ = "case_assignments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    case_id: Mapped[int] = mapped_column(ForeignKey("cases.id", ondelete="CASCADE"), index=True)
+    reviewer_user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    role: Mapped[str] = mapped_column(String(20), default="reviewer")  # reviewer | supervisor | auditor
+    assigned_at: Mapped[datetime] = mapped_column(default=now)
+
+    reviewer: Mapped[User] = relationship()
+
+
+class CaseReview(Base):
+    __tablename__ = "case_reviews"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    case_id: Mapped[int] = mapped_column(ForeignKey("cases.id", ondelete="CASCADE"), index=True)
+    reviewer_user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
+    role: Mapped[str] = mapped_column(String(20), default="reviewer")
+    decision: Mapped[str] = mapped_column(String(20))  # approve | reject | request_info
+    reason: Mapped[str] = mapped_column(String(1000), default="")
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    reviewer: Mapped[User] = relationship()

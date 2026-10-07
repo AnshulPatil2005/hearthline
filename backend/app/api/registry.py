@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, ledger, registry
+from app import audit, ledger, registry, review
 from app.api.households import MyHousehold
 from app.auth import CurrentUser, OptionalUser
 from app.config import get_settings
@@ -166,10 +166,19 @@ def create_registry(body: RegistryIn, home: MyHousehold, user: CurrentUser, db: 
         title=body.title,
         story=body.story,
         created_by_user_id=user.id,
+        status="pending_review",  # goes public only after a human approves the verification case
     )
     db.add(reg)
     audit.record(db, actor_user_id=user.id, action="registry.created", subject_type="registry", subject_id=reg.slug)
-    db.commit()
+    db.flush()
+    review.open_case(
+        db,
+        home,
+        kind="registry_verification",
+        title=f"New registry: {body.title}",
+        note=body.story[:500],
+        actor_user_id=user.id,
+    )
     return registry_out(db, reg)
 
 
