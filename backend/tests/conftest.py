@@ -14,6 +14,15 @@ from app.db import Base, engine  # noqa: E402
 
 
 @pytest.fixture(autouse=True)
+def no_background_shopping(monkeypatch):
+    """Funding an item normally starts the Shopper in a background thread with real Channel3 and AI
+    calls. Tests must never do that; test_shopping opts back in with an inline, faked Shopper."""
+    from app import shopping
+
+    monkeypatch.setattr(shopping, "start_auto_shop", lambda item_id: None)
+
+
+@pytest.fixture(autouse=True)
 def fresh_db():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
