@@ -1,0 +1,119 @@
+import { useQuery } from '@tanstack/react-query'
+import { useEffect, useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useNavigate, useSearchParams } from 'react-router'
+import { api, type Role, type User } from '../api'
+import { useAuth } from '../auth'
+import { LanguageSelect, Logo } from '../components/Shell'
+import { homePathFor } from '../paths'
+
+const ROLE_TINT: Record<Role, string> = {
+  household: 'bg-ember-soft text-ember',
+  donor: 'bg-sage-soft text-sage',
+  contractor: 'bg-amber-soft text-amber',
+  reviewer: 'bg-sunken text-ink',
+  supervisor: 'bg-sunken text-ink',
+  org_admin: 'bg-sage-soft text-sage',
+  business: 'bg-amber-soft text-amber',
+}
+
+const initials = (name: string) =>
+  name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+
+export default function Login() {
+  const { t } = useTranslation()
+  const { signInAsPersona } = useAuth()
+  const navigate = useNavigate()
+  const [pending, setPending] = useState<number | null>(null)
+  const [error, setError] = useState(false)
+  const personas = useQuery({ queryKey: ['personas'], queryFn: () => api<User[]>('/auth/personas') })
+  const [params] = useSearchParams()
+  const autoTried = useRef(false)
+
+  // Deep links for judges and the README: /login?as=elena.rivera or /login?as=reviewer
+  useEffect(() => {
+    const wanted = params.get('as')?.toLowerCase()
+    if (!wanted || !personas.data || autoTried.current) return
+    autoTried.current = true
+    const match = personas.data.find((p) => p.email.startsWith(`${wanted}@`) || p.role === wanted)
+    if (match) void choose(match)
+  })
+
+  async function choose(user: User) {
+    setPending(user.id)
+    setError(false)
+    try {
+      const signedIn = await signInAsPersona(user.id)
+      navigate(homePathFor(signedIn.role))
+    } catch {
+      setError(true)
+    } finally {
+      setPending(null)
+    }
+  }
+
+  return (
+    <div className="min-h-svh px-4 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 text-lg font-semibold">
+            <Logo className="size-8" />
+            Hearthline
+          </div>
+          <LanguageSelect />
+        </div>
+
+        <div className="mt-12 max-w-2xl">
+          <p className="text-sm font-medium tracking-wide text-ember uppercase">
+            {(['prepare', 'respond', 'rebuild', 'reopen'] as const).map((s) => t(`app.stages.${s}`)).join(' · ')}
+          </p>
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance">{t('app.tagline')}</h1>
+          <h2 className="mt-8 text-xl font-semibold">{t('login.title')}</h2>
+          <p className="mt-2 text-ink-soft">{t('login.subtitle')}</p>
+        </div>
+
+        {(error || personas.isError) && (
+          <p role="alert" className="mt-6 rounded-lg bg-danger-soft px-4 py-3 text-danger">
+            {t('login.error')}
+          </p>
+        )}
+
+        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {personas.isPending &&
+            Array.from({ length: 8 }, (_, i) => <li key={i} className="h-44 animate-pulse rounded-xl bg-sunken" />)}
+          {personas.data?.map((p) => (
+            <li key={p.id}>
+              <button
+                onClick={() => void choose(p)}
+                disabled={pending !== null}
+                className="flex h-full w-full flex-col rounded-xl border border-line bg-surface p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-ember hover:shadow-md disabled:opacity-60"
+              >
+                <div className="flex items-center gap-3">
+                  <span className={`grid size-10 place-items-center rounded-full text-sm font-semibold ${ROLE_TINT[p.role]}`}>
+                    {initials(p.name)}
+                  </span>
+                  <div>
+                    <div className="font-semibold">{p.name}</div>
+                    <div className="text-xs text-ink-faint">{t(`roles.${p.role}`)}</div>
+                  </div>
+                </div>
+                <p className="mt-3 flex-1 text-sm text-ink-soft first-letter:uppercase">
+                  {p.title?.split(' · ')[1] ?? p.title}
+                </p>
+                <span className="mt-4 text-sm font-medium text-ember">
+                  {pending === p.id ? '…' : t('login.signIn', { name: p.name.split(' ')[0] })} →
+                </span>
+              </button>
+            </li>
+          ))}
+        </ul>
+
+        <p className="mt-10 text-center text-xs text-ink-faint">{t('app.demoNotice')}</p>
+      </div>
+    </div>
+  )
+}

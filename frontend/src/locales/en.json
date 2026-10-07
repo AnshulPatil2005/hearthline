@@ -1,0 +1,58 @@
+{
+  "app": {
+    "tagline": "Disaster recovery for the people who live through it",
+    "stages": { "prepare": "Prepare", "respond": "Respond", "rebuild": "Rebuild", "reopen": "Reopen" },
+    "demoNotice": "Demo with a fictional town and fictional people · PayPal sandbox · no real money moves"
+  },
+  "nav": { "home": "Home", "inventory": "Inventory", "switchPersona": "Switch persona", "signOut": "Sign out", "language": "Language" },
+  "roles": {
+    "household": "Household",
+    "donor": "Donor",
+    "contractor": "Contractor",
+    "reviewer": "Claim reviewer",
+    "supervisor": "Review supervisor",
+    "org_admin": "Relief organization",
+    "business": "Small business"
+  },
+  "login": {
+    "title": "Who are you today?",
+    "subtitle": "The Sablewood Fire is made up, and so are these people. Pick one to see Hearthline through their eyes.",
+    "signIn": "Continue as {{name}}",
+    "error": "We couldn't sign you in. Is the API running?"
+  },
+  "home": {
+    "greeting": "Welcome back, {{name}}",
+    "inZone": "Your home at {{address}} is inside the {{event}} area.",
+    "notInZone": "Your home isn't inside an active disaster area.",
+    "prepareHint": "Keep your inventory current so your claim is ready if disaster strikes."
+  },
+  "coverage": {
+    "title": "Coverage check",
+    "inventoryValue": "Your belongings are worth",
+    "insured": "Your policy covers",
+    "gap": "Underinsured by {{amount}}",
+    "ok": "Your policy covers everything found so far.",
+    "noPolicy": "Add your policy's contents limit to check your coverage.",
+    "counts": "{{count}} items · {{confirmed}} confirmed"
+  },
+  "rooms": {
+    "title": "Rooms",
+    "empty": "No rooms scanned yet. Start with the room that holds the most valuable things.",
+    "items_one": "{{count}} item",
+    "items_other": "{{count}} items"
+  },
+  "actions": { "scanRoom": "Scan a room", "openInventory": "Open inventory", "retry": "Try again" },
+  "comingSoon": {
+    "title": "{{role}} workspace",
+    "body": "This part of Hearthline is being built. Soon {{name}} will be able to:",
+    "features": {
+      "donor": ["Fund specific things a family needs", "See where every dollar went", "Give with PayPal, Venmo or Pay Later"],
+      "contractor": ["Take on rebuild jobs", "Get paid for each verified milestone", "Upload progress photos"],
+      "reviewer": ["Review claims with evidence the AI has gathered", "Approve, or ask for more evidence", "Verify households on a video call"],
+      "supervisor": ["Settle disagreements between reviewers", "Re-check a random sample of approvals", "Spot unusual reviewer patterns"],
+      "org_admin": ["See every household in the disaster area", "Send cash aid in one PayPal batch", "Schedule volunteer crews"],
+      "business": ["Start a Reopen Fund", "Sell gift cards to regulars now", "Receive funds as reopening milestones are met"]
+    }
+  },
+  "errors": { "generic": "Something went wrong. Please try again." }
+}

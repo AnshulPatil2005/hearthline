@@ -1,0 +1,58 @@
+{
+  "app": {
+    "tagline": "Pagbangon mula sa sakuna para sa mga taong dumaan dito",
+    "stages": { "prepare": "Maghanda", "respond": "Tumugon", "rebuild": "Muling Itayo", "reopen": "Muling Magbukas" },
+    "demoNotice": "Demo na may kathang-isip na bayan at mga tao · PayPal sandbox · walang totoong perang gumagalaw"
+  },
+  "nav": { "home": "Home", "inventory": "Imbentaryo", "switchPersona": "Magpalit ng persona", "signOut": "Mag-sign out", "language": "Wika" },
+  "roles": {
+    "household": "Sambahayan",
+    "donor": "Donor",
+    "contractor": "Kontratista",
+    "reviewer": "Tagasuri ng claim",
+    "supervisor": "Superbisor ng pagsusuri",
+    "org_admin": "Organisasyong tumutulong",
+    "business": "Maliit na negosyo"
+  },
+  "login": {
+    "title": "Sino ka ngayon?",
+    "subtitle": "Gawa-gawa lang ang Sablewood Fire, pati ang mga taong ito. Pumili ng isa para makita ang Hearthline mula sa kanilang pananaw.",
+    "signIn": "Magpatuloy bilang {{name}}",
+    "error": "Hindi ka namin ma-sign in. Tumatakbo ba ang API?"
+  },
+  "home": {
+    "greeting": "Maligayang pagbabalik, {{name}}",
+    "inZone": "Ang bahay mo sa {{address}} ay nasa loob ng lugar ng {{event}}.",
+    "notInZone": "Wala ang bahay mo sa loob ng aktibong lugar ng sakuna.",
+    "prepareHint": "Panatilihing updated ang imbentaryo mo para handa na ang claim mo kung may sakuna."
+  },
+  "coverage": {
+    "title": "Pagsusuri ng coverage",
+    "inventoryValue": "Halaga ng mga gamit mo",
+    "insured": "Sakop ng polisiya mo",
+    "gap": "Kulang ang insurance ng {{amount}}",
+    "ok": "Sakop ng polisiya mo ang lahat ng nakita sa ngayon.",
+    "noPolicy": "Idagdag ang limit sa gamit ng polisiya mo para masuri ang coverage.",
+    "counts": "{{count}} gamit · {{confirmed}} kumpirmado"
+  },
+  "rooms": {
+    "title": "Mga kuwarto",
+    "empty": "Wala pang na-scan na kuwarto. Magsimula sa kuwartong may pinakamahahalagang gamit.",
+    "items_one": "{{count}} gamit",
+    "items_other": "{{count}} gamit"
+  },
+  "actions": { "scanRoom": "Mag-scan ng kuwarto", "openInventory": "Buksan ang imbentaryo", "retry": "Subukan ulit" },
+  "comingSoon": {
+    "title": "Workspace ng {{role}}",
+    "body": "Ginagawa pa ang bahaging ito ng Hearthline. Malapit nang magawa ni {{name}} ang:",
+    "features": {
+      "donor": ["Pondohan ang mga partikular na kailangan ng isang pamilya", "Makita kung saan napunta ang bawat dolyar", "Magbigay gamit ang PayPal, Venmo o Pay Later"],
+      "contractor": ["Tumanggap ng mga trabaho sa muling pagtatayo", "Mabayaran sa bawat beripikadong yugto", "Mag-upload ng mga larawan ng progreso"],
+      "reviewer": ["Suriin ang mga claim gamit ang ebidensyang tinipon ng AI", "Aprubahan o humingi ng dagdag na ebidensya", "Beripikahin ang mga sambahayan sa video call"],
+      "supervisor": ["Ayusin ang hindi pagkakasundo ng mga tagasuri", "Suriing muli ang random na sample ng mga inaprubahan", "Mapansin ang kakaibang pattern ng mga tagasuri"],
+      "org_admin": ["Makita ang bawat sambahayan sa lugar ng sakuna", "Magpadala ng cash aid sa isang PayPal batch", "Mag-iskedyul ng mga grupo ng boluntaryo"],
+      "business": ["Magsimula ng Reopen Fund", "Magbenta na ng gift card sa mga suki", "Makatanggap ng pondo habang naaabot ang mga yugto ng muling pagbubukas"]
+    }
+  },
+  "errors": { "generic": "May nangyaring mali. Pakisubukan ulit." }
+}

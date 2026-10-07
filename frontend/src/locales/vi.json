@@ -1,0 +1,57 @@
+{
+  "app": {
+    "tagline": "Phục hồi sau thảm họa cho những người đã trải qua",
+    "stages": { "prepare": "Chuẩn bị", "respond": "Ứng phó", "rebuild": "Xây dựng lại", "reopen": "Mở cửa lại" },
+    "demoNotice": "Bản demo với thị trấn và con người hư cấu · PayPal sandbox · không có tiền thật"
+  },
+  "nav": { "home": "Trang chủ", "inventory": "Danh mục tài sản", "switchPersona": "Đổi vai", "signOut": "Đăng xuất", "language": "Ngôn ngữ" },
+  "roles": {
+    "household": "Hộ gia đình",
+    "donor": "Nhà tài trợ",
+    "contractor": "Nhà thầu",
+    "reviewer": "Người xét duyệt hồ sơ",
+    "supervisor": "Giám sát xét duyệt",
+    "org_admin": "Tổ chức cứu trợ",
+    "business": "Doanh nghiệp nhỏ"
+  },
+  "login": {
+    "title": "Hôm nay bạn là ai?",
+    "subtitle": "Vụ cháy Sablewood là hư cấu, những người này cũng vậy. Hãy chọn một người để xem Hearthline qua góc nhìn của họ.",
+    "signIn": "Tiếp tục với vai {{name}}",
+    "error": "Không thể đăng nhập. API có đang chạy không?"
+  },
+  "home": {
+    "greeting": "Chào mừng trở lại, {{name}}",
+    "inZone": "Nhà của bạn tại {{address}} nằm trong khu vực {{event}}.",
+    "notInZone": "Nhà của bạn không nằm trong khu vực thảm họa đang diễn ra.",
+    "prepareHint": "Hãy cập nhật danh mục tài sản để hồ sơ bồi thường luôn sẵn sàng nếu thảm họa xảy ra."
+  },
+  "coverage": {
+    "title": "Kiểm tra mức bảo hiểm",
+    "inventoryValue": "Tài sản của bạn trị giá",
+    "insured": "Hợp đồng bảo hiểm chi trả",
+    "gap": "Thiếu bảo hiểm {{amount}}",
+    "ok": "Hợp đồng của bạn chi trả cho mọi thứ đã tìm thấy.",
+    "noPolicy": "Thêm hạn mức tài sản trong hợp đồng để kiểm tra mức bảo hiểm.",
+    "counts": "{{count}} món · {{confirmed}} đã xác nhận"
+  },
+  "rooms": {
+    "title": "Các phòng",
+    "empty": "Chưa quét phòng nào. Hãy bắt đầu với phòng có nhiều đồ giá trị nhất.",
+    "items_other": "{{count}} món"
+  },
+  "actions": { "scanRoom": "Quét một phòng", "openInventory": "Mở danh mục tài sản", "retry": "Thử lại" },
+  "comingSoon": {
+    "title": "Không gian làm việc: {{role}}",
+    "body": "Phần này của Hearthline đang được xây dựng. Sắp tới {{name}} sẽ có thể:",
+    "features": {
+      "donor": ["Tài trợ những món đồ cụ thể mà một gia đình cần", "Xem từng đồng tiền đã đi đâu", "Quyên góp bằng PayPal, Venmo hoặc Pay Later"],
+      "contractor": ["Nhận các công trình xây dựng lại", "Được thanh toán theo từng giai đoạn đã xác minh", "Tải lên ảnh tiến độ"],
+      "reviewer": ["Xét duyệt hồ sơ với bằng chứng do AI thu thập", "Phê duyệt hoặc yêu cầu thêm bằng chứng", "Xác minh hộ gia đình qua cuộc gọi video"],
+      "supervisor": ["Giải quyết bất đồng giữa các người xét duyệt", "Kiểm tra lại ngẫu nhiên các hồ sơ đã duyệt", "Phát hiện dấu hiệu bất thường của người xét duyệt"],
+      "org_admin": ["Xem mọi hộ gia đình trong vùng thảm họa", "Gửi tiền hỗ trợ trong một đợt chi trả PayPal", "Lên lịch cho các nhóm tình nguyện"],
+      "business": ["Mở Quỹ Mở cửa lại", "Bán thẻ quà tặng cho khách quen ngay từ bây giờ", "Nhận tiền khi đạt các mốc mở cửa lại"]
+    }
+  },
+  "errors": { "generic": "Đã xảy ra lỗi. Vui lòng thử lại." }
+}

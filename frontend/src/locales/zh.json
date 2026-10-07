@@ -1,0 +1,57 @@
+{
+  "app": {
+    "tagline": "为亲历灾难的人提供灾后重建支持",
+    "stages": { "prepare": "准备", "respond": "应对", "rebuild": "重建", "reopen": "复业" },
+    "demoNotice": "演示：小镇和人物均为虚构 · PayPal 沙盒环境 · 不涉及真实资金"
+  },
+  "nav": { "home": "首页", "inventory": "物品清单", "switchPersona": "切换角色", "signOut": "退出登录", "language": "语言" },
+  "roles": {
+    "household": "住户",
+    "donor": "捐助者",
+    "contractor": "承包商",
+    "reviewer": "理赔审核员",
+    "supervisor": "审核主管",
+    "org_admin": "救援组织",
+    "business": "小商户"
+  },
+  "login": {
+    "title": "今天您是谁？",
+    "subtitle": "Sablewood 山火是虚构的，这些人物也是。选择一位，从他们的视角体验 Hearthline。",
+    "signIn": "以 {{name}} 的身份继续",
+    "error": "无法登录。API 是否正在运行？"
+  },
+  "home": {
+    "greeting": "欢迎回来，{{name}}",
+    "inZone": "您位于 {{address}} 的住宅在 {{event}} 受灾范围内。",
+    "notInZone": "您的住宅不在当前受灾范围内。",
+    "prepareHint": "及时更新物品清单，一旦发生灾害，理赔材料即可备好。"
+  },
+  "coverage": {
+    "title": "保额检查",
+    "inventoryValue": "您的物品价值",
+    "insured": "您的保单保额",
+    "gap": "保额不足 {{amount}}",
+    "ok": "目前发现的物品均在保单保额之内。",
+    "noPolicy": "添加保单中的财物保额，即可检查是否保障充足。",
+    "counts": "{{count}} 件物品 · 已确认 {{confirmed}} 件"
+  },
+  "rooms": {
+    "title": "房间",
+    "empty": "尚未扫描任何房间。建议从存放贵重物品最多的房间开始。",
+    "items_other": "{{count}} 件物品"
+  },
+  "actions": { "scanRoom": "扫描房间", "openInventory": "打开物品清单", "retry": "重试" },
+  "comingSoon": {
+    "title": "{{role}}工作区",
+    "body": "Hearthline 的这部分功能正在建设中。很快，{{name}} 将能够：",
+    "features": {
+      "donor": ["资助家庭所需的具体物品", "查看每一笔钱的去向", "使用 PayPal、Venmo 或 Pay Later 捐款"],
+      "contractor": ["承接重建工程", "每完成一个经核实的阶段即获付款", "上传施工进度照片"],
+      "reviewer": ["借助 AI 整理的证据审核理赔", "批准或要求补充证据", "通过视频通话核实住户"],
+      "supervisor": ["裁决审核员之间的分歧", "随机抽查已批准的案件", "发现异常的审核模式"],
+      "org_admin": ["查看受灾区域内的所有住户", "通过一次 PayPal 批量付款发放现金援助", "安排志愿者队伍"],
+      "business": ["发起复业基金", "现在就向老顾客出售礼品卡", "达成复业里程碑后获得资金"]
+    }
+  },
+  "errors": { "generic": "出现问题，请重试。" }
+}

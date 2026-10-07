@@ -1,48 +1,78 @@
-:root {
-  --bg: #fbfaf8;
-  --surface: #ffffff;
-  --text: #4a4550;
-  --text-h: #16131a;
-  --muted: #8a8490;
-  --border: #e7e4e0;
-  --accent: #d9480f;
-  --ok: #2b8a3e;
-  --warn: #e67700;
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
+@import 'tailwindcss';
 
-  font: 16px/1.5 var(--sans);
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  -webkit-font-smoothing: antialiased;
+/* Design tokens. Warm, calm neutrals; ember is the single accent. Dark mode swaps the
+   variables, so components only ever use the semantic names below. */
+:root {
+  --paper: #fbf8f4;
+  --surface: #ffffff;
+  --sunken: #f3eee7;
+  --ink: #1f1a17;
+  --ink-soft: #5b524b;
+  --ink-faint: #8f857c;
+  --line: #e7e0d7;
+  --ember: #c2410c;
+  --ember-soft: #fff1e6;
+  --on-ember: #ffffff;
+  --sage: #2f7d4f;
+  --sage-soft: #e8f5ec;
+  --amber: #b45309;
+  --amber-soft: #fff6e0;
+  --danger: #b42318;
+  --danger-soft: #fdecea;
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg: #141217;
-    --surface: #1d1a21;
-    --text: #b8b2bf;
-    --text-h: #f4f2f6;
-    --muted: #7d7784;
-    --border: #2f2b35;
-    --accent: #ff8a4c;
-    --ok: #69db7c;
-    --warn: #ffc078;
+    --paper: #15120f;
+    --surface: #1e1a16;
+    --sunken: #26211c;
+    --ink: #f4efe9;
+    --ink-soft: #c5bbb0;
+    --ink-faint: #8c8279;
+    --line: #353029;
+    --ember: #fb8a4c;
+    --ember-soft: #3a2216;
+    --on-ember: #1b120d;
+    --sage: #6fcf97;
+    --sage-soft: #18301f;
+    --amber: #f6b44f;
+    --amber-soft: #352914;
+    --danger: #f97066;
+    --danger-soft: #3b1715;
+    color-scheme: dark;
   }
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-sunken: var(--sunken);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+  --color-line: var(--line);
+  --color-ember: var(--ember);
+  --color-ember-soft: var(--ember-soft);
+  --color-on-ember: var(--on-ember);
+  --color-sage: var(--sage);
+  --color-sage-soft: var(--sage-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
 }
 
 body {
   margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2 {
-  color: var(--text-h);
-  margin: 0;
-}
-
-code {
-  font-family: var(--mono);
-  font-size: 0.9em;
+:focus-visible {
+  outline: 2px solid var(--ember);
+  outline-offset: 2px;
 }

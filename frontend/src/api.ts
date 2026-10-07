@@ -2,5 +2,92 @@
 const host = import.meta.env.VITE_API_HOST as string | undefined
 
 export const API_URL: string =
-  (import.meta.env.VITE_API_URL as string | undefined) ??
-  (host ? `https://${host}` : 'http://localhost:8000')
+  (import.meta.env.VITE_API_URL as string | undefined) ?? (host ? `https://${host}` : 'http://localhost:8000')
+
+const TOKEN_KEY = 'hearthline.token'
+
+// Storage can be unavailable (private windows, blocked site data); the app still works per session.
+let memoryToken: string | null = null
+export const tokenStore = {
+  get(): string | null {
+    try {
+      return localStorage.getItem(TOKEN_KEY) ?? memoryToken
+    } catch {
+      return memoryToken
+    }
+  },
+  set(token: string | null) {
+    memoryToken = token
+    try {
+      if (token) localStorage.setItem(TOKEN_KEY, token)
+      else localStorage.removeItem(TOKEN_KEY)
+    } catch {
+      /* keep the in-memory copy */
+    }
+  },
+}
+
+export class ApiError extends Error {
+  status: number
+  constructor(status: number, message: string) {
+    super(message)
+    this.status = status
+  }
+}
+
+export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
+  const headers = new Headers(init.headers)
+  const token = tokenStore.get()
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  if (init.body && !(init.body instanceof FormData)) headers.set('Content-Type', 'application/json')
+  const res = await fetch(`${API_URL}${path}`, { ...init, headers })
+  if (!res.ok) {
+    const body = await res.json().catch(() => null)
+    const detail = typeof body?.detail === 'string' ? body.detail : res.statusText
+    throw new ApiError(res.status, detail)
+  }
+  return (res.status === 204 ? undefined : await res.json()) as T
+}
+
+export const mediaUrl = (path: string | null) => (path ? `${API_URL}${path}` : null)
+
+export type Role = 'household' | 'donor' | 'contractor' | 'reviewer' | 'supervisor' | 'org_admin' | 'business'
+
+export type User = {
+  id: number
+  name: string
+  email: string
+  role: Role
+  title: string | null
+  locale: string
+  household_id: number | null
+}
+
+export type Disaster = { id: number; slug: string; name: string; kind: string; status: string; is_fictional: boolean }
+
+export type Household = {
+  id: number
+  name: string
+  address_line: string
+  city: string
+  state: string
+  postal_code: string
+  lat: number | null
+  lng: number | null
+  insured_contents_value: string | null
+  verification_level: number
+  disaster_event: Disaster | null
+  in_disaster_zone: boolean
+}
+
+export type RoomTotal = { room_id: number | null; room_name: string; item_count: number; total_value: string }
+
+export type InventorySummary = {
+  item_count: number
+  confirmed_count: number
+  unpriced_count: number
+  total_value: string
+  insured_contents_value: string | null
+  coverage_gap: string | null
+  by_room: RoomTotal[]
+}

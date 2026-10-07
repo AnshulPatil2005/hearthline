@@ -1,0 +1,58 @@
+{
+  "app": {
+    "tagline": "Recuperación tras desastres para quienes los viven",
+    "stages": { "prepare": "Prepararse", "respond": "Responder", "rebuild": "Reconstruir", "reopen": "Reabrir" },
+    "demoNotice": "Demostración con un pueblo y personas ficticias · PayPal sandbox · no se mueve dinero real"
+  },
+  "nav": { "home": "Inicio", "inventory": "Inventario", "switchPersona": "Cambiar de persona", "signOut": "Cerrar sesión", "language": "Idioma" },
+  "roles": {
+    "household": "Hogar",
+    "donor": "Donante",
+    "contractor": "Contratista",
+    "reviewer": "Revisor de reclamos",
+    "supervisor": "Supervisora de revisión",
+    "org_admin": "Organización de ayuda",
+    "business": "Pequeño negocio"
+  },
+  "login": {
+    "title": "¿Quién eres hoy?",
+    "subtitle": "El incendio de Sablewood es inventado, igual que estas personas. Elige una para ver Hearthline desde su perspectiva.",
+    "signIn": "Continuar como {{name}}",
+    "error": "No pudimos iniciar sesión. ¿Está funcionando la API?"
+  },
+  "home": {
+    "greeting": "Hola de nuevo, {{name}}",
+    "inZone": "Tu casa en {{address}} está dentro del área del {{event}}.",
+    "notInZone": "Tu casa no está dentro de un área de desastre activa.",
+    "prepareHint": "Mantén tu inventario al día para que tu reclamo esté listo si ocurre un desastre."
+  },
+  "coverage": {
+    "title": "Revisión de cobertura",
+    "inventoryValue": "Tus pertenencias valen",
+    "insured": "Tu póliza cubre",
+    "gap": "Te falta cobertura por {{amount}}",
+    "ok": "Tu póliza cubre todo lo encontrado hasta ahora.",
+    "noPolicy": "Agrega el límite de contenido de tu póliza para revisar tu cobertura.",
+    "counts": "{{count}} artículos · {{confirmed}} confirmados"
+  },
+  "rooms": {
+    "title": "Habitaciones",
+    "empty": "Aún no has escaneado ninguna habitación. Empieza por la que tenga las cosas de más valor.",
+    "items_one": "{{count}} artículo",
+    "items_other": "{{count}} artículos"
+  },
+  "actions": { "scanRoom": "Escanear una habitación", "openInventory": "Abrir inventario", "retry": "Intentar de nuevo" },
+  "comingSoon": {
+    "title": "Espacio de {{role}}",
+    "body": "Esta parte de Hearthline está en construcción. Pronto {{name}} podrá:",
+    "features": {
+      "donor": ["Financiar cosas concretas que una familia necesita", "Ver a dónde fue cada dólar", "Donar con PayPal, Venmo o Pay Later"],
+      "contractor": ["Aceptar trabajos de reconstrucción", "Cobrar por cada etapa verificada", "Subir fotos del avance"],
+      "reviewer": ["Revisar reclamos con evidencia reunida por la IA", "Aprobar o pedir más evidencia", "Verificar hogares por videollamada"],
+      "supervisor": ["Resolver desacuerdos entre revisores", "Volver a revisar una muestra aleatoria de aprobaciones", "Detectar patrones inusuales de revisores"],
+      "org_admin": ["Ver todos los hogares del área del desastre", "Enviar ayuda en efectivo en un solo lote de PayPal", "Programar cuadrillas de voluntarios"],
+      "business": ["Crear un Fondo de Reapertura", "Vender tarjetas de regalo a clientes habituales desde ya", "Recibir fondos al cumplir etapas de reapertura"]
+    }
+  },
+  "errors": { "generic": "Algo salió mal. Inténtalo de nuevo." }
+}
