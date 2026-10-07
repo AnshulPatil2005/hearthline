@@ -341,12 +341,12 @@ hearthline/
 
 ### Week 1: Tue Oct 6 – Sun Oct 11: Prepare and inventory
 *(Oct 6, 9 am PT: "Start building with PayPal" webinar. Oct 7: APIMatic webinar.)*
-- [ ] Auth, roles, **one-click demo personas** for judges, and i18n set up from day one (5 languages)
-- [ ] Disaster zones that work for any disaster type (GeoJSON), geocoding, the inside-the-zone check, and a demo wildfire boundary
-- [ ] Upload photos or video; video frames are extracted **in the browser**; the worker runs the Inventory agent, then the Valuation agent (Batches API)
-- [ ] AG Grid household inventory: grouped by room, editable, Excel export
-- [ ] Underinsurance warning; NWS alerts cron job, plus a "simulate alert" button for the demo
-- **Done when:** a video of a room produces a priced inventory you can edit and export.
+- [x] Auth, roles, **one-click demo personas** for judges (plus `/login?as=…&next=…` deep links), and i18n from day one (5 languages)
+- [x] Disaster zones that work for any disaster type (GeoJSON), geocoding, the inside-the-zone check, and the fictional Sablewood Fire boundary
+- [x] Upload photos or video; video frames are extracted **in the browser**; a background task runs the Inventory agent (one AI call per scan), then the Valuation agent (parallel Channel3, median pricing)
+- [x] AG Grid household inventory: grouped by room, editable, right-click menu, Excel claim export
+- [x] Underinsurance warning; NWS alerts fetched on demand (no cron on the free tier), plus a "simulate alert" button for the demo
+- **Done when:** a video of a room produces a priced inventory you can edit and export. **Done Oct 7** (ahead of schedule).
 
 ### Week 2: Mon Oct 12 – Sun Oct 18: money core
 *(Oct 12: "payments dashboard" webinar.)*
