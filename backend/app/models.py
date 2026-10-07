@@ -283,3 +283,75 @@ class WebhookEvent(Base):
     received_at: Mapped[datetime] = mapped_column(default=now)
     processed_at: Mapped[datetime | None]
     error: Mapped[str | None] = mapped_column(String(500))
+
+
+class Registry(Base):
+    """A household's public Rebuild Registry: specific things donors can pay for."""
+
+    __tablename__ = "registries"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), unique=True)
+    slug: Mapped[str] = mapped_column(String(80), unique=True)
+    title: Mapped[str] = mapped_column(String(120))
+    story: Mapped[str] = mapped_column(String(2000), default="")
+    status: Mapped[str] = mapped_column(String(20), default="active")  # active | paused | closed
+    created_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    household: Mapped[Household] = relationship()
+    items: Mapped[list["RegistryItem"]] = relationship(
+        back_populates="rebuild_registry", cascade="all, delete-orphan", order_by="RegistryItem.priority"
+    )
+
+
+class RegistryItem(Base):
+    __tablename__ = "registry_items"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    registry_id: Mapped[int] = mapped_column(ForeignKey("registries.id", ondelete="CASCADE"), index=True)
+    inventory_item_id: Mapped[int | None] = mapped_column(ForeignKey("items.id", ondelete="SET NULL"))
+    name: Mapped[str] = mapped_column(String(200))
+    note: Mapped[str] = mapped_column(String(300), default="")
+    category: Mapped[str] = mapped_column(String(60), default="other")
+    quantity: Mapped[int] = mapped_column(default=1)
+    unit_price: Mapped[Decimal] = mapped_column(Money)
+    priority: Mapped[int] = mapped_column(default=100)  # lower = more urgent
+    channel3_product_id: Mapped[str | None] = mapped_column(String(40))
+    match_url: Mapped[str | None] = mapped_column(String(600))
+    retailer: Mapped[str | None] = mapped_column(String(120))
+    funded_amount: Mapped[Decimal] = mapped_column(Money, default=Decimal("0"))
+    status: Mapped[str] = mapped_column(String(20), default="open")  # open | funded | purchased | delivered
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    rebuild_registry: Mapped[Registry] = relationship(back_populates="items")
+
+    @property
+    def target_amount(self) -> Decimal:
+        return self.unit_price * self.quantity
+
+    @property
+    def remaining(self) -> Decimal:
+        return max(self.target_amount - self.funded_amount, Decimal("0"))
+
+
+class Donation(Base):
+    __tablename__ = "donations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    registry_id: Mapped[int] = mapped_column(ForeignKey("registries.id", ondelete="CASCADE"), index=True)
+    registry_item_id: Mapped[int | None] = mapped_column(ForeignKey("registry_items.id", ondelete="SET NULL"))
+    donor_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
+    donor_name: Mapped[str | None] = mapped_column(String(80))  # None = anonymous
+    message: Mapped[str] = mapped_column(String(280), default="")
+    amount: Mapped[Decimal] = mapped_column(Money)
+    fee: Mapped[Decimal | None] = mapped_column(Money)
+    payment_method: Mapped[str] = mapped_column(String(20), default="paypal")  # paypal | venmo | paylater
+    paypal_order_id: Mapped[str | None] = mapped_column(String(40), unique=True)
+    paypal_capture_id: Mapped[str | None] = mapped_column(String(40), unique=True)
+    status: Mapped[str] = mapped_column(String(20), default="created")  # created | captured | refunded | failed
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    captured_at: Mapped[datetime | None]
+
+    rebuild_registry: Mapped[Registry] = relationship()
+    item: Mapped[RegistryItem | None] = relationship()

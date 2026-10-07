@@ -46,6 +46,22 @@ def current_user(
 CurrentUser = Annotated[User, Depends(current_user)]
 
 
+def optional_user(
+    creds: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer)],
+    db: Annotated[Session, Depends(get_db)],
+) -> User | None:
+    """The signed-in user if a valid token was sent, else None (for public pages like registries)."""
+    if creds is None:
+        return None
+    try:
+        return current_user(creds, db)
+    except HTTPException:
+        return None
+
+
+OptionalUser = Annotated[User | None, Depends(optional_user)]
+
+
 def require_role(*roles: Role) -> Callable[[User], User]:
     def check(user: CurrentUser) -> User:
         if user.role not in roles:

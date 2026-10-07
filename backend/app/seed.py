@@ -10,7 +10,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db import SessionLocal
-from app.models import DisasterEvent, DisasterKind, Household, Role, User
+from app.models import DisasterEvent, DisasterKind, Household, Registry, RegistryItem, Role, User
 
 FIRE_SLUG = "sablewood-fire"
 
@@ -101,6 +101,29 @@ PERSONAS = [
 ]
 
 
+RIVERA_REGISTRY = {
+    "slug": "rivera-family",
+    "title": "Help the Riveras come home",
+    "story": (
+        "Our house on Juniper Lane burned in the Sablewood Fire. We got out with our kids, Maya (12) and Leo (8), "
+        "and our dog Pepper, but almost nothing else. Instead of cash, we've listed the specific things we need "
+        "first. Every item is bought by Hearthline and shipped to our temporary address, and you can see where "
+        "every dollar goes. Thank you for helping us start again."
+    ),
+}
+
+# (name, note, category, quantity, unit price, priority)
+RIVERA_ITEMS = [
+    ("Twin mattresses", "For Maya and Leo. They're sleeping on an air mattress.", "bedding", 2, "249.00", 10),
+    ("Twin bed frames", "Simple metal frames are fine.", "furniture", 2, "129.00", 20),
+    ("School laptop for Maya", "Her school assigns homework online.", "electronics", 1, "449.00", 30),
+    ("Winter jackets for the kids", "Sizes 12 and 8.", "clothing", 2, "79.00", 40),
+    ("Kitchen starter set", "Pots, pans, plates and utensils for the rental.", "kitchenware", 1, "189.00", 50),
+    ("Steel-toe work boots", "Elena's were lost; she needs them for work.", "clothing", 1, "139.00", 60),
+    ("Dog crate and bed for Pepper", "The rental requires a crate.", "other", 1, "95.00", 70),
+]
+
+
 def _get_or_create(db: Session, model, lookup: dict, **values):
     row = db.scalar(select(model).filter_by(**lookup))
     if row is None:
@@ -135,6 +158,16 @@ def seed(db: Session) -> None:
             is_demo=True,
             household=homes.get(home_key),
         )
+    rivera = homes["rivera"]
+    if db.scalar(select(Registry).where(Registry.slug == RIVERA_REGISTRY["slug"])) is None:
+        registry = Registry(household_id=rivera.id, **RIVERA_REGISTRY)
+        for name, note, category, qty, price, priority in RIVERA_ITEMS:
+            registry.items.append(
+                RegistryItem(
+                    name=name, note=note, category=category, quantity=qty, unit_price=Decimal(price), priority=priority
+                )
+            )
+        db.add(registry)
     db.commit()
 
 
