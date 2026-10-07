@@ -24,3 +24,6 @@ backend/spikes/out/
 Thumbs.db
 .vscode/
 .idea/
+
+# Local SQLite database
+backend/hearthline.db

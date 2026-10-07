@@ -9,7 +9,7 @@ Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on th
 ## Repository layout
 
 ```
-backend/    Python 3.12 · FastAPI API, arq worker, agents, PayPal/Channel3 integrations
+backend/    Python 3.12 · FastAPI API, agents, PayPal/Channel3 integrations, Alembic migrations
   spikes/   Week-0 experiments that de-risk the design (see backend/spikes/README.md)
 frontend/   React + TypeScript (Vite) · AG Grid and Bryntum UIs
 render.yaml Render Blueprint for the whole stack
@@ -25,6 +25,7 @@ Prerequisites: [uv](https://docs.astral.sh/uv/), Node.js 20+.
 cd backend
 cp .env.example .env        # then fill in your keys
 uv sync
+uv run alembic upgrade head              # creates backend/hearthline.db (SQLite)
 uv run uvicorn app.main:app --reload     # http://localhost:8000/health
 
 # Web

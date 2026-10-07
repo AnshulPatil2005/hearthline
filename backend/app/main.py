@@ -1,8 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from sqlalchemy import text
+from sqlalchemy.exc import SQLAlchemyError
 
 from app import ai
 from app.config import get_settings
+from app.db import engine
 
 settings = get_settings()
 
@@ -21,13 +24,22 @@ app.add_middleware(
 )
 
 
+def database_ok() -> bool:
+    try:
+        with engine.connect() as conn:
+            conn.execute(text("SELECT 1"))
+        return True
+    except SQLAlchemyError:
+        return False
+
+
 @app.get("/health", tags=["system"])
 def health() -> dict:
     return {
         "status": "ok",
         "environment": settings.environment,
         "integrations": {
-            "Database": bool(settings.database_url),
+            "Database": database_ok(),
             "AI": ai.configured(),
             "Channel3": bool(settings.channel3_api_key),
             "PayPal": settings.paypal_configured,

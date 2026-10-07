@@ -11,7 +11,6 @@ class Settings(BaseSettings):
 
     environment: str = "development"
     database_url: str | None = None
-    redis_url: str = "redis://localhost:6379"
     # Localhost on any port, plus the Render static site (and its preview environments).
     cors_origin_regex: str = r"http://localhost:\d+|https://hearthline-web(-[a-z0-9-]+)?\.onrender\.com"
 

@@ -9,3 +9,4 @@ def test_health_reports_integrations():
     body = r.json()
     assert body["status"] == "ok"
     assert set(body["integrations"]) == {"Database", "AI", "Channel3", "PayPal"}
+    assert body["integrations"]["Database"] is True
