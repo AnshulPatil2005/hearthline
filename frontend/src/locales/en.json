@@ -28,7 +28,8 @@
     "reopenFund": "Reopen Fund",
     "businesses": "Businesses",
     "priceWatch": "Price Watch",
-    "giving": "My giving"
+    "giving": "My giving",
+    "insurance": "Insurance"
   },
   "roles": {
     "household": "Household",
@@ -1016,5 +1017,46 @@
       "businesses": "Businesses helped",
       "delivered": "Items delivered"
     }
+  },
+  "insurance": {
+    "title": "Your insurance",
+    "subtitle": "Upload your policy and the Policy agent reads it: what's covered, the limits, and what to do by when. It compares the limits with your inventory.",
+    "uploadTitle": "Upload your policy",
+    "uploadBody": "The PDF your insurer sent (the declarations page and the policy wording). It stays private to your household.",
+    "replace": "Upload a newer policy",
+    "file": "Policy PDF",
+    "read": "Read my policy",
+    "reading": "Reading…",
+    "readingHint": "The Policy agent is reading your policy. This takes about 20 seconds.",
+    "sample": "No policy handy? Try a sample (fictional)",
+    "type": {
+      "homeowners": "Homeowners",
+      "renters": "Renters",
+      "condo": "Condo",
+      "dwelling_fire": "Dwelling fire",
+      "other": "Other"
+    },
+    "deductible": "Deductible {{amount}}",
+    "settlement": {
+      "replacement_cost": "belongings paid at replacement cost (new for old)",
+      "actual_cash_value": "belongings paid at actual cash value (minus wear)",
+      "unknown": "how belongings are paid isn't clear"
+    },
+    "claimTitle": "Your inventory and this policy",
+    "inventoryVsLimit": "Your inventory is worth {{inventory}}; your personal property limit is {{limit}}.",
+    "gap": "That's {{gap}} more than the policy covers.",
+    "overSubLimit": "covers up to {{limit}}. Your items are worth {{value}}, so {{over}} isn't covered.",
+    "withinSubLimit": "covers up to {{limit}}; your items are worth {{value}}.",
+    "otherSubLimits_one": "{{count}} other special limit doesn't apply to anything in your inventory.",
+    "otherSubLimits_other": "{{count}} other special limits don't apply to anything in your inventory.",
+    "deadlinesTitle": "What to do, and by when",
+    "due_one": "by {{date}} ({{count}} day left)",
+    "due_other": "by {{date}} ({{count}} days left)",
+    "overdue": "was due {{date}}",
+    "advanceTip": "After a total loss in a declared emergency, California requires insurers to offer advance payments for living expenses and belongings. Ask your adjuster about them.",
+    "askTitle": "Ask about your policy",
+    "askPlaceholder": "e.g. Is my mother's jewelry covered?",
+    "ask": "Ask",
+    "notAdvice": "The Policy agent explains what your policy says. It isn't legal advice, and your insurer decides what it pays."
   }
 }

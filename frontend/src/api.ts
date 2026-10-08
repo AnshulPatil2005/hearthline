@@ -543,3 +543,28 @@ export async function downloadFile(path: string, filename: string): Promise<void
   a.click()
   URL.revokeObjectURL(url)
 }
+
+export type PolicyCoverage = { name: string; kind: string; limit: number | null; notes: string }
+export type PolicyRead = {
+  insurer: string
+  policy_number: string | null
+  policy_type: string
+  period: string | null
+  deductible: number | null
+  contents_settlement: 'replacement_cost' | 'actual_cash_value' | 'unknown'
+  extended_replacement_percent: number | null
+  coverages: PolicyCoverage[]
+  plain_summary: string
+}
+export type ClaimCheck = {
+  loss_date: string | null
+  inventory_value: string
+  contents_limit: string | null
+  contents_gap: string
+  deductible: string | null
+  settlement: string
+  sub_limits: { what: string; limit: string; items: string[]; items_value: string; over_by: string }[]
+  deadlines: { what: string; text: string; due: string | null; days_left: number | null }[]
+}
+export type PolicyInfo = { filename: string; uploaded_at: string; summary: PolicyRead; check: ClaimCheck }
+export type PolicyAnswer = { answer: string; quote: string | null; in_policy: boolean }

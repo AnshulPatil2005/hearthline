@@ -556,6 +556,9 @@ def main() -> None:
     with SessionLocal() as db:
         seed(db)
         seed_review_demo(db)
+        from app.seed_inventory import seed_rivera_inventory
+
+        seed_rivera_inventory(db)
         seed_rebuild_demo(db)
         from app.seed_command import seed_command_center, seed_crews  # imports this module's constants
 

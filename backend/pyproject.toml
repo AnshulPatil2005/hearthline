@@ -17,6 +17,7 @@ dependencies = [
     "psycopg[binary]>=3.3.6",
     "pydantic-settings>=2.15.0",
     "pyjwt>=2.15.1",
+    "pypdf>=6.19.0",
     "python-multipart>=0.0.32",
     "shapely>=2.2.0",
     "sqlalchemy>=2.1.3",

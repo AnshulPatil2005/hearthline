@@ -14,6 +14,7 @@ from app.api import (
     crews,
     households,
     impact,
+    insurance,
     inventory,
     ledger,
     price_watch,
@@ -73,6 +74,7 @@ app.include_router(crews.router)
 app.include_router(reopen.router)
 app.include_router(price_watch.router)
 app.include_router(impact.router)
+app.include_router(insurance.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

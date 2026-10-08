@@ -28,7 +28,8 @@
     "reopenFund": "Pondo sa Muling Pagbubukas",
     "businesses": "Mga Negosyo",
     "priceWatch": "Bantay-Presyo",
-    "giving": "Aking ibinigay"
+    "giving": "Aking ibinigay",
+    "insurance": "Insurance"
   },
   "roles": {
     "household": "Sambahayan",
@@ -1016,5 +1017,46 @@
       "businesses": "Natulungang negosyo",
       "delivered": "Naihatid na item"
     }
+  },
+  "insurance": {
+    "title": "Inyong insurance",
+    "subtitle": "I-upload ang inyong policy at babasahin ito ng Policy agent: ano ang sakop, ang mga limitasyon, at ano ang dapat gawin at kailan. Ikinukumpara nito ang mga limitasyon sa inyong inventory.",
+    "uploadTitle": "I-upload ang inyong policy",
+    "uploadBody": "Ang PDF na ipinadala ng inyong insurer (declarations page at ang policy). Pribado ito sa inyong sambahayan.",
+    "replace": "Mag-upload ng mas bagong policy",
+    "file": "PDF ng policy",
+    "read": "Basahin ang aking policy",
+    "reading": "Binabasa…",
+    "readingHint": "Binabasa ng Policy agent ang inyong policy. Mga 20 segundo ito.",
+    "sample": "Wala sa inyo ang policy? Subukan ang sample (gawa-gawa)",
+    "type": {
+      "homeowners": "Homeowners",
+      "renters": "Renters",
+      "condo": "Condo",
+      "dwelling_fire": "Dwelling fire",
+      "other": "Iba pa"
+    },
+    "deductible": "Deductible {{amount}}",
+    "settlement": {
+      "replacement_cost": "binabayaran ang gamit sa replacement cost (bago kapalit ng luma)",
+      "actual_cash_value": "binabayaran ang gamit sa actual cash value (bawas ang pagkaluma)",
+      "unknown": "hindi malinaw kung paano binabayaran ang mga gamit"
+    },
+    "claimTitle": "Inyong inventory at ang policy na ito",
+    "inventoryVsLimit": "Nagkakahalaga ng {{inventory}} ang inyong inventory; {{limit}} ang limitasyon ng inyong personal property.",
+    "gap": "Lampas ito nang {{gap}} sa sakop ng policy.",
+    "overSubLimit": "sakop hanggang {{limit}}. Nagkakahalaga ng {{value}} ang inyong mga item, kaya hindi sakop ang {{over}}.",
+    "withinSubLimit": "sakop hanggang {{limit}}; nagkakahalaga ng {{value}} ang inyong mga item.",
+    "otherSubLimits_one": "{{count}} pang espesyal na limitasyon ang hindi tumatama sa anumang nasa inyong inventory.",
+    "otherSubLimits_other": "{{count}} pang espesyal na limitasyon ang hindi tumatama sa anumang nasa inyong inventory.",
+    "deadlinesTitle": "Ano ang gagawin, at hanggang kailan",
+    "due_one": "bago ang {{date}} ({{count}} araw na lang)",
+    "due_other": "bago ang {{date}} ({{count}} araw na lang)",
+    "overdue": "lumipas na noong {{date}}",
+    "advanceTip": "Pagkatapos ng total loss sa isang idineklarang emergency, inaatasan ng California ang mga insurer na mag-alok ng paunang bayad para sa gastos sa pamumuhay at mga gamit. Itanong sa inyong adjuster.",
+    "askTitle": "Magtanong tungkol sa inyong policy",
+    "askPlaceholder": "hal. Sakop ba ang alahas ng aking ina?",
+    "ask": "Itanong",
+    "notAdvice": "Ipinaliliwanag ng Policy agent ang sinasabi ng inyong policy. Hindi ito legal na payo, at ang insurer ang magpapasya kung magkano ang ibabayad."
   }
 }

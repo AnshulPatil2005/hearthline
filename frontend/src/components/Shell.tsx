@@ -66,6 +66,9 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               <NavLink to="/registry" className={navClass}>
                 {t('nav.registry')}
               </NavLink>
+              <NavLink to="/insurance" className={navClass}>
+                {t('nav.insurance')}
+              </NavLink>
               <NavLink to="/rebuild" className={navClass}>
                 {t('nav.rebuild')}
               </NavLink>

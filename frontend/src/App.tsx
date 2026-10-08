@@ -9,6 +9,7 @@ import ContractorPortal from './pages/ContractorPortal'
 import GiftCardView from './pages/GiftCardView'
 import Giving from './pages/Giving'
 import HouseholdHome from './pages/HouseholdHome'
+import Insurance from './pages/Insurance'
 import Inventory from './pages/Inventory'
 import Login from './pages/Login'
 import Money from './pages/Money'
@@ -91,6 +92,14 @@ export default function App() {
         element={
           <RequireAuth role="household">
             <Aid />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/insurance"
+        element={
+          <RequireAuth role="household">
+            <Insurance />
           </RequireAuth>
         }
       />

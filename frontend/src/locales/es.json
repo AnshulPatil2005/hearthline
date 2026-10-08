@@ -28,7 +28,8 @@
     "reopenFund": "Fondo de reapertura",
     "businesses": "Negocios",
     "priceWatch": "Vigilancia de precios",
-    "giving": "Mis donaciones"
+    "giving": "Mis donaciones",
+    "insurance": "Seguro"
   },
   "roles": {
     "household": "Hogar",
@@ -1016,5 +1017,46 @@
       "businesses": "Negocios ayudados",
       "delivered": "Artículos entregados"
     }
+  },
+  "insurance": {
+    "title": "Su seguro",
+    "subtitle": "Suba su póliza y el agente de pólizas la lee: qué cubre, los límites y qué hacer y cuándo. Compara los límites con su inventario.",
+    "uploadTitle": "Suba su póliza",
+    "uploadBody": "El PDF que le envió su aseguradora (la página de declaraciones y el texto de la póliza). Solo lo ve su hogar.",
+    "replace": "Subir una póliza más reciente",
+    "file": "PDF de la póliza",
+    "read": "Leer mi póliza",
+    "reading": "Leyendo…",
+    "readingHint": "El agente está leyendo su póliza. Tarda unos 20 segundos.",
+    "sample": "¿No tiene la póliza a mano? Pruebe un ejemplo (ficticio)",
+    "type": {
+      "homeowners": "Propietario",
+      "renters": "Inquilino",
+      "condo": "Condominio",
+      "dwelling_fire": "Incendio de vivienda",
+      "other": "Otra"
+    },
+    "deductible": "Deducible {{amount}}",
+    "settlement": {
+      "replacement_cost": "pertenencias pagadas a costo de reposición (nuevo por viejo)",
+      "actual_cash_value": "pertenencias pagadas a valor real (menos desgaste)",
+      "unknown": "no queda claro cómo se pagan las pertenencias"
+    },
+    "claimTitle": "Su inventario y esta póliza",
+    "inventoryVsLimit": "Su inventario vale {{inventory}}; su límite de bienes personales es {{limit}}.",
+    "gap": "Son {{gap}} más de lo que cubre la póliza.",
+    "overSubLimit": "cubre hasta {{limit}}. Sus artículos valen {{value}}, así que {{over}} no está cubierto.",
+    "withinSubLimit": "cubre hasta {{limit}}; sus artículos valen {{value}}.",
+    "otherSubLimits_one": "{{count}} otro límite especial no aplica a nada de su inventario.",
+    "otherSubLimits_other": "{{count}} otros límites especiales no aplican a nada de su inventario.",
+    "deadlinesTitle": "Qué hacer y para cuándo",
+    "due_one": "antes del {{date}} (queda {{count}} día)",
+    "due_other": "antes del {{date}} (quedan {{count}} días)",
+    "overdue": "venció el {{date}}",
+    "advanceTip": "Tras una pérdida total en una emergencia declarada, California exige que las aseguradoras ofrezcan anticipos para gastos de vivienda y pertenencias. Pregúntele a su ajustador.",
+    "askTitle": "Pregunte sobre su póliza",
+    "askPlaceholder": "p. ej. ¿Están cubiertas las joyas de mi madre?",
+    "ask": "Preguntar",
+    "notAdvice": "El agente explica lo que dice su póliza. No es asesoría legal y su aseguradora decide lo que paga."
   }
 }

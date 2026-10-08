@@ -28,7 +28,8 @@
     "reopenFund": "重新开业基金",
     "businesses": "商家",
     "priceWatch": "价格监督",
-    "giving": "我的捐赠"
+    "giving": "我的捐赠",
+    "insurance": "保险"
   },
   "roles": {
     "household": "住户",
@@ -1000,5 +1001,44 @@
       "businesses": "帮助的商家",
       "delivered": "已送达物品"
     }
+  },
+  "insurance": {
+    "title": "您的保险",
+    "subtitle": "上传保单，保单助手会为您解读：承保范围、限额以及需要在何时完成哪些事项，并与您的物品清单进行比较。",
+    "uploadTitle": "上传您的保单",
+    "uploadBody": "保险公司发给您的 PDF（声明页和保单条款）。仅您的家庭可见。",
+    "replace": "上传更新的保单",
+    "file": "保单 PDF",
+    "read": "解读我的保单",
+    "reading": "正在解读…",
+    "readingHint": "保单助手正在阅读您的保单，大约需要 20 秒。",
+    "sample": "手边没有保单？试试示例（虚构）",
+    "type": {
+      "homeowners": "房主险",
+      "renters": "租客险",
+      "condo": "公寓险",
+      "dwelling_fire": "住宅火险",
+      "other": "其他"
+    },
+    "deductible": "免赔额 {{amount}}",
+    "settlement": {
+      "replacement_cost": "财物按重置成本赔付（以新换旧）",
+      "actual_cash_value": "财物按实际现金价值赔付（扣除折旧）",
+      "unknown": "财物的赔付方式不明确"
+    },
+    "claimTitle": "您的物品清单与本保单",
+    "inventoryVsLimit": "您的物品价值 {{inventory}}；个人财产限额为 {{limit}}。",
+    "gap": "超出保单承保范围 {{gap}}。",
+    "overSubLimit": "最高赔付 {{limit}}。您的物品价值 {{value}}，因此有 {{over}} 不在承保范围内。",
+    "withinSubLimit": "最高赔付 {{limit}}；您的物品价值 {{value}}。",
+    "otherSubLimits_other": "另有 {{count}} 项特别限额不涉及您清单中的物品。",
+    "deadlinesTitle": "需要做什么，何时完成",
+    "due_other": "{{date}} 前（还剩 {{count}} 天）",
+    "overdue": "已于 {{date}} 到期",
+    "advanceTip": "在宣布紧急状态的灾害中房屋全毁后，加州要求保险公司提供生活费和财物的预付款。请向理赔员询问。",
+    "askTitle": "询问有关保单的问题",
+    "askPlaceholder": "例如：我母亲的首饰在承保范围内吗？",
+    "ask": "提问",
+    "notAdvice": "保单助手只解释保单内容，不构成法律建议，赔付金额由保险公司决定。"
   }
 }

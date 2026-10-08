@@ -28,7 +28,8 @@
     "reopenFund": "Quỹ mở cửa lại",
     "businesses": "Doanh nghiệp",
     "priceWatch": "Theo dõi giá",
-    "giving": "Đóng góp của tôi"
+    "giving": "Đóng góp của tôi",
+    "insurance": "Bảo hiểm"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -1000,5 +1001,44 @@
       "businesses": "Doanh nghiệp được giúp",
       "delivered": "Món đã giao"
     }
+  },
+  "insurance": {
+    "title": "Bảo hiểm của quý vị",
+    "subtitle": "Tải hợp đồng bảo hiểm lên và Policy agent sẽ đọc: được bảo hiểm những gì, hạn mức, và việc cần làm trước khi nào. Agent so sánh hạn mức với danh sách đồ đạc của quý vị.",
+    "uploadTitle": "Tải hợp đồng bảo hiểm lên",
+    "uploadBody": "Tệp PDF công ty bảo hiểm gửi (trang tóm tắt và điều khoản hợp đồng). Chỉ hộ của quý vị xem được.",
+    "replace": "Tải lên hợp đồng mới hơn",
+    "file": "PDF hợp đồng",
+    "read": "Đọc hợp đồng của tôi",
+    "reading": "Đang đọc…",
+    "readingHint": "Policy agent đang đọc hợp đồng. Mất khoảng 20 giây.",
+    "sample": "Không có sẵn hợp đồng? Dùng thử mẫu (hư cấu)",
+    "type": {
+      "homeowners": "Chủ nhà",
+      "renters": "Người thuê",
+      "condo": "Căn hộ",
+      "dwelling_fire": "Cháy nhà ở",
+      "other": "Khác"
+    },
+    "deductible": "Mức khấu trừ {{amount}}",
+    "settlement": {
+      "replacement_cost": "đồ đạc được trả theo chi phí thay thế (mới đổi cũ)",
+      "actual_cash_value": "đồ đạc được trả theo giá trị thực (trừ hao mòn)",
+      "unknown": "chưa rõ đồ đạc được trả theo cách nào"
+    },
+    "claimTitle": "Đồ đạc của quý vị và hợp đồng này",
+    "inventoryVsLimit": "Đồ đạc của quý vị trị giá {{inventory}}; hạn mức tài sản cá nhân là {{limit}}.",
+    "gap": "Vượt {{gap}} so với mức hợp đồng chi trả.",
+    "overSubLimit": "chi trả tối đa {{limit}}. Đồ của quý vị trị giá {{value}}, nên {{over}} không được bảo hiểm.",
+    "withinSubLimit": "chi trả tối đa {{limit}}; đồ của quý vị trị giá {{value}}.",
+    "otherSubLimits_other": "{{count}} hạn mức đặc biệt khác không áp dụng cho món nào trong danh sách.",
+    "deadlinesTitle": "Việc cần làm và thời hạn",
+    "due_other": "trước {{date}} (còn {{count}} ngày)",
+    "overdue": "đã đến hạn ngày {{date}}",
+    "advanceTip": "Sau khi mất toàn bộ nhà trong tình trạng khẩn cấp được công bố, California yêu cầu công ty bảo hiểm đề nghị ứng trước chi phí sinh hoạt và đồ đạc. Hãy hỏi chuyên viên giám định của quý vị.",
+    "askTitle": "Hỏi về hợp đồng của quý vị",
+    "askPlaceholder": "vd. Trang sức của mẹ tôi có được bảo hiểm không?",
+    "ask": "Hỏi",
+    "notAdvice": "Policy agent giải thích nội dung hợp đồng. Đây không phải tư vấn pháp lý, và công ty bảo hiểm quyết định số tiền chi trả."
   }
 }
