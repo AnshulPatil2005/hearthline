@@ -1,7 +1,9 @@
+import { AgChartsEnterpriseModule } from 'ag-charts-enterprise'
 import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
 import { AllEnterpriseModule, LicenseManager } from 'ag-grid-enterprise'
 
-ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule])
+// AG Charts powers integrated charts (select cells, right-click, chart) and the sparkline cells.
+ModuleRegistry.registerModules([AllCommunityModule, AllEnterpriseModule.with(AgChartsEnterpriseModule)])
 
 // Without a key AG Grid Enterprise runs in trial mode (watermark); set VITE_AG_GRID_LICENSE when we have one.
 const license = import.meta.env.VITE_AG_GRID_LICENSE as string | undefined

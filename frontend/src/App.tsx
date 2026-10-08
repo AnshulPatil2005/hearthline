@@ -1,6 +1,7 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Aid from './pages/Aid'
+import CommandCenter from './pages/CommandCenter'
 import ComingSoon from './pages/ComingSoon'
 import ContractorPortal from './pages/ContractorPortal'
 import HouseholdHome from './pages/HouseholdHome'
@@ -106,6 +107,14 @@ export default function App() {
             <Suspense fallback={loading}>
               <ReviewBoard />
             </Suspense>
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/command"
+        element={
+          <RequireAuth role={['org_admin', 'supervisor']} wide>
+            <CommandCenter />
           </RequireAuth>
         }
       />

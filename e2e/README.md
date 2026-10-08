@@ -15,5 +15,6 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `cash_aid.py` | The household requests cash aid on the Aid page; the randomly assigned reviewer approves it; a real PayPal sandbox payout is sent; the household sees "Approved" (uses one AI call) |
 | `review_scam.py` | Two reviewers open the seeded impersonation registry from their queues and reject it with reasons; the registry closes and its donations are refunded (needs a freshly seeded database) |
 | `rebuild_milestones.py` | The contractor drags a milestone in Bryntum Gantt and the new date is saved; the homeowner approves the seeded demolition milestone (paid from escrow through Payouts, or a plain "balance can't cover" message if the sandbox account is low); the contractor submits photos, the Site agent checks them (one AI call), and the mismatch opens a high-risk case for two reviewers that shows the photos and the check (needs a freshly seeded database) |
+| `command_center.py` | The org admin lands on the Command Center; 2,000+ households load block by block from the server-side AG Grid, sorted by unmet need, with help sparklines; dragging Damage into the group bar groups on the server with counts and summed totals |
 
 Screenshots land in `e2e/screenshots/` (git-ignored).

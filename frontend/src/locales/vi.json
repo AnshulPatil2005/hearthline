@@ -22,7 +22,8 @@
     "board": "Tiến trình",
     "aid": "Hỗ trợ",
     "rebuild": "Xây lại",
-    "projects": "Dự án"
+    "projects": "Dự án",
+    "command": "Trung tâm điều phối"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -304,7 +305,8 @@
       "escrow": "Chuyển vào ký quỹ",
       "escrow_release": "Hoàn lại từ ký quỹ",
       "insurance_payment": "Tiền bảo hiểm",
-      "milestone_payment": "Trả cho nhà thầu"
+      "milestone_payment": "Trả cho nhà thầu",
+      "grant": "Tài trợ"
     }
   },
   "review": {
@@ -579,5 +581,58 @@
     "received": "Đã trả cho quý vị",
     "planSent": "Gia đình đang xem kế hoạch của quý vị. Quý vị vẫn có thể sửa cho đến khi họ chấp nhận.",
     "planIntro": "Chia công việc thành các giai đoạn mà gia đình có thể kiểm tra bằng ảnh. Mỗi giai đoạn được trả khi hoàn thành."
+  },
+  "command": {
+    "title": "Trung tâm điều phối",
+    "subtitle": "Mọi hộ gia đình trong vùng thảm họa: đã mất gì, đã nhận được gì và còn cần gì.",
+    "refresh": "Làm mới",
+    "matching_other": "{{n}} hộ phù hợp",
+    "hint": "Kéo một cột như Thiệt hại hoặc Cấp độ vào thanh phía trên bảng để nhóm. Bộ lọc và sắp xếp chạy trên máy chủ nên tìm trong tất cả các hộ.",
+    "level": "Cấp {{level}}",
+    "yes": "Sẵn sàng",
+    "no": "Chưa",
+    "stat": {
+      "households": "Hộ gia đình",
+      "destroyed": "Nhà bị phá hủy",
+      "verified": "Đã xác minh (cấp 2+)",
+      "help": "Hỗ trợ đã nhận",
+      "unmet": "Còn cần"
+    },
+    "col": {
+      "household": "Hộ gia đình",
+      "address": "Địa chỉ",
+      "street": "Đường",
+      "damage": "Thiệt hại",
+      "level": "Cấp độ",
+      "size": "Số người",
+      "needs": "Nhu cầu",
+      "loss": "Thiệt hại ước tính",
+      "help": "Hỗ trợ đã nhận",
+      "trend": "8 tuần qua",
+      "unmet": "Còn cần",
+      "paypal": "PayPal",
+      "registered": "Ngày đăng ký",
+      "group": "Nhóm"
+    },
+    "damage": {
+      "destroyed": "Bị phá hủy",
+      "major": "Nặng",
+      "minor": "Nhẹ",
+      "affected": "Bị ảnh hưởng",
+      "unknown": "Chưa đánh giá"
+    },
+    "need": {
+      "shelter": "Chỗ ở",
+      "food": "Thực phẩm",
+      "water": "Nước",
+      "clothing": "Quần áo",
+      "medical": "Y tế",
+      "transport": "Đi lại",
+      "childcare": "Giữ trẻ",
+      "pet_care": "Chăm thú cưng",
+      "mental_health": "Tư vấn tâm lý",
+      "repairs": "Sửa chữa",
+      "cleanup": "Dọn dẹp"
+    }
   }
 }

@@ -553,6 +553,9 @@ def main() -> None:
         seed(db)
         seed_review_demo(db)
         seed_rebuild_demo(db)
+        from app.seed_command import seed_command_center  # imports this module's constants
+
+        seed_command_center(db)
     print("Seeded the Sablewood demo scenario.")
 
 

@@ -1,11 +1,12 @@
 """Core data model. Later weeks add ledger, registry, review and contractor tables."""
 
+import re
 from datetime import UTC, datetime
 from decimal import Decimal
 from enum import StrEnum
 
 from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, false
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 
 from app.db import Base
 
@@ -101,12 +102,29 @@ class Household(Base):
     vouched_by_user_id: Mapped[int | None]
     vouch_note: Mapped[str | None] = mapped_column(String(500))
     disaster_event_id: Mapped[int | None] = mapped_column(ForeignKey("disaster_events.id"))
+    # Damage assessment and needs (from intake or a field visit); the Command Center sorts and groups by these.
+    damage_level: Mapped[str] = mapped_column(String(20), default="unknown", server_default="unknown")
+    household_size: Mapped[int] = mapped_column(default=1, server_default="1")
+    estimated_loss: Mapped[Decimal | None] = mapped_column(Money)
+    needs: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
+    street: Mapped[str | None] = mapped_column(String(120), index=True)  # derived from address_line
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     members: Mapped[list[User]] = relationship(back_populates="household", foreign_keys="User.household_id")
     rooms: Mapped[list["Room"]] = relationship(back_populates="household", cascade="all, delete-orphan")
     items: Mapped[list["Item"]] = relationship(back_populates="household", cascade="all, delete-orphan")
     disaster_event: Mapped[DisasterEvent | None] = relationship()
+
+    @validates("address_line")
+    def _derive_street(self, _key: str, value: str) -> str:
+        self.street = street_of(value)
+        return value
+
+
+def street_of(address_line: str) -> str:
+    """'214 Juniper Lane, Apt 2' -> 'Juniper Lane'."""
+    first = address_line.split(",")[0].strip()
+    return re.sub(r"^\d+[A-Za-z]?\s+", "", first) or first
 
 
 class Room(Base):

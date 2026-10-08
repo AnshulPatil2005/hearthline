@@ -22,7 +22,8 @@
     "board": "流程",
     "aid": "援助",
     "rebuild": "重建",
-    "projects": "项目"
+    "projects": "项目",
+    "command": "指挥中心"
   },
   "roles": {
     "household": "住户",
@@ -304,7 +305,8 @@
       "escrow": "转入托管",
       "escrow_release": "从托管退回",
       "insurance_payment": "保险赔付",
-      "milestone_payment": "支付承包商"
+      "milestone_payment": "支付承包商",
+      "grant": "拨款"
     }
   },
   "review": {
@@ -579,5 +581,58 @@
     "received": "已付给您",
     "planSent": "该家庭正在审阅您的计划。在对方接受之前，您仍可修改。",
     "planIntro": "把工作分成家庭可以通过照片核实的阶段。每个阶段完成后付款。"
+  },
+  "command": {
+    "title": "指挥中心",
+    "subtitle": "灾区内的每一户家庭：损失了什么、已经收到了什么、还需要什么。",
+    "refresh": "刷新",
+    "matching_other": "{{n}} 户家庭符合条件",
+    "hint": "把“损失程度”或“级别”等列拖到表格上方的栏中即可分组。筛选和排序在服务器上进行，因此会搜索所有家庭。",
+    "level": "{{level}} 级",
+    "yes": "已就绪",
+    "no": "尚未",
+    "stat": {
+      "households": "家庭数",
+      "destroyed": "房屋全毁",
+      "verified": "已核实（2 级以上）",
+      "help": "已收到的援助",
+      "unmet": "仍需援助"
+    },
+    "col": {
+      "household": "家庭",
+      "address": "地址",
+      "street": "街道",
+      "damage": "损失程度",
+      "level": "级别",
+      "size": "人数",
+      "needs": "需求",
+      "loss": "估计损失",
+      "help": "已收到的援助",
+      "trend": "最近 8 周",
+      "unmet": "仍需援助",
+      "paypal": "PayPal",
+      "registered": "登记日期",
+      "group": "分组"
+    },
+    "damage": {
+      "destroyed": "全毁",
+      "major": "严重",
+      "minor": "轻微",
+      "affected": "受影响",
+      "unknown": "未评估"
+    },
+    "need": {
+      "shelter": "住所",
+      "food": "食物",
+      "water": "饮用水",
+      "clothing": "衣物",
+      "medical": "医疗",
+      "transport": "交通",
+      "childcare": "托儿",
+      "pet_care": "宠物照料",
+      "mental_health": "心理辅导",
+      "repairs": "维修",
+      "cleanup": "清理"
+    }
   }
 }

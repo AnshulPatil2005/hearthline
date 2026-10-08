@@ -22,7 +22,8 @@
     "board": "Daloy",
     "aid": "Tulong",
     "rebuild": "Muling Pagtatayo",
-    "projects": "Mga Proyekto"
+    "projects": "Mga Proyekto",
+    "command": "Command Center"
   },
   "roles": {
     "household": "Sambahayan",
@@ -308,7 +309,8 @@
       "escrow": "Inilipat sa escrow",
       "escrow_release": "Ibinalik mula sa escrow",
       "insurance_payment": "Bayad ng insurance",
-      "milestone_payment": "Bayad sa kontratista"
+      "milestone_payment": "Bayad sa kontratista",
+      "grant": "Grant"
     }
   },
   "review": {
@@ -585,5 +587,59 @@
     "received": "Naibayad sa inyo",
     "planSent": "Sinusuri ng pamilya ang inyong plano. Puwede pa ninyo itong baguhin hangga't hindi nila tinatanggap.",
     "planIntro": "Hatiin ang trabaho sa mga yugtong masusuri ng pamilya sa pamamagitan ng larawan. Binabayaran ang bawat isa kapag tapos na."
+  },
+  "command": {
+    "title": "Command Center",
+    "subtitle": "Bawat sambahayan sa lugar ng sakuna: ang nawala sa kanila, ang natanggap na nila, at ang kailangan pa nila.",
+    "refresh": "I-refresh",
+    "matching_one": "{{n}} sambahayan ang tugma",
+    "matching_other": "{{n}} sambahayan ang tugma",
+    "hint": "I-drag ang column gaya ng Pinsala o Antas sa bar sa itaas ng talahanayan para pagpangkatin. Sa server tumatakbo ang mga filter at pag-uuri, kaya lahat ng sambahayan ang hinahanap.",
+    "level": "Antas {{level}}",
+    "yes": "Handa",
+    "no": "Hindi pa",
+    "stat": {
+      "households": "Mga sambahayan",
+      "destroyed": "Nasirang bahay",
+      "verified": "Beripikado (antas 2+)",
+      "help": "Natanggap na tulong",
+      "unmet": "Kailangan pa"
+    },
+    "col": {
+      "household": "Sambahayan",
+      "address": "Address",
+      "street": "Kalye",
+      "damage": "Pinsala",
+      "level": "Antas",
+      "size": "Tao",
+      "needs": "Pangangailangan",
+      "loss": "Tantiyang pagkalugi",
+      "help": "Natanggap na tulong",
+      "trend": "Huling 8 linggo",
+      "unmet": "Kailangan pa",
+      "paypal": "PayPal",
+      "registered": "Nagparehistro",
+      "group": "Pangkat"
+    },
+    "damage": {
+      "destroyed": "Wasak",
+      "major": "Malubha",
+      "minor": "Bahagya",
+      "affected": "Naapektuhan",
+      "unknown": "Hindi pa nasuri"
+    },
+    "need": {
+      "shelter": "Matutuluyan",
+      "food": "Pagkain",
+      "water": "Tubig",
+      "clothing": "Damit",
+      "medical": "Medikal",
+      "transport": "Transportasyon",
+      "childcare": "Pag-aalaga ng bata",
+      "pet_care": "Pag-aalaga ng alaga",
+      "mental_health": "Counseling",
+      "repairs": "Pagkukumpuni",
+      "cleanup": "Paglilinis"
+    }
   }
 }

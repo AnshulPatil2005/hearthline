@@ -22,7 +22,8 @@
     "board": "Flujo",
     "aid": "Ayuda",
     "rebuild": "Reconstruir",
-    "projects": "Proyectos"
+    "projects": "Proyectos",
+    "command": "Centro de mando"
   },
   "roles": {
     "household": "Hogar",
@@ -308,7 +309,8 @@
       "escrow": "Pasado a depósito de garantía",
       "escrow_release": "Devuelto del depósito de garantía",
       "insurance_payment": "Pago del seguro",
-      "milestone_payment": "Pago al contratista"
+      "milestone_payment": "Pago al contratista",
+      "grant": "Subvención"
     }
   },
   "review": {
@@ -585,5 +587,59 @@
     "received": "Pagado a usted",
     "planSent": "La familia está revisando su plan. Puede cambiarlo hasta que lo acepten.",
     "planIntro": "Divida el trabajo en etapas que la familia pueda verificar con fotos. Cada una se paga al terminarla."
+  },
+  "command": {
+    "title": "Centro de mando",
+    "subtitle": "Todos los hogares de la zona del desastre: lo que perdieron, lo que han recibido y lo que aún necesitan.",
+    "refresh": "Actualizar",
+    "matching_one": "{{n}} hogar coincide",
+    "matching_other": "{{n}} hogares coinciden",
+    "hint": "Arrastre una columna como Daño o Nivel a la barra sobre la tabla para agrupar. Los filtros y el orden se aplican en el servidor, así que se buscan todos los hogares.",
+    "level": "Nivel {{level}}",
+    "yes": "Listo",
+    "no": "Aún no",
+    "stat": {
+      "households": "Hogares",
+      "destroyed": "Casas destruidas",
+      "verified": "Verificados (nivel 2+)",
+      "help": "Ayuda recibida",
+      "unmet": "Aún necesario"
+    },
+    "col": {
+      "household": "Hogar",
+      "address": "Dirección",
+      "street": "Calle",
+      "damage": "Daño",
+      "level": "Nivel",
+      "size": "Personas",
+      "needs": "Necesidades",
+      "loss": "Pérdida estimada",
+      "help": "Ayuda recibida",
+      "trend": "Últimas 8 semanas",
+      "unmet": "Aún necesario",
+      "paypal": "PayPal",
+      "registered": "Registro",
+      "group": "Grupo"
+    },
+    "damage": {
+      "destroyed": "Destruida",
+      "major": "Grave",
+      "minor": "Leve",
+      "affected": "Afectada",
+      "unknown": "Sin evaluar"
+    },
+    "need": {
+      "shelter": "Albergue",
+      "food": "Comida",
+      "water": "Agua",
+      "clothing": "Ropa",
+      "medical": "Atención médica",
+      "transport": "Transporte",
+      "childcare": "Cuidado infantil",
+      "pet_care": "Mascotas",
+      "mental_health": "Apoyo emocional",
+      "repairs": "Reparaciones",
+      "cleanup": "Limpieza"
+    }
   }
 }

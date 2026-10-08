@@ -340,3 +340,30 @@ export type MilestoneEvidence = Pick<
   Milestone,
   'id' | 'seq' | 'title' | 'done_looks_like' | 'amount' | 'start_date' | 'end_date' | 'status' | 'site_check' | 'photo_urls'
 > & { project_id: number; project_title: string; contractor_name: string; license_number: string }
+
+export type DamageLevel = 'destroyed' | 'major' | 'minor' | 'affected' | 'unknown'
+
+export type CommandRow = {
+  id: number
+  name: string
+  address_line: string
+  street: string | null
+  damage_level: DamageLevel
+  household_size: number
+  verification_level: number
+  needs: string[]
+  estimated_loss: string | null
+  help_received: string
+  unmet_need: string
+  payout_ready: boolean
+  registered: string
+  help_trend: number[]
+}
+
+export type CommandSummary = {
+  households: number
+  destroyed: number
+  verified: number
+  help_received: string
+  unmet_need: string
+}

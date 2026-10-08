@@ -22,7 +22,8 @@
     "board": "Pipeline",
     "aid": "Aid",
     "rebuild": "Rebuild",
-    "projects": "Projects"
+    "projects": "Projects",
+    "command": "Command Center"
   },
   "roles": {
     "household": "Household",
@@ -308,7 +309,8 @@
       "escrow": "Moved to escrow",
       "escrow_release": "Returned from escrow",
       "insurance_payment": "Insurance payment",
-      "milestone_payment": "Contractor payment"
+      "milestone_payment": "Contractor payment",
+      "grant": "Grant"
     }
   },
   "review": {
@@ -585,5 +587,59 @@
     "received": "Paid to you",
     "planSent": "The family is reviewing your plan. You can still change it until they accept.",
     "planIntro": "Break the job into milestones the family can check with photos. Each one is paid when it's done."
+  },
+  "command": {
+    "title": "Command Center",
+    "subtitle": "Every household in the disaster area: what they lost, what they've received, and what they still need.",
+    "refresh": "Refresh",
+    "matching_one": "{{n}} household matches",
+    "matching_other": "{{n}} households match",
+    "hint": "Drag a column such as Damage or Level into the bar above the grid to group. Filters and sorting run on the server, so all households are searched.",
+    "level": "Level {{level}}",
+    "yes": "Ready",
+    "no": "Not yet",
+    "stat": {
+      "households": "Households",
+      "destroyed": "Homes destroyed",
+      "verified": "Verified (level 2+)",
+      "help": "Help received",
+      "unmet": "Still needed"
+    },
+    "col": {
+      "household": "Household",
+      "address": "Address",
+      "street": "Street",
+      "damage": "Damage",
+      "level": "Level",
+      "size": "People",
+      "needs": "Needs",
+      "loss": "Estimated loss",
+      "help": "Help received",
+      "trend": "Last 8 weeks",
+      "unmet": "Still needed",
+      "paypal": "PayPal",
+      "registered": "Registered",
+      "group": "Group"
+    },
+    "damage": {
+      "destroyed": "Destroyed",
+      "major": "Major",
+      "minor": "Minor",
+      "affected": "Affected",
+      "unknown": "Not assessed"
+    },
+    "need": {
+      "shelter": "Shelter",
+      "food": "Food",
+      "water": "Water",
+      "clothing": "Clothing",
+      "medical": "Medical",
+      "transport": "Transport",
+      "childcare": "Childcare",
+      "pet_care": "Pet care",
+      "mental_health": "Counseling",
+      "repairs": "Repairs",
+      "cleanup": "Cleanup"
+    }
   }
 }
