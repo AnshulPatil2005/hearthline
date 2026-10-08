@@ -23,7 +23,8 @@
     "aid": "Tulong",
     "rebuild": "Muling Pagtatayo",
     "projects": "Mga Proyekto",
-    "command": "Command Center"
+    "command": "Command Center",
+    "crews": "Mga Crew"
   },
   "roles": {
     "household": "Sambahayan",
@@ -709,6 +710,46 @@
       "needsSomeoneElse": "Kailangan ng ibang mag-aapruba",
       "checkPaypal": "Tingnan sa PayPal",
       "rejectWhy": "Bakit tatanggihan ang batch #{{id}}?"
+    }
+  },
+  "crews": {
+    "title": "Mga Crew",
+    "subtitle": "Mga volunteer crew at van ng suplay sa buong Sablewood. I-drag ang trabaho sa ibang oras o crew; ang kulay-abong guhit bago ang bawat trabaho ay oras ng biyahe. Oras ng Sablewood ang nakikita.",
+    "hint": "Ang mga request ngayong araw ay nagsisimula sa \"Wala pang crew\". I-right-click ang trabaho para markahang tapos.",
+    "crew": "Crew",
+    "unassigned": "Wala pang crew",
+    "people_one": "{{count}} tao",
+    "people_other": "{{count}} tao",
+    "peopleAt_one": "{{count}} tao sa sambahayan",
+    "peopleAt_other": "{{count}} tao sa sambahayan",
+    "markDone": "Markahang tapos",
+    "kind": {
+      "debris": "Labi",
+      "tarp": "Tarpaulin",
+      "delivery": "Paghahatid",
+      "cleanup": "Paglilinis",
+      "wellness": "Kapakanan"
+    },
+    "job": {
+      "debris_removal": "Pag-alis ng labi",
+      "tarp_roof": "Pang-emergency na tarpaulin sa bubong",
+      "water": "Paghahatid ng tubig",
+      "food": "Mga kahon ng pagkain",
+      "cleanup": "Paglilinis ng bakuran at abo",
+      "wellness": "Pagbisita sa kapakanan"
+    },
+    "status": {
+      "scheduled": "Nakaiskedyul",
+      "done": "Tapos",
+      "cancelled": "Kinansela"
+    },
+    "short": {
+      "debris_removal": "Labi",
+      "tarp_roof": "Tarpaulin",
+      "water": "Tubig",
+      "food": "Pagkain",
+      "cleanup": "Linis",
+      "wellness": "Bisita"
     }
   }
 }

@@ -87,9 +87,14 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
           {user && STAFF_ROLES.includes(user.role) && (
             <nav className="flex gap-1">
               {(user.role === 'org_admin' || user.role === 'supervisor') && (
-                <NavLink to="/command" className={navClass}>
-                  {t('nav.command')}
-                </NavLink>
+                <>
+                  <NavLink to="/command" end className={navClass}>
+                    {t('nav.command')}
+                  </NavLink>
+                  <NavLink to="/command/crews" className={navClass}>
+                    {t('nav.crews')}
+                  </NavLink>
+                </>
               )}
               <NavLink to="/review" end className={navClass}>
                 {t('nav.review')}

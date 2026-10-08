@@ -27,7 +27,7 @@ export default function ReviewCalendar() {
         autoLoad: true,
         autoSync: true,
       },
-      features: { eventEdit: false },
+      eventEditFeature: false,
       listeners: {
         eventClick: ({ eventRecord }: { eventRecord: { get: (field: string) => unknown } }) => {
           const caseId = eventRecord.get('caseId')

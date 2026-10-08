@@ -600,3 +600,35 @@ class AidBatchItem(Base):
     @property
     def sender_item_id(self) -> str:
         return f"aidbatch-{self.batch_id}-{self.household_id}"
+
+
+class Crew(Base):
+    """A volunteer crew or vehicle the relief organization dispatches (debris, deliveries, tarps, visits)."""
+
+    __tablename__ = "crews"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(120))
+    kind: Mapped[str] = mapped_column(String(30))  # debris | delivery | tarp | cleanup | wellness
+    lead_name: Mapped[str] = mapped_column(String(120), default="")
+    size: Mapped[int] = mapped_column(default=4)
+
+
+class CrewJob(Base):
+    """One visit to a household, scheduled in Bryntum Scheduler Pro. No crew means not assigned yet."""
+
+    __tablename__ = "crew_jobs"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    crew_id: Mapped[int | None] = mapped_column(ForeignKey("crews.id", ondelete="SET NULL"), index=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    kind: Mapped[str] = mapped_column(String(30))  # debris_removal | water | food | tarp_roof | cleanup | wellness
+    title: Mapped[str] = mapped_column(String(160))
+    starts_at: Mapped[datetime]
+    ends_at: Mapped[datetime]
+    travel_minutes: Mapped[int] = mapped_column(default=20)  # shown as a buffer before the job
+    status: Mapped[str] = mapped_column(String(20), default="scheduled")  # scheduled | done | cancelled
+    updated_at: Mapped[datetime] = mapped_column(default=now, onupdate=now)
+
+    crew: Mapped[Crew | None] = relationship()
+    household: Mapped[Household] = relationship()

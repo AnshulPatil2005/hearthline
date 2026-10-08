@@ -9,6 +9,7 @@ from app.api import (
     auth,
     bryntum,
     command,
+    crews,
     households,
     inventory,
     ledger,
@@ -49,6 +50,7 @@ app.include_router(review.router)
 app.include_router(bryntum.router)
 app.include_router(rebuild.router)
 app.include_router(command.router)
+app.include_router(crews.router)
 app.include_router(webhooks.router)
 
 

@@ -51,18 +51,17 @@ export default function ProjectGantt({ projectId, rows, editable, onSynced }: Pr
         { type: 'startdate', text: t('rebuild.gantt.start') },
         { type: 'enddate', text: t('rebuild.gantt.end') },
       ],
-      features: {
-        taskEdit: false, // milestones change through the plan, which the homeowner must accept
-        taskMenu: false,
-        cellEdit: false,
-        dependencyEdit: false,
-        dependencies: { allowCreate: false },
-        percentBar: { allowResize: false },
-        projectLines: false,
-        timeRanges: { showCurrentTimeLine: true },
-        taskDrag: editable,
-        taskResize: editable,
-      },
+      // Bryntum's React wrappers take each feature as its own `<name>Feature` prop.
+      taskEditFeature: false, // milestones change through the plan, which the homeowner must accept
+      taskMenuFeature: false,
+      cellEditFeature: false,
+      dependencyEditFeature: false,
+      dependenciesFeature: { allowCreate: false },
+      percentBarFeature: { allowResize: false },
+      projectLinesFeature: false,
+      timeRangesFeature: { showCurrentTimeLine: true },
+      taskDragFeature: editable,
+      taskResizeFeature: editable,
       onBeforeTaskDrag: pendingOnly,
       onBeforeTaskResize: pendingOnly,
     }

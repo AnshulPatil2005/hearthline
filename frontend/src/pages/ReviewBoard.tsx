@@ -32,7 +32,10 @@ export default function ReviewBoard() {
         color: COLORS[s],
       })),
       // Read-only pipeline: no add buttons, editors or menus.
-      features: { columnToolbars: false, taskEdit: false, taskMenu: false, columnHeaderMenu: false },
+      columnToolbarsFeature: false,
+      taskEditFeature: false,
+      taskMenuFeature: false,
+      columnHeaderMenuFeature: false,
       project: {
         transport: {
           load: {

@@ -23,7 +23,8 @@
     "aid": "Hỗ trợ",
     "rebuild": "Xây lại",
     "projects": "Dự án",
-    "command": "Trung tâm điều phối"
+    "command": "Trung tâm điều phối",
+    "crews": "Đội"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -700,6 +701,44 @@
       "needsSomeoneElse": "Cần người khác duyệt",
       "checkPaypal": "Kiểm tra với PayPal",
       "rejectWhy": "Vì sao từ chối lô số {{id}}?"
+    }
+  },
+  "crews": {
+    "title": "Đội",
+    "subtitle": "Các đội tình nguyện và xe tiếp tế khắp Sablewood. Kéo một công việc sang giờ khác hoặc đội khác; dải xám trước mỗi việc là thời gian di chuyển. Giờ hiển thị là giờ Sablewood.",
+    "hint": "Yêu cầu mới hôm nay bắt đầu ở \"Chưa phân công\". Nhấp chuột phải vào một việc để đánh dấu đã xong.",
+    "crew": "Đội",
+    "unassigned": "Chưa phân công",
+    "people_other": "{{count}} người",
+    "peopleAt_other": "{{count}} người trong hộ",
+    "markDone": "Đánh dấu đã xong",
+    "kind": {
+      "debris": "Dọn đổ nát",
+      "tarp": "Bạt che",
+      "delivery": "Giao hàng",
+      "cleanup": "Dọn dẹp",
+      "wellness": "Thăm hỏi"
+    },
+    "job": {
+      "debris_removal": "Dọn đổ nát",
+      "tarp_roof": "Bạt che mái khẩn cấp",
+      "water": "Giao nước",
+      "food": "Thùng thực phẩm",
+      "cleanup": "Dọn sân và tro",
+      "wellness": "Thăm hỏi sức khỏe"
+    },
+    "status": {
+      "scheduled": "Đã lên lịch",
+      "done": "Đã xong",
+      "cancelled": "Đã hủy"
+    },
+    "short": {
+      "debris_removal": "Đổ nát",
+      "tarp_roof": "Bạt mái",
+      "water": "Nước",
+      "food": "Thực phẩm",
+      "cleanup": "Dọn dẹp",
+      "wellness": "Thăm"
     }
   }
 }

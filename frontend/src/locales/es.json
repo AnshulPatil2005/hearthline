@@ -23,7 +23,8 @@
     "aid": "Ayuda",
     "rebuild": "Reconstruir",
     "projects": "Proyectos",
-    "command": "Centro de mando"
+    "command": "Centro de mando",
+    "crews": "Equipos"
   },
   "roles": {
     "household": "Hogar",
@@ -709,6 +710,46 @@
       "needsSomeoneElse": "Debe aprobarlo otra persona",
       "checkPaypal": "Consultar con PayPal",
       "rejectWhy": "¿Por qué rechazar el lote n.º {{id}}?"
+    }
+  },
+  "crews": {
+    "title": "Equipos",
+    "subtitle": "Equipos de voluntarios y camionetas de suministros en Sablewood. Arrastre un trabajo a otra hora o equipo; la franja gris antes de cada trabajo es el tiempo de traslado. Horario de Sablewood.",
+    "hint": "Las solicitudes de hoy empiezan en \"Sin asignar\". Haga clic derecho en un trabajo para marcarlo como hecho.",
+    "crew": "Equipo",
+    "unassigned": "Sin asignar",
+    "people_one": "{{count}} persona",
+    "people_other": "{{count}} personas",
+    "peopleAt_one": "{{count}} persona en el hogar",
+    "peopleAt_other": "{{count}} personas en el hogar",
+    "markDone": "Marcar como hecho",
+    "kind": {
+      "debris": "Escombros",
+      "tarp": "Lonas",
+      "delivery": "Entregas",
+      "cleanup": "Limpieza",
+      "wellness": "Bienestar"
+    },
+    "job": {
+      "debris_removal": "Retiro de escombros",
+      "tarp_roof": "Lona de emergencia en techo",
+      "water": "Entrega de agua",
+      "food": "Cajas de comida",
+      "cleanup": "Limpieza de patio y ceniza",
+      "wellness": "Visita de bienestar"
+    },
+    "status": {
+      "scheduled": "Programado",
+      "done": "Hecho",
+      "cancelled": "Cancelado"
+    },
+    "short": {
+      "debris_removal": "Escombros",
+      "tarp_roof": "Lona",
+      "water": "Agua",
+      "food": "Comida",
+      "cleanup": "Limpieza",
+      "wellness": "Visita"
     }
   }
 }

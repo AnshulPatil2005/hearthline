@@ -76,3 +76,13 @@ body {
   outline: 2px solid var(--ember);
   outline-offset: 2px;
 }
+
+/* Bryntum Scheduler Pro (crew dispatch): finished jobs fade, and a small second line under names. */
+.b-sch-event-wrap.job-done .b-sch-event {
+  opacity: 0.55;
+}
+.b-crew-meta {
+  font-size: 0.75em;
+  opacity: 0.8;
+  font-weight: 400;
+}

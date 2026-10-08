@@ -7,7 +7,7 @@ grouped by area, and every dollar of help is a real ledger entry, so the grid ma
 
 import math
 import random
-from datetime import timedelta
+from datetime import UTC, datetime, timedelta, timezone
 from decimal import Decimal
 
 from sqlalchemy import func, select
@@ -15,6 +15,8 @@ from sqlalchemy.orm import Session
 
 from app import geo, ledger, trust
 from app.models import (
+    Crew,
+    CrewJob,
     DisasterEvent,
     Household,
     LedgerAccount,
@@ -216,4 +218,105 @@ def seed_command_center(db: Session) -> None:
                 )
             )
     db.add_all(txns)
+    db.commit()
+
+
+CREWS = [
+    ("Debris Crew A", "debris", "Marcus Ellery", 6),
+    ("Debris Crew B", "debris", "Tasha Greer", 5),
+    ("Tarp Team", "tarp", "Ruben Oyelaran", 4),
+    ("Water & Supplies Van 1", "delivery", "June Park", 2),
+    ("Water & Supplies Van 2", "delivery", "Ike Mbeki", 2),
+    ("Cleanup Volunteers North", "cleanup", "Sofia Laine", 8),
+    ("Cleanup Volunteers South", "cleanup", "Dev Arora", 7),
+    ("Wellness Visitors", "wellness", "Ana Duarte", 3),
+]
+# job kind -> (crew kind, title, hours)
+JOBS = {
+    "debris_removal": ("debris", "Debris removal", 8),
+    "tarp_roof": ("tarp", "Emergency tarp roof", 3),
+    "water": ("delivery", "Water delivery", 1),
+    "food": ("delivery", "Food boxes", 1),
+    "cleanup": ("cleanup", "Yard and ash cleanup", 4),
+    "wellness": ("wellness", "Wellness visit", 1),
+}
+PACIFIC = timezone(timedelta(hours=-7))  # Sablewood is in California (daylight time in the demo season)
+DAY_START, DAY_END = 8, 18
+
+
+def _job_kinds(h: Household) -> list[str]:
+    kinds = []
+    if h.damage_level == "destroyed":
+        kinds.append("debris_removal")
+    if h.damage_level == "major" and "repairs" in (h.needs or []):
+        kinds.append("tarp_roof")
+    for need, kind in (("water", "water"), ("food", "food"), ("cleanup", "cleanup"), ("mental_health", "wellness")):
+        if need in (h.needs or []):
+            kinds.append(kind)
+    return kinds
+
+
+def seed_crews(db: Session) -> None:
+    """Crews and a week and a half of visits around today: past days done, the rest scheduled, a few unassigned."""
+    if db.scalar(select(func.count(Crew.id))):
+        return
+    rng = random.Random(77)
+    crews = [Crew(name=n, kind=k, lead_name=lead, size=size) for n, k, lead, size in CREWS]
+    db.add_all(crews)
+    db.flush()
+
+    # Waiting work per crew kind, from households' damage and needs (verified households first).
+    queues: dict[str, list[tuple[str, Household]]] = {k: [] for _, k, _, _ in CREWS}
+    homes = db.scalars(select(Household).where(Household.damage_level != "unknown").order_by(Household.id))
+    for h in homes:
+        for kind in _job_kinds(h):
+            queues[JOBS[kind][0]].append((kind, h))
+    for q in queues.values():
+        rng.shuffle(q)
+        q.sort(key=lambda job: -job[1].verification_level)
+
+    today = datetime.now(PACIFIC).replace(hour=0, minute=0, second=0, microsecond=0)
+    jobs = []
+    for crew in crews:
+        queue = queues[crew.kind]
+        for day in range(-3, 8):
+            t = today + timedelta(days=day, hours=DAY_START)
+            while queue:
+                kind, h = queue[0]
+                hours = JOBS[kind][2]
+                start = t + timedelta(minutes=20)  # travel to the household
+                if start + timedelta(hours=hours) > today + timedelta(days=day, hours=DAY_END):
+                    break
+                queue.pop(0)
+                jobs.append(
+                    CrewJob(
+                        crew_id=crew.id,
+                        household_id=h.id,
+                        kind=kind,
+                        title=JOBS[kind][1],
+                        starts_at=start.astimezone(UTC),
+                        ends_at=(start + timedelta(hours=hours)).astimezone(UTC),
+                        travel_minutes=20,
+                        status="done" if day < 0 else "scheduled",
+                    )
+                )
+                t = start + timedelta(hours=hours)
+    # A few requests that came in this morning and still need a crew.
+    for i, kind in enumerate(["water", "tarp_roof", "food", "debris_removal", "wellness", "cleanup", "water", "food"]):
+        queue = queues[JOBS[kind][0]]
+        if not queue:
+            continue
+        _, h = queue.pop()
+        start = today + timedelta(days=1 + i % 3, hours=9 + (i % 4) * 2)
+        jobs.append(
+            CrewJob(
+                crew_id=None,
+                household_id=h.id,
+                kind=kind,
+                title=JOBS[kind][1],
+                starts_at=start.astimezone(UTC),
+                ends_at=(start + timedelta(hours=JOBS[kind][2])).astimezone(UTC),
+            )
+        )
+    db.add_all(jobs)
     db.commit()

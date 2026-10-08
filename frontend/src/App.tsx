@@ -15,9 +15,10 @@ import ReviewCase from './pages/ReviewCase'
 import ReviewQueue from './pages/ReviewQueue'
 import { HomeRedirect, RequireAuth } from './routes'
 
-// Bryntum components are large; load them only when a reviewer opens those pages.
+// Bryntum components are large; load them only when someone opens those pages.
 const ReviewCalendar = lazy(() => import('./pages/ReviewCalendar'))
 const ReviewBoard = lazy(() => import('./pages/ReviewBoard'))
+const CrewSchedule = lazy(() => import('./pages/CrewSchedule'))
 const STAFF = ['reviewer', 'supervisor', 'org_admin'] as const
 const loading = <div className="h-96 animate-pulse rounded-xl bg-sunken" />
 
@@ -115,6 +116,16 @@ export default function App() {
         element={
           <RequireAuth role={['org_admin', 'supervisor']} wide>
             <CommandCenter />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/command/crews"
+        element={
+          <RequireAuth role={['org_admin', 'supervisor']} wide>
+            <Suspense fallback={loading}>
+              <CrewSchedule />
+            </Suspense>
           </RequireAuth>
         }
       />

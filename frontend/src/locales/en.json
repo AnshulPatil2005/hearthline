@@ -23,7 +23,8 @@
     "aid": "Aid",
     "rebuild": "Rebuild",
     "projects": "Projects",
-    "command": "Command Center"
+    "command": "Command Center",
+    "crews": "Crews"
   },
   "roles": {
     "household": "Household",
@@ -709,6 +710,46 @@
       "needsSomeoneElse": "Needs someone else to approve",
       "checkPaypal": "Check with PayPal",
       "rejectWhy": "Why reject batch #{{id}}?"
+    }
+  },
+  "crews": {
+    "title": "Crews",
+    "subtitle": "Volunteer crews and supply vans across Sablewood. Drag a job to another time or crew; the gray band before each job is travel time. Times are Sablewood time.",
+    "hint": "Requests that came in today start in \"Not assigned yet\". Right-click a job to mark it done.",
+    "crew": "Crew",
+    "unassigned": "Not assigned yet",
+    "people_one": "{{count}} person",
+    "people_other": "{{count}} people",
+    "peopleAt_one": "{{count}} person in the household",
+    "peopleAt_other": "{{count}} people in the household",
+    "markDone": "Mark done",
+    "kind": {
+      "debris": "Debris",
+      "tarp": "Tarps",
+      "delivery": "Deliveries",
+      "cleanup": "Cleanup",
+      "wellness": "Wellness"
+    },
+    "job": {
+      "debris_removal": "Debris removal",
+      "tarp_roof": "Emergency tarp roof",
+      "water": "Water delivery",
+      "food": "Food boxes",
+      "cleanup": "Yard and ash cleanup",
+      "wellness": "Wellness visit"
+    },
+    "status": {
+      "scheduled": "Scheduled",
+      "done": "Done",
+      "cancelled": "Cancelled"
+    },
+    "short": {
+      "debris_removal": "Debris",
+      "tarp_roof": "Tarp roof",
+      "water": "Water",
+      "food": "Food",
+      "cleanup": "Cleanup",
+      "wellness": "Visit"
     }
   }
 }

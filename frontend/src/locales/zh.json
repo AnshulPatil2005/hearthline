@@ -23,7 +23,8 @@
     "aid": "援助",
     "rebuild": "重建",
     "projects": "项目",
-    "command": "指挥中心"
+    "command": "指挥中心",
+    "crews": "工作队"
   },
   "roles": {
     "household": "住户",
@@ -700,6 +701,44 @@
       "needsSomeoneElse": "需要其他人批准",
       "checkPaypal": "向 PayPal 查询",
       "rejectWhy": "为什么拒绝第 {{id}} 号批次？"
+    }
+  },
+  "crews": {
+    "title": "工作队",
+    "subtitle": "Sablewood 各地的志愿者工作队和物资车。把任务拖到其他时间或工作队即可调整；每个任务前的灰色条表示路程时间。时间为 Sablewood 当地时间。",
+    "hint": "今天新收到的请求先放在“尚未分配”。右键单击任务可标记为已完成。",
+    "crew": "工作队",
+    "unassigned": "尚未分配",
+    "people_other": "{{count}} 人",
+    "peopleAt_other": "家中 {{count}} 人",
+    "markDone": "标记为已完成",
+    "kind": {
+      "debris": "残骸清理",
+      "tarp": "防水布",
+      "delivery": "配送",
+      "cleanup": "清理",
+      "wellness": "关怀探访"
+    },
+    "job": {
+      "debris_removal": "清理残骸",
+      "tarp_roof": "紧急屋顶防水布",
+      "water": "送水",
+      "food": "食物箱",
+      "cleanup": "院子和灰烬清理",
+      "wellness": "关怀探访"
+    },
+    "status": {
+      "scheduled": "已安排",
+      "done": "已完成",
+      "cancelled": "已取消"
+    },
+    "short": {
+      "debris_removal": "清残骸",
+      "tarp_roof": "防水布",
+      "water": "送水",
+      "food": "食物",
+      "cleanup": "清理",
+      "wellness": "探访"
     }
   }
 }
