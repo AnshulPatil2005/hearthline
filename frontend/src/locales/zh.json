@@ -27,7 +27,8 @@
     "crews": "工作队",
     "reopenFund": "重新开业基金",
     "businesses": "商家",
-    "priceWatch": "价格监督"
+    "priceWatch": "价格监督",
+    "giving": "我的捐赠"
   },
   "roles": {
     "household": "住户",
@@ -720,7 +721,8 @@
       "example1": "需要住所的 5 人及以上家庭",
       "example2": "已核实家庭按街道统计的仍需援助总额",
       "example3": "尚不能领取现金援助的全毁房屋"
-    }
+    },
+    "grantReport": "资助报告（PDF）"
   },
   "crews": {
     "title": "工作队",
@@ -984,5 +986,19 @@
     "thanks": "谢谢！您的捐赠已完成。",
     "donationBody": "这个家庭的清单已更新。物品筹满后，Hearthline 的 Shopper 会购买并寄给他们。",
     "cardReady": "您的礼品卡已准备好"
+  },
+  "giving": {
+    "title": "您的捐赠",
+    "subtitle": "您的每一笔捐赠及其用途：已支付、已购买、已发货、已送达。",
+    "householdFund": "家庭基金",
+    "helpMore": "您还可以帮助的人",
+    "stillNeeds_other": "{{count}} 件物品仍需 {{amount}}",
+    "reopenRaised": "已筹 {{raised}}，目标 {{goal}} · 礼品卡加赠 {{bonus}}%",
+    "stat": {
+      "given": "您已捐赠",
+      "families": "帮助的家庭",
+      "businesses": "帮助的商家",
+      "delivered": "已送达物品"
+    }
   }
 }

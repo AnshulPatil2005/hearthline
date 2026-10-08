@@ -7,6 +7,7 @@ import CommandCenter from './pages/CommandCenter'
 import ComingSoon from './pages/ComingSoon'
 import ContractorPortal from './pages/ContractorPortal'
 import GiftCardView from './pages/GiftCardView'
+import Giving from './pages/Giving'
 import HouseholdHome from './pages/HouseholdHome'
 import Inventory from './pages/Inventory'
 import Login from './pages/Login'
@@ -37,6 +38,14 @@ export default function App() {
       <Route path="/card/:code" element={<GiftCardView />} />
       <Route path="/price-watch" element={<PriceWatch />} />
       <Route path="/paid" element={<PaymentReturn />} />
+      <Route
+        path="/giving"
+        element={
+          <RequireAuth role="donor" wide>
+            <Giving />
+          </RequireAuth>
+        }
+      />
       <Route
         path="/business"
         element={

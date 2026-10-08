@@ -6,6 +6,7 @@ const HOME: Partial<Record<Role, string>> = {
   household: '/home',
   contractor: '/contractor',
   business: '/business',
+  donor: '/giving',
   org_admin: '/command',
 }
 

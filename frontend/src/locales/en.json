@@ -27,7 +27,8 @@
     "crews": "Crews",
     "reopenFund": "Reopen Fund",
     "businesses": "Businesses",
-    "priceWatch": "Price Watch"
+    "priceWatch": "Price Watch",
+    "giving": "My giving"
   },
   "roles": {
     "household": "Household",
@@ -729,7 +730,8 @@
       "example1": "Families of 5 or more who need shelter",
       "example2": "Total still needed by street for verified households",
       "example3": "Destroyed homes that can't receive cash aid yet"
-    }
+    },
+    "grantReport": "Grant report (PDF)"
   },
   "crews": {
     "title": "Crews",
@@ -999,5 +1001,20 @@
     "thanks": "Thank you! Your gift went through.",
     "donationBody": "The family's registry is updated. When an item is fully funded, Hearthline's Shopper buys it and ships it to them.",
     "cardReady": "Your gift card is ready"
+  },
+  "giving": {
+    "title": "Your giving",
+    "subtitle": "Every gift you made and what it did: paid, bought, shipped, delivered.",
+    "householdFund": "Household fund",
+    "helpMore": "Others you could help",
+    "stillNeeds_one": "Still needs {{amount}} for {{count}} item",
+    "stillNeeds_other": "Still needs {{amount}} for {{count}} items",
+    "reopenRaised": "{{raised}} of {{goal}} raised · +{{bonus}}% on gift cards",
+    "stat": {
+      "given": "You've given",
+      "families": "Families helped",
+      "businesses": "Businesses helped",
+      "delivered": "Items delivered"
+    }
   }
 }

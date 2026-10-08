@@ -118,3 +118,17 @@ def test_mcp_server_lists_and_calls_tools(paypal):
             c, "tools/call", {"name": "prepare_donation", "arguments": {"slug": "rivera-family", "amount": 25}}
         )
         assert prepared["structuredContent"]["approval_url"].startswith("https://www.sandbox.paypal.com/")
+
+
+def test_a_registry_under_fraud_review_is_not_recommended(paypal):
+    from app import review
+    from app.models import Household, Registry
+
+    with SessionLocal() as db:
+        home = db.query(Household).filter_by(name="Rivera household").one()
+        case = review.open_case(db, home, kind="registry_verification", title="Check", explain=False)
+        case.risk_tier = "high"
+        db.commit()
+        slug = db.query(Registry).filter_by(household_id=home.id).one().slug
+    assert slug not in {r["slug"] for r in client.get("/v1/registries").json()}
+    assert client.get(f"/v1/registries/{slug}").status_code == 200  # a direct link still works

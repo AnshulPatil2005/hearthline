@@ -569,6 +569,9 @@ def main() -> None:
         from app.seed_prices import seed_price_watch
 
         seed_price_watch(db)
+        from app.seed_giving import seed_giving_demo
+
+        seed_giving_demo(db)
     print("Seeded the Sablewood demo scenario.")
 
 

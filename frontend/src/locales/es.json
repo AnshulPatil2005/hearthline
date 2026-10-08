@@ -27,7 +27,8 @@
     "crews": "Equipos",
     "reopenFund": "Fondo de reapertura",
     "businesses": "Negocios",
-    "priceWatch": "Vigilancia de precios"
+    "priceWatch": "Vigilancia de precios",
+    "giving": "Mis donaciones"
   },
   "roles": {
     "household": "Hogar",
@@ -729,7 +730,8 @@
       "example1": "Familias de 5 o más que necesitan albergue",
       "example2": "Total aún necesario por calle para hogares verificados",
       "example3": "Casas destruidas que aún no pueden recibir ayuda en efectivo"
-    }
+    },
+    "grantReport": "Informe para donantes (PDF)"
   },
   "crews": {
     "title": "Equipos",
@@ -999,5 +1001,20 @@
     "thanks": "¡Gracias! Su donación se realizó.",
     "donationBody": "La lista de la familia está actualizada. Cuando un artículo se financia por completo, el Shopper de Hearthline lo compra y se lo envía.",
     "cardReady": "Su tarjeta de regalo está lista"
+  },
+  "giving": {
+    "title": "Sus donaciones",
+    "subtitle": "Cada donación que hizo y lo que logró: pagada, comprada, enviada, entregada.",
+    "householdFund": "Fondo del hogar",
+    "helpMore": "Otros a quienes puede ayudar",
+    "stillNeeds_one": "Aún necesita {{amount}} para {{count}} artículo",
+    "stillNeeds_other": "Aún necesita {{amount}} para {{count}} artículos",
+    "reopenRaised": "{{raised}} de {{goal}} recaudado · +{{bonus}} % en tarjetas",
+    "stat": {
+      "given": "Ha donado",
+      "families": "Familias ayudadas",
+      "businesses": "Negocios ayudados",
+      "delivered": "Artículos entregados"
+    }
   }
 }

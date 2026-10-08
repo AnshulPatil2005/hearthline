@@ -27,7 +27,8 @@
     "crews": "Đội",
     "reopenFund": "Quỹ mở cửa lại",
     "businesses": "Doanh nghiệp",
-    "priceWatch": "Theo dõi giá"
+    "priceWatch": "Theo dõi giá",
+    "giving": "Đóng góp của tôi"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -720,7 +721,8 @@
       "example1": "Gia đình từ 5 người trở lên cần chỗ ở",
       "example2": "Tổng số còn cần theo đường cho các hộ đã xác minh",
       "example3": "Nhà bị phá hủy chưa thể nhận hỗ trợ tiền mặt"
-    }
+    },
+    "grantReport": "Báo cáo tài trợ (PDF)"
   },
   "crews": {
     "title": "Đội",
@@ -984,5 +986,19 @@
     "thanks": "Cảm ơn! Món quà của quý vị đã được gửi.",
     "donationBody": "Danh sách của gia đình đã được cập nhật. Khi một món đủ tiền, Shopper của Hearthline sẽ mua và gửi đến họ.",
     "cardReady": "Thẻ quà tặng của quý vị đã sẵn sàng"
+  },
+  "giving": {
+    "title": "Đóng góp của quý vị",
+    "subtitle": "Mỗi món quà quý vị đã tặng và tác dụng của nó: đã trả, đã mua, đã gửi, đã giao.",
+    "householdFund": "Quỹ hộ gia đình",
+    "helpMore": "Những người khác quý vị có thể giúp",
+    "stillNeeds_other": "Còn cần {{amount}} cho {{count}} món",
+    "reopenRaised": "Đã gây {{raised}} trên {{goal}} · +{{bonus}}% trên thẻ quà tặng",
+    "stat": {
+      "given": "Quý vị đã tặng",
+      "families": "Gia đình được giúp",
+      "businesses": "Doanh nghiệp được giúp",
+      "delivered": "Món đã giao"
+    }
   }
 }

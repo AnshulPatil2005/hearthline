@@ -77,6 +77,16 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               </NavLink>
             </nav>
           )}
+          {user?.role === 'donor' && (
+            <nav className="flex gap-1">
+              <NavLink to="/giving" className={navClass}>
+                {t('nav.giving')}
+              </NavLink>
+              <NavLink to="/price-watch" className={navClass}>
+                {t('nav.priceWatch')}
+              </NavLink>
+            </nav>
+          )}
           {user?.role === 'business' && (
             <nav className="flex gap-1">
               <NavLink to="/business" className={navClass}>

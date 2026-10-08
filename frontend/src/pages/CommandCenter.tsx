@@ -12,7 +12,7 @@ import type {
 import { AgGridReact } from 'ag-grid-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { api, type CommandRow, type CommandSummary, type DamageLevel } from '../api'
+import { api, downloadFile, type CommandRow, type CommandSummary, type DamageLevel } from '../api'
 import { AidBatchPanel } from '../components/AidBatchPanel'
 import { AidBatches } from '../components/AidBatches'
 import { AskGrid } from '../components/AskGrid'
@@ -232,6 +232,12 @@ export default function CommandCenter() {
             className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember"
           >
             {t('command.batch.open')}
+          </button>
+          <button
+            onClick={() => void downloadFile('/command/reports/grant.pdf', 'hearthline-grant-report.pdf')}
+            className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken"
+          >
+            {t('command.grantReport')}
           </button>
           <button onClick={refresh} className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken">
             {t('command.refresh')}

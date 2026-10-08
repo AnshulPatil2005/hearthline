@@ -501,3 +501,45 @@ export type PriceWatchReport = {
   event: { name: string; declared_at: string; protection_until: string; protection_active: boolean; limit_percent: number }
   rows: PriceWatchRow[]
 }
+
+export type TimelineEvent = { at: string | null; event: string }
+
+export type Gift = {
+  kind: 'donation' | 'gift_card'
+  id: number
+  to: string
+  item: string | null
+  amount: string
+  status: string
+  created_at: string
+  timeline: TimelineEvent[]
+  link: string
+}
+
+export type Giving = {
+  total_given: string
+  families_helped: number
+  businesses_helped: number
+  items_delivered: number
+  gifts: Gift[]
+  summary: string
+  summary_by_ai: boolean
+}
+
+export type RegistrySummary = { slug: string; title: string; city: string; state: string; open_items: number; still_needed: string; url: string }
+export type ReopenFundSummary = { slug: string; business: string; city: string; goal_amount: string; raised: string; bonus_percent: number; url: string }
+
+/** Download a file from an authenticated endpoint (a plain link can't send the login token). */
+export async function downloadFile(path: string, filename: string): Promise<void> {
+  const headers = new Headers()
+  const token = tokenStore.get()
+  if (token) headers.set('Authorization', `Bearer ${token}`)
+  const res = await fetch(`${API_URL}${path}`, { headers })
+  if (!res.ok) throw new ApiError(res.status, res.statusText)
+  const url = URL.createObjectURL(await res.blob())
+  const a = document.createElement('a')
+  a.href = url
+  a.download = filename
+  a.click()
+  URL.revokeObjectURL(url)
+}

@@ -17,6 +17,7 @@ from app import registry, reopen
 from app.config import get_settings
 from app.models import (
     Business,
+    Case,
     DisasterEvent,
     Donation,
     GiftCard,
@@ -180,9 +181,14 @@ def _summary(reg: Registry) -> RegistrySummary:
     )
 
 
+OPEN_CASE = ("in_review", "needs_info", "escalated")
+
+
 def find_registries(db: Session, query: str | None = None, limit: int = 20) -> list[RegistrySummary]:
-    """Active (staff-verified) registries, those with the most still needed first."""
-    regs = [r for r in db.scalars(select(Registry).where(Registry.status == "active"))]
+    """Active registries, those with the most still needed first. A registry whose household has an open
+    high-risk case (a suspected scam being reviewed) isn't recommended until reviewers decide."""
+    flagged = set(db.scalars(select(Case.household_id).where(Case.status.in_(OPEN_CASE), Case.risk_tier == "high")))
+    regs = [r for r in db.scalars(select(Registry).where(Registry.status == "active")) if r.household_id not in flagged]
     if query:
         q = query.lower()
         regs = [

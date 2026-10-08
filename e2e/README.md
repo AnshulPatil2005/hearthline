@@ -20,5 +20,6 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `ask_grid.py` | "Ask the grid": a question becomes grid state through AG Grid's AI Toolkit schema and the server's checks; a second question groups by street with totals; "Reset view" restores the default (uses two AI calls) |
 | `reopen_fund.py` | Reopen Fund: the public page shows the bakery's progress, plan and Gantt; choosing PayPal creates a gift-card order and opens the sandbox checkout; the owner asks for a step's money; a supervisor verifies a new business and releases the step through Payouts; the owner marks the bakery reopened and takes $12.50 from a card; the card page shows the new balance and its QR code; the outfitter that missed its date shows as refunded (needs a freshly seeded database) |
 | `price_watch.py` | Price Watch: the public report lists tracked essential prices against their pre-disaster baseline, with sparklines and the ones over the 10% limit in red |
+| `impact.py` | Impact: the donor's page shows each gift's journey (paid, bought, shipped, delivered) at once, then the Funds agent's note; the org admin downloads the grant report PDF (uses up to two AI calls) |
 
 Screenshots land in `e2e/screenshots/` (git-ignored).

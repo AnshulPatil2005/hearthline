@@ -27,7 +27,8 @@
     "crews": "Mga Crew",
     "reopenFund": "Pondo sa Muling Pagbubukas",
     "businesses": "Mga Negosyo",
-    "priceWatch": "Bantay-Presyo"
+    "priceWatch": "Bantay-Presyo",
+    "giving": "Aking ibinigay"
   },
   "roles": {
     "household": "Sambahayan",
@@ -729,7 +730,8 @@
       "example1": "Mga pamilyang may 5 o higit pang tao na nangangailangan ng matutuluyan",
       "example2": "Kabuuang kailangan pa bawat kalye para sa beripikadong sambahayan",
       "example3": "Mga nasirang bahay na hindi pa makatanggap ng tulong na pera"
-    }
+    },
+    "grantReport": "Ulat para sa grant (PDF)"
   },
   "crews": {
     "title": "Mga Crew",
@@ -999,5 +1001,20 @@
     "thanks": "Salamat! Natuloy ang inyong regalo.",
     "donationBody": "Na-update ang listahan ng pamilya. Kapag buo nang napondohan ang isang item, bibilhin ito ng Shopper ng Hearthline at ipapadala sa kanila.",
     "cardReady": "Handa na ang inyong gift card"
+  },
+  "giving": {
+    "title": "Inyong ibinigay",
+    "subtitle": "Bawat regalong ibinigay ninyo at ang nagawa nito: nabayaran, nabili, naipadala, naihatid.",
+    "householdFund": "Pondo ng sambahayan",
+    "helpMore": "Iba pang matutulungan ninyo",
+    "stillNeeds_one": "Kailangan pa ng {{amount}} para sa {{count}} item",
+    "stillNeeds_other": "Kailangan pa ng {{amount}} para sa {{count}} item",
+    "reopenRaised": "{{raised}} sa {{goal}} ang nalikom · +{{bonus}}% sa gift card",
+    "stat": {
+      "given": "Naibigay ninyo",
+      "families": "Natulungang pamilya",
+      "businesses": "Natulungang negosyo",
+      "delivered": "Naihatid na item"
+    }
   }
 }
