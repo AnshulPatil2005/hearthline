@@ -37,9 +37,12 @@ def assigned(case_id: int, role: str = Role.REVIEWER) -> list[str]:
         return [a.reviewer.name for a in db.get(Case, case_id).assignments if a.role == role]
 
 
-def set_payout_email(email="elena@personal.example.com"):
+def set_payout_email(email="elena@personal.example.com", residence_verified=True):
+    """Ready the Riveras for cash aid: a payout account and (by default) a confirmed residence (level 2)."""
     with SessionLocal() as db:
-        db.query(Household).filter_by(name="Rivera household").one().payout_email = email
+        home = db.query(Household).filter_by(name="Rivera household").one()
+        home.payout_email = email
+        home.residence_verified = residence_verified
         db.commit()
 
 
@@ -213,3 +216,23 @@ def test_random_audit_never_blocks_an_approval(monkeypatch):
     final = client.post(url, headers=login_as("Grace Alvarez"), json={"decision": "approve", "reason": "Confirmed"})
     assert final.json()["status"] == "approved"
     assert assigned(case["id"], "auditor") == ["Sam Whitfield"]  # Grace was involved, so the org admin audits
+
+
+def test_cash_aid_cannot_be_approved_below_level_two(fakes):
+    h = login_as("Elena Rivera")
+    set_payout_email(residence_verified=False)  # level 1: inside the zone, residence not confirmed
+    case = client.post("/households/me/cases", headers=h, json={"kind": "cash_aid", "amount": "300"}).json()
+    reviewer = assigned(case["id"])[0]
+    url = f"/review/cases/{case['id']}/decision"
+    blocked = client.post(url, headers=login_as(reviewer), json={"decision": "approve"})
+    assert blocked.status_code == 409 and "level 2" in blocked.json()["detail"] and fakes["sent"] == []
+
+    with SessionLocal() as db:
+        hid = db.query(Household).filter_by(name="Rivera household").one().id
+    vouch = client.post(
+        f"/trust/households/{hid}/vouch",
+        headers=login_as("Sam Whitfield"),
+        json={"note": "Known to the relief network since the shelter opened."},
+    )
+    assert vouch.json()["level"] == 2
+    assert client.post(url, headers=login_as(reviewer), json={"decision": "approve"}).json()["status"] == "approved"

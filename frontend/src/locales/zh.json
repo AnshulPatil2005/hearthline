@@ -19,7 +19,8 @@
     "money": "资金",
     "review": "审核队列",
     "calendar": "通话",
-    "board": "流程"
+    "board": "流程",
+    "aid": "援助"
   },
   "roles": {
     "household": "住户",
@@ -394,7 +395,10 @@
       "rejected": "此案件已拒绝。",
       "needs_info": "正在等待住户回复。",
       "escalated": "审核员意见不一致，由主管决定。"
-    }
+    },
+    "needsLevel2": "现金援助需要核实等级 2。请索取住址证明，或请一位未审核此案件的社工为该住户担保。",
+    "vouchPlaceholder": "您如何知道这家人住在这里？",
+    "vouchButton": "为该住户担保"
   },
   "calendar": {
     "title": "视频通话",
@@ -412,5 +416,45 @@
     "when": "通话时间",
     "book": "预约 20 分钟通话",
     "openCalendar": "打开日历"
+  },
+  "aid": {
+    "title": "援助",
+    "subtitle": "申请帮助并跟进每一项申请。在任何资金流动之前，都会有专人审核。",
+    "verificationTitle": "您的核实状态",
+    "unlocks": {
+      "0": "创建档案",
+      "1": "接收物品",
+      "2": "接收现金援助",
+      "3": "已核实物品清单徽章"
+    },
+    "next": {
+      "address_outside_zone": "您的地址目前不在受灾区域内。如有误，请更新地址。",
+      "confirm_residence": "如需现金援助，请上传住址证明（账单或租约），或请社工为您担保。证件在火灾中遗失？社工可以为您担保。",
+      "scan_before_disaster": "在灾害发生前扫描房间，即可获得已核实物品清单徽章，加快理赔。"
+    },
+    "requestTitle": "申请现金援助",
+    "requestBody": "告诉我们您需要多少钱以及用途。审核员核实后，PayPal 会将款项转入您的账户。",
+    "amount": "金额",
+    "notePlaceholder": "用途是什么？例如：找到租房前的汽车旅馆和食品费用",
+    "submit": "提交申请",
+    "casesTitle": "您的申请",
+    "noCases": "还没有申请。",
+    "status": {
+      "in_review": "审核中",
+      "needs_info": "需要您补充信息",
+      "escalated": "审核中",
+      "approved": "已批准",
+      "rejected": "未获批准"
+    },
+    "explain": {
+      "in_review": "救援网络的审核员正在处理。",
+      "needs_info": "审核员提出了一个问题。请在下方回复，审核将继续。",
+      "escalated": "两位审核员已查看，主管正在做最终决定。",
+      "approved": "已批准。现金援助正在汇入您的 PayPal 账户。",
+      "rejected": "此申请未获批准。您可以向社工咨询。"
+    },
+    "videoNeeded": "此申请需要进行简短的视频通话。审核员会与您约定时间。",
+    "replyPlaceholder": "您的回答",
+    "sendReply": "发送回复"
   }
 }

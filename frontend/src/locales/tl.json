@@ -19,7 +19,8 @@
     "money": "Pera",
     "review": "Mga susuriin",
     "calendar": "Mga tawag",
-    "board": "Daloy"
+    "board": "Daloy",
+    "aid": "Tulong"
   },
   "roles": {
     "household": "Sambahayan",
@@ -400,7 +401,10 @@
       "rejected": "Tinanggihan ang kasong ito.",
       "needs_info": "Hinihintay ang sagot ng sambahayan.",
       "escalated": "Hindi nagkasundo ang mga tagasuri. Ang superbisor ang magpapasya."
-    }
+    },
+    "needsLevel2": "Kailangan ng verification level 2 para sa cash aid. Humingi ng patunay ng tirahan, o hilingin sa caseworker na hindi sumusuri sa kasong ito na managot para sa sambahayan.",
+    "vouchPlaceholder": "Paano mo nalaman na dito nakatira ang pamilyang ito?",
+    "vouchButton": "Managot para sa sambahayang ito"
   },
   "calendar": {
     "title": "Mga video call",
@@ -418,5 +422,45 @@
     "when": "Oras ng tawag",
     "book": "Mag-book ng 20 minutong tawag",
     "openCalendar": "Buksan ang kalendaryo"
+  },
+  "aid": {
+    "title": "Tulong",
+    "subtitle": "Humingi ng tulong at subaybayan ang bawat hiling. May taong sumusuri sa bawat isa bago gumalaw ang pera.",
+    "verificationTitle": "Ang beripikasyon mo",
+    "unlocks": {
+      "0": "Gumawa ng profile",
+      "1": "Tumanggap ng mga gamit",
+      "2": "Tumanggap ng cash aid",
+      "3": "Badge ng beripikadong imbentaryo"
+    },
+    "next": {
+      "address_outside_zone": "Wala pa ang address mo sa loob ng aktibong lugar ng sakuna. Kung mali ito, i-update ang address mo.",
+      "confirm_residence": "Para makatanggap ng cash aid, mag-upload ng patunay ng tirahan (bill o kontrata sa upa) o hilingin sa isang caseworker na managot para sa iyo. Nawala ang mga papeles mo sa sunog? Puwedeng managot ang caseworker.",
+      "scan_before_disaster": "I-scan ang mga kuwarto mo bago ang sakuna para makuha ang badge ng beripikadong imbentaryo at mapabilis ang mga claim."
+    },
+    "requestTitle": "Humingi ng cash aid",
+    "requestBody": "Sabihin sa amin kung magkano ang kailangan mo at para saan. Susuriin ito ng tagasuri, saka ipapadala ng PayPal ang pera sa account mo.",
+    "amount": "Halaga",
+    "notePlaceholder": "Para saan ito? hal. motel at pagkain habang naghahanap kami ng mauupahan",
+    "submit": "Ipadala ang hiling",
+    "casesTitle": "Ang mga hiling mo",
+    "noCases": "Wala pang hiling.",
+    "status": {
+      "in_review": "Sinusuri",
+      "needs_info": "May kailangan kami mula sa iyo",
+      "escalated": "Sinusuri",
+      "approved": "Inaprubahan",
+      "rejected": "Hindi inaprubahan"
+    },
+    "explain": {
+      "in_review": "Tinitingnan ito ng tagasuri mula sa relief network.",
+      "needs_info": "May tanong ang tagasuri. Sumagot sa ibaba at magpapatuloy ang pagsusuri.",
+      "escalated": "Dalawang tagasuri ang tumingin at ang superbisor ang gagawa ng huling pasya.",
+      "approved": "Inaprubahan. Papunta na ang cash aid sa PayPal account mo.",
+      "rejected": "Hindi inaprubahan ang hiling na ito. Puwede kang magtanong sa isang caseworker."
+    },
+    "videoNeeded": "Kailangan ng maikling video call para sa hiling na ito. Magtatakda ng oras ang tagasuri kasama ka.",
+    "replyPlaceholder": "Ang sagot mo",
+    "sendReply": "Ipadala ang sagot"
   }
 }

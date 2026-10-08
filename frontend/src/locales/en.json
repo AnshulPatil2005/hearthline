@@ -19,7 +19,8 @@
     "money": "Money",
     "review": "Review queue",
     "calendar": "Calls",
-    "board": "Pipeline"
+    "board": "Pipeline",
+    "aid": "Aid"
   },
   "roles": {
     "household": "Household",
@@ -400,7 +401,10 @@
       "rejected": "This case was rejected.",
       "needs_info": "Waiting for the household to reply.",
       "escalated": "Reviewers disagreed. The supervisor decides."
-    }
+    },
+    "needsLevel2": "Cash aid needs verification level 2. Ask for proof of residence, or have a caseworker who isn't reviewing this case vouch for the household.",
+    "vouchPlaceholder": "How do you know this family lives here?",
+    "vouchButton": "Vouch for this household"
   },
   "calendar": {
     "title": "Video calls",
@@ -418,5 +422,45 @@
     "when": "Call time",
     "book": "Book 20-minute call",
     "openCalendar": "Open calendar"
+  },
+  "aid": {
+    "title": "Aid",
+    "subtitle": "Ask for help and follow every request. A person reviews each one before any money moves.",
+    "verificationTitle": "Your verification",
+    "unlocks": {
+      "0": "Create a profile",
+      "1": "Receive items",
+      "2": "Receive cash aid",
+      "3": "Verified inventory badge"
+    },
+    "next": {
+      "address_outside_zone": "Your address isn't inside an active disaster area yet. If that's wrong, update your address.",
+      "confirm_residence": "To unlock cash aid, upload proof of residence (a bill or lease) or ask a caseworker to vouch for you. Lost your papers in the fire? A caseworker can vouch instead.",
+      "scan_before_disaster": "Scan your rooms before a disaster to earn the verified inventory badge and speed up claims."
+    },
+    "requestTitle": "Request cash aid",
+    "requestBody": "Tell us how much you need and what it's for. A reviewer checks it, then PayPal sends the money to your account.",
+    "amount": "Amount",
+    "notePlaceholder": "What is it for? e.g. motel and groceries while we find a rental",
+    "submit": "Send request",
+    "casesTitle": "Your requests",
+    "noCases": "No requests yet.",
+    "status": {
+      "in_review": "Being reviewed",
+      "needs_info": "We need something from you",
+      "escalated": "Being reviewed",
+      "approved": "Approved",
+      "rejected": "Not approved"
+    },
+    "explain": {
+      "in_review": "A reviewer from the relief network is looking at it.",
+      "needs_info": "A reviewer asked a question. Reply below and the review continues.",
+      "escalated": "Two reviewers looked at it and a supervisor is making the final call.",
+      "approved": "Approved. Any cash aid is on its way to your PayPal account.",
+      "rejected": "This request wasn't approved. You can ask a caseworker about it."
+    },
+    "videoNeeded": "This request needs a short video call. A reviewer will book a time with you.",
+    "replyPlaceholder": "Your answer",
+    "sendReply": "Send reply"
   }
 }

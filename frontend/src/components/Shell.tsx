@@ -69,6 +69,9 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               <NavLink to="/money" className={navClass}>
                 {t('nav.money')}
               </NavLink>
+              <NavLink to="/aid" className={navClass}>
+                {t('nav.aid')}
+              </NavLink>
             </nav>
           )}
           {user && STAFF_ROLES.includes(user.role) && (

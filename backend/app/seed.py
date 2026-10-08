@@ -259,6 +259,7 @@ def seed_review_demo(db: Session) -> None:
 
     rivera = db.scalar(select(Household).where(Household.name == "Rivera household"))
     rivera.payout_email = "elena.rivera@personal.example.com"
+    rivera.residence_verified = True  # utility bill checked at the shelter (level 2: can receive cash aid)
     for n in (1, 2):
         _add_photo(db, rivera, _room_picture(n), days_ago=60)  # scanned well before the fire
 
@@ -270,6 +271,7 @@ def seed_review_demo(db: Session) -> None:
         lat=38.700,
         lng=-120.640,
         payout_email="sami.haddad@personal.example.com",
+        residence_verified=True,
     )
     kowalski = _household(
         db,

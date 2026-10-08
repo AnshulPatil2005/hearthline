@@ -3,6 +3,7 @@ import { useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router'
 import { api, ApiError, mediaUrl, type CaseDetail } from '../api'
+import { useAuth } from '../auth'
 import RiskBadge from '../components/RiskBadge'
 import VideoCalls from '../components/VideoCalls'
 import { money } from '../format'
@@ -92,6 +93,42 @@ function Decision({ c }: { c: CaseDetail }) {
       </div>
       <p className="text-xs text-ink-faint">{t('review.reasonRule')}</p>
       {error && <p className="text-sm text-danger">{error}</p>}
+    </div>
+  )
+}
+
+function VouchBox({ c }: { c: CaseDetail }) {
+  const { t } = useTranslation()
+  const queryClient = useQueryClient()
+  const { user } = useAuth()
+  const [note, setNote] = useState('')
+  const vouch = useMutation({
+    mutationFn: () =>
+      api(`/trust/households/${c.household_id}/vouch`, { method: 'POST', body: JSON.stringify({ note }) }),
+    onSuccess: () => void queryClient.invalidateQueries({ queryKey: ['case', String(c.id)] }),
+  })
+  // Whoever vouches may not also decide the case: only uninvolved supervisors and org admins can vouch here.
+  const canVouch = c.my_role === null && (user?.role === 'supervisor' || user?.role === 'org_admin')
+  return (
+    <div className="mt-3 rounded-lg bg-amber-soft px-3 py-2 text-sm">
+      <p className="text-amber">{t('review.needsLevel2')}</p>
+      {canVouch && (
+        <div className="mt-2 flex flex-wrap gap-2">
+          <input
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            placeholder={t('review.vouchPlaceholder')}
+            className="min-w-0 flex-1 rounded-md border border-line bg-surface px-2 py-1"
+          />
+          <button
+            onClick={() => vouch.mutate()}
+            disabled={note.trim().length < 10 || vouch.isPending}
+            className="rounded-md bg-ember px-3 py-1 font-medium text-on-ember disabled:opacity-40"
+          >
+            {t('review.vouchButton')}
+          </button>
+        </div>
+      )}
     </div>
   )
 }
@@ -227,6 +264,7 @@ export default function ReviewCase() {
               )}
               {c.vouch_note && <Fact label={t('review.vouch')}>{c.vouch_note}</Fact>}
             </dl>
+            {c.kind === 'cash_aid' && c.verification_level < 2 && <VouchBox c={c} />}
           </Panel>
 
           <Panel title={t('review.trailTitle')}>

@@ -17,6 +17,7 @@ from app import audit, ledger, trust
 from app.agents import sentinel
 from app.models import Appointment, Case, CaseAssignment, CaseReview, Donation, Household, Registry, Role, User, now
 from app.paypal import orders, payouts
+from app.paypal.rest import PayPalError
 
 log = logging.getLogger(__name__)
 AUDIT_RATE = 0.05
@@ -163,6 +164,11 @@ def decide(
         raise ReviewError("You've already reviewed this case")
     if decision == "approve" and case.video_call_required and not supervisor_turn and not _call_completed(db, case):
         raise ReviewError("This case needs a completed video call before it can be approved")
+    if decision == "approve" and case.kind == "cash_aid" and trust.verification_level(db, case.household) < 2:
+        raise ReviewError(
+            "Cash aid needs verification level 2: confirm the household's residence, or have a caseworker "
+            "who isn't reviewing this case vouch for them"
+        )
 
     case.reviews.append(
         CaseReview(reviewer_user_id=reviewer.id, role=str(reviewer.role), decision=decision, reason=reason.strip())
@@ -261,11 +267,21 @@ def apply_decision(db: Session, case: Case, decision: str, reason: str, decided_
 def _send_cash_aid(db: Session, case: Case, home: Household) -> None:
     if not home.payout_email:
         raise ReviewError("This household hasn't connected a PayPal account to receive cash aid")
-    result = payouts.send_payouts(
-        [(home.payout_email, case.amount_requested, "Cash aid from the Sablewood Relief Network", f"case-{case.id}")],
-        batch_id=f"hearthline-case-{case.id}",
-        subject="You have received disaster cash aid",
-    )
+    try:
+        result = payouts.send_payouts(
+            [
+                (
+                    home.payout_email,
+                    case.amount_requested,
+                    "Cash aid from the Sablewood Relief Network",
+                    f"case-{case.id}",
+                )
+            ],
+            batch_id=payouts.batch_id_for("case", case.id, case.created_at),
+            subject="You have received disaster cash aid",
+        )
+    except PayPalError as e:  # nothing is approved or recorded if PayPal didn't take the payout
+        raise ReviewError(f"PayPal couldn't send the cash aid ({e.status}). Try again in a moment.") from e
     case.paypal_ref = result.batch_id
     ledger.post(
         db,

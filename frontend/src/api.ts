@@ -264,3 +264,24 @@ export type CaseDetail = QueueRow & {
   reviews: { reviewer_name: string; role: string; decision: string; reason: string; created_at: string }[]
   reviewers: string[]
 }
+
+export type Verification = {
+  level: number
+  level_name: string
+  in_disaster_zone: boolean
+  residence_verified: boolean
+  vouched: boolean
+  next_step: 'address_outside_zone' | 'confirm_residence' | 'scan_before_disaster' | null
+}
+
+export type HouseholdCase = {
+  id: number
+  kind: 'cash_aid' | 'registry_verification' | 'contents_claim'
+  title: string
+  amount_requested: string
+  status: 'in_review' | 'needs_info' | 'escalated' | 'approved' | 'rejected'
+  video_call_required: boolean
+  decision_note: string | null
+  created_at: string
+  decided_at: string | null
+}

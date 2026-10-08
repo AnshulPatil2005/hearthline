@@ -357,14 +357,15 @@ hearthline/
 - [ ] Set up the APIMatic pipeline: spec check, then TypeScript SDK generation, then the GitHub Action
 - **Done when:** a donor funds a bed with Venmo, the agent buys it, the tracking number shows up, and the ledger balances.
 
-### Week 3: Oct 19 – Oct 25: trust and human review
-- [ ] Verification levels 0–3, caseworker vouching, image-hash duplicate checks, photo metadata checks, Channel3 price limits
-- [ ] Sentinel rules plus AI-written explanations
-- [ ] Review queue (AG Grid) and case view (map, evidence, flags, price comparisons)
-- [ ] Approve or reject each item, so PayPal releases funds or refunds donors
-- [ ] Two-person rule, random assignment, the 5% random check
-- [ ] Bryntum **Calendar** (video-call booking) and **TaskBoard** (case pipeline)
-- **Done when:** the scam-clone scenario is caught, rejected and refunded, and a real claim is approved and paid out.
+### Week 3: Oct 19 – Oct 25: trust and human review (**done Oct 8**)
+- [x] Verification levels 0–3, caseworker vouching, image-hash duplicate checks (the later uploader is flagged; the original family only gets a notice), photo metadata checks, price limits
+- [x] Sentinel rules plus AI-written summaries and questions (falls back to rule messages without AI)
+- [x] Review queue (AG Grid) and case view (in-zone check, evidence photos, flags, Sentinel, household facts)
+- [x] Approve, ask for evidence, or reject; PayPal pays cash aid (Payouts) or refunds donors of a rejected registry; cash aid needs level 2
+- [x] Two-person rule for high risk / large amounts, supervisor on disagreement, random assignment, conflict-of-interest checks, 5% random audits
+- [x] Bryntum **Calendar** (video-call booking, CrudManager load/sync) and **TaskBoard** (case pipeline)
+- [x] Household Aid page: verification level, cash-aid requests, replies to reviewer questions
+- **Done when:** the scam-clone scenario is caught, rejected and refunded, and a real claim is approved and paid out. **Both verified in the browser (e2e/review_scam.py, e2e/cash_aid.py).**
 
 ### Week 4: Oct 26 – Nov 1: Rebuild and Command Center → **core feature-complete**
 - [ ] Contractor portal, Bryntum **Gantt** with milestones tied to escrow, deposit cap, Site agent photo check, Payouts, Disputes flow

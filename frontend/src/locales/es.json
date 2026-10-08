@@ -19,7 +19,8 @@
     "money": "Dinero",
     "review": "Casos por revisar",
     "calendar": "Llamadas",
-    "board": "Flujo"
+    "board": "Flujo",
+    "aid": "Ayuda"
   },
   "roles": {
     "household": "Hogar",
@@ -400,7 +401,10 @@
       "rejected": "Este caso fue rechazado.",
       "needs_info": "Esperando la respuesta del hogar.",
       "escalated": "Los revisores no coincidieron. Decide la supervisora."
-    }
+    },
+    "needsLevel2": "La ayuda en efectivo requiere el nivel 2 de verificación. Pide un comprobante de domicilio o que un trabajador social que no revise este caso responda por el hogar.",
+    "vouchPlaceholder": "¿Cómo sabes que esta familia vive aquí?",
+    "vouchButton": "Responder por este hogar"
   },
   "calendar": {
     "title": "Videollamadas",
@@ -418,5 +422,45 @@
     "when": "Hora de la llamada",
     "book": "Reservar llamada de 20 minutos",
     "openCalendar": "Abrir calendario"
+  },
+  "aid": {
+    "title": "Ayuda",
+    "subtitle": "Pide ayuda y sigue cada solicitud. Una persona revisa cada una antes de mover dinero.",
+    "verificationTitle": "Tu verificación",
+    "unlocks": {
+      "0": "Crear un perfil",
+      "1": "Recibir artículos",
+      "2": "Recibir ayuda en efectivo",
+      "3": "Insignia de inventario verificado"
+    },
+    "next": {
+      "address_outside_zone": "Tu dirección aún no está dentro de un área de desastre activa. Si es un error, actualiza tu dirección.",
+      "confirm_residence": "Para recibir ayuda en efectivo, sube un comprobante de domicilio (una factura o contrato) o pide a un trabajador social que responda por ti. ¿Perdiste tus papeles en el incendio? Un trabajador social puede responder por ti.",
+      "scan_before_disaster": "Escanea tus habitaciones antes de un desastre para obtener la insignia de inventario verificado y agilizar los reclamos."
+    },
+    "requestTitle": "Solicitar ayuda en efectivo",
+    "requestBody": "Dinos cuánto necesitas y para qué. Un revisor lo comprueba y luego PayPal envía el dinero a tu cuenta.",
+    "amount": "Monto",
+    "notePlaceholder": "¿Para qué es? p. ej., motel y comida mientras encontramos un alquiler",
+    "submit": "Enviar solicitud",
+    "casesTitle": "Tus solicitudes",
+    "noCases": "Aún no hay solicitudes.",
+    "status": {
+      "in_review": "En revisión",
+      "needs_info": "Necesitamos algo de ti",
+      "escalated": "En revisión",
+      "approved": "Aprobada",
+      "rejected": "No aprobada"
+    },
+    "explain": {
+      "in_review": "Un revisor de la red de ayuda la está revisando.",
+      "needs_info": "Un revisor hizo una pregunta. Responde abajo y la revisión continúa.",
+      "escalated": "Dos revisores la vieron y una supervisora toma la decisión final.",
+      "approved": "Aprobada. La ayuda en efectivo va camino a tu cuenta de PayPal.",
+      "rejected": "Esta solicitud no fue aprobada. Puedes preguntarle a un trabajador social."
+    },
+    "videoNeeded": "Esta solicitud necesita una breve videollamada. Un revisor acordará una hora contigo.",
+    "replyPlaceholder": "Tu respuesta",
+    "sendReply": "Enviar respuesta"
   }
 }

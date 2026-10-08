@@ -19,7 +19,8 @@
     "money": "Tiền",
     "review": "Hàng đợi xét duyệt",
     "calendar": "Cuộc gọi",
-    "board": "Tiến trình"
+    "board": "Tiến trình",
+    "aid": "Hỗ trợ"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -394,7 +395,10 @@
       "rejected": "Hồ sơ này đã bị từ chối.",
       "needs_info": "Đang chờ hộ gia đình trả lời.",
       "escalated": "Người xét duyệt không thống nhất. Giám sát sẽ quyết định."
-    }
+    },
+    "needsLevel2": "Hỗ trợ tiền mặt cần xác minh cấp 2. Hãy yêu cầu giấy tờ chứng minh nơi ở, hoặc nhờ một nhân viên xã hội không xét duyệt hồ sơ này bảo lãnh cho hộ gia đình.",
+    "vouchPlaceholder": "Làm sao bạn biết gia đình này sống ở đây?",
+    "vouchButton": "Bảo lãnh cho hộ này"
   },
   "calendar": {
     "title": "Cuộc gọi video",
@@ -412,5 +416,45 @@
     "when": "Thời gian gọi",
     "book": "Đặt cuộc gọi 20 phút",
     "openCalendar": "Mở lịch"
+  },
+  "aid": {
+    "title": "Hỗ trợ",
+    "subtitle": "Yêu cầu hỗ trợ và theo dõi từng yêu cầu. Mỗi yêu cầu đều được một người xem xét trước khi chi tiền.",
+    "verificationTitle": "Mức xác minh của bạn",
+    "unlocks": {
+      "0": "Tạo hồ sơ",
+      "1": "Nhận đồ dùng",
+      "2": "Nhận hỗ trợ tiền mặt",
+      "3": "Huy hiệu danh mục đã xác minh"
+    },
+    "next": {
+      "address_outside_zone": "Địa chỉ của bạn chưa nằm trong vùng thảm họa đang diễn ra. Nếu sai, hãy cập nhật địa chỉ.",
+      "confirm_residence": "Để nhận hỗ trợ tiền mặt, hãy tải lên giấy tờ chứng minh nơi ở (hóa đơn hoặc hợp đồng thuê) hoặc nhờ nhân viên xã hội bảo lãnh. Mất giấy tờ trong vụ cháy? Nhân viên xã hội có thể bảo lãnh thay.",
+      "scan_before_disaster": "Quét các phòng trước khi có thảm họa để nhận huy hiệu danh mục đã xác minh và đẩy nhanh việc bồi thường."
+    },
+    "requestTitle": "Yêu cầu hỗ trợ tiền mặt",
+    "requestBody": "Cho chúng tôi biết bạn cần bao nhiêu và để làm gì. Người xét duyệt sẽ kiểm tra, sau đó PayPal chuyển tiền vào tài khoản của bạn.",
+    "amount": "Số tiền",
+    "notePlaceholder": "Dùng để làm gì? ví dụ: nhà nghỉ và thực phẩm trong lúc tìm nhà thuê",
+    "submit": "Gửi yêu cầu",
+    "casesTitle": "Các yêu cầu của bạn",
+    "noCases": "Chưa có yêu cầu nào.",
+    "status": {
+      "in_review": "Đang xem xét",
+      "needs_info": "Cần thêm thông tin từ bạn",
+      "escalated": "Đang xem xét",
+      "approved": "Đã duyệt",
+      "rejected": "Không được duyệt"
+    },
+    "explain": {
+      "in_review": "Một người xét duyệt của mạng lưới cứu trợ đang xem yêu cầu.",
+      "needs_info": "Người xét duyệt có một câu hỏi. Hãy trả lời bên dưới để tiếp tục.",
+      "escalated": "Hai người xét duyệt đã xem và giám sát đang đưa ra quyết định cuối cùng.",
+      "approved": "Đã duyệt. Khoản hỗ trợ tiền mặt đang được chuyển vào tài khoản PayPal của bạn.",
+      "rejected": "Yêu cầu này không được duyệt. Bạn có thể hỏi nhân viên xã hội."
+    },
+    "videoNeeded": "Yêu cầu này cần một cuộc gọi video ngắn. Người xét duyệt sẽ hẹn giờ với bạn.",
+    "replyPlaceholder": "Câu trả lời của bạn",
+    "sendReply": "Gửi trả lời"
   }
 }

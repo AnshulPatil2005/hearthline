@@ -143,7 +143,7 @@ def execute(db: Session, purchase: Purchase, approved_by: int | None = None) -> 
                     f"purchase-{purchase.id}",
                 )
             ],
-            batch_id=f"hearthline-purchase-{purchase.id}",
+            batch_id=payouts.batch_id_for("purchase", purchase.id, purchase.created_at),
             subject="Hearthline purchase order",
         )
     except Exception as e:  # report on the purchase; nothing was posted to the ledger

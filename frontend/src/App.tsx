@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
+import Aid from './pages/Aid'
 import ComingSoon from './pages/ComingSoon'
 import HouseholdHome from './pages/HouseholdHome'
 import Inventory from './pages/Inventory'
@@ -43,6 +44,14 @@ export default function App() {
         element={
           <RequireAuth role="household" wide>
             <Inventory />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/aid"
+        element={
+          <RequireAuth role="household">
+            <Aid />
           </RequireAuth>
         }
       />
