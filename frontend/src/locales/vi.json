@@ -24,7 +24,9 @@
     "rebuild": "Xây lại",
     "projects": "Dự án",
     "command": "Trung tâm điều phối",
-    "crews": "Đội"
+    "crews": "Đội",
+    "reopenFund": "Quỹ mở cửa lại",
+    "businesses": "Doanh nghiệp"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -307,7 +309,9 @@
       "escrow_release": "Hoàn lại từ ký quỹ",
       "insurance_payment": "Tiền bảo hiểm",
       "milestone_payment": "Trả cho nhà thầu",
-      "grant": "Tài trợ"
+      "grant": "Tài trợ",
+      "gift_card": "Thẻ quà tặng",
+      "tranche_payout": "Chi trả từ quỹ mở cửa lại"
     }
   },
   "review": {
@@ -751,5 +755,170 @@
       "cleanup": "Dọn dẹp",
       "wellness": "Thăm"
     }
+  },
+  "reopen": {
+    "badge": "Quỹ mở cửa lại",
+    "verified": "doanh nghiệp đã xác minh",
+    "kind": {
+      "bakery": "Tiệm bánh",
+      "restaurant": "Nhà hàng",
+      "retail": "Cửa hàng",
+      "services": "Dịch vụ",
+      "other": "Doanh nghiệp địa phương"
+    },
+    "isOpen": "Chúng tôi đã mở cửa lại! Hãy mang theo thẻ quà tặng.",
+    "wasRefunded": "Doanh nghiệp này không thể mở cửa lại kịp thời, nên người mua đã nhận lại phần tiền còn lại.",
+    "ofGoal": "trên {{goal}}",
+    "cardsSold_other": "Đã bán {{count}} thẻ",
+    "reopensBy": "Dự định mở cửa lại trước {{date}}",
+    "bonus": "+{{bonus}}% cho mỗi thẻ",
+    "supporters": "Người ủng hộ gần đây: {{names}}",
+    "notFound": "Không tìm thấy quỹ mở cửa lại này.",
+    "plan": {
+      "title": "Tiền của quý vị dùng vào việc gì",
+      "body": "Tiền bán thẻ được giữ trong tài khoản ký quỹ. Doanh nghiệp xin tiền cho từng bước khi cần, và nhân viên Hearthline kiểm tra yêu cầu trước khi PayPal chi trả.",
+      "step": "Bước",
+      "hint": "Bước màu xanh lá đã được trả; bước màu cam đang chờ duyệt."
+    },
+    "tranche": {
+      "pending": "Đã lên kế hoạch",
+      "requested": "Đang kiểm tra",
+      "released": "Đã trả",
+      "rejected": "Bị trả lại"
+    },
+    "buy": {
+      "title": "Mua thẻ quà tặng",
+      "custom": "Số tiền khác",
+      "worthBonus": "Quý vị trả {{pay}}; thẻ có giá trị {{worth}} tại cửa hàng (+{{bonus}}%).",
+      "worth": "Quý vị trả {{pay}}; thẻ có giá trị tương đương tại cửa hàng.",
+      "name": "Tên của quý vị (hiển thị là người ủng hộ; không bắt buộc)",
+      "promise": "Dùng khi {{name}} mở cửa lại. Nếu họ chưa mở cửa trước {{date}}, quý vị sẽ tự động nhận lại phần tiền còn lại.",
+      "thanks": "Cảm ơn quý vị đã giúp {{name}} mở cửa lại!",
+      "keep": "Mở thẻ của quý vị (hãy lưu đường dẫn này)"
+    },
+    "card": {
+      "title": "Thẻ quà tặng",
+      "worth": "Giá trị",
+      "qrAlt": "Mã QR của thẻ {{code}}",
+      "notFound": "Không tìm thấy thẻ với mã đó.",
+      "refunded": "Doanh nghiệp không thể mở cửa lại kịp thời. {{amount}} đã được hoàn về tài khoản quý vị đã dùng để trả.",
+      "balance": "Số dư trên thẻ",
+      "paid": "Quý vị đã trả {{paid}}; thẻ có giá trị {{worth}}",
+      "useNow": "Họ đã mở cửa! Hãy đưa mã QR này tại quầy.",
+      "useLater": "Dùng khi {{name}} mở cửa lại (dự kiến {{date}}).",
+      "seeFund": "Xem quỹ mở cửa lại"
+    },
+    "redeem": {
+      "scan": "Quét mã QR",
+      "stopScan": "Dừng quét",
+      "noCamera": "Không dùng được camera. Hãy nhập mã."
+    }
+  },
+  "business": {
+    "subtitle": "Quỹ mở cửa lại của quý vị: bán thẻ quà tặng bây giờ, dùng khi mở cửa lại.",
+    "publicPage": "Trang công khai của quý vị",
+    "verification": {
+      "pending": "Chúng tôi đang kiểm tra giấy phép và địa chỉ. Quý vị có thể bán thẻ khi xong.",
+      "rejected": "Chúng tôi không xác minh được doanh nghiệp. Hãy liên hệ mạng lưới cứu trợ."
+    },
+    "setup": {
+      "title": "Bắt đầu quỹ mở cửa lại",
+      "body": "Liệt kê những gì cần để mở cửa lại và chi phí từng bước. Tổng cộng là mục tiêu. Có thể tặng thêm giá trị trên thẻ để cảm ơn người mua.",
+      "reopenBy": "Dự định mở cửa lại trước",
+      "bonus": "Thưởng cho người mua: {{bonus}}%",
+      "steps": "Tiền dùng vào việc gì",
+      "stepTitle": "Bước",
+      "amount": "Chi phí",
+      "addStep": "Thêm bước",
+      "goal": "Mục tiêu",
+      "start": "Bắt đầu bán thẻ",
+      "example1": "Thay thiết bị",
+      "example2": "Nhập hàng và sửa chữa"
+    },
+    "steps": "Các bước của quý vị",
+    "step": {
+      "pending": "Chưa xin",
+      "requested": "Đang kiểm tra",
+      "released": "Đã trả cho quý vị",
+      "rejected": "Bị trả lại",
+      "notePlaceholder": "Dùng vào việc gì (có số hóa đơn càng tốt)",
+      "ask": "Xin khoản tiền này",
+      "waiting": "Nhân viên Hearthline đang kiểm tra yêu cầu của quý vị."
+    },
+    "stat": {
+      "raised": "Đã gây quỹ",
+      "escrow": "Đang ký quỹ",
+      "escrowHint": "Thuộc về quý vị khi từng bước được duyệt",
+      "released": "Đã trả cho quý vị",
+      "redeemed": "Đã dùng bằng thẻ",
+      "cards": "Thẻ đã bán"
+    },
+    "reopen": {
+      "button": "Chúng tôi đã mở cửa lại",
+      "confirm": "Từ giờ khách hàng có thể dùng thẻ. Đánh dấu doanh nghiệp đã mở cửa lại?",
+      "yes": "Có, chúng tôi đã mở cửa",
+      "deadline": "Ngày mở cửa lại của quý vị: {{date}}. Nếu đến lúc đó chưa mở cửa, người mua sẽ được hoàn phần còn lại trong ký quỹ.",
+      "done": "Quý vị đã mở cửa lại. Khách hàng có thể dùng thẻ."
+    },
+    "ganttHint": "Kéo một bước chưa được trả để dời lịch.",
+    "redeem": {
+      "title": "Nhận thẻ quà tặng",
+      "body": "Quét mã QR của khách hoặc nhập mã, rồi nhập số tiền mua hàng.",
+      "notYet": "Quý vị có thể nhận thẻ sau khi đánh dấu đã mở cửa lại. Hiện đã có thể kiểm tra số dư.",
+      "codePlaceholder": "vd. MORENO-7KQ2-9XHD",
+      "code": "Mã thẻ",
+      "check": "Kiểm tra",
+      "balance": "Thẻ này còn {{balance}}.",
+      "amount": "Số tiền mua hàng",
+      "take": "Trừ vào thẻ",
+      "done": "Đã trừ {{amount}}. Thẻ còn {{left}}."
+    },
+    "cards": {
+      "title_other": "Đã bán {{count}} thẻ",
+      "code": "Thẻ",
+      "buyer": "Người mua",
+      "paid": "Đã trả",
+      "worth": "Giá trị",
+      "balance": "Còn lại",
+      "method": "Trả bằng",
+      "status": "Trạng thái",
+      "bought": "Ngày mua",
+      "via": {
+        "paypal": "PayPal",
+        "venmo": "Venmo",
+        "paylater": "Trả sau"
+      },
+      "state": {
+        "active": "Còn hiệu lực",
+        "refunded": "Đã hoàn tiền"
+      }
+    }
+  },
+  "businesses": {
+    "title": "Doanh nghiệp",
+    "subtitle": "Quỹ mở cửa lại: xác minh từng doanh nghiệp, rồi kiểm tra và giải ngân khoản họ xin. Chủ doanh nghiệp không thể tự duyệt yêu cầu của mình.",
+    "runDeadlines": "Kiểm tra hạn chót",
+    "deadlineResult_other": "{{count}} chiến dịch đã quá hạn và được hoàn tiền.",
+    "notePlaceholder": "Ghi chú lưu hồ sơ (đã kiểm tra gì)",
+    "note": "Ghi chú",
+    "reject": "Trả lại",
+    "license": "Giấy phép {{number}}",
+    "verification": {
+      "pending": "Cần xác minh",
+      "verified": "Đã xác minh",
+      "rejected": "Không được xác minh"
+    },
+    "checkList": "Kiểm tra số giấy phép kinh doanh và địa chỉ có nằm trong vùng thảm họa không.",
+    "verify": "Xác minh doanh nghiệp",
+    "campaign": {
+      "live": "Đang bán thẻ",
+      "reopened": "Đã mở cửa lại",
+      "refunded": "Đã hoàn tiền",
+      "closed": "Đã đóng"
+    },
+    "inEscrow": "{{amount}} đang ký quỹ",
+    "publicPage": "Trang công khai",
+    "asks": "Xin {{amount}}: {{title}}",
+    "release": "Giải ngân {{amount}}"
   }
 }

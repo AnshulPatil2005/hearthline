@@ -24,7 +24,9 @@
     "rebuild": "Muling Pagtatayo",
     "projects": "Mga Proyekto",
     "command": "Command Center",
-    "crews": "Mga Crew"
+    "crews": "Mga Crew",
+    "reopenFund": "Pondo sa Muling Pagbubukas",
+    "businesses": "Mga Negosyo"
   },
   "roles": {
     "household": "Sambahayan",
@@ -311,7 +313,9 @@
       "escrow_release": "Ibinalik mula sa escrow",
       "insurance_payment": "Bayad ng insurance",
       "milestone_payment": "Bayad sa kontratista",
-      "grant": "Grant"
+      "grant": "Grant",
+      "gift_card": "Gift card",
+      "tranche_payout": "Bayad mula sa pondo sa muling pagbubukas"
     }
   },
   "review": {
@@ -762,5 +766,173 @@
       "cleanup": "Linis",
       "wellness": "Bisita"
     }
+  },
+  "reopen": {
+    "badge": "Pondo sa Muling Pagbubukas",
+    "verified": "beripikadong negosyo",
+    "kind": {
+      "bakery": "Panaderya",
+      "restaurant": "Restawran",
+      "retail": "Tindahan",
+      "services": "Serbisyo",
+      "other": "Lokal na negosyo"
+    },
+    "isOpen": "Bukas na ulit kami! Dalhin ang inyong gift card.",
+    "wasRefunded": "Hindi nakapagbukas ulit sa takdang oras ang negosyong ito, kaya ibinalik sa mga bumili ang natitira sa kanilang pera.",
+    "ofGoal": "sa {{goal}}",
+    "cardsSold_one": "{{count}} card ang nabenta",
+    "cardsSold_other": "{{count}} card ang nabenta",
+    "reopensBy": "Planong magbukas ulit bago ang {{date}}",
+    "bonus": "+{{bonus}}% sa bawat card",
+    "supporters": "Mga bagong sumuporta: {{names}}",
+    "notFound": "Hindi namin makita ang pondong ito.",
+    "plan": {
+      "title": "Saan napupunta ang inyong pera",
+      "body": "Naghihintay sa escrow ang pera ng mga card. Hinihingi ng negosyo ang pera ng bawat hakbang kapag kailangan na, at sinusuri ito ng staff ng Hearthline bago ibayad ng PayPal.",
+      "step": "Hakbang",
+      "hint": "Bayad na ang mga berdeng hakbang; naghihintay ng pag-apruba ang mga kahel."
+    },
+    "tranche": {
+      "pending": "Nakaplano",
+      "requested": "Sinusuri",
+      "released": "Bayad na",
+      "rejected": "Ibinalik"
+    },
+    "buy": {
+      "title": "Bumili ng gift card",
+      "custom": "Ibang halaga",
+      "worthBonus": "Magbabayad kayo ng {{pay}}; ang card ay nagkakahalaga ng {{worth}} sa tindahan (+{{bonus}}%).",
+      "worth": "Magbabayad kayo ng {{pay}}; ganoon din ang halaga ng card sa tindahan.",
+      "name": "Inyong pangalan (ipapakita bilang sumuporta; opsyonal)",
+      "promise": "Gamitin kapag nagbukas ulit ang {{name}}. Kung hindi pa sila nakapagbukas bago ang {{date}}, awtomatikong ibabalik ang natitira sa inyong pera.",
+      "thanks": "Salamat sa pagtulong sa {{name}} na magbukas ulit!",
+      "keep": "Buksan ang inyong card (itago ang link na ito)"
+    },
+    "card": {
+      "title": "Gift card",
+      "worth": "Halaga",
+      "qrAlt": "QR code ng gift card {{code}}",
+      "notFound": "Walang gift card na may ganyang code.",
+      "refunded": "Hindi nakapagbukas ulit ang negosyo sa takdang oras. Ibinalik ang {{amount}} sa account na ginamit ninyo.",
+      "balance": "Natitira sa card",
+      "paid": "Nagbayad kayo ng {{paid}}; ang card ay nagkakahalaga ng {{worth}}",
+      "useNow": "Bukas na sila! Ipakita ang QR code na ito sa counter.",
+      "useLater": "Gamitin kapag nagbukas ulit ang {{name}} (planong {{date}}).",
+      "seeFund": "Tingnan ang pondo"
+    },
+    "redeem": {
+      "scan": "I-scan ang QR code",
+      "stopScan": "Itigil ang pag-scan",
+      "noCamera": "Hindi magamit ang camera. I-type na lang ang code."
+    }
+  },
+  "business": {
+    "subtitle": "Ang inyong pondo: mga gift card na nabenta ngayon, gagamitin kapag nagbukas kayo ulit.",
+    "publicPage": "Inyong pampublikong pahina",
+    "verification": {
+      "pending": "Sinusuri namin ang inyong lisensya at address. Makakapagbenta kayo ng card pagkatapos nito.",
+      "rejected": "Hindi namin ma-verify ang inyong negosyo. Makipag-ugnayan sa relief network."
+    },
+    "setup": {
+      "title": "Simulan ang inyong pondo",
+      "body": "Ilista ang kailangan ninyo para magbukas ulit at ang halaga ng bawat hakbang. Ang kabuuan ang inyong layunin. Puwede kayong magbigay ng bonus sa mga card bilang pasasalamat.",
+      "reopenBy": "Planong magbukas ulit bago ang",
+      "bonus": "Bonus para sa bumibili: {{bonus}}%",
+      "steps": "Saan mapupunta ang pera",
+      "stepTitle": "Hakbang",
+      "amount": "Halaga",
+      "addStep": "Magdagdag ng hakbang",
+      "goal": "Layunin",
+      "start": "Simulang magbenta ng card",
+      "example1": "Palitan ang kagamitan",
+      "example2": "Mag-restock at magkumpuni"
+    },
+    "steps": "Inyong mga hakbang",
+    "step": {
+      "pending": "Hindi pa hinihingi",
+      "requested": "Sinusuri",
+      "released": "Naibayad sa inyo",
+      "rejected": "Ibinalik",
+      "notePlaceholder": "Para saan (makakatulong ang numero ng invoice)",
+      "ask": "Hingin ang perang ito",
+      "waiting": "Sinusuri ng staff ng Hearthline ang inyong request."
+    },
+    "stat": {
+      "raised": "Nalikom",
+      "escrow": "Nasa escrow",
+      "escrowHint": "Sa inyo kapag naaprubahan ang bawat hakbang",
+      "released": "Naibayad sa inyo",
+      "redeemed": "Nagamit na sa card",
+      "cards": "Nabentang card"
+    },
+    "reopen": {
+      "button": "Bukas na ulit kami",
+      "confirm": "Magagamit na ng mga customer ang kanilang card mula ngayon. Markahan bilang bukas na ulit?",
+      "yes": "Oo, bukas na kami",
+      "deadline": "Petsa ng inyong muling pagbubukas: {{date}}. Kung hindi pa kayo bukas noon, ibabalik sa mga bumili ang natitira sa escrow.",
+      "done": "Bukas na kayo ulit. Magagamit na ng mga customer ang kanilang card."
+    },
+    "ganttHint": "I-drag ang hakbang na hindi pa bayad para ilipat ito.",
+    "redeem": {
+      "title": "Tumanggap ng gift card",
+      "body": "I-scan ang QR code ng customer o i-type ang code, saka ilagay ang halaga ng binili.",
+      "notYet": "Makakatanggap kayo ng card kapag minarkahan ninyong bukas na ulit. Puwede na ninyong tingnan ang balanse.",
+      "codePlaceholder": "hal. MORENO-7KQ2-9XHD",
+      "code": "Code ng card",
+      "check": "Tingnan",
+      "balance": "May natitirang {{balance}} ang card na ito.",
+      "amount": "Halaga ng binili",
+      "take": "Kunin sa card",
+      "done": "Kinuha ang {{amount}}. May natitirang {{left}} sa card."
+    },
+    "cards": {
+      "title_one": "{{count}} card ang nabenta",
+      "title_other": "{{count}} card ang nabenta",
+      "code": "Card",
+      "buyer": "Bumili",
+      "paid": "Ibinayad",
+      "worth": "Halaga",
+      "balance": "Natitira",
+      "method": "Ibinayad gamit",
+      "status": "Katayuan",
+      "bought": "Binili",
+      "via": {
+        "paypal": "PayPal",
+        "venmo": "Venmo",
+        "paylater": "Pay Later"
+      },
+      "state": {
+        "active": "Aktibo",
+        "refunded": "Na-refund"
+      }
+    }
+  },
+  "businesses": {
+    "title": "Mga Negosyo",
+    "subtitle": "Mga pondo sa muling pagbubukas: i-verify ang bawat negosyo, saka suriin at ilabas ang perang hinihingi nila. Hindi maaaprubahan ng may-ari ang sarili nilang request.",
+    "runDeadlines": "Patakbuhin ang deadline check",
+    "deadlineResult_one": "{{count}} kampanya ang lumampas sa petsa at na-refund.",
+    "deadlineResult_other": "{{count}} kampanya ang lumampas sa petsa at na-refund.",
+    "notePlaceholder": "Tala para sa record (ano ang sinuri ninyo)",
+    "note": "Tala",
+    "reject": "Ibalik",
+    "license": "Lisensya {{number}}",
+    "verification": {
+      "pending": "Kailangang i-verify",
+      "verified": "Beripikado",
+      "rejected": "Hindi beripikado"
+    },
+    "checkList": "Suriin ang numero ng lisensya ng negosyo at kung nasa loob ng lugar ng sakuna ang address.",
+    "verify": "I-verify ang negosyo",
+    "campaign": {
+      "live": "Nagbebenta ng card",
+      "reopened": "Bukas na ulit",
+      "refunded": "Na-refund",
+      "closed": "Sarado"
+    },
+    "inEscrow": "{{amount}} sa escrow",
+    "publicPage": "Pampublikong pahina",
+    "asks": "Humihingi ng {{amount}}: {{title}}",
+    "release": "Ilabas ang {{amount}}"
   }
 }

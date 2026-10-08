@@ -24,7 +24,9 @@
     "rebuild": "Rebuild",
     "projects": "Projects",
     "command": "Command Center",
-    "crews": "Crews"
+    "crews": "Crews",
+    "reopenFund": "Reopen Fund",
+    "businesses": "Businesses"
   },
   "roles": {
     "household": "Household",
@@ -311,7 +313,9 @@
       "escrow_release": "Returned from escrow",
       "insurance_payment": "Insurance payment",
       "milestone_payment": "Contractor payment",
-      "grant": "Grant"
+      "grant": "Grant",
+      "gift_card": "Gift card",
+      "tranche_payout": "Reopen Fund payout"
     }
   },
   "review": {
@@ -762,5 +766,173 @@
       "cleanup": "Cleanup",
       "wellness": "Visit"
     }
+  },
+  "reopen": {
+    "badge": "Reopen Fund",
+    "verified": "verified business",
+    "kind": {
+      "bakery": "Bakery",
+      "restaurant": "Restaurant",
+      "retail": "Shop",
+      "services": "Services",
+      "other": "Local business"
+    },
+    "isOpen": "We're open again! Bring your gift card.",
+    "wasRefunded": "This business couldn't reopen in time, so buyers got back what was left of their money.",
+    "ofGoal": "of {{goal}}",
+    "cardsSold_one": "{{count}} card sold",
+    "cardsSold_other": "{{count}} cards sold",
+    "reopensBy": "Plans to reopen by {{date}}",
+    "bonus": "+{{bonus}}% on every card",
+    "supporters": "Recent supporters: {{names}}",
+    "notFound": "We couldn't find this Reopen Fund.",
+    "plan": {
+      "title": "What your money pays for",
+      "body": "Card money waits in escrow. The business asks for each step's money when it needs it, and a Hearthline staff member checks the request before PayPal pays it out.",
+      "step": "Step",
+      "hint": "Green steps are paid for; orange ones are waiting for approval."
+    },
+    "tranche": {
+      "pending": "Planned",
+      "requested": "Being checked",
+      "released": "Paid for",
+      "rejected": "Sent back"
+    },
+    "buy": {
+      "title": "Buy a gift card",
+      "custom": "Other amount",
+      "worthBonus": "You pay {{pay}}; your card is worth {{worth}} in the shop (+{{bonus}}%).",
+      "worth": "You pay {{pay}}; your card is worth the same in the shop.",
+      "name": "Your first name (shown as a supporter; optional)",
+      "promise": "Spend it once {{name}} reopens. If they haven't reopened by {{date}}, you get back what's left of your money automatically.",
+      "thanks": "Thank you for helping {{name}} reopen!",
+      "keep": "Open your card (keep this link)"
+    },
+    "card": {
+      "title": "Gift card",
+      "worth": "Worth",
+      "qrAlt": "QR code for gift card {{code}}",
+      "notFound": "We couldn't find a gift card with that code.",
+      "refunded": "The business couldn't reopen in time. {{amount}} went back to the account you paid with.",
+      "balance": "Left on this card",
+      "paid": "You paid {{paid}}; the card was worth {{worth}}",
+      "useNow": "They're open! Show this QR code at the counter.",
+      "useLater": "Spend it once {{name}} reopens (planned by {{date}}).",
+      "seeFund": "See the Reopen Fund"
+    },
+    "redeem": {
+      "scan": "Scan a QR code",
+      "stopScan": "Stop scanning",
+      "noCamera": "The camera isn't available. Type the code instead."
+    }
+  },
+  "business": {
+    "subtitle": "Your Reopen Fund: gift cards sold now, spent when you reopen.",
+    "publicPage": "Your public page",
+    "verification": {
+      "pending": "We're checking your business license and address. You can start selling gift cards once that's done.",
+      "rejected": "We couldn't verify your business. Contact the relief network to sort it out."
+    },
+    "setup": {
+      "title": "Start your Reopen Fund",
+      "body": "List what you need to reopen and what each step costs. The total is your goal. Buyers can get a bonus on their cards as a thank-you.",
+      "reopenBy": "We plan to reopen by",
+      "bonus": "Bonus for buyers: {{bonus}}%",
+      "steps": "What the money pays for",
+      "stepTitle": "Step",
+      "amount": "Cost",
+      "addStep": "Add a step",
+      "goal": "Goal",
+      "start": "Start selling cards",
+      "example1": "Replace equipment",
+      "example2": "Restock and repair"
+    },
+    "steps": "Your steps",
+    "step": {
+      "pending": "Not asked yet",
+      "requested": "Being checked",
+      "released": "Paid to you",
+      "rejected": "Sent back",
+      "notePlaceholder": "What it's for (an invoice number helps)",
+      "ask": "Ask for this money",
+      "waiting": "A Hearthline staff member is checking your request."
+    },
+    "stat": {
+      "raised": "Raised",
+      "escrow": "Waiting in escrow",
+      "escrowHint": "Yours as each step is approved",
+      "released": "Paid to you",
+      "redeemed": "Spent with cards",
+      "cards": "Cards sold"
+    },
+    "reopen": {
+      "button": "We're open again",
+      "confirm": "Customers will be able to spend their cards from now on. Mark the business as reopened?",
+      "yes": "Yes, we're open",
+      "deadline": "Your reopening date: {{date}}. If you haven't reopened by then, buyers are refunded what's left in escrow.",
+      "done": "You're open again. Customers can spend their cards."
+    },
+    "ganttHint": "Drag a step that hasn't been paid for to move it.",
+    "redeem": {
+      "title": "Take a gift card",
+      "body": "Scan the customer's QR code or type the code, then enter the amount of their purchase.",
+      "notYet": "You can take cards once you've marked the business as reopened. You can already check a card's balance.",
+      "codePlaceholder": "e.g. MORENO-7KQ2-9XHD",
+      "code": "Card code",
+      "check": "Check card",
+      "balance": "This card has {{balance}} left.",
+      "amount": "Purchase amount",
+      "take": "Take from card",
+      "done": "Took {{amount}}. {{left}} left on the card."
+    },
+    "cards": {
+      "title_one": "{{count}} card sold",
+      "title_other": "{{count}} cards sold",
+      "code": "Card",
+      "buyer": "Buyer",
+      "paid": "Paid",
+      "worth": "Worth",
+      "balance": "Left",
+      "method": "Paid with",
+      "status": "Status",
+      "bought": "Bought",
+      "via": {
+        "paypal": "PayPal",
+        "venmo": "Venmo",
+        "paylater": "Pay Later"
+      },
+      "state": {
+        "active": "Active",
+        "refunded": "Refunded"
+      }
+    }
+  },
+  "businesses": {
+    "title": "Businesses",
+    "subtitle": "Reopen Funds: verify each business, then check and release the money it asks for. Owners can't approve their own requests.",
+    "runDeadlines": "Run the deadline check",
+    "deadlineResult_one": "{{count}} campaign missed its date and was refunded.",
+    "deadlineResult_other": "{{count}} campaigns missed their date and were refunded.",
+    "notePlaceholder": "Note for the record (what you checked)",
+    "note": "Note",
+    "reject": "Send back",
+    "license": "License {{number}}",
+    "verification": {
+      "pending": "Needs verification",
+      "verified": "Verified",
+      "rejected": "Not verified"
+    },
+    "checkList": "Check the city business license number and that the address is inside the disaster area.",
+    "verify": "Verify business",
+    "campaign": {
+      "live": "Selling cards",
+      "reopened": "Reopened",
+      "refunded": "Refunded",
+      "closed": "Closed"
+    },
+    "inEscrow": "{{amount}} in escrow",
+    "publicPage": "Public page",
+    "asks": "Asks for {{amount}}: {{title}}",
+    "release": "Release {{amount}}"
   }
 }

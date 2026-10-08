@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, type RegistryItem } from '../api'
 import { money } from '../format'
-import { getPayPalSdk, type PaymentSession, type SessionCallbacks } from '../paypal'
+import { usePayPalCheckout, type Method } from '../usePayPalCheckout'
+import { PayButtons } from './PayButtons'
 
-type Method = 'paypal' | 'venmo' | 'paylater'
 type Props = { slug: string; item: RegistryItem | null; onDone: () => void; onClose: () => void }
 
 export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const remaining = item ? Number(item.remaining) : null
   const presets = item
     ? [...new Set([remaining!, Math.ceil(remaining! / 2), 25].filter((v) => v > 0 && v <= remaining!))]
@@ -16,62 +16,15 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
   const [amount, setAmount] = useState<number>(presets[0])
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
-  const [status, setStatus] = useState<'idle' | 'paying' | 'done' | 'error'>('idle')
-  const [error, setError] = useState<string | null>(null)
-  const [eligible, setEligible] = useState<Record<Method, boolean> | null>(null)
-  const sessions = useRef<Partial<Record<Method, PaymentSession>>>({})
+  const [done, setDone] = useState(false)
   const donationId = useRef<number | null>(null)
-  const payLaterButton = useRef<HTMLElement & { productCode?: string; countryCode?: string }>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    const callbacks: SessionCallbacks = {
-      async onApprove() {
-        try {
-          await api(`/donations/${donationId.current}/capture`, { method: 'POST' })
-          setStatus('done')
-          onDone()
-        } catch (e) {
-          setStatus('error')
-          setError(e instanceof Error ? e.message : t('errors.generic'))
-        }
-      },
-      onCancel: () => setStatus('idle'),
-      onError: (e) => {
-        setStatus('error')
-        setError(e?.message ?? t('errors.generic'))
-      },
-    }
-    getPayPalSdk(i18n.resolvedLanguage === 'es' ? 'es-US' : 'en-US')
-      .then(async (sdk) => {
-        const methods = await sdk.findEligibleMethods({ currencyCode: 'USD' })
-        if (cancelled) return
-        const flags = {
-          paypal: methods.isEligible('paypal'),
-          venmo: methods.isEligible('venmo'),
-          paylater: methods.isEligible('paylater'),
-        }
-        if (flags.paypal) sessions.current.paypal = sdk.createPayPalOneTimePaymentSession(callbacks)
-        if (flags.venmo) sessions.current.venmo = sdk.createVenmoOneTimePaymentSession(callbacks)
-        if (flags.paylater) {
-          sessions.current.paylater = sdk.createPayLaterOneTimePaymentSession(callbacks)
-          const details = methods.getDetails('paylater')
-          if (payLaterButton.current) Object.assign(payLaterButton.current, details)
-        }
-        setEligible(flags)
-      })
-      .catch(() => !cancelled && setError(t('registry.paypalUnavailable')))
-    return () => {
-      cancelled = true
-    }
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  const checkout = usePayPalCheckout(async () => {
+    await api(`/donations/${donationId.current}/capture`, { method: 'POST' })
+    setDone(true)
+    onDone()
+  })
 
   function pay(method: Method) {
-    const session = sessions.current[method]
-    if (!session) return
-    setStatus('paying')
-    setError(null)
-    // Start the order request without awaiting it: PayPal needs start() inside the click handler.
     const order = api<{ donation_id: number; order_id: string }>(`/registries/${slug}/donations`, {
       method: 'POST',
       body: JSON.stringify({
@@ -85,13 +38,10 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
       donationId.current = r.donation_id
       return { orderId: r.order_id }
     })
-    session.start({ presentationMode: 'auto' }, order).catch((e: Error) => {
-      setStatus('error')
-      setError(e.message)
-    })
+    checkout.start(method, order)
   }
 
-  if (status === 'done') {
+  if (done) {
     return (
       <div className="rounded-xl border border-sage/40 bg-sage-soft p-5" role="status">
         <p className="text-lg font-semibold text-sage">{t('registry.thanks', { amount: money(amount) })}</p>
@@ -162,18 +112,8 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
         />
       </div>
 
-      <div className={`mt-5 grid gap-2 ${valid && status !== 'paying' ? '' : 'pointer-events-none opacity-50'}`}>
-        {!eligible && !error && <div className="h-11 animate-pulse rounded-lg bg-sunken" />}
-        {eligible?.paypal && <paypal-button type="donate" onClick={() => pay('paypal')} />}
-        {eligible?.venmo && <venmo-button onClick={() => pay('venmo')} />}
-        <paypal-pay-later-button ref={payLaterButton} hidden={!eligible?.paylater} onClick={() => pay('paylater')} />
-      </div>
+      <PayButtons checkout={checkout} disabled={!valid} type="donate" onPay={pay} />
       <p className="mt-3 text-xs text-ink-faint">{t('registry.paymentNote')}</p>
-      {error && (
-        <p role="alert" className="mt-3 text-sm text-danger">
-          {error}
-        </p>
-      )}
     </div>
   )
 }

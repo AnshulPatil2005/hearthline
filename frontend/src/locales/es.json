@@ -24,7 +24,9 @@
     "rebuild": "Reconstruir",
     "projects": "Proyectos",
     "command": "Centro de mando",
-    "crews": "Equipos"
+    "crews": "Equipos",
+    "reopenFund": "Fondo de reapertura",
+    "businesses": "Negocios"
   },
   "roles": {
     "household": "Hogar",
@@ -311,7 +313,9 @@
       "escrow_release": "Devuelto del depósito de garantía",
       "insurance_payment": "Pago del seguro",
       "milestone_payment": "Pago al contratista",
-      "grant": "Subvención"
+      "grant": "Subvención",
+      "gift_card": "Tarjeta de regalo",
+      "tranche_payout": "Pago del fondo de reapertura"
     }
   },
   "review": {
@@ -762,5 +766,173 @@
       "cleanup": "Limpieza",
       "wellness": "Visita"
     }
+  },
+  "reopen": {
+    "badge": "Fondo de reapertura",
+    "verified": "negocio verificado",
+    "kind": {
+      "bakery": "Panadería",
+      "restaurant": "Restaurante",
+      "retail": "Tienda",
+      "services": "Servicios",
+      "other": "Negocio local"
+    },
+    "isOpen": "¡Volvimos a abrir! Traiga su tarjeta de regalo.",
+    "wasRefunded": "Este negocio no pudo reabrir a tiempo, así que los compradores recibieron lo que quedaba de su dinero.",
+    "ofGoal": "de {{goal}}",
+    "cardsSold_one": "{{count}} tarjeta vendida",
+    "cardsSold_other": "{{count}} tarjetas vendidas",
+    "reopensBy": "Planea reabrir antes del {{date}}",
+    "bonus": "+{{bonus}} % en cada tarjeta",
+    "supporters": "Apoyos recientes: {{names}}",
+    "notFound": "No encontramos este fondo de reapertura.",
+    "plan": {
+      "title": "Lo que paga su dinero",
+      "body": "El dinero de las tarjetas espera en una cuenta de garantía. El negocio pide el dinero de cada paso cuando lo necesita, y una persona de Hearthline revisa la solicitud antes de que PayPal lo pague.",
+      "step": "Paso",
+      "hint": "Los pasos verdes ya están pagados; los naranjas esperan aprobación."
+    },
+    "tranche": {
+      "pending": "Planeado",
+      "requested": "En revisión",
+      "released": "Pagado",
+      "rejected": "Devuelto"
+    },
+    "buy": {
+      "title": "Comprar una tarjeta de regalo",
+      "custom": "Otro monto",
+      "worthBonus": "Paga {{pay}}; su tarjeta vale {{worth}} en la tienda (+{{bonus}} %).",
+      "worth": "Paga {{pay}}; su tarjeta vale lo mismo en la tienda.",
+      "name": "Su nombre (aparece como apoyo; opcional)",
+      "promise": "Úsela cuando {{name}} reabra. Si no han reabierto antes del {{date}}, recibirá automáticamente lo que quede de su dinero.",
+      "thanks": "¡Gracias por ayudar a {{name}} a reabrir!",
+      "keep": "Abrir su tarjeta (guarde este enlace)"
+    },
+    "card": {
+      "title": "Tarjeta de regalo",
+      "worth": "Vale",
+      "qrAlt": "Código QR de la tarjeta {{code}}",
+      "notFound": "No encontramos una tarjeta con ese código.",
+      "refunded": "El negocio no pudo reabrir a tiempo. {{amount}} volvieron a la cuenta con la que pagó.",
+      "balance": "Saldo de la tarjeta",
+      "paid": "Pagó {{paid}}; la tarjeta valía {{worth}}",
+      "useNow": "¡Ya abrieron! Muestre este código QR en el mostrador.",
+      "useLater": "Úsela cuando {{name}} reabra (previsto para el {{date}}).",
+      "seeFund": "Ver el fondo de reapertura"
+    },
+    "redeem": {
+      "scan": "Escanear código QR",
+      "stopScan": "Dejar de escanear",
+      "noCamera": "La cámara no está disponible. Escriba el código."
+    }
+  },
+  "business": {
+    "subtitle": "Su fondo de reapertura: tarjetas de regalo vendidas ahora, usadas cuando reabra.",
+    "publicPage": "Su página pública",
+    "verification": {
+      "pending": "Estamos revisando su licencia y dirección. Podrá vender tarjetas cuando terminemos.",
+      "rejected": "No pudimos verificar su negocio. Comuníquese con la red de ayuda."
+    },
+    "setup": {
+      "title": "Inicie su fondo de reapertura",
+      "body": "Indique lo que necesita para reabrir y cuánto cuesta cada paso. El total es su meta. Puede dar un bono en las tarjetas como agradecimiento.",
+      "reopenBy": "Planeamos reabrir antes del",
+      "bonus": "Bono para compradores: {{bonus}} %",
+      "steps": "Lo que paga el dinero",
+      "stepTitle": "Paso",
+      "amount": "Costo",
+      "addStep": "Agregar un paso",
+      "goal": "Meta",
+      "start": "Empezar a vender tarjetas",
+      "example1": "Reemplazar equipo",
+      "example2": "Reabastecer y reparar"
+    },
+    "steps": "Sus pasos",
+    "step": {
+      "pending": "Aún no solicitado",
+      "requested": "En revisión",
+      "released": "Pagado a usted",
+      "rejected": "Devuelto",
+      "notePlaceholder": "Para qué es (un número de factura ayuda)",
+      "ask": "Solicitar este dinero",
+      "waiting": "Una persona de Hearthline está revisando su solicitud."
+    },
+    "stat": {
+      "raised": "Recaudado",
+      "escrow": "En garantía",
+      "escrowHint": "Suyo al aprobarse cada paso",
+      "released": "Pagado a usted",
+      "redeemed": "Usado con tarjetas",
+      "cards": "Tarjetas vendidas"
+    },
+    "reopen": {
+      "button": "Volvimos a abrir",
+      "confirm": "Desde ahora los clientes podrán usar sus tarjetas. ¿Marcar el negocio como reabierto?",
+      "yes": "Sí, estamos abiertos",
+      "deadline": "Su fecha de reapertura: {{date}}. Si no ha reabierto para entonces, los compradores recibirán lo que quede en garantía.",
+      "done": "Ya está abierto. Los clientes pueden usar sus tarjetas."
+    },
+    "ganttHint": "Arrastre un paso que aún no esté pagado para moverlo.",
+    "redeem": {
+      "title": "Aceptar una tarjeta de regalo",
+      "body": "Escanee el código QR del cliente o escriba el código, y luego ingrese el monto de la compra.",
+      "notYet": "Podrá aceptar tarjetas cuando marque el negocio como reabierto. Ya puede consultar el saldo.",
+      "codePlaceholder": "p. ej. MORENO-7KQ2-9XHD",
+      "code": "Código de la tarjeta",
+      "check": "Consultar",
+      "balance": "A esta tarjeta le quedan {{balance}}.",
+      "amount": "Monto de la compra",
+      "take": "Cobrar de la tarjeta",
+      "done": "Se cobraron {{amount}}. Quedan {{left}} en la tarjeta."
+    },
+    "cards": {
+      "title_one": "{{count}} tarjeta vendida",
+      "title_other": "{{count}} tarjetas vendidas",
+      "code": "Tarjeta",
+      "buyer": "Comprador",
+      "paid": "Pagó",
+      "worth": "Vale",
+      "balance": "Saldo",
+      "method": "Pagó con",
+      "status": "Estado",
+      "bought": "Comprada",
+      "via": {
+        "paypal": "PayPal",
+        "venmo": "Venmo",
+        "paylater": "Paga después"
+      },
+      "state": {
+        "active": "Activa",
+        "refunded": "Reembolsada"
+      }
+    }
+  },
+  "businesses": {
+    "title": "Negocios",
+    "subtitle": "Fondos de reapertura: verifique cada negocio y luego revise y libere el dinero que solicita. Los dueños no pueden aprobar sus propias solicitudes.",
+    "runDeadlines": "Revisar fechas límite",
+    "deadlineResult_one": "{{count}} campaña no cumplió su fecha y fue reembolsada.",
+    "deadlineResult_other": "{{count}} campañas no cumplieron su fecha y fueron reembolsadas.",
+    "notePlaceholder": "Nota para el registro (qué revisó)",
+    "note": "Nota",
+    "reject": "Devolver",
+    "license": "Licencia {{number}}",
+    "verification": {
+      "pending": "Falta verificar",
+      "verified": "Verificado",
+      "rejected": "No verificado"
+    },
+    "checkList": "Revise el número de licencia municipal y que la dirección esté dentro de la zona del desastre.",
+    "verify": "Verificar negocio",
+    "campaign": {
+      "live": "Vendiendo tarjetas",
+      "reopened": "Reabierto",
+      "refunded": "Reembolsado",
+      "closed": "Cerrado"
+    },
+    "inEscrow": "{{amount}} en garantía",
+    "publicPage": "Página pública",
+    "asks": "Solicita {{amount}}: {{title}}",
+    "release": "Liberar {{amount}}"
   }
 }

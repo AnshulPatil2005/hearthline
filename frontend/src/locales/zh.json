@@ -24,7 +24,9 @@
     "rebuild": "重建",
     "projects": "项目",
     "command": "指挥中心",
-    "crews": "工作队"
+    "crews": "工作队",
+    "reopenFund": "重新开业基金",
+    "businesses": "商家"
   },
   "roles": {
     "household": "住户",
@@ -307,7 +309,9 @@
       "escrow_release": "从托管退回",
       "insurance_payment": "保险赔付",
       "milestone_payment": "支付承包商",
-      "grant": "拨款"
+      "grant": "拨款",
+      "gift_card": "礼品卡",
+      "tranche_payout": "重新开业基金拨款"
     }
   },
   "review": {
@@ -751,5 +755,170 @@
       "cleanup": "清理",
       "wellness": "探访"
     }
+  },
+  "reopen": {
+    "badge": "重新开业基金",
+    "verified": "已核实商家",
+    "kind": {
+      "bakery": "面包店",
+      "restaurant": "餐厅",
+      "retail": "商店",
+      "services": "服务",
+      "other": "本地商家"
+    },
+    "isOpen": "我们重新开业了！请带上您的礼品卡。",
+    "wasRefunded": "这家商家未能按时重新开业，买家已拿回剩余的钱。",
+    "ofGoal": "（目标 {{goal}}）",
+    "cardsSold_other": "已售 {{count}} 张卡",
+    "reopensBy": "计划于 {{date}} 前重新开业",
+    "bonus": "每张卡加赠 {{bonus}}%",
+    "supporters": "最近的支持者：{{names}}",
+    "notFound": "找不到这个重新开业基金。",
+    "plan": {
+      "title": "您的钱用在哪里",
+      "body": "礼品卡的钱先存放在托管账户中。商家在需要时申请每一步的款项，由 Hearthline 工作人员审核后再通过 PayPal 支付。",
+      "step": "步骤",
+      "hint": "绿色步骤已付款；橙色步骤正在等待批准。"
+    },
+    "tranche": {
+      "pending": "已计划",
+      "requested": "审核中",
+      "released": "已付款",
+      "rejected": "已退回"
+    },
+    "buy": {
+      "title": "购买礼品卡",
+      "custom": "其他金额",
+      "worthBonus": "您支付 {{pay}}；卡在店内价值 {{worth}}（+{{bonus}}%）。",
+      "worth": "您支付 {{pay}}；卡在店内价值相同。",
+      "name": "您的名字（作为支持者显示；可选）",
+      "promise": "在 {{name}} 重新开业后使用。如果 {{date}} 前仍未开业，您会自动拿回剩余的钱。",
+      "thanks": "感谢您帮助 {{name}} 重新开业！",
+      "keep": "打开您的卡（请保存此链接）"
+    },
+    "card": {
+      "title": "礼品卡",
+      "worth": "价值",
+      "qrAlt": "礼品卡 {{code}} 的二维码",
+      "notFound": "找不到该代码的礼品卡。",
+      "refunded": "商家未能按时重新开业。{{amount}} 已退回您付款的账户。",
+      "balance": "卡内余额",
+      "paid": "您支付了 {{paid}}；卡价值 {{worth}}",
+      "useNow": "已经开业！请在柜台出示此二维码。",
+      "useLater": "在 {{name}} 重新开业后使用（计划于 {{date}}）。",
+      "seeFund": "查看重新开业基金"
+    },
+    "redeem": {
+      "scan": "扫描二维码",
+      "stopScan": "停止扫描",
+      "noCamera": "无法使用摄像头，请手动输入代码。"
+    }
+  },
+  "business": {
+    "subtitle": "您的重新开业基金：现在出售礼品卡，重新开业后使用。",
+    "publicPage": "您的公开页面",
+    "verification": {
+      "pending": "我们正在核查您的营业执照和地址，完成后即可出售礼品卡。",
+      "rejected": "我们无法核实您的商家，请联系救助网络。"
+    },
+    "setup": {
+      "title": "启动您的重新开业基金",
+      "body": "列出重新开业所需的步骤及每步的费用，总额即为目标。可以为买家提供礼品卡加赠作为感谢。",
+      "reopenBy": "计划重新开业日期",
+      "bonus": "买家加赠：{{bonus}}%",
+      "steps": "资金用途",
+      "stepTitle": "步骤",
+      "amount": "费用",
+      "addStep": "添加步骤",
+      "goal": "目标",
+      "start": "开始出售礼品卡",
+      "example1": "更换设备",
+      "example2": "补货和维修"
+    },
+    "steps": "您的步骤",
+    "step": {
+      "pending": "尚未申请",
+      "requested": "审核中",
+      "released": "已付给您",
+      "rejected": "已退回",
+      "notePlaceholder": "用途（附发票号更好）",
+      "ask": "申请这笔钱",
+      "waiting": "Hearthline 工作人员正在审核您的申请。"
+    },
+    "stat": {
+      "raised": "已筹得",
+      "escrow": "托管中",
+      "escrowHint": "每一步获批后归您",
+      "released": "已付给您",
+      "redeemed": "已用卡消费",
+      "cards": "已售卡数"
+    },
+    "reopen": {
+      "button": "我们重新开业了",
+      "confirm": "从现在起顾客可以使用礼品卡。确定标记为已重新开业吗？",
+      "yes": "是的，已开业",
+      "deadline": "您的重新开业日期：{{date}}。如果届时仍未开业，托管中的剩余款项将退还给买家。",
+      "done": "已重新开业，顾客可以使用礼品卡。"
+    },
+    "ganttHint": "拖动尚未付款的步骤即可调整时间。",
+    "redeem": {
+      "title": "收取礼品卡",
+      "body": "扫描顾客的二维码或输入代码，然后输入消费金额。",
+      "notYet": "标记为已重新开业后才能收卡。现在已经可以查询余额。",
+      "codePlaceholder": "例如 MORENO-7KQ2-9XHD",
+      "code": "卡代码",
+      "check": "查询",
+      "balance": "此卡余额 {{balance}}。",
+      "amount": "消费金额",
+      "take": "从卡中扣款",
+      "done": "已扣 {{amount}}，卡内剩余 {{left}}。"
+    },
+    "cards": {
+      "title_other": "已售 {{count}} 张卡",
+      "code": "卡",
+      "buyer": "买家",
+      "paid": "支付",
+      "worth": "价值",
+      "balance": "余额",
+      "method": "支付方式",
+      "status": "状态",
+      "bought": "购买日期",
+      "via": {
+        "paypal": "PayPal",
+        "venmo": "Venmo",
+        "paylater": "先买后付"
+      },
+      "state": {
+        "active": "有效",
+        "refunded": "已退款"
+      }
+    }
+  },
+  "businesses": {
+    "title": "商家",
+    "subtitle": "重新开业基金：核实每家商家，然后审核并发放其申请的款项。店主不能批准自己的申请。",
+    "runDeadlines": "检查截止日期",
+    "deadlineResult_other": "{{count}} 个活动未按期开业，已退款。",
+    "notePlaceholder": "记录备注（核查了什么）",
+    "note": "备注",
+    "reject": "退回",
+    "license": "执照 {{number}}",
+    "verification": {
+      "pending": "待核实",
+      "verified": "已核实",
+      "rejected": "未通过核实"
+    },
+    "checkList": "核对市营业执照号码，并确认地址位于灾区内。",
+    "verify": "核实商家",
+    "campaign": {
+      "live": "正在售卡",
+      "reopened": "已重新开业",
+      "refunded": "已退款",
+      "closed": "已结束"
+    },
+    "inEscrow": "托管中 {{amount}}",
+    "publicPage": "公开页面",
+    "asks": "申请 {{amount}}：{{title}}",
+    "release": "发放 {{amount}}"
   }
 }

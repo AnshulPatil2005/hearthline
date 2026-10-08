@@ -404,3 +404,79 @@ export type AidBatch = {
   can_decide: boolean
   items: AidBatchItem[] | null
 }
+
+export type Tranche = {
+  id: number
+  seq: number
+  title: string
+  amount: string
+  start_date: string
+  end_date: string
+  status: 'pending' | 'requested' | 'released' | 'rejected'
+  request_note: string | null
+  decision_note: string | null
+  released_at: string | null
+}
+
+export type ReopenCampaign = {
+  id: number
+  goal_amount: string
+  raised: string
+  bonus_percent: number
+  reopen_by: string
+  status: 'live' | 'reopened' | 'refunded' | 'closed'
+  cards_sold: number
+  escrow: string
+  released: string
+  redeemed: string
+  reopened_at: string | null
+  refunded_at: string | null
+  tranches: Tranche[]
+}
+
+export type BusinessInfo = {
+  id: number
+  name: string
+  slug: string
+  kind: string
+  city: string
+  state: string
+  story: string
+  verification: 'pending' | 'verified' | 'rejected'
+  verification_note: string | null
+  campaign: ReopenCampaign | null
+}
+
+export type PublicCampaign = BusinessInfo & { supporters: string[] }
+
+export type StaffBusiness = BusinessInfo & {
+  owner_name: string
+  license_number: string
+  address: string
+  payout_email: string | null
+}
+
+export type GiftCardInfo = {
+  code: string
+  business_name: string
+  business_slug: string
+  amount_paid: string
+  face_value: string
+  balance: string
+  status: 'active' | 'refunded'
+  campaign_status: ReopenCampaign['status']
+  reopen_by: string
+  refunded_amount: string
+}
+
+export type CardRow = {
+  id: number
+  code_end: string
+  buyer: string | null
+  amount_paid: string
+  face_value: string
+  balance: string
+  status: string
+  payment_method: string
+  activated_at: string | null
+}

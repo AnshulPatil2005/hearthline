@@ -1,9 +1,12 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Aid from './pages/Aid'
+import BusinessesReview from './pages/BusinessesReview'
+import BusinessHome from './pages/BusinessHome'
 import CommandCenter from './pages/CommandCenter'
 import ComingSoon from './pages/ComingSoon'
 import ContractorPortal from './pages/ContractorPortal'
+import GiftCardView from './pages/GiftCardView'
 import HouseholdHome from './pages/HouseholdHome'
 import Inventory from './pages/Inventory'
 import Login from './pages/Login'
@@ -11,6 +14,7 @@ import Money from './pages/Money'
 import Rebuild from './pages/Rebuild'
 import RegistryManage from './pages/RegistryManage'
 import RegistryPublic from './pages/RegistryPublic'
+import ReopenPublic from './pages/ReopenPublic'
 import ReviewCase from './pages/ReviewCase'
 import ReviewQueue from './pages/ReviewQueue'
 import { HomeRedirect, RequireAuth } from './routes'
@@ -27,6 +31,24 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/r/:slug" element={<RegistryPublic />} />
+      <Route path="/reopen/:slug" element={<ReopenPublic />} />
+      <Route path="/card/:code" element={<GiftCardView />} />
+      <Route
+        path="/business"
+        element={
+          <RequireAuth role="business" wide>
+            <BusinessHome />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/command/businesses"
+        element={
+          <RequireAuth role={['org_admin', 'supervisor']} wide>
+            <BusinessesReview />
+          </RequireAuth>
+        }
+      />
       <Route
         path="/registry"
         element={

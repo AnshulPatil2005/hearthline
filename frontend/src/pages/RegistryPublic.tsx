@@ -4,23 +4,9 @@ import { useTranslation } from 'react-i18next'
 import { useParams } from 'react-router'
 import { api, type Registry, type RegistryItem } from '../api'
 import DonatePanel from '../components/DonatePanel'
+import { Progress } from '../components/PublicFrame'
 import { LanguageSelect, Logo } from '../components/Shell'
 import { money } from '../format'
-
-function Progress({ funded, target }: { funded: number; target: number }) {
-  const pct = target > 0 ? Math.min(100, (funded / target) * 100) : 0
-  return (
-    <div
-      className="h-2 overflow-hidden rounded-full bg-sunken"
-      role="progressbar"
-      aria-valuenow={Math.round(pct)}
-      aria-valuemin={0}
-      aria-valuemax={100}
-    >
-      <div className={`h-full rounded-full ${pct >= 100 ? 'bg-sage' : 'bg-ember'}`} style={{ width: `${pct}%` }} />
-    </div>
-  )
-}
 
 function ItemCard({ item, onFund }: { item: RegistryItem; onFund: () => void }) {
   const { t } = useTranslation()

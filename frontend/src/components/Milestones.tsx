@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { mediaUrl, type Contractor, type MilestoneStatus, type Project, type SiteCheck } from '../api'
 
 // Bryntum Gantt is large; load it only when a project has a schedule to show.
-const ProjectGantt = lazy(() => import('./ProjectGantt'))
+export const ProjectGantt = lazy(() => import('./ProjectGantt'))
 
 const STATUS_TONE: Record<MilestoneStatus, string> = {
   pending: 'bg-sunken text-ink-soft',
@@ -111,7 +111,7 @@ export function GanttSlot({ project, editable, onSynced }: { project: Project; e
     <Suspense fallback={<div className="h-[22rem] animate-pulse rounded-xl bg-sunken" />}>
       <ProjectGantt
         key={key}
-        projectId={project.id}
+        base={`/bryntum/gantt/${project.id}`}
         rows={project.milestones.length}
         editable={editable}
         onSynced={onSynced}

@@ -9,14 +9,19 @@ import { useTranslation } from 'react-i18next'
 import { API_URL, tokenStore } from '../api'
 
 type Props = {
-  projectId: number
+  /** CrudManager endpoints, e.g. `/bryntum/gantt/7` (load) and the same + `/sync`. */
+  base: string
   rows: number
   /** The contractor can drag milestones that haven't been submitted yet; everyone else only looks. */
   editable: boolean
   onSynced?: () => void
+  label?: string
+  hint?: string
+  /** Only the name column, so a narrow page still shows the timeline. */
+  compact?: boolean
 }
 
-export default function ProjectGantt({ projectId, rows, editable, onSynced }: Props) {
+export default function ProjectGantt({ base, rows, editable, onSynced, label, hint, compact = false }: Props) {
   const { t } = useTranslation()
   const [error, setError] = useState<string | null>(null)
 
@@ -27,8 +32,8 @@ export default function ProjectGantt({ projectId, rows, editable, onSynced }: Pr
     return {
       project: {
         transport: {
-          load: { url: `${API_URL}/bryntum/gantt/${projectId}/load`, method: 'GET', headers },
-          sync: { url: `${API_URL}/bryntum/gantt/${projectId}/sync`, method: 'POST', headers },
+          load: { url: `${API_URL}${base}/load`, method: 'GET', headers },
+          sync: { url: `${API_URL}${base}/sync`, method: 'POST', headers },
         },
         autoLoad: true,
         autoSync: editable,
@@ -47,10 +52,14 @@ export default function ProjectGantt({ projectId, rows, editable, onSynced }: Pr
       rowHeight: 44,
       barMargin: 8,
       columns: [
-        { type: 'name', text: t('rebuild.gantt.milestone'), width: 340 },
-        { type: 'startdate', text: t('rebuild.gantt.start') },
-        { type: 'enddate', text: t('rebuild.gantt.end') },
-      ],
+        { type: 'name', text: label ?? t('rebuild.gantt.milestone'), width: compact ? 260 : 340 },
+        ...(compact
+          ? []
+          : [
+              { type: 'startdate', text: t('rebuild.gantt.start') },
+              { type: 'enddate', text: t('rebuild.gantt.end') },
+            ]),
+      ] as BryntumGanttProps['columns'],
       // Bryntum's React wrappers take each feature as its own `<name>Feature` prop.
       taskEditFeature: false, // milestones change through the plan, which the homeowner must accept
       taskMenuFeature: false,
@@ -65,7 +74,7 @@ export default function ProjectGantt({ projectId, rows, editable, onSynced }: Pr
       onBeforeTaskDrag: pendingOnly,
       onBeforeTaskResize: pendingOnly,
     }
-  }, [editable, onSynced, projectId, t])
+  }, [base, compact, editable, label, onSynced, t])
 
   return (
     <div className="space-y-2">
@@ -73,7 +82,7 @@ export default function ProjectGantt({ projectId, rows, editable, onSynced }: Pr
         <BryntumGantt {...props} />
       </div>
       {error && <p className="text-sm text-danger">{error}</p>}
-      <p className="text-xs text-ink-faint">{editable ? t('rebuild.gantt.editHint') : t('rebuild.gantt.viewHint')}</p>
+      <p className="text-xs text-ink-faint">{hint ?? (editable ? t('rebuild.gantt.editHint') : t('rebuild.gantt.viewHint'))}</p>
     </div>
   )
 }
