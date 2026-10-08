@@ -640,6 +640,75 @@
       "mental_health": "Apoyo emocional",
       "repairs": "Reparaciones",
       "cleanup": "Limpieza"
+    },
+    "batch": {
+      "open": "Enviar ayuda en efectivo",
+      "title": "Ayuda en efectivo por lote",
+      "intro": "Pague a todos los hogares elegibles de la vista actual en un solo lote de PayPal. Cada hogar recibe el monto de su nivel de daño, nunca más de lo que aún necesita. Una segunda persona debe aprobarlo antes de mover dinero.",
+      "scopeFiltered": "Incluye los hogares que cumplen los filtros de la tabla en: {{columns}}.",
+      "scopeAll": "Sin filtros: incluye todos los hogares. Filtre la tabla primero para elegir un grupo.",
+      "defaultTitle": "Ayuda en efectivo · {{date}}",
+      "name": "Nombre del lote",
+      "preview": "Vista previa",
+      "create_one": "Enviar {{count}} pago ({{total}}) para aprobación",
+      "create_other": "Enviar {{count}} pagos ({{total}}) para aprobación",
+      "willPay_one": "{{n}} hogar recibiría {{total}}",
+      "willPay_other": "{{n}} hogares recibirían {{total}} en total",
+      "tooMany": "Es más de lo que un lote puede pagar. Reduzca el filtro.",
+      "leftOut": "Excluidos y por qué",
+      "noneLeftOut": "Nadie de esta vista queda fuera.",
+      "secondPerson": "Después de enviarlo, otra persona supervisora o administradora lo aprueba. Entonces se vuelve a comprobar la elegibilidad.",
+      "reason": {
+        "not_verified": "No verificado al nivel 2",
+        "no_paypal": "Aún sin cuenta PayPal",
+        "shared_paypal": "Cuenta PayPal compartida con otro hogar",
+        "recent_aid": "Recibió ayuda en efectivo en los últimos 14 días",
+        "in_open_batch": "Ya está en un lote pendiente de aprobación",
+        "no_need": "No queda nada por cubrir",
+        "paypal_changed": "La cuenta PayPal cambió desde que se creó el lote"
+      },
+      "listTitle": "Lotes de ayuda en efectivo",
+      "col": {
+        "title": "Lote",
+        "status": "Estado",
+        "households": "Hogares",
+        "total": "Total",
+        "people": "Dos personas",
+        "paypal": "PayPal",
+        "amount": "Monto",
+        "note": "Motivo de exclusión"
+      },
+      "status": {
+        "awaiting_approval": "Pendiente de aprobación",
+        "sent": "Enviado a PayPal",
+        "rejected": "Rechazado",
+        "failed": "No enviado"
+      },
+      "itemStatus": {
+        "queued": "En espera",
+        "skipped": "Excluido",
+        "PENDING": "Enviando",
+        "SUCCESS": "Recibido",
+        "UNCLAIMED": "Aún sin reclamar",
+        "RETURNED": "Devuelto",
+        "FAILED": "Fallido",
+        "BLOCKED": "Bloqueado",
+        "REFUNDED": "Reembolsado",
+        "REVERSED": "Revertido",
+        "DENIED": "Denegado",
+        "HELD": "Retenido",
+        "ONHOLD": "Retenido",
+        "CANCELED": "Cancelado"
+      },
+      "prepared": "Preparado por {{a}}",
+      "preparedApproved": "{{a}} → {{b}}",
+      "approve": "Aprobar y pagar",
+      "retry": "Reintentar",
+      "reject": "Rechazar",
+      "cancel": "Cancelar",
+      "needsSomeoneElse": "Debe aprobarlo otra persona",
+      "checkPaypal": "Consultar con PayPal",
+      "rejectWhy": "¿Por qué rechazar el lote n.º {{id}}?"
     }
   }
 }

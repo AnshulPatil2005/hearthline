@@ -367,3 +367,40 @@ export type CommandSummary = {
   help_received: string
   unmet_need: string
 }
+
+export type BatchPreview = {
+  households: number
+  total: string
+  by_damage: Record<string, { households: number; amount: string }>
+  excluded: Record<string, number>
+  too_many: boolean
+}
+
+export type AidBatchItem = {
+  household_id: number
+  household_name: string
+  damage_level: DamageLevel
+  amount: string
+  receiver: string
+  status: string
+  note: string | null
+}
+
+export type AidBatch = {
+  id: number
+  title: string
+  status: 'awaiting_approval' | 'sent' | 'rejected' | 'failed'
+  total_amount: string
+  households: number
+  status_counts: Record<string, number>
+  created_by: string
+  decided_by: string | null
+  decision_note: string | null
+  error: string | null
+  paypal_batch_id: string | null
+  created_at: string
+  decided_at: string | null
+  rule: { filter_model: Record<string, unknown>; amounts: Record<string, string> }
+  can_decide: boolean
+  items: AidBatchItem[] | null
+}

@@ -640,6 +640,75 @@
       "mental_health": "Counseling",
       "repairs": "Repairs",
       "cleanup": "Cleanup"
+    },
+    "batch": {
+      "open": "Send cash aid",
+      "title": "Batch cash aid",
+      "intro": "Pay every eligible household in the current view in one PayPal batch. Each household gets the amount for its damage level, never more than it still needs. A second person must approve before any money moves.",
+      "scopeFiltered": "Covers the households matching the grid's filters on: {{columns}}.",
+      "scopeAll": "No filters: covers every household. Filter the grid first to target a group.",
+      "defaultTitle": "Cash aid · {{date}}",
+      "name": "Batch name",
+      "preview": "Preview",
+      "create_one": "Send {{count}} payment ({{total}}) for approval",
+      "create_other": "Send {{count}} payments ({{total}}) for approval",
+      "willPay_one": "{{n}} household would get {{total}}",
+      "willPay_other": "{{n}} households would get {{total}} in total",
+      "tooMany": "That's more than one batch can pay. Narrow the filter.",
+      "leftOut": "Left out, and why",
+      "noneLeftOut": "Nobody in this view is left out.",
+      "secondPerson": "After you send it, a different supervisor or admin approves it. Eligibility is checked again then.",
+      "reason": {
+        "not_verified": "Not verified to level 2",
+        "no_paypal": "No PayPal account yet",
+        "shared_paypal": "PayPal account shared with another household",
+        "recent_aid": "Got cash aid in the last 14 days",
+        "in_open_batch": "Already in a batch waiting for approval",
+        "no_need": "Nothing left to cover",
+        "paypal_changed": "PayPal account changed since the batch was built"
+      },
+      "listTitle": "Cash aid batches",
+      "col": {
+        "title": "Batch",
+        "status": "Status",
+        "households": "Households",
+        "total": "Total",
+        "people": "Two people",
+        "paypal": "PayPal",
+        "amount": "Amount",
+        "note": "Why left out"
+      },
+      "status": {
+        "awaiting_approval": "Waiting for approval",
+        "sent": "Sent to PayPal",
+        "rejected": "Rejected",
+        "failed": "Not sent"
+      },
+      "itemStatus": {
+        "queued": "Waiting",
+        "skipped": "Left out",
+        "PENDING": "Sending",
+        "SUCCESS": "Received",
+        "UNCLAIMED": "Not claimed yet",
+        "RETURNED": "Returned",
+        "FAILED": "Failed",
+        "BLOCKED": "Blocked",
+        "REFUNDED": "Refunded",
+        "REVERSED": "Reversed",
+        "DENIED": "Denied",
+        "HELD": "On hold",
+        "ONHOLD": "On hold",
+        "CANCELED": "Canceled"
+      },
+      "prepared": "Prepared by {{a}}",
+      "preparedApproved": "{{a}} → {{b}}",
+      "approve": "Approve and pay",
+      "retry": "Try again",
+      "reject": "Reject",
+      "cancel": "Cancel",
+      "needsSomeoneElse": "Needs someone else to approve",
+      "checkPaypal": "Check with PayPal",
+      "rejectWhy": "Why reject batch #{{id}}?"
     }
   }
 }

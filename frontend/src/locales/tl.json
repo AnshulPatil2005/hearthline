@@ -640,6 +640,75 @@
       "mental_health": "Counseling",
       "repairs": "Pagkukumpuni",
       "cleanup": "Paglilinis"
+    },
+    "batch": {
+      "open": "Magpadala ng tulong na pera",
+      "title": "Maramihang tulong na pera",
+      "intro": "Bayaran ang bawat kwalipikadong sambahayan sa kasalukuyang view sa iisang PayPal batch. Matatanggap ng bawat sambahayan ang halaga para sa antas ng pinsala nito, hindi lalampas sa kailangan pa nito. Kailangang aprubahan ito ng ikalawang tao bago gumalaw ang pera.",
+      "scopeFiltered": "Sakop ang mga sambahayang tugma sa mga filter ng talahanayan sa: {{columns}}.",
+      "scopeAll": "Walang filter: sakop ang lahat ng sambahayan. I-filter muna ang talahanayan para pumili ng grupo.",
+      "defaultTitle": "Tulong na pera · {{date}}",
+      "name": "Pangalan ng batch",
+      "preview": "Silipin",
+      "create_one": "Ipadala ang {{count}} bayad ({{total}}) para maaprubahan",
+      "create_other": "Ipadala ang {{count}} bayad ({{total}}) para maaprubahan",
+      "willPay_one": "{{n}} sambahayan ang tatanggap ng {{total}}",
+      "willPay_other": "{{n}} sambahayan ang tatanggap ng kabuuang {{total}}",
+      "tooMany": "Lampas ito sa kayang bayaran ng isang batch. Paliitin ang filter.",
+      "leftOut": "Hindi isinama, at bakit",
+      "noneLeftOut": "Walang hindi isinama sa view na ito.",
+      "secondPerson": "Pagkatapos mong ipadala, ibang supervisor o admin ang mag-aapruba. Susuriin ulit ang pagiging kwalipikado sa oras na iyon.",
+      "reason": {
+        "not_verified": "Hindi pa beripikado sa antas 2",
+        "no_paypal": "Wala pang PayPal account",
+        "shared_paypal": "Kaparehong PayPal account ng ibang sambahayan",
+        "recent_aid": "Nakatanggap ng tulong na pera sa nakaraang 14 araw",
+        "in_open_batch": "Nasa batch na naghihintay ng pag-apruba",
+        "no_need": "Wala nang kailangang sakupin",
+        "paypal_changed": "Nagbago ang PayPal account mula nang gawin ang batch"
+      },
+      "listTitle": "Mga batch ng tulong na pera",
+      "col": {
+        "title": "Batch",
+        "status": "Katayuan",
+        "households": "Sambahayan",
+        "total": "Kabuuan",
+        "people": "Dalawang tao",
+        "paypal": "PayPal",
+        "amount": "Halaga",
+        "note": "Bakit hindi isinama"
+      },
+      "status": {
+        "awaiting_approval": "Naghihintay ng pag-apruba",
+        "sent": "Naipadala sa PayPal",
+        "rejected": "Tinanggihan",
+        "failed": "Hindi naipadala"
+      },
+      "itemStatus": {
+        "queued": "Naghihintay",
+        "skipped": "Hindi isinama",
+        "PENDING": "Ipinapadala",
+        "SUCCESS": "Natanggap",
+        "UNCLAIMED": "Hindi pa kinukuha",
+        "RETURNED": "Ibinalik",
+        "FAILED": "Nabigo",
+        "BLOCKED": "Hinarang",
+        "REFUNDED": "Na-refund",
+        "REVERSED": "Binawi",
+        "DENIED": "Tinanggihan",
+        "HELD": "Naka-hold",
+        "ONHOLD": "Naka-hold",
+        "CANCELED": "Kinansela"
+      },
+      "prepared": "Inihanda ni {{a}}",
+      "preparedApproved": "{{a}} → {{b}}",
+      "approve": "Aprubahan at bayaran",
+      "retry": "Subukan ulit",
+      "reject": "Tanggihan",
+      "cancel": "Kanselahin",
+      "needsSomeoneElse": "Kailangan ng ibang mag-aapruba",
+      "checkPaypal": "Tingnan sa PayPal",
+      "rejectWhy": "Bakit tatanggihan ang batch #{{id}}?"
     }
   }
 }

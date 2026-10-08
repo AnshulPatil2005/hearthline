@@ -552,3 +552,51 @@ class Milestone(Base):
     paid_at: Mapped[datetime | None]
 
     project: Mapped[RebuildProject] = relationship(back_populates="milestones")
+
+
+class AidBatch(Base):
+    """Cash aid to many households in one PayPal Payouts call. One person prepares it; a different
+    supervisor or admin must approve it before any money moves."""
+
+    __tablename__ = "aid_batches"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    title: Mapped[str] = mapped_column(String(200))
+    # awaiting_approval | sent | rejected | failed (PayPal refused; the approver can retry)
+    status: Mapped[str] = mapped_column(String(20), default="awaiting_approval")
+    rule: Mapped[dict] = mapped_column(JSON, default=dict)  # the filter and amounts it was built from
+    total_amount: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    created_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    decided_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decision_note: Mapped[str | None] = mapped_column(String(500))
+    error: Mapped[str | None] = mapped_column(String(500))
+    paypal_batch_id: Mapped[str | None] = mapped_column(String(80))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    decided_at: Mapped[datetime | None]
+
+    created_by: Mapped[User] = relationship(foreign_keys=[created_by_user_id])
+    decided_by: Mapped[User | None] = relationship(foreign_keys=[decided_by_user_id])
+    items: Mapped[list["AidBatchItem"]] = relationship(
+        back_populates="batch", cascade="all, delete-orphan", order_by="AidBatchItem.id"
+    )
+
+
+class AidBatchItem(Base):
+    __tablename__ = "aid_batch_items"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    batch_id: Mapped[int] = mapped_column(ForeignKey("aid_batches.id", ondelete="CASCADE"), index=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    amount: Mapped[Decimal] = mapped_column(Money)
+    receiver: Mapped[str] = mapped_column(String(255))  # payout email at the time the batch was built
+    # queued | skipped (no longer eligible at approval) | then PayPal's status: PENDING, SUCCESS, UNCLAIMED, ...
+    status: Mapped[str] = mapped_column(String(20), default="queued")
+    note: Mapped[str | None] = mapped_column(String(200))
+    payout_item_id: Mapped[str | None] = mapped_column(String(80))
+
+    batch: Mapped[AidBatch] = relationship(back_populates="items")
+    household: Mapped[Household] = relationship()
+
+    @property
+    def sender_item_id(self) -> str:
+        return f"aidbatch-{self.batch_id}-{self.household_id}"

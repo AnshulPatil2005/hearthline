@@ -13,7 +13,7 @@ from decimal import Decimal
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app import geo, ledger
+from app import geo, ledger, trust
 from app.models import (
     DisasterEvent,
     Household,
@@ -123,6 +123,7 @@ def seed_command_center(db: Session) -> None:
         if home is not None:
             home.damage_level, home.household_size = damage, size
             home.estimated_loss, home.needs = Decimal(loss), needs
+            trust.refresh_level(db, home)  # the grid reads the stored level
 
     homes = []
     for i in range(COUNT):

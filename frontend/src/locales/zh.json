@@ -633,6 +633,73 @@
       "mental_health": "心理辅导",
       "repairs": "维修",
       "cleanup": "清理"
+    },
+    "batch": {
+      "open": "发放现金援助",
+      "title": "批量现金援助",
+      "intro": "通过一次 PayPal 批量付款，向当前视图中所有符合条件的家庭付款。每户按其损失程度获得相应金额，但不会超过其仍需的金额。必须由第二个人批准后才会动用资金。",
+      "scopeFiltered": "覆盖符合表格以下筛选条件的家庭：{{columns}}。",
+      "scopeAll": "未设筛选：覆盖所有家庭。请先筛选表格以选定一组家庭。",
+      "defaultTitle": "现金援助 · {{date}}",
+      "name": "批次名称",
+      "preview": "预览",
+      "create_other": "提交 {{count}} 笔付款（{{total}}）待批准",
+      "willPay_other": "{{n}} 户家庭共将获得 {{total}}",
+      "tooMany": "超出单个批次的付款上限，请缩小筛选范围。",
+      "leftOut": "被排除的家庭及原因",
+      "noneLeftOut": "此视图中没有家庭被排除。",
+      "secondPerson": "提交后，由另一位主管或管理员批准。届时会再次核查资格。",
+      "reason": {
+        "not_verified": "未核实到 2 级",
+        "no_paypal": "尚无 PayPal 账户",
+        "shared_paypal": "与其他家庭共用 PayPal 账户",
+        "recent_aid": "过去 14 天内已领取现金援助",
+        "in_open_batch": "已在待批准的批次中",
+        "no_need": "已无需补足的金额",
+        "paypal_changed": "建立批次后 PayPal 账户已变更"
+      },
+      "listTitle": "现金援助批次",
+      "col": {
+        "title": "批次",
+        "status": "状态",
+        "households": "家庭数",
+        "total": "总额",
+        "people": "双人审批",
+        "paypal": "PayPal",
+        "amount": "金额",
+        "note": "排除原因"
+      },
+      "status": {
+        "awaiting_approval": "等待批准",
+        "sent": "已发送至 PayPal",
+        "rejected": "已拒绝",
+        "failed": "未发送"
+      },
+      "itemStatus": {
+        "queued": "等待中",
+        "skipped": "已排除",
+        "PENDING": "发送中",
+        "SUCCESS": "已收到",
+        "UNCLAIMED": "尚未领取",
+        "RETURNED": "已退回",
+        "FAILED": "失败",
+        "BLOCKED": "已拦截",
+        "REFUNDED": "已退款",
+        "REVERSED": "已撤销",
+        "DENIED": "被拒绝",
+        "HELD": "暂扣",
+        "ONHOLD": "暂扣",
+        "CANCELED": "已取消"
+      },
+      "prepared": "由 {{a}} 准备",
+      "preparedApproved": "{{a}} → {{b}}",
+      "approve": "批准并付款",
+      "retry": "重试",
+      "reject": "拒绝",
+      "cancel": "取消",
+      "needsSomeoneElse": "需要其他人批准",
+      "checkPaypal": "向 PayPal 查询",
+      "rejectWhy": "为什么拒绝第 {{id}} 号批次？"
     }
   }
 }

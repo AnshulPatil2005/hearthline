@@ -633,6 +633,73 @@
       "mental_health": "Tư vấn tâm lý",
       "repairs": "Sửa chữa",
       "cleanup": "Dọn dẹp"
+    },
+    "batch": {
+      "open": "Gửi hỗ trợ tiền mặt",
+      "title": "Hỗ trợ tiền mặt theo lô",
+      "intro": "Trả cho mọi hộ đủ điều kiện trong chế độ xem hiện tại bằng một lô PayPal. Mỗi hộ nhận số tiền theo mức thiệt hại, không bao giờ vượt quá số còn cần. Người thứ hai phải duyệt trước khi tiền được chuyển.",
+      "scopeFiltered": "Bao gồm các hộ khớp bộ lọc của bảng ở: {{columns}}.",
+      "scopeAll": "Không có bộ lọc: bao gồm mọi hộ. Hãy lọc bảng trước để chọn một nhóm.",
+      "defaultTitle": "Hỗ trợ tiền mặt · {{date}}",
+      "name": "Tên lô",
+      "preview": "Xem trước",
+      "create_other": "Gửi {{count}} khoản thanh toán ({{total}}) để duyệt",
+      "willPay_other": "{{n}} hộ sẽ nhận tổng cộng {{total}}",
+      "tooMany": "Vượt quá số một lô có thể trả. Hãy thu hẹp bộ lọc.",
+      "leftOut": "Bị loại và lý do",
+      "noneLeftOut": "Không ai trong chế độ xem này bị loại.",
+      "secondPerson": "Sau khi gửi, một giám sát viên hoặc quản trị viên khác sẽ duyệt. Điều kiện sẽ được kiểm tra lại lúc đó.",
+      "reason": {
+        "not_verified": "Chưa xác minh đến cấp 2",
+        "no_paypal": "Chưa có tài khoản PayPal",
+        "shared_paypal": "Dùng chung tài khoản PayPal với hộ khác",
+        "recent_aid": "Đã nhận hỗ trợ tiền mặt trong 14 ngày qua",
+        "in_open_batch": "Đã có trong lô đang chờ duyệt",
+        "no_need": "Không còn gì cần bù",
+        "paypal_changed": "Tài khoản PayPal đã thay đổi kể từ khi tạo lô"
+      },
+      "listTitle": "Các lô hỗ trợ tiền mặt",
+      "col": {
+        "title": "Lô",
+        "status": "Trạng thái",
+        "households": "Số hộ",
+        "total": "Tổng",
+        "people": "Hai người",
+        "paypal": "PayPal",
+        "amount": "Số tiền",
+        "note": "Lý do bị loại"
+      },
+      "status": {
+        "awaiting_approval": "Đang chờ duyệt",
+        "sent": "Đã gửi tới PayPal",
+        "rejected": "Đã từ chối",
+        "failed": "Chưa gửi được"
+      },
+      "itemStatus": {
+        "queued": "Đang chờ",
+        "skipped": "Bị loại",
+        "PENDING": "Đang gửi",
+        "SUCCESS": "Đã nhận",
+        "UNCLAIMED": "Chưa nhận",
+        "RETURNED": "Bị trả lại",
+        "FAILED": "Thất bại",
+        "BLOCKED": "Bị chặn",
+        "REFUNDED": "Đã hoàn tiền",
+        "REVERSED": "Đã đảo ngược",
+        "DENIED": "Bị từ chối",
+        "HELD": "Tạm giữ",
+        "ONHOLD": "Tạm giữ",
+        "CANCELED": "Đã hủy"
+      },
+      "prepared": "{{a}} chuẩn bị",
+      "preparedApproved": "{{a}} → {{b}}",
+      "approve": "Duyệt và thanh toán",
+      "retry": "Thử lại",
+      "reject": "Từ chối",
+      "cancel": "Hủy",
+      "needsSomeoneElse": "Cần người khác duyệt",
+      "checkPaypal": "Kiểm tra với PayPal",
+      "rejectWhy": "Vì sao từ chối lô số {{id}}?"
     }
   }
 }

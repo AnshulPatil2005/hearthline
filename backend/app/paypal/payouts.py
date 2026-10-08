@@ -71,3 +71,37 @@ def send_payouts(payments: list[tuple[str, Decimal, str, str]], *, batch_id: str
         for email, amount, note, item_id in payments
     ]
     return asyncio.run(_send(items, batch_id, subject))
+
+
+@dataclass
+class PayoutItemStatus:
+    sender_item_id: str
+    payout_item_id: str
+    status: str  # PayPal's transaction_status: PENDING, SUCCESS, UNCLAIMED, RETURNED, FAILED, ...
+
+
+async def _batch_items(batch_id: str) -> list[PayoutItemStatus]:
+    out, page = [], 1
+    async with PayPalREST.from_settings() as pp:
+        while True:
+            data = await pp.request(
+                "GET",
+                f"/v1/payments/payouts/{batch_id}",
+                params={"page": page, "page_size": 1000, "total_required": "true"},
+            )
+            for item in data.get("items", []):
+                out.append(
+                    PayoutItemStatus(
+                        sender_item_id=item.get("payout_item", {}).get("sender_item_id", ""),
+                        payout_item_id=item["payout_item_id"],
+                        status=item.get("transaction_status", "PENDING"),
+                    )
+                )
+            if page >= (data.get("total_page") or 1):
+                return out
+            page += 1
+
+
+def batch_items(batch_id: str) -> list[PayoutItemStatus]:
+    """Where each payment in a PayPal payout batch stands now."""
+    return asyncio.run(_batch_items(batch_id))

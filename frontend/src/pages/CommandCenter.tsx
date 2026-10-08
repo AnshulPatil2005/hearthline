@@ -12,6 +12,8 @@ import { AgGridReact } from 'ag-grid-react'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, type CommandRow, type CommandSummary, type DamageLevel } from '../api'
+import { AidBatchPanel } from '../components/AidBatchPanel'
+import { AidBatches } from '../components/AidBatches'
 import { Stat } from '../components/Milestones'
 import { money } from '../format'
 import { gridTheme } from '../grid'
@@ -38,6 +40,7 @@ export default function CommandCenter() {
   const queryClient = useQueryClient()
   const gridApi = useRef<GridApi<CommandRow> | null>(null)
   const [matching, setMatching] = useState<number | null>(null)
+  const [batching, setBatching] = useState(false)
   const summary = useQuery({ queryKey: ['command-summary'], queryFn: () => api<CommandSummary>('/command/summary') })
 
   const datasource = useMemo<IServerSideDatasource<CommandRow>>(
@@ -189,6 +192,15 @@ export default function CommandCenter() {
     [i18n.resolvedLanguage, t],
   )
 
+  // Stable props: a new object on every render makes AG Grid rebuild its columns (and close open filters).
+  const defaultColDef = useMemo<ColDef>(() => ({ sortable: true, resizable: true, suppressHeaderMenuButton: true }), [])
+  const autoGroupColumnDef = useMemo<ColDef<CommandRow>>(
+    () => ({ headerName: t('command.col.group'), minWidth: 230, pinned: 'left' }),
+    [t],
+  )
+  const sideBar = useMemo(() => ({ toolPanels: ['columns', 'filters'] }), [])
+  const getChildCount = useCallback((data: { childCount?: number } | undefined) => data?.childCount ?? 0, [])
+
   const getRowId = useCallback((p: GetRowIdParams<CommandRow>) => {
     const groupCols = p.api.getRowGroupColumns()
     if (p.level < groupCols.length) {
@@ -211,9 +223,17 @@ export default function CommandCenter() {
           <h1 className="text-3xl font-semibold tracking-tight">{t('command.title')}</h1>
           <p className="mt-1 text-ink-soft">{t('command.subtitle')}</p>
         </div>
-        <button onClick={refresh} className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken">
-          {t('command.refresh')}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setBatching((b) => !b)}
+            className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember"
+          >
+            {t('command.batch.open')}
+          </button>
+          <button onClick={refresh} className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken">
+            {t('command.refresh')}
+          </button>
+        </div>
       </div>
       <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <Stat label={t('command.stat.households')} value={s ? s.households.toLocaleString(i18n.resolvedLanguage) : '…'} />
@@ -222,6 +242,12 @@ export default function CommandCenter() {
         <Stat label={t('command.stat.help')} value={s ? money(s.help_received) : '…'} />
         <Stat label={t('command.stat.unmet')} value={s ? money(s.unmet_need) : '…'} />
       </div>
+      {batching && (
+        <AidBatchPanel
+          filterModel={() => gridApi.current?.getFilterModel() ?? {}}
+          onCreated={() => void queryClient.invalidateQueries({ queryKey: ['aid-batches'] })}
+        />
+      )}
       <p className="text-sm text-ink-soft" aria-live="polite">
         {matching !== null && t('command.matching', { count: matching, n: matching.toLocaleString(i18n.resolvedLanguage) })}
       </p>
@@ -232,17 +258,18 @@ export default function CommandCenter() {
           serverSideDatasource={datasource}
           cacheBlockSize={100}
           columnDefs={columnDefs}
-          defaultColDef={{ sortable: true, resizable: true, suppressHeaderMenuButton: true }}
-          autoGroupColumnDef={{ headerName: t('command.col.group'), minWidth: 230, pinned: 'left' }}
+          defaultColDef={defaultColDef}
+          autoGroupColumnDef={autoGroupColumnDef}
           getRowId={getRowId}
-          getChildCount={(data) => data?.childCount}
+          getChildCount={getChildCount}
           rowGroupPanelShow="always"
           suppressAggFuncInHeader
-          sideBar={{ toolPanels: ['columns', 'filters'] }}
+          sideBar={sideBar}
           onGridReady={(e) => (gridApi.current = e.api)}
         />
       </div>
       <p className="text-xs text-ink-faint">{t('command.hint')}</p>
+      <AidBatches onPaid={refresh} />
     </div>
   )
 }
