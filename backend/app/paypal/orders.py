@@ -10,8 +10,10 @@ from paypalserversdk.configuration import Environment
 from paypalserversdk.http.auth.o_auth_2 import ClientCredentialsAuthCredentials
 from paypalserversdk.models.amount_with_breakdown import AmountWithBreakdown
 from paypalserversdk.models.checkout_payment_intent import CheckoutPaymentIntent
+from paypalserversdk.models.money import Money
 from paypalserversdk.models.order_request import OrderRequest
 from paypalserversdk.models.purchase_unit_request import PurchaseUnitRequest
+from paypalserversdk.models.refund_request import RefundRequest
 from paypalserversdk.paypal_serversdk_client import PaypalServersdkClient
 
 from app.config import get_settings
@@ -76,9 +78,12 @@ def parse_capture(order: dict) -> Capture:
     )
 
 
-def refund_capture(capture_id: str) -> str:
-    """Full refund of a captured payment. Returns PayPal's refund status (COMPLETED, PENDING, ...)."""
-    response = client().payments.refund_captured_payment(
-        {"capture_id": capture_id, "paypal_request_id": f"refund-{capture_id}", "prefer": "return=minimal"}
-    )
+def refund_capture(capture_id: str, amount: Decimal | None = None) -> str:
+    """Refund a captured payment, in full or `amount` of it. Returns PayPal's refund status
+    (COMPLETED, PENDING, ...). The request id makes a retry safe."""
+    request = {"capture_id": capture_id, "paypal_request_id": f"refund-{capture_id}", "prefer": "return=minimal"}
+    if amount is not None:
+        request["body"] = RefundRequest(amount=Money(currency_code="USD", value=f"{amount:.2f}"))
+        request["paypal_request_id"] = f"refund-{capture_id}-{amount:.2f}"
+    response = client().payments.refund_captured_payment(request)
     return json.loads(response.text)["status"]

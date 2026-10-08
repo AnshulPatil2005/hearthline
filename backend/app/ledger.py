@@ -45,6 +45,9 @@ def account(db: Session, code: str) -> LedgerAccount:
         elif code.startswith("liabilities:escrow:project:"):
             name, kind = f"Escrow for rebuild project {code.rsplit(':', 1)[1]}", "liability"
             household_id = None
+        elif code.startswith("liabilities:reopen:campaign:"):
+            name, kind = f"Gift-card money held for Reopen campaign {code.rsplit(':', 1)[1]}", "liability"
+            household_id = None
         else:
             name, kind = ACCOUNT_DEFAULTS[code]
             household_id = None

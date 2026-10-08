@@ -632,3 +632,113 @@ class CrewJob(Base):
 
     crew: Mapped[Crew | None] = relationship()
     household: Mapped[Household] = relationship()
+
+
+class Business(Base):
+    """A local business closed by the disaster, raising its Reopen Fund through gift-card pre-sales."""
+
+    __tablename__ = "businesses"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    owner_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), index=True)
+    name: Mapped[str] = mapped_column(String(160))
+    slug: Mapped[str] = mapped_column(String(80), unique=True)
+    kind: Mapped[str] = mapped_column(String(30), default="other")  # bakery | restaurant | retail | services | other
+    address_line: Mapped[str] = mapped_column(String(200))
+    city: Mapped[str] = mapped_column(String(100))
+    state: Mapped[str] = mapped_column(String(2))
+    lat: Mapped[float | None]
+    lng: Mapped[float | None]
+    license_number: Mapped[str] = mapped_column(String(40))  # city business license, checked by staff
+    story: Mapped[str] = mapped_column(String(2000), default="")
+    payout_email: Mapped[str | None] = mapped_column(String(255))
+    # pending | verified | rejected. Staff check the license and that the shop is in the disaster area.
+    verification: Mapped[str] = mapped_column(String(20), default="pending")
+    verified_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    verification_note: Mapped[str | None] = mapped_column(String(500))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    owner: Mapped[User] = relationship(foreign_keys=[owner_user_id])
+    campaigns: Mapped[list["ReopenCampaign"]] = relationship(back_populates="business", order_by="ReopenCampaign.id")
+
+
+class ReopenCampaign(Base):
+    """Gift cards sold now, redeemable once the business reopens. The money waits in escrow and is
+    released in tranches that staff approve; if the business misses its reopen date, buyers are refunded."""
+
+    __tablename__ = "reopen_campaigns"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    business_id: Mapped[int] = mapped_column(ForeignKey("businesses.id", ondelete="CASCADE"), index=True)
+    goal_amount: Mapped[Decimal] = mapped_column(Money)
+    bonus_percent: Mapped[int] = mapped_column(default=0)  # a $50 card with 20% bonus is worth $60 in the shop
+    reopen_by: Mapped[datetime]
+    # live | reopened | refunded | closed
+    status: Mapped[str] = mapped_column(String(20), default="live")
+    raised: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    reopened_at: Mapped[datetime | None]
+    refunded_at: Mapped[datetime | None]
+
+    business: Mapped[Business] = relationship(back_populates="campaigns")
+    tranches: Mapped[list["ReopenTranche"]] = relationship(
+        back_populates="campaign", cascade="all, delete-orphan", order_by="ReopenTranche.seq"
+    )
+    cards: Mapped[list["GiftCard"]] = relationship(back_populates="campaign", order_by="GiftCard.id")
+
+
+class ReopenTranche(Base):
+    __tablename__ = "reopen_tranches"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    campaign_id: Mapped[int] = mapped_column(ForeignKey("reopen_campaigns.id", ondelete="CASCADE"), index=True)
+    seq: Mapped[int]
+    title: Mapped[str] = mapped_column(String(160))
+    amount: Mapped[Decimal] = mapped_column(Money)
+    start_date: Mapped[datetime]
+    end_date: Mapped[datetime]
+    # pending | requested | released | rejected
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    request_note: Mapped[str | None] = mapped_column(String(500))
+    decision_note: Mapped[str | None] = mapped_column(String(500))
+    decided_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    paypal_ref: Mapped[str | None] = mapped_column(String(80))
+    released_at: Mapped[datetime | None]
+
+    campaign: Mapped[ReopenCampaign] = relationship(back_populates="tranches")
+
+
+class GiftCard(Base):
+    __tablename__ = "gift_cards"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    campaign_id: Mapped[int] = mapped_column(ForeignKey("reopen_campaigns.id", ondelete="CASCADE"), index=True)
+    code: Mapped[str] = mapped_column(String(24), unique=True)  # printed as a QR code; whoever has it can spend it
+    buyer_name: Mapped[str | None] = mapped_column(String(120))
+    buyer_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    amount_paid: Mapped[Decimal] = mapped_column(Money)
+    face_value: Mapped[Decimal] = mapped_column(Money)
+    balance: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    # pending (checkout not finished) | active | refunded | failed
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    payment_method: Mapped[str] = mapped_column(String(20), default="paypal")
+    paypal_order_id: Mapped[str | None] = mapped_column(String(64), index=True)
+    paypal_capture_id: Mapped[str | None] = mapped_column(String(64))
+    refunded_amount: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    activated_at: Mapped[datetime | None]
+
+    campaign: Mapped[ReopenCampaign] = relationship(back_populates="cards")
+    redemptions: Mapped[list["GiftCardRedemption"]] = relationship(back_populates="card")
+
+
+class GiftCardRedemption(Base):
+    __tablename__ = "gift_card_redemptions"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    gift_card_id: Mapped[int] = mapped_column(ForeignKey("gift_cards.id", ondelete="CASCADE"), index=True)
+    amount: Mapped[Decimal] = mapped_column(Money)
+    redeemed_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    card: Mapped[GiftCard] = relationship(back_populates="redemptions")

@@ -16,6 +16,7 @@ from app.api import (
     purchases,
     rebuild,
     registry,
+    reopen,
     review,
     trust,
     webhooks,
@@ -51,6 +52,7 @@ app.include_router(bryntum.router)
 app.include_router(rebuild.router)
 app.include_router(command.router)
 app.include_router(crews.router)
+app.include_router(reopen.router)
 app.include_router(webhooks.router)
 
 

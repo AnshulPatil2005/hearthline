@@ -557,6 +557,11 @@ def main() -> None:
 
         seed_command_center(db)
         seed_crews(db)
+        from app import reopen
+        from app.seed_reopen import seed_reopen_demo
+
+        seed_reopen_demo(db)
+        reopen.run_deadlines(db)  # Render's free plan has no cron: check Reopen deadlines at every start
     print("Seeded the Sablewood demo scenario.")
 
 
