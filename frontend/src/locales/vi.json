@@ -971,5 +971,11 @@
       "kitchenware": "Đồ bếp",
       "other": "Khác"
     }
+  },
+  "voice": {
+    "start": "Nói thay vì gõ",
+    "stop": "Dừng nghe",
+    "blocked": "Hãy cho phép micro để nói thay vì gõ.",
+    "failed": "Chưa nghe rõ. Hãy thử lại hoặc gõ."
   }
 }

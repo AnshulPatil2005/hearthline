@@ -391,7 +391,7 @@ hearthline/
 - [x] **Price-gouging guard**: Channel3 price history and tracking webhooks; the Shopper refuses gouging sellers; a public report grid
   - Rule: California Penal Code 396 (+10% over the median of the 30 days before the declaration, for 30 days, extendable). Channel3 `price_tracking.retrieve_history` gives the baseline (live-verified); `price_tracking.start` subscribes each offer the Shopper considers. No Channel3 webhook endpoint (format undocumented); online prices refresh on demand from the Price Watch page. Local sellers are fictional survey data, labeled as such.
 - [ ] AI impact reports (donor timelines and an organization grant-report PDF)
-- [ ] Voice input (Web Speech API)
+- [x] Voice input (Web Speech API) in the app's language: Ask the grid (speaking runs the question), the cash-aid note and the milestone dispute reason; the button hides where the browser has no speech recognition (Firefox)
 - [ ] Policy agent (insurance PDF)
 - [ ] Hearthline Public API v1, SDKs in all languages, the docs site on Render, the **Hearthline MCP server**, a donor-agent demo script, a Postman collection
 

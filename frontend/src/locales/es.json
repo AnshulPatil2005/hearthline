@@ -986,5 +986,11 @@
       "kitchenware": "Cocina",
       "other": "Otros"
     }
+  },
+  "voice": {
+    "start": "Hablar en lugar de escribir",
+    "stop": "Dejar de escuchar",
+    "blocked": "Permita el micrófono para hablar en lugar de escribir.",
+    "failed": "No se entendió. Intente de nuevo o escríbalo."
   }
 }

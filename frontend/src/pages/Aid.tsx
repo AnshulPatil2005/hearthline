@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, type HouseholdCase, type Verification } from '../api'
 import type { Call } from '../components/VideoCalls'
+import { VoiceButton } from '../components/VoiceButton'
 import { money } from '../format'
 
 const STATUS_TONE: Record<HouseholdCase['status'], string> = {
@@ -70,13 +71,16 @@ function RequestCashAid({ onDone }: { onDone: () => void }) {
             aria-label={t('aid.amount')}
           />
         </label>
-        <textarea
-          value={note}
-          onChange={(e) => setNote(e.target.value)}
-          rows={2}
-          placeholder={t('aid.notePlaceholder')}
-          className="rounded-lg border border-line bg-surface px-3 py-2 text-sm"
-        />
+        <div className="flex gap-2">
+          <textarea
+            value={note}
+            onChange={(e) => setNote(e.target.value)}
+            rows={2}
+            placeholder={t('aid.notePlaceholder')}
+            className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm"
+          />
+          <VoiceButton onText={(text) => setNote(text)} />
+        </div>
         <button
           onClick={() => submit.mutate()}
           disabled={submit.isPending || Number(amount) < 1}

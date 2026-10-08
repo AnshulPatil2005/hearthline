@@ -986,5 +986,11 @@
       "kitchenware": "Gamit sa kusina",
       "other": "Iba pa"
     }
+  },
+  "voice": {
+    "start": "Magsalita sa halip na mag-type",
+    "stop": "Itigil ang pakikinig",
+    "blocked": "Payagan ang mikropono para makapagsalita sa halip na mag-type.",
+    "failed": "Hindi narinig nang maayos. Subukan ulit o i-type ito."
   }
 }

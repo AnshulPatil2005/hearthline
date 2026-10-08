@@ -3,6 +3,7 @@ import type { GridApi, GridState } from 'ag-grid-community'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError } from '../api'
+import { VoiceButton } from './VoiceButton'
 
 type Answer = { explanation: string; state: Partial<GridState>; matching: number }
 
@@ -79,6 +80,12 @@ export function AskGrid<T>({ grid, initial }: Props<T>) {
           onChange={(e) => setQuestion(e.target.value)}
           placeholder={t('command.ask.placeholder')}
           className="min-w-64 flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm"
+        />
+        <VoiceButton
+          onText={(text, final) => {
+            setQuestion(text)
+            if (final && text.trim().length >= 3) ask.mutate(text.trim()) // asking out loud runs it
+          }}
         />
         <button
           type="submit"

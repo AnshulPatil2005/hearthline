@@ -986,5 +986,11 @@
       "kitchenware": "Kitchenware",
       "other": "Other"
     }
+  },
+  "voice": {
+    "start": "Speak instead of typing",
+    "stop": "Stop listening",
+    "blocked": "Allow the microphone to speak instead of typing.",
+    "failed": "Didn't catch that. Try again or type it."
   }
 }

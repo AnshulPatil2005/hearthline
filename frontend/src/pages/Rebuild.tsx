@@ -10,6 +10,7 @@ import {
   SiteCheckView,
   Stat,
 } from '../components/Milestones'
+import { VoiceButton } from '../components/VoiceButton'
 import { money } from '../format'
 import { dateRange, paidOut } from '../rebuild'
 
@@ -120,13 +121,16 @@ function MilestoneCard({ m, onChanged }: { m: Milestone; onChanged: () => void }
           </div>
           {disputing && (
             <div className="space-y-2">
-              <textarea
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                rows={2}
-                placeholder={t('rebuild.disputePlaceholder')}
-                className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm"
-              />
+              <div className="flex gap-2">
+                <textarea
+                  value={reason}
+                  onChange={(e) => setReason(e.target.value)}
+                  rows={2}
+                  placeholder={t('rebuild.disputePlaceholder')}
+                  className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm"
+                />
+                <VoiceButton onText={(text) => setReason(text)} />
+              </div>
               <button
                 onClick={() => act.mutate('dispute')}
                 disabled={reason.trim().length < 10 || act.isPending}
