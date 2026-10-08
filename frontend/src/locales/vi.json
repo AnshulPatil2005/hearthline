@@ -701,6 +701,17 @@
       "needsSomeoneElse": "Cần người khác duyệt",
       "checkPaypal": "Kiểm tra với PayPal",
       "rejectWhy": "Vì sao từ chối lô số {{id}}?"
+    },
+    "ask": {
+      "label": "Hỏi bảng",
+      "placeholder": "vd. nhà bị phá hủy trên Juniper Lane chưa có PayPal, nhu cầu lớn nhất trước",
+      "go": "Hỏi",
+      "thinking": "Đang xử lý…",
+      "reset": "Đặt lại chế độ xem",
+      "check": "AI đã đặt bộ lọc, sắp xếp và nhóm. Hãy kiểm tra ở tiêu đề cột trước khi hành động.",
+      "example1": "Gia đình từ 5 người trở lên cần chỗ ở",
+      "example2": "Tổng số còn cần theo đường cho các hộ đã xác minh",
+      "example3": "Nhà bị phá hủy chưa thể nhận hỗ trợ tiền mặt"
     }
   },
   "crews": {

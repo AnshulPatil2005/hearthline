@@ -95,14 +95,21 @@ def _text(col: ColumnElement, m: dict) -> ColumnElement:
     }[m.get("type", "contains")]
 
 
+def _value(v: Any) -> float:
+    if v is None or v == "":
+        raise ValueError("a number is required")
+    return float(v)
+
+
 def _number(col: ColumnElement, m: dict) -> ColumnElement:
-    kind, a, b = m.get("type", "equals"), m.get("filter"), m.get("filterTo")
+    kind = m.get("type", "equals")
     if kind == "blank":
         return col.is_(None)
     if kind == "notBlank":
         return col.is_not(None)
+    a = _value(m.get("filter"))
     if kind == "inRange":
-        return col.between(a, b)
+        return col.between(a, _value(m.get("filterTo")))
     return {
         "equals": col == a,
         "notEqual": col != a,
@@ -122,7 +129,7 @@ def _date(col: ColumnElement, m: dict) -> ColumnElement:
         return col.is_(None)
     if kind == "notBlank":
         return col.is_not(None)
-    a = day(m["dateFrom"]) if m.get("dateFrom") else None
+    a = day(m["dateFrom"])  # KeyError/TypeError if missing: reported as a bad filter
     if kind == "inRange":
         return d.between(a, day(m["dateTo"]))
     return {"equals": d == a, "notEqual": d != a, "greaterThan": d > a, "lessThan": d < a}[kind]

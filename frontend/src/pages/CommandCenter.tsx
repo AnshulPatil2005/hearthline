@@ -3,6 +3,7 @@ import type {
   ColDef,
   GetRowIdParams,
   GridApi,
+  GridState,
   ICellRendererParams,
   IServerSideDatasource,
   SetFilterValuesFuncParams,
@@ -14,6 +15,7 @@ import { useTranslation } from 'react-i18next'
 import { api, type CommandRow, type CommandSummary, type DamageLevel } from '../api'
 import { AidBatchPanel } from '../components/AidBatchPanel'
 import { AidBatches } from '../components/AidBatches'
+import { AskGrid } from '../components/AskGrid'
 import { Stat } from '../components/Milestones'
 import { money } from '../format'
 import { gridTheme } from '../grid'
@@ -39,6 +41,7 @@ export default function CommandCenter() {
   const { t, i18n } = useTranslation()
   const queryClient = useQueryClient()
   const gridApi = useRef<GridApi<CommandRow> | null>(null)
+  const initialState = useRef<GridState | null>(null)
   const [matching, setMatching] = useState<number | null>(null)
   const [batching, setBatching] = useState(false)
   const summary = useQuery({ queryKey: ['command-summary'], queryFn: () => api<CommandSummary>('/command/summary') })
@@ -248,6 +251,7 @@ export default function CommandCenter() {
           onCreated={() => void queryClient.invalidateQueries({ queryKey: ['aid-batches'] })}
         />
       )}
+      <AskGrid grid={() => gridApi.current} initial={() => initialState.current} />
       <p className="text-sm text-ink-soft" aria-live="polite">
         {matching !== null && t('command.matching', { count: matching, n: matching.toLocaleString(i18n.resolvedLanguage) })}
       </p>
@@ -265,7 +269,10 @@ export default function CommandCenter() {
           rowGroupPanelShow="always"
           suppressAggFuncInHeader
           sideBar={sideBar}
-          onGridReady={(e) => (gridApi.current = e.api)}
+          onGridReady={(e) => {
+            gridApi.current = e.api
+            initialState.current = e.api.getState()
+          }}
         />
       </div>
       <p className="text-xs text-ink-faint">{t('command.hint')}</p>

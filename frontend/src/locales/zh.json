@@ -701,6 +701,17 @@
       "needsSomeoneElse": "需要其他人批准",
       "checkPaypal": "向 PayPal 查询",
       "rejectWhy": "为什么拒绝第 {{id}} 号批次？"
+    },
+    "ask": {
+      "label": "向表格提问",
+      "placeholder": "例如：Juniper Lane 上尚无 PayPal 的全毁房屋，需求最大的排在前面",
+      "go": "提问",
+      "thinking": "思考中…",
+      "reset": "重置视图",
+      "check": "筛选、排序和分组由 AI 设置。采取行动前请在列标题中核对。",
+      "example1": "需要住所的 5 人及以上家庭",
+      "example2": "已核实家庭按街道统计的仍需援助总额",
+      "example3": "尚不能领取现金援助的全毁房屋"
     }
   },
   "crews": {

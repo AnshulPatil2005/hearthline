@@ -10,10 +10,19 @@ AI_MODELS is a comma-separated fallback list of `provider:model` entries, e.g.
 
 import json
 import re
+from collections.abc import Callable
 from functools import lru_cache
 from typing import Any
 
-from openai import APIConnectionError, APITimeoutError, InternalServerError, NotFoundError, OpenAI, RateLimitError
+from openai import (
+    APIConnectionError,
+    APITimeoutError,
+    BadRequestError,
+    InternalServerError,
+    NotFoundError,
+    OpenAI,
+    RateLimitError,
+)
 from pydantic import BaseModel, ValidationError
 
 from app.config import get_settings
@@ -23,8 +32,8 @@ class AIError(RuntimeError):
     pass
 
 
-# Errors that mean "this model is unavailable right now": try the next one.
-UNAVAILABLE = (RateLimitError, InternalServerError, APIConnectionError, APITimeoutError, NotFoundError)
+# Errors that mean "this model can't answer right now" (busy, down, or it rejects the request): try the next.
+UNAVAILABLE = (RateLimitError, InternalServerError, APIConnectionError, APITimeoutError, NotFoundError, BadRequestError)
 
 
 def _provider_config(provider: str) -> tuple[str, str | None]:
@@ -97,13 +106,48 @@ def parse[T: BaseModel](
     parameters are the output schema; this works on any tool-capable model, unlike JSON-schema
     response modes. Models in AI_MODELS are tried in order when one is unavailable (free models
     are often rate-limited upstream); each gets one retry if its arguments don't fit the schema."""
+    return _submit(
+        _inline_refs(output_format.model_json_schema()),
+        output_format.model_validate_json,
+        output_format.__name__,
+        system=system,
+        content=content,
+        max_tokens=max_tokens,
+    )
+
+
+def parse_json(
+    schema: dict[str, Any],
+    check: Callable[[dict[str, Any]], dict[str, Any]],
+    *,
+    system: str,
+    content: list[dict[str, Any]],
+    max_tokens: int = 8000,
+) -> dict[str, Any]:
+    """Like parse(), for a JSON schema that arrives at runtime (e.g. from AG Grid's AI Toolkit).
+    `check` validates the answer and raises ValueError with a reason the model can fix."""
+
+    def validate(raw: str) -> dict[str, Any]:
+        data = json.loads(raw)
+        if not isinstance(data, dict):
+            raise ValueError("The answer must be a JSON object")
+        return check(data)
+
+    return _submit(_inline_refs(schema), validate, "answer", system=system, content=content, max_tokens=max_tokens)
+
+
+def _submit[T](
+    parameters: dict[str, Any],
+    validate: Callable[[str], T],
+    name: str,
+    *,
+    system: str,
+    content: list[dict[str, Any]],
+    max_tokens: int,
+) -> T:
     tool = {
         "type": "function",
-        "function": {
-            "name": "submit",
-            "description": "Submit the final result.",
-            "parameters": _inline_refs(output_format.model_json_schema()),
-        },
+        "function": {"name": "submit", "description": "Submit the final result.", "parameters": parameters},
     }
     base_messages: list[dict[str, Any]] = [
         {"role": "system", "content": system + "\n\nAlways answer by calling the submit tool."},
@@ -133,11 +177,11 @@ def parse[T: BaseModel](
             else:
                 raw = _strip_fences(message.content or "")
             try:
-                return output_format.model_validate_json(raw)
-            except (ValidationError, json.JSONDecodeError) as e:
+                return validate(raw)
+            except (ValidationError, ValueError) as e:  # JSONDecodeError is a ValueError
                 errors.append(f"{model}: invalid output")
                 messages += [
                     {"role": "assistant", "content": raw},
                     {"role": "user", "content": f"That did not match the schema: {e}. Call submit again."},
                 ]
-    raise AIError(f"No valid {output_format.__name__}. Attempts: {'; '.join(errors)}")
+    raise AIError(f"No valid {name}. Attempts: {'; '.join(errors)}")

@@ -18,6 +18,7 @@ type Rec = { id?: unknown; name?: string; get(field: string): unknown; set(field
 export default function CrewSchedule() {
   const { t } = useTranslation()
   const [error, setError] = useState<string | null>(null)
+  const [now] = useState(() => new Date())
   const [start] = useState(() => {
     const d = new Date()
     d.setDate(d.getDate() - 1)
@@ -49,7 +50,7 @@ export default function CrewSchedule() {
       startDate: start,
       endDate: end,
       viewPreset: { base: 'hourAndDay', tickWidth: 95 },
-      visibleDate: { date: new Date(), block: 'start' }, // open on now; earlier days are a scroll away
+      visibleDate: { date: now, block: 'start' }, // open on now; earlier days are a scroll away
       workingTime: { fromHour: 7, toHour: 19 }, // nights are hidden: crews work daylight hours
       rowHeight: 56,
       barMargin: 6,
@@ -108,7 +109,7 @@ export default function CrewSchedule() {
       onBeforeEventDrag: editable,
       onBeforeEventResize: editable,
     } as unknown as BryntumSchedulerProProps
-  }, [start, t])
+  }, [now, start, t])
 
   return (
     <div className="flex h-[calc(100svh-11rem)] min-h-[34rem] flex-col gap-4">

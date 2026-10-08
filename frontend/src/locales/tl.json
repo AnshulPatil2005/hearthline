@@ -710,6 +710,17 @@
       "needsSomeoneElse": "Kailangan ng ibang mag-aapruba",
       "checkPaypal": "Tingnan sa PayPal",
       "rejectWhy": "Bakit tatanggihan ang batch #{{id}}?"
+    },
+    "ask": {
+      "label": "Tanungin ang talahanayan",
+      "placeholder": "hal. mga nasirang bahay sa Juniper Lane na wala pang PayPal, pinakamalaking pangangailangan muna",
+      "go": "Itanong",
+      "thinking": "Nag-iisip…",
+      "reset": "I-reset ang view",
+      "check": "AI ang nagtakda ng mga filter, pag-uuri at pagpapangkat. Suriin ang mga ito sa mga header bago kumilos.",
+      "example1": "Mga pamilyang may 5 o higit pang tao na nangangailangan ng matutuluyan",
+      "example2": "Kabuuang kailangan pa bawat kalye para sa beripikadong sambahayan",
+      "example3": "Mga nasirang bahay na hindi pa makatanggap ng tulong na pera"
     }
   },
   "crews": {

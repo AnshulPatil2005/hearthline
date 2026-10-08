@@ -710,6 +710,17 @@
       "needsSomeoneElse": "Debe aprobarlo otra persona",
       "checkPaypal": "Consultar con PayPal",
       "rejectWhy": "¿Por qué rechazar el lote n.º {{id}}?"
+    },
+    "ask": {
+      "label": "Pregúntele a la tabla",
+      "placeholder": "p. ej. casas destruidas en Juniper Lane sin PayPal, primero la mayor necesidad",
+      "go": "Preguntar",
+      "thinking": "Pensando…",
+      "reset": "Restablecer vista",
+      "check": "La IA aplicó filtros, orden y agrupación. Revíselos en los encabezados antes de actuar.",
+      "example1": "Familias de 5 o más que necesitan albergue",
+      "example2": "Total aún necesario por calle para hogares verificados",
+      "example3": "Casas destruidas que aún no pueden recibir ayuda en efectivo"
     }
   },
   "crews": {

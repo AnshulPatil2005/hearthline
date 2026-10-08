@@ -10,7 +10,8 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import aid_batches, command
+from app import ai, aid_batches, command
+from app import ask_grid as ask_grid_module
 from app.auth import require_role
 from app.db import get_db
 from app.models import AidBatch, Role, User
@@ -172,3 +173,23 @@ def reject_batch(batch_id: int, body: RejectIn, staff: OrgStaff, db: DB) -> Batc
 @router.post("/command/batches/{batch_id}/refresh", response_model=BatchOut)
 def refresh_batch(batch_id: int, staff: OrgStaff, db: DB) -> BatchOut:
     return batch_out(run(aid_batches.refresh, db, get_batch(db, batch_id)), staff, with_items=True)
+
+
+# --- Ask the grid (AG Grid AI Toolkit) -------------------------------------------------------------
+
+
+class AskIn(BaseModel):
+    question: str = Field(min_length=3, max_length=500)
+    grid_schema: dict  # api.getStructuredSchema() from the browser
+
+
+@router.post("/command/ask")
+def ask_grid(body: AskIn, staff: OrgStaff, db: DB) -> dict:
+    try:
+        return ask_grid_module.ask(db, body.question, body.grid_schema)
+    except ask_grid_module.Unsupported as e:
+        raise HTTPException(422, str(e)) from None
+    except ai.AIError:
+        raise HTTPException(
+            503, "The assistant couldn't answer right now. Try again, or use the column filters."
+        ) from None

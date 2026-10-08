@@ -710,6 +710,17 @@
       "needsSomeoneElse": "Needs someone else to approve",
       "checkPaypal": "Check with PayPal",
       "rejectWhy": "Why reject batch #{{id}}?"
+    },
+    "ask": {
+      "label": "Ask the grid",
+      "placeholder": "e.g. destroyed homes on Juniper Lane without PayPal yet, biggest need first",
+      "go": "Ask",
+      "thinking": "Thinking…",
+      "reset": "Reset view",
+      "check": "AI set the filters, sorting and grouping. Check them in the column headers before acting on them.",
+      "example1": "Families of 5 or more who need shelter",
+      "example2": "Total still needed by street for verified households",
+      "example3": "Destroyed homes that can't receive cash aid yet"
     }
   },
   "crews": {
