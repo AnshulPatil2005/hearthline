@@ -36,6 +36,8 @@ def test_find_and_read_registries(paypal):
     found = client.get("/v1/registries", params={"q": "mattress"}).json()
     assert [r["slug"] for r in found] == ["rivera-family"] and D(found[0]["still_needed"]) > 0
     assert client.get("/v1/registries", params={"q": "grand piano"}).json() == []
+    phrase = client.get("/v1/registries", params={"q": "winter coats and the jackets for kids"}).json()
+    assert [r["slug"] for r in phrase] == ["rivera-family"]  # any of the words, not the whole phrase
     detail = client.get("/v1/registries/rivera-family").json()
     assert detail["url"].endswith("/r/rivera-family") and "214 Juniper" not in str(detail)  # no house number
     assert {i["name"] for i in detail["items"]} >= {"Twin mattresses", "Steel-toe work boots"}

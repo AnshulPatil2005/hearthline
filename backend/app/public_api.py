@@ -182,6 +182,7 @@ def _summary(reg: Registry) -> RegistrySummary:
 
 
 OPEN_CASE = ("in_review", "needs_info", "escalated")
+STOPWORDS = {"the", "and", "for", "with", "about", "from", "that", "this", "who", "need", "needs", "some", "any", "get"}
 
 
 def find_registries(db: Session, query: str | None = None, limit: int = 20) -> list[RegistrySummary]:
@@ -189,11 +190,16 @@ def find_registries(db: Session, query: str | None = None, limit: int = 20) -> l
     high-risk case (a suspected scam being reviewed) isn't recommended until reviewers decide."""
     flagged = set(db.scalars(select(Case.household_id).where(Case.status.in_(OPEN_CASE), Case.risk_tier == "high")))
     regs = [r for r in db.scalars(select(Registry).where(Registry.status == "active")) if r.household_id not in flagged]
-    if query:
-        q = query.lower()
-        regs = [
-            r for r in regs if q in r.title.lower() or q in r.story.lower() or any(q in i.name.lower() for i in r.items)
-        ]
+    if query:  # any of the words, best matches first (agents send phrases like "winter coats for kids")
+        words = [w for w in query.lower().replace(",", " ").split() if len(w) >= 3 and w not in STOPWORDS]
+
+        def hits(r: Registry) -> int:
+            text = " ".join([r.title, r.story, *(f"{i.name} {i.note}" for i in r.items)]).lower()
+            return sum(1 for w in words if w in text or (w.endswith("s") and w[:-1] in text))
+
+        scored = [(hits(r), r) for r in regs]
+        regs = [r for n, r in sorted(scored, key=lambda x: -x[0]) if n > 0]
+        return [_summary(r) for r in regs][:limit]
     out = sorted((_summary(r) for r in regs), key=lambda s: s.still_needed, reverse=True)
     return out[:limit]
 

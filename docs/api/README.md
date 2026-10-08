@@ -48,6 +48,8 @@ or any client that takes JSON config:
 
 Locally, use `http://localhost:8000/mcp`.
 
+`examples/donor_agent.py` is a small agent that uses these tools to turn a donor's wish into a prepared gift.
+
 ## SDKs with APIMatic
 
 Import `hearthline-v1.openapi.json` into APIMatic to generate SDKs (Python, TypeScript, Java, C#, Go, Ruby,
