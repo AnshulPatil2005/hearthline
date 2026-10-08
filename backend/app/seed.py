@@ -35,6 +35,7 @@ from app.models import (
 )
 
 FIRE_SLUG = "sablewood-fire"
+FIRE_DAYS_AGO = 26  # the demo is set about four weeks after the fire
 
 # Burn area as a GeoJSON polygon ([lng, lat] pairs), roughly 7 km across.
 SABLEWOOD_FIRE_ZONE = {
@@ -164,6 +165,9 @@ def seed(db: Session) -> None:
         kind=DisasterKind.WILDFIRE,
         zone=SABLEWOOD_FIRE_ZONE,
         is_fictional=True,
+        declared_at=now() - timedelta(days=FIRE_DAYS_AGO),
+        # The county extended the state's 30-day price protection for six months (fictional).
+        price_protection_until=now() + timedelta(days=180 - FIRE_DAYS_AGO),
     )
     homes = {}
     for spec in HOUSEHOLDS:
@@ -562,6 +566,9 @@ def main() -> None:
 
         seed_reopen_demo(db)
         reopen.run_deadlines(db)  # Render's free plan has no cron: check Reopen deadlines at every start
+        from app.seed_prices import seed_price_watch
+
+        seed_price_watch(db)
     print("Seeded the Sablewood demo scenario.")
 
 

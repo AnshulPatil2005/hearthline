@@ -1,11 +1,11 @@
 """Core data model. Later weeks add ledger, registry, review and contractor tables."""
 
 import re
-from datetime import UTC, datetime
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, false
+from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, UniqueConstraint, false
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 
 from app.db import Base
@@ -78,6 +78,9 @@ class DisasterEvent(Base):
     # GeoJSON Polygon or MultiPolygon geometry of the affected area.
     zone: Mapped[dict] = mapped_column(JSON)
     is_fictional: Mapped[bool] = mapped_column(default=False)
+    # California Penal Code 396: for 30 days after a declaration, prices of essentials may rise at most 10%.
+    # Local governments often extend it; this is the date the protection ends.
+    price_protection_until: Mapped[datetime | None]
 
 
 class Household(Base):
@@ -404,6 +407,8 @@ class Purchase(Base):
     # proposed | awaiting_approval | approved | paid | shipped | delivered | blocked | rejected | failed
     status: Mapped[str] = mapped_column(String(20), default="proposed")
     policy_checks: Mapped[list] = mapped_column(JSON, default=list)
+    # Offers the Shopper refused because they were priced more than the gouging limit above their pre-disaster price.
+    refused_offers: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
     ai_reasoning: Mapped[str] = mapped_column(String(1000), default="")
     ai_confidence: Mapped[float | None]
     candidates_considered: Mapped[int] = mapped_column(default=0)
@@ -742,3 +747,40 @@ class GiftCardRedemption(Base):
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     card: Mapped[GiftCard] = relationship(back_populates="redemptions")
+
+
+class PriceWatch(Base):
+    """A product or local seller whose price is checked against its price before the disaster."""
+
+    __tablename__ = "price_watches"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    disaster_event_id: Mapped[int] = mapped_column(ForeignKey("disaster_events.id"), index=True)
+    channel3_product_id: Mapped[str | None] = mapped_column(String(64), index=True)
+    title: Mapped[str] = mapped_column(String(300))
+    seller: Mapped[str] = mapped_column(String(120))
+    category: Mapped[str] = mapped_column(String(40), default="other")
+    source: Mapped[str] = mapped_column(String(20), default="channel3")  # channel3 | local_survey
+    url: Mapped[str | None] = mapped_column(String(600))
+    baseline_price: Mapped[Decimal | None] = mapped_column(Money)
+    current_price: Mapped[Decimal | None] = mapped_column(Money)
+    markup_percent: Mapped[float | None]
+    status: Mapped[str] = mapped_column(String(20), default="unknown")  # ok | gouging | no_baseline | unknown
+    checked_at: Mapped[datetime | None]
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    snapshots: Mapped[list["PriceSnapshot"]] = relationship(
+        back_populates="watch", cascade="all, delete-orphan", order_by="PriceSnapshot.observed_on"
+    )
+
+
+class PriceSnapshot(Base):
+    __tablename__ = "price_snapshots"
+    __table_args__ = (UniqueConstraint("watch_id", "observed_on"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    watch_id: Mapped[int] = mapped_column(ForeignKey("price_watches.id", ondelete="CASCADE"), index=True)
+    observed_on: Mapped[date]
+    price: Mapped[Decimal] = mapped_column(Money)
+
+    watch: Mapped[PriceWatch] = relationship(back_populates="snapshots")

@@ -13,6 +13,7 @@ from app.api import (
     households,
     inventory,
     ledger,
+    price_watch,
     purchases,
     rebuild,
     registry,
@@ -53,6 +54,7 @@ app.include_router(rebuild.router)
 app.include_router(command.router)
 app.include_router(crews.router)
 app.include_router(reopen.router)
+app.include_router(price_watch.router)
 app.include_router(webhooks.router)
 
 

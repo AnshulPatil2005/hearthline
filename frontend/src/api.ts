@@ -192,6 +192,7 @@ export type Purchase = {
   total: string
   status: 'proposed' | 'awaiting_approval' | 'approved' | 'paid' | 'shipped' | 'delivered' | 'blocked' | 'rejected' | 'failed'
   policy_checks: PolicyCheck[]
+  refused_offers: { title: string; retailer: string; price: string; baseline: string; markup_percent: number }[]
   ai_reasoning: string
   ai_confidence: number | null
   candidates_considered: number
@@ -479,4 +480,24 @@ export type CardRow = {
   status: string
   payment_method: string
   activated_at: string | null
+}
+
+export type PriceWatchRow = {
+  id: number
+  title: string
+  seller: string
+  category: string
+  source: 'channel3' | 'local_survey'
+  url: string | null
+  baseline_price: string | null
+  current_price: string | null
+  markup_percent: number | null
+  status: 'ok' | 'gouging' | 'no_baseline' | 'unknown'
+  checked_at: string | null
+  history: number[]
+}
+
+export type PriceWatchReport = {
+  event: { name: string; declared_at: string; protection_until: string; protection_active: boolean; limit_percent: number }
+  rows: PriceWatchRow[]
 }

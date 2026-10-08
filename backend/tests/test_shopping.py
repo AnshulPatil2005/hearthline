@@ -67,7 +67,7 @@ def test_funded_item_is_bought_automatically(fakes):
     item_id = fund("Steel-toe work boots")  # $139, under the $300 approval threshold
     p = client.get("/households/me/purchases", headers=login_as("Elena Rivera")).json()[0]
     assert p["status"] == "paid" and p["retailer"] == "homedepot.com" and p["total"] == "129.99"
-    assert all(c["passed"] for c in p["policy_checks"]) and len(p["policy_checks"]) == 8
+    assert all(c["passed"] for c in p["policy_checks"]) and len(p["policy_checks"]) == 9  # 8 + the gouging guard
     assert p["ai_reasoning"] and p["paypal_ref"] == "BATCH-1"
     payee, amount, _note, _ref = fakes[0][0][0]
     assert payee == shopping.STANDIN_RETAILER and amount == D("129.99")  # payee chosen by code, not the AI

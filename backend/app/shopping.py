@@ -12,7 +12,7 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, geo, ledger, policy
+from app import audit, geo, gouging, ledger, policy
 from app.agents import shopper
 from app.config import get_settings
 from app.db import SessionLocal
@@ -72,6 +72,40 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
         db.commit()
         return purchase
 
+    # Price-gouging guard: offers priced more than 10% above their pre-disaster price are refused.
+    verdicts: dict[str, gouging.Verdict] = {}
+    event = home.disaster_event
+    if gouging.protection_active(event):
+        for c in candidates:
+            _, verdicts[c.product_id] = gouging.watch_offer(
+                db,
+                event,
+                product_id=c.product_id,
+                title=c.title,
+                seller=c.retailer,
+                url=c.url,
+                category=item.category,
+                price=c.unit_price,
+            )
+        purchase.refused_offers = [
+            {
+                "title": c.title[:200],
+                "retailer": c.retailer,
+                "price": str(c.unit_price),
+                "baseline": str(verdicts[c.product_id].baseline),
+                "markup_percent": verdicts[c.product_id].markup_percent,
+            }
+            for c in candidates
+            if verdicts[c.product_id].gouging
+        ]
+        candidates = [c for c in candidates if not verdicts[c.product_id].gouging]
+        purchase.candidates_considered = len(candidates) + len(purchase.refused_offers)
+        if not candidates:
+            purchase.status = "failed"
+            purchase.error = "Every offer was more than 10% above its price before the disaster (price gouging)"
+            db.commit()
+            return purchase
+
     choice = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, candidates)
     purchase.ai_reasoning = choice.reasoning[:1000]
     purchase.ai_confidence = choice.confidence
@@ -97,6 +131,7 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
             comparable_median=Decimal(str(statistics.median(c.unit_price for c in candidates))),
             ai_confidence=choice.confidence,
         ),
+        gouging=verdicts.get(picked.product_id),
         item_funded=item.funded_amount,
         available_funds=ledger.household_available(db, home.id),
         spent_today=spent_today(db, home.id),

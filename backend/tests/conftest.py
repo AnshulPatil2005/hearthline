@@ -27,3 +27,12 @@ def fresh_db():
     Base.metadata.drop_all(engine)
     Base.metadata.create_all(engine)
     yield
+
+
+@pytest.fixture(autouse=True)
+def no_live_price_history(monkeypatch):
+    """The gouging guard asks Channel3 for price history; tests never do. test_gouging fakes histories."""
+    from app import gouging
+
+    monkeypatch.setattr(gouging, "_channel3_history", lambda product_id, days: [])
+    monkeypatch.setattr(gouging, "_start_tracking", lambda product_id: None)

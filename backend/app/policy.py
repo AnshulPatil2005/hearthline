@@ -8,6 +8,8 @@ retailers on the allowlist, resolved here.
 from dataclasses import asdict, dataclass, field
 from decimal import Decimal
 
+from app.gouging import LIMIT_PERCENT, Verdict
+
 PER_ITEM_MAX = Decimal("1000.00")  # no single purchase above this
 PER_DAY_MAX = Decimal("2500.00")  # per household, across all purchases
 APPROVAL_OVER = Decimal("300.00")  # above this the household must approve first
@@ -51,6 +53,7 @@ def evaluate(
     spent_today: Decimal,
     allowed_retailers: set[str],
     ship_to_verified: bool,
+    gouging: Verdict | None = None,
 ) -> Decision:
     def money(v: Decimal) -> str:
         return f"${v:,.2f}"
@@ -85,6 +88,14 @@ def evaluate(
             f"{money(p.unit_price)} vs {money(p.comparable_median)} median of comparable offers",
         ),
     ]
+    if gouging is not None:  # only while the disaster's price protection is in force
+        checks.append(
+            Check(
+                "no_price_gouging",
+                not gouging.gouging,
+                f"{gouging.explain()}; the limit is +{LIMIT_PERCENT:.0f}% (California Penal Code 396)",
+            )
+        )
     allowed = all(c.passed for c in checks)
     needs_approval = allowed and (p.total > APPROVAL_OVER or p.ai_confidence < MIN_AI_CONFIDENCE)
     return Decision(allowed=allowed, needs_approval=needs_approval, checks=checks)

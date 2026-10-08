@@ -26,7 +26,8 @@
     "command": "Trung tâm điều phối",
     "crews": "Đội",
     "reopenFund": "Quỹ mở cửa lại",
-    "businesses": "Doanh nghiệp"
+    "businesses": "Doanh nghiệp",
+    "priceWatch": "Theo dõi giá"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -276,8 +277,11 @@
       "category_allowed": "Loại hàng được phép",
       "known_retailer": "Cửa hàng được duyệt",
       "ships_to_verified_address": "Gửi đến địa chỉ đã xác minh",
-      "price_sanity": "Giá hợp lý"
-    }
+      "price_sanity": "Giá hợp lý",
+      "no_price_gouging": "Không hét giá"
+    },
+    "refused": "Đã từ chối {{retailer}}:",
+    "refusedWhy": "{{price}} cao hơn {{markup}}% so với giá trước thảm họa ({{baseline}}). Đó là hét giá."
   },
   "money": {
     "title": "Tiền",
@@ -920,5 +924,52 @@
     "publicPage": "Trang công khai",
     "asks": "Xin {{amount}}: {{title}}",
     "release": "Giải ngân {{amount}}"
+  },
+  "priceWatch": {
+    "title": "Theo dõi giá",
+    "subtitle": "Kể từ khi {{event}} được công bố ngày {{declared}}, luật California giới hạn mức tăng giá hàng thiết yếu không quá {{limit}}% so với ngay trước đó (Bộ luật Hình sự 396). Quận đã gia hạn bảo vệ đến {{until}}. Mỗi giá được so với giá trung vị trong 30 ngày trước khi công bố.",
+    "refresh": "Cập nhật giá trực tuyến",
+    "refreshing": "Đang cập nhật…",
+    "summary_other": "{{count}} trong {{total}} giá đang theo dõi cao hơn giá trước thảm họa quá {{limit}}%.",
+    "inactive": "Thời gian bảo vệ giá đã kết thúc.",
+    "note": "Giá trực tuyến lấy từ lịch sử giá của Channel3 và được theo dõi khi Shopper xem xét một ưu đãi; mọi ưu đãi vượt giới hạn đều bị từ chối. Các người bán địa phương trong bản demo là dữ liệu khảo sát hư cấu.",
+    "col": {
+      "item": "Mặt hàng",
+      "seller": "Người bán",
+      "category": "Danh mục",
+      "before": "Trước",
+      "now": "Hiện tại",
+      "change": "Thay đổi",
+      "trend": "Lịch sử giá",
+      "status": "Trạng thái",
+      "source": "Nguồn"
+    },
+    "status": {
+      "ok": "Trong giới hạn",
+      "gouging": "Vượt giới hạn",
+      "no_baseline": "Không có giá trước",
+      "unknown": "Chưa kiểm tra"
+    },
+    "source": {
+      "channel3": "Trực tuyến (Channel3)",
+      "local_survey": "Khảo sát địa phương (demo)"
+    },
+    "category": {
+      "water": "Nước",
+      "generator": "Máy phát điện",
+      "building_materials": "Vật liệu xây dựng",
+      "medical": "Vật tư y tế",
+      "fuel": "Nhiên liệu",
+      "emergency_supplies": "Đồ dùng khẩn cấp",
+      "tools": "Dụng cụ",
+      "lodging": "Chỗ ở",
+      "food": "Thực phẩm",
+      "bedding": "Chăn ga",
+      "furniture": "Nội thất",
+      "electronics": "Điện tử",
+      "clothing": "Quần áo",
+      "kitchenware": "Đồ bếp",
+      "other": "Khác"
+    }
   }
 }

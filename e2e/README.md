@@ -19,5 +19,6 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `crews.py` | Crew dispatch in Bryntum Scheduler Pro: crews load with each job's travel-time buffer; the org admin drags a job from "Not assigned yet" onto a crew and the assignment is saved (needs a freshly seeded database) |
 | `ask_grid.py` | "Ask the grid": a question becomes grid state through AG Grid's AI Toolkit schema and the server's checks; a second question groups by street with totals; "Reset view" restores the default (uses two AI calls) |
 | `reopen_fund.py` | Reopen Fund: the public page shows the bakery's progress, plan and Gantt; choosing PayPal creates a gift-card order and opens the sandbox checkout; the owner asks for a step's money; a supervisor verifies a new business and releases the step through Payouts; the owner marks the bakery reopened and takes $12.50 from a card; the card page shows the new balance and its QR code; the outfitter that missed its date shows as refunded (needs a freshly seeded database) |
+| `price_watch.py` | Price Watch: the public report lists tracked essential prices against their pre-disaster baseline, with sparklines and the ones over the 10% limit in red |
 
 Screenshots land in `e2e/screenshots/` (git-ignored).

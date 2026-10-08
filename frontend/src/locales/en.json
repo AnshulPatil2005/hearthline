@@ -26,7 +26,8 @@
     "command": "Command Center",
     "crews": "Crews",
     "reopenFund": "Reopen Fund",
-    "businesses": "Businesses"
+    "businesses": "Businesses",
+    "priceWatch": "Price Watch"
   },
   "roles": {
     "household": "Household",
@@ -280,8 +281,11 @@
       "category_allowed": "Allowed category",
       "known_retailer": "Approved retailer",
       "ships_to_verified_address": "Ships to your verified address",
-      "price_sanity": "Fair price"
-    }
+      "price_sanity": "Fair price",
+      "no_price_gouging": "No price gouging"
+    },
+    "refused": "Refused {{retailer}}:",
+    "refusedWhy": "{{price}} is {{markup}}% above its price before the disaster ({{baseline}}). That's price gouging."
   },
   "money": {
     "title": "Money",
@@ -934,5 +938,53 @@
     "publicPage": "Public page",
     "asks": "Asks for {{amount}}: {{title}}",
     "release": "Release {{amount}}"
+  },
+  "priceWatch": {
+    "title": "Price Watch",
+    "subtitle": "Since the {{event}} was declared on {{declared}}, California law limits price increases on essentials to {{limit}}% above what they cost just before (Penal Code 396). The county extended the protection to {{until}}. Each price is compared with the median price in the 30 days before the declaration.",
+    "refresh": "Refresh online prices",
+    "refreshing": "Refreshing…",
+    "summary_one": "{{count}} of {{total}} tracked prices is more than {{limit}}% above its pre-disaster price.",
+    "summary_other": "{{count}} of {{total}} tracked prices are more than {{limit}}% above their pre-disaster price.",
+    "inactive": "Price protection has ended.",
+    "note": "Online prices come from Channel3's price history and are tracked when the Shopper considers an offer; it refuses any offer over the limit. The local sellers in this demo are fictional survey data.",
+    "col": {
+      "item": "Item",
+      "seller": "Seller",
+      "category": "Category",
+      "before": "Before",
+      "now": "Now",
+      "change": "Change",
+      "trend": "Price history",
+      "status": "Status",
+      "source": "Source"
+    },
+    "status": {
+      "ok": "Within the limit",
+      "gouging": "Over the limit",
+      "no_baseline": "No earlier price",
+      "unknown": "Not checked"
+    },
+    "source": {
+      "channel3": "Online (Channel3)",
+      "local_survey": "Local survey (demo)"
+    },
+    "category": {
+      "water": "Water",
+      "generator": "Generators",
+      "building_materials": "Building materials",
+      "medical": "Medical supplies",
+      "fuel": "Fuel",
+      "emergency_supplies": "Emergency supplies",
+      "tools": "Tools",
+      "lodging": "Lodging",
+      "food": "Food",
+      "bedding": "Bedding",
+      "furniture": "Furniture",
+      "electronics": "Electronics",
+      "clothing": "Clothing",
+      "kitchenware": "Kitchenware",
+      "other": "Other"
+    }
   }
 }

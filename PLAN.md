@@ -388,7 +388,8 @@ hearthline/
   - tranches released along a reopening Gantt
   - QR-code redemption
   - automatic refunds if the business doesn't reopen
-- [ ] **Price-gouging guard**: Channel3 price history and tracking webhooks; the Shopper refuses gouging sellers; a public report grid
+- [x] **Price-gouging guard**: Channel3 price history and tracking webhooks; the Shopper refuses gouging sellers; a public report grid
+  - Rule: California Penal Code 396 (+10% over the median of the 30 days before the declaration, for 30 days, extendable). Channel3 `price_tracking.retrieve_history` gives the baseline (live-verified); `price_tracking.start` subscribes each offer the Shopper considers. No Channel3 webhook endpoint (format undocumented); online prices refresh on demand from the Price Watch page. Local sellers are fictional survey data, labeled as such.
 - [ ] AI impact reports (donor timelines and an organization grant-report PDF)
 - [ ] Voice input (Web Speech API)
 - [ ] Policy agent (insurance PDF)

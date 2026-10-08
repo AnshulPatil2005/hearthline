@@ -35,6 +35,7 @@ class PurchaseOut(ORM):
     total: Money
     status: str
     policy_checks: list[CheckOut]
+    refused_offers: list[dict] = []  # offers the price-gouging guard turned down
     ai_reasoning: str
     ai_confidence: float | None
     candidates_considered: int

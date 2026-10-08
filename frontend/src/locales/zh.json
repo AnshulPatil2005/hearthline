@@ -26,7 +26,8 @@
     "command": "指挥中心",
     "crews": "工作队",
     "reopenFund": "重新开业基金",
-    "businesses": "商家"
+    "businesses": "商家",
+    "priceWatch": "价格监督"
   },
   "roles": {
     "household": "住户",
@@ -276,8 +277,11 @@
       "category_allowed": "类别允许",
       "known_retailer": "获批零售商",
       "ships_to_verified_address": "寄往您经核实的地址",
-      "price_sanity": "价格合理"
-    }
+      "price_sanity": "价格合理",
+      "no_price_gouging": "无哄抬物价"
+    },
+    "refused": "已拒绝 {{retailer}}：",
+    "refusedWhy": "{{price}} 比灾前价格（{{baseline}}）高出 {{markup}}%，属于哄抬物价。"
   },
   "money": {
     "title": "资金",
@@ -920,5 +924,52 @@
     "publicPage": "公开页面",
     "asks": "申请 {{amount}}：{{title}}",
     "release": "发放 {{amount}}"
+  },
+  "priceWatch": {
+    "title": "价格监督",
+    "subtitle": "{{event}} 于 {{declared}} 宣布紧急状态后，加州法律规定必需品价格涨幅不得超过宣布前价格的 {{limit}}%（《刑法典》第 396 条）。县政府已将保护期延长至 {{until}}。每个价格都与宣布前 30 天的中位价进行比较。",
+    "refresh": "刷新网上价格",
+    "refreshing": "刷新中…",
+    "summary_other": "在 {{total}} 个监测价格中，有 {{count}} 个比灾前价格高出 {{limit}}% 以上。",
+    "inactive": "价格保护已结束。",
+    "note": "网上价格来自 Channel3 的价格历史，在 Shopper 评估报价时开始监测；超过限额的报价一律拒绝。本演示中的本地商家为虚构的调查数据。",
+    "col": {
+      "item": "商品",
+      "seller": "卖家",
+      "category": "类别",
+      "before": "灾前",
+      "now": "现在",
+      "change": "变化",
+      "trend": "价格走势",
+      "status": "状态",
+      "source": "来源"
+    },
+    "status": {
+      "ok": "在限额内",
+      "gouging": "超过限额",
+      "no_baseline": "无灾前价格",
+      "unknown": "未检查"
+    },
+    "source": {
+      "channel3": "网上（Channel3）",
+      "local_survey": "本地调查（演示）"
+    },
+    "category": {
+      "water": "饮用水",
+      "generator": "发电机",
+      "building_materials": "建材",
+      "medical": "医疗用品",
+      "fuel": "燃料",
+      "emergency_supplies": "应急用品",
+      "tools": "工具",
+      "lodging": "住宿",
+      "food": "食品",
+      "bedding": "床上用品",
+      "furniture": "家具",
+      "electronics": "电子产品",
+      "clothing": "衣物",
+      "kitchenware": "厨具",
+      "other": "其他"
+    }
   }
 }

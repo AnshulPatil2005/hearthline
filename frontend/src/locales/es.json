@@ -26,7 +26,8 @@
     "command": "Centro de mando",
     "crews": "Equipos",
     "reopenFund": "Fondo de reapertura",
-    "businesses": "Negocios"
+    "businesses": "Negocios",
+    "priceWatch": "Vigilancia de precios"
   },
   "roles": {
     "household": "Hogar",
@@ -280,8 +281,11 @@
       "category_allowed": "Categoría permitida",
       "known_retailer": "Tienda aprobada",
       "ships_to_verified_address": "Se envía a tu dirección verificada",
-      "price_sanity": "Precio justo"
-    }
+      "price_sanity": "Precio justo",
+      "no_price_gouging": "Sin especulación de precios"
+    },
+    "refused": "Rechazado {{retailer}}:",
+    "refusedWhy": "{{price}} está {{markup}} % por encima de su precio antes del desastre ({{baseline}}). Es especulación de precios."
   },
   "money": {
     "title": "Dinero",
@@ -934,5 +938,53 @@
     "publicPage": "Página pública",
     "asks": "Solicita {{amount}}: {{title}}",
     "release": "Liberar {{amount}}"
+  },
+  "priceWatch": {
+    "title": "Vigilancia de precios",
+    "subtitle": "Desde que se declaró el {{event}} el {{declared}}, la ley de California limita los aumentos de precio de artículos esenciales a {{limit}} % sobre lo que costaban justo antes (Código Penal 396). El condado extendió la protección hasta el {{until}}. Cada precio se compara con la mediana de los 30 días anteriores a la declaración.",
+    "refresh": "Actualizar precios en línea",
+    "refreshing": "Actualizando…",
+    "summary_one": "{{count}} de {{total}} precios vigilados supera en más de {{limit}} % su precio previo al desastre.",
+    "summary_other": "{{count}} de {{total}} precios vigilados superan en más de {{limit}} % su precio previo al desastre.",
+    "inactive": "La protección de precios terminó.",
+    "note": "Los precios en línea vienen del historial de Channel3 y se vigilan cuando el Shopper evalúa una oferta; rechaza cualquier oferta por encima del límite. Los vendedores locales de esta demo son datos ficticios.",
+    "col": {
+      "item": "Artículo",
+      "seller": "Vendedor",
+      "category": "Categoría",
+      "before": "Antes",
+      "now": "Ahora",
+      "change": "Cambio",
+      "trend": "Historial",
+      "status": "Estado",
+      "source": "Fuente"
+    },
+    "status": {
+      "ok": "Dentro del límite",
+      "gouging": "Sobre el límite",
+      "no_baseline": "Sin precio anterior",
+      "unknown": "Sin revisar"
+    },
+    "source": {
+      "channel3": "En línea (Channel3)",
+      "local_survey": "Encuesta local (demo)"
+    },
+    "category": {
+      "water": "Agua",
+      "generator": "Generadores",
+      "building_materials": "Materiales de construcción",
+      "medical": "Insumos médicos",
+      "fuel": "Combustible",
+      "emergency_supplies": "Suministros de emergencia",
+      "tools": "Herramientas",
+      "lodging": "Alojamiento",
+      "food": "Comida",
+      "bedding": "Ropa de cama",
+      "furniture": "Muebles",
+      "electronics": "Electrónica",
+      "clothing": "Ropa",
+      "kitchenware": "Cocina",
+      "other": "Otros"
+    }
   }
 }

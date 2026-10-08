@@ -26,7 +26,8 @@
     "command": "Command Center",
     "crews": "Mga Crew",
     "reopenFund": "Pondo sa Muling Pagbubukas",
-    "businesses": "Mga Negosyo"
+    "businesses": "Mga Negosyo",
+    "priceWatch": "Bantay-Presyo"
   },
   "roles": {
     "household": "Sambahayan",
@@ -280,8 +281,11 @@
       "category_allowed": "Pinapayagang kategorya",
       "known_retailer": "Aprubadong tindahan",
       "ships_to_verified_address": "Ipapadala sa beripikadong address mo",
-      "price_sanity": "Makatarungang presyo"
-    }
+      "price_sanity": "Makatarungang presyo",
+      "no_price_gouging": "Walang price gouging"
+    },
+    "refused": "Tinanggihan ang {{retailer}}:",
+    "refusedWhy": "Ang {{price}} ay {{markup}}% na mas mataas sa presyo nito bago ang sakuna ({{baseline}}). Iyan ay price gouging."
   },
   "money": {
     "title": "Pera",
@@ -934,5 +938,53 @@
     "publicPage": "Pampublikong pahina",
     "asks": "Humihingi ng {{amount}}: {{title}}",
     "release": "Ilabas ang {{amount}}"
+  },
+  "priceWatch": {
+    "title": "Bantay-Presyo",
+    "subtitle": "Mula nang ideklara ang {{event}} noong {{declared}}, nililimitahan ng batas ng California ang pagtaas ng presyo ng mahahalagang bilihin sa {{limit}}% lang sa presyo bago nito (Penal Code 396). Pinalawig ng county ang proteksyon hanggang {{until}}. Ikinukumpara ang bawat presyo sa median na presyo sa 30 araw bago ang deklarasyon.",
+    "refresh": "I-refresh ang online na presyo",
+    "refreshing": "Nire-refresh…",
+    "summary_one": "{{count}} sa {{total}} na binabantayang presyo ang lampas nang higit {{limit}}% sa presyo bago ang sakuna.",
+    "summary_other": "{{count}} sa {{total}} na binabantayang presyo ang lampas nang higit {{limit}}% sa presyo bago ang sakuna.",
+    "inactive": "Tapos na ang proteksyon sa presyo.",
+    "note": "Galing sa price history ng Channel3 ang mga online na presyo at binabantayan kapag tinitingnan ng Shopper ang isang alok; tinatanggihan nito ang anumang lampas sa limitasyon. Gawa-gawang survey data lang ang mga lokal na nagbebenta sa demong ito.",
+    "col": {
+      "item": "Item",
+      "seller": "Nagbebenta",
+      "category": "Kategorya",
+      "before": "Bago",
+      "now": "Ngayon",
+      "change": "Pagbabago",
+      "trend": "Kasaysayan ng presyo",
+      "status": "Katayuan",
+      "source": "Pinagmulan"
+    },
+    "status": {
+      "ok": "Pasok sa limitasyon",
+      "gouging": "Lampas sa limitasyon",
+      "no_baseline": "Walang naunang presyo",
+      "unknown": "Hindi pa nasuri"
+    },
+    "source": {
+      "channel3": "Online (Channel3)",
+      "local_survey": "Lokal na survey (demo)"
+    },
+    "category": {
+      "water": "Tubig",
+      "generator": "Generator",
+      "building_materials": "Materyales sa pagtatayo",
+      "medical": "Gamit medikal",
+      "fuel": "Gasolina",
+      "emergency_supplies": "Pang-emergency na gamit",
+      "tools": "Kagamitan",
+      "lodging": "Matutuluyan",
+      "food": "Pagkain",
+      "bedding": "Kama at kumot",
+      "furniture": "Muwebles",
+      "electronics": "Electronics",
+      "clothing": "Damit",
+      "kitchenware": "Gamit sa kusina",
+      "other": "Iba pa"
+    }
   }
 }

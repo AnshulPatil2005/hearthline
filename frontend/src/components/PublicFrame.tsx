@@ -1,22 +1,28 @@
 import type { ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 import { LanguageSelect, Logo } from './Shell'
 
 /** Pages anyone can open without signing in (registries, Reopen Funds, gift cards). */
-export function PublicFrame({ children }: { children: ReactNode }) {
+export function PublicFrame({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   const { t } = useTranslation()
   return (
     <div className="flex min-h-svh flex-col">
       <header className="border-b border-line bg-surface">
-        <div className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3">
+        <div className={`mx-auto flex w-full ${wide ? 'max-w-7xl' : 'max-w-5xl'} items-center justify-between gap-4 px-4 py-3`}>
           <span className="flex items-center gap-2 font-semibold">
             <Logo />
             Hearthline
           </span>
-          <LanguageSelect />
+          <span className="flex items-center gap-4">
+            <Link to="/price-watch" className="text-sm text-ink-soft hover:text-ink">
+              {t('nav.priceWatch')}
+            </Link>
+            <LanguageSelect />
+          </span>
         </div>
       </header>
-      <main className="mx-auto w-full max-w-5xl flex-1 px-4 py-8">{children}</main>
+      <main className={`mx-auto w-full ${wide ? 'max-w-7xl' : 'max-w-5xl'} flex-1 px-4 py-8`}>{children}</main>
       <footer className="border-t border-line px-4 py-3 text-center text-xs text-ink-faint">{t('app.demoNotice')}</footer>
     </div>
   )

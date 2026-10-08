@@ -49,6 +49,21 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
         </p>
       )}
 
+      {p.refused_offers.length > 0 && (
+        <ul className="mt-3 space-y-1 rounded-lg border border-danger/30 bg-danger-soft p-3 text-sm">
+          {p.refused_offers.map((r) => (
+            <li key={`${r.retailer}-${r.title}`}>
+              <span className="font-medium text-danger">{t('purchases.refused', { retailer: r.retailer })}</span>{' '}
+              {t('purchases.refusedWhy', {
+                price: money(r.price, { cents: true }),
+                markup: Math.round(r.markup_percent),
+                baseline: money(r.baseline, { cents: true }),
+              })}
+            </li>
+          ))}
+        </ul>
+      )}
+
       {p.policy_checks.length > 0 && (
         <details className="mt-3 text-sm">
           <summary className="cursor-pointer text-ink-soft">
