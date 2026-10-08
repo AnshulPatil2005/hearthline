@@ -12,6 +12,8 @@
   "dependencies": {
     "@bryntum/calendar": "npm:@bryntum/calendar-trial@^7.3.7",
     "@bryntum/calendar-react": "^7.3.7",
+    "@bryntum/gantt": "npm:@bryntum/gantt-trial@^7.3.7",
+    "@bryntum/gantt-react": "^7.3.7",
     "@bryntum/taskboard": "npm:@bryntum/taskboard-trial@^7.3.7",
     "@bryntum/taskboard-react": "^7.3.7",
     "@tanstack/react-query": "^5.104.1",

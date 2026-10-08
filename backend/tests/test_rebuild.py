@@ -119,10 +119,13 @@ def test_escrow_milestones_and_human_review_for_large_payments(fakes):
     photo = [("files", ("site.jpg", open_test_jpeg(START + timedelta(days=10)), "image/jpeg"))]  # during demolition
     submitted = client.post(f"/milestones/{demolition['id']}/submit", headers=dana, files=photo).json()
     assert submitted["site_check"]["verdict"] == "matches" and len(submitted["photo_urls"]) == 1
+    assert submitted["needs_human_review"] is False
     assert client.post(f"/milestones/{demolition['id']}/approve", headers=h).json()["status"] == "paid"
 
     framing_photo = [("files", ("frame.jpg", open_test_jpeg(START + timedelta(days=17)), "image/jpeg"))]
-    client.post(f"/milestones/{framing['id']}/submit", headers=dana, files=framing_photo)
+    assert client.post(f"/milestones/{framing['id']}/submit", headers=dana, files=framing_photo).json()[
+        "needs_human_review"
+    ]
     under_review = client.post(f"/milestones/{framing['id']}/approve", headers=h).json()
     assert under_review["status"] == "under_review"  # over $10,000: two humans must agree
     assert [p[1] for p in fakes] == [D("1000.00"), D("6000.00")]
@@ -130,6 +133,10 @@ def test_escrow_milestones_and_human_review_for_large_payments(fakes):
         case = db.get(Case, under_review["case_id"])
         reviewers = [a.reviewer.name for a in case.assignments]
     assert case.kind == "milestone_payment" and len(reviewers) == 2
+    detail = client.get(f"/review/cases/{case.id}", headers=login_as(reviewers[0])).json()
+    assert detail["milestone"]["title"] == "Framing" and len(detail["milestone"]["photo_urls"]) == 1
+    assert detail["milestone"]["site_check"]["verdict"] == "matches"
+    assert detail["photos"] == []  # site photos aren't mixed into the family's own evidence
     for name in reviewers:
         r = client.post(f"/review/cases/{case.id}/decision", headers=login_as(name), json={"decision": "approve"})
         assert r.status_code == 200, r.json()
@@ -220,3 +227,55 @@ def test_photos_taken_before_the_milestone_started_need_a_human(fakes):
     submitted = client.post(f"/milestones/{m['id']}/submit", headers=dana, files=old_photo).json()
     assert submitted["site_check"]["metadata_concerns"] == ["1 photo(s) were taken before this milestone started"]
     assert client.post(f"/milestones/{m['id']}/approve", headers=h).json()["status"] == "under_review"
+
+
+def test_gantt_load_and_contractor_only_rescheduling():
+    fund_household("20000")
+    h = login_as("Elena Rivera")
+    project = new_project(h)
+    dana = login_as("Dana Okafor")
+    client.put(
+        f"/projects/{project['id']}/plan",
+        headers=dana,
+        json=plan(("Deposit", "1000", True), ("Demolition", "6000", False), ("Framing", "12000", False)),
+    )
+    client.post(f"/projects/{project['id']}/accept", headers=h)
+
+    loaded = client.get(f"/bryntum/gantt/{project['id']}/load", headers=h).json()
+    root = loaded["tasks"]["rows"][0]
+    assert root["name"] == "Rebuild kitchen" and [c["status"] for c in root["children"]] == ["pending"] * 3
+    assert [(d["fromTask"], d["toTask"]) for d in loaded["dependencies"]["rows"]] == [
+        (root["children"][0]["id"], root["children"][1]["id"]),
+        (root["children"][1]["id"], root["children"][2]["id"]),
+    ]
+
+    framing = root["children"][2]
+    moved = {"tasks": {"updated": [{"id": framing["id"], "startDate": "2026-11-02T00:00:00+00:00"}]}}
+    assert client.post(f"/bryntum/gantt/{project['id']}/sync", headers=h, json=moved).json()["success"] is False
+    assert client.post(f"/bryntum/gantt/{project['id']}/sync", headers=dana, json=moved).json()["success"] is True
+    after = client.get(f"/projects/{project['id']}", headers=h).json()["milestones"][2]
+    assert after["start_date"].startswith("2026-11-02")
+    assert client.get(f"/bryntum/gantt/{project['id']}/load", headers=login_as("Marcus Chen")).status_code == 404
+
+
+def test_photos_that_dont_show_the_work_make_a_high_risk_case(monkeypatch):
+    monkeypatch.setattr(
+        site,
+        "check",
+        lambda *a: SiteCheck(verdict="does_not_match", confidence=0.95, observations=["A blank wall"], concerns=[]),
+    )
+    fund_household("5000")
+    h = login_as("Elena Rivera")
+    project = new_project(h)
+    dana = login_as("Dana Okafor")
+    client.put(f"/projects/{project['id']}/plan", headers=dana, json=plan(("Foundation repair", "4000", False)))
+    m = client.post(f"/projects/{project['id']}/accept", headers=h).json()["milestones"][0]
+    client.post(
+        f"/milestones/{m['id']}/submit", headers=dana, files=[("files", ("x.jpg", open_test_jpeg(), "image/jpeg"))]
+    )
+    case_id = client.post(f"/milestones/{m['id']}/approve", headers=h).json()["case_id"]
+    with SessionLocal() as db:
+        case = db.get(Case, case_id)
+        assert case.risk_tier == "high" and case.required_reviews == 2
+        assert [f["code"] for f in case.flags] == ["site_photos_mismatch"]
+        assert case.note == ""  # the system's findings are flags, not words put in the family's mouth

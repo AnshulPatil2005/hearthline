@@ -20,7 +20,9 @@
     "review": "审核队列",
     "calendar": "通话",
     "board": "流程",
-    "aid": "援助"
+    "aid": "援助",
+    "rebuild": "重建",
+    "projects": "项目"
   },
   "roles": {
     "household": "住户",
@@ -297,7 +299,12 @@
       "payout": "付款",
       "refund": "退款",
       "fee": "手续费",
-      "adjustment": "调整"
+      "adjustment": "调整",
+      "cash_aid": "现金援助",
+      "escrow": "转入托管",
+      "escrow_release": "从托管退回",
+      "insurance_payment": "保险赔付",
+      "milestone_payment": "支付承包商"
     }
   },
   "review": {
@@ -325,7 +332,9 @@
     "kind": {
       "cash_aid": "现金援助",
       "registry_verification": "新援助清单",
-      "contents_claim": "财物理赔"
+      "contents_claim": "财物理赔",
+      "milestone_payment": "阶段付款",
+      "contractor_dispute": "承包商争议"
     },
     "status": {
       "in_review": "审核中",
@@ -343,7 +352,12 @@
       "no_photo_metadata": "照片无日期",
       "price_outlier": "价格远高于市场",
       "high_value_no_evidence": "高价物品无证据",
-      "new_account_large_claim": "新账户大额申请"
+      "new_account_large_claim": "新账户大额申请",
+      "site_photos_mismatch": "照片未显示该工作",
+      "site_photos_partial": "工作似乎只完成一部分",
+      "site_photos_unchecked": "照片未经检查",
+      "site_photos_low_confidence": "照片检查把握不足",
+      "site_photo_dates": "照片日期不符"
     },
     "yes": "是",
     "no": "否",
@@ -398,7 +412,8 @@
     },
     "needsLevel2": "现金援助需要核实等级 2。请索取住址证明，或请一位未审核此案件的社工为该住户担保。",
     "vouchPlaceholder": "您如何知道这家人住在这里？",
-    "vouchButton": "为该住户担保"
+    "vouchButton": "为该住户担保",
+    "milestoneTitle": "第 {{seq}} 阶段：{{title}}"
   },
   "calendar": {
     "title": "视频通话",
@@ -456,5 +471,113 @@
     "videoNeeded": "此申请需要进行简短的视频通话。审核员会与您约定时间。",
     "replyPlaceholder": "您的回答",
     "sendReply": "发送回复"
+  },
+  "rebuild": {
+    "title": "重建",
+    "subtitle": "雇用持证承包商，按完工进度付款。钱先放在托管中，未经您批准不会付出任何款项。",
+    "defaultTitle": "重建我们的家",
+    "startTitle": "邀请承包商",
+    "startBody": "这些承包商的执照已由 Hearthline 核实。您邀请的承包商会发送分阶段计划，由您决定是否接受。",
+    "projectTitle": "需要建造什么",
+    "invite": "邀请其发送计划",
+    "license": "{{state}} 执照 #{{number}}",
+    "licenseNo": "执照 #{{number}}",
+    "verified": "已核实",
+    "deposit": "定金",
+    "doneLooksLike": "完工标准",
+    "willReview": "由于金额或照片检查的结果，批准后将先交给 Hearthline 审核员核查，然后再付款。",
+    "willPay": "照片检查通过。批准后会立即通过 PayPal 向承包商支付 {{amount}}。",
+    "approveToReview": "批准并交给审核员",
+    "approveAndPay": "批准并付款",
+    "dispute": "有问题",
+    "disputePlaceholder": "告诉审核员哪些工作没完成或不合格。",
+    "sendDispute": "提出争议",
+    "explain": {
+      "pending": "尚未开始。完工后承包商会提交照片。",
+      "under_review": "Hearthline 审核员正在核查，之后才会向承包商付款。",
+      "disputed": "审核员正在处理您的争议。解决之前，钱会留在托管中。",
+      "refunded": "审核员支持您的意见。这笔钱已退回您的基金。"
+    },
+    "paidOn": "已于 {{date}} 支付",
+    "projectStatus": {
+      "awaiting_plan": "等待计划",
+      "plan_submitted": "计划待审阅",
+      "active": "进行中",
+      "completed": "已完成"
+    },
+    "price": "合同价格",
+    "inEscrow": "托管中",
+    "escrowHint": "每完成一个阶段释放一次",
+    "paidOut": "已付承包商",
+    "awaitingPlan": "{{name}} 正在制定包含阶段、日期和价格的计划。",
+    "reviewPlan": "{{name}} 已发送计划。请查看下面的各个阶段。",
+    "acceptExplain": "接受后，全部价款会从您的基金转入托管。按此价格，加州规定定金上限为 {{cap}}，其他每笔付款都需要您批准。",
+    "accept": "接受并托管 {{amount}}",
+    "status": {
+      "pending": "未开始",
+      "submitted": "等待您批准",
+      "under_review": "审核员核查中",
+      "paid": "已付款",
+      "disputed": "有争议",
+      "refunded": "已退款"
+    },
+    "siteCheck": {
+      "title": "照片检查",
+      "confidence": "把握度 {{value}}%",
+      "concerns": "值得询问",
+      "verdict": {
+        "matches": "符合该阶段",
+        "partial": "部分完成",
+        "does_not_match": "不符合",
+        "unchecked": "未检查"
+      }
+    },
+    "gantt": {
+      "milestone": "阶段",
+      "start": "开始",
+      "end": "结束",
+      "editHint": "拖动尚未开始的阶段即可调整时间。已提交或已完成的工作不能移动。",
+      "viewHint": "承包商会随时更新此进度表。绿色表示已付款，橙色表示等待您或审核员处理。"
+    }
+  },
+  "contractor": {
+    "title": "您的项目",
+    "subtitle": "邀请您参与重建的家庭。发送计划，每个阶段完工后提交照片，并通过 PayPal 收款。",
+    "empty": "当有家庭邀请您发送计划时，项目会显示在这里。",
+    "template": {
+      "deposit": "定金",
+      "demolition": "清理残骸和拆除",
+      "repair": "修复"
+    },
+    "milestoneTitle": "阶段",
+    "donePlaceholder": "完工后照片中应能看到什么",
+    "amount": "金额",
+    "removeRow": "删除阶段",
+    "addRow": "添加阶段",
+    "total": "合计",
+    "depositCap": "定金上限：{{cap}}（加州：价格的 10% 或 1,000 美元，取较低者）",
+    "send": "将计划发送给该家庭",
+    "resend": "发送修改后的计划",
+    "photos": "完工照片",
+    "checking": "正在检查照片…",
+    "requestDeposit": "申请定金",
+    "submitWork": "提交审批",
+    "explain": {
+      "submitted": "等待房主批准。",
+      "under_review": "Hearthline 审核员正在核查此阶段，之后才会付款。",
+      "disputed": "房主提出了争议，将由审核员决定。",
+      "pending": "请先提交前面的阶段。"
+    },
+    "projectStatus": {
+      "awaiting_plan": "需要您的计划",
+      "plan_submitted": "计划已发送",
+      "active": "进行中",
+      "completed": "已完成"
+    },
+    "escrowed": "托管中待付",
+    "escrowHint": "该家庭的钱已经预留",
+    "received": "已付给您",
+    "planSent": "该家庭正在审阅您的计划。在对方接受之前，您仍可修改。",
+    "planIntro": "把工作分成家庭可以通过照片核实的阶段。每个阶段完成后付款。"
   }
 }

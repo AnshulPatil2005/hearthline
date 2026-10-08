@@ -136,7 +136,8 @@ class Media(Base):
     height: Mapped[int]
     sha256: Mapped[str] = mapped_column(String(64), index=True)
     phash: Mapped[str | None] = mapped_column(String(16), index=True)  # perceptual hash: survives resizing
-    kind: Mapped[str] = mapped_column(String(20), default="photo", server_default="photo")  # photo | document | site_photo
+    # photo | document | site_photo
+    kind: Mapped[str] = mapped_column(String(20), default="photo", server_default="photo")
     captured_at: Mapped[datetime | None]
     uploaded_at: Mapped[datetime] = mapped_column(default=now)
 

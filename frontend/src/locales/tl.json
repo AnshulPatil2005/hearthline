@@ -20,7 +20,9 @@
     "review": "Mga susuriin",
     "calendar": "Mga tawag",
     "board": "Daloy",
-    "aid": "Tulong"
+    "aid": "Tulong",
+    "rebuild": "Muling Pagtatayo",
+    "projects": "Mga Proyekto"
   },
   "roles": {
     "household": "Sambahayan",
@@ -301,7 +303,12 @@
       "payout": "Bayad",
       "refund": "Refund",
       "fee": "Singil",
-      "adjustment": "Pagsasaayos"
+      "adjustment": "Pagsasaayos",
+      "cash_aid": "Tulong na pera",
+      "escrow": "Inilipat sa escrow",
+      "escrow_release": "Ibinalik mula sa escrow",
+      "insurance_payment": "Bayad ng insurance",
+      "milestone_payment": "Bayad sa kontratista"
     }
   },
   "review": {
@@ -330,7 +337,9 @@
     "kind": {
       "cash_aid": "Cash aid",
       "registry_verification": "Bagong registry",
-      "contents_claim": "Claim sa gamit"
+      "contents_claim": "Claim sa gamit",
+      "milestone_payment": "Bayad sa yugto",
+      "contractor_dispute": "Reklamo sa kontratista"
     },
     "status": {
       "in_review": "Sinusuri",
@@ -348,7 +357,12 @@
       "no_photo_metadata": "Walang petsa ang larawan",
       "price_outlier": "Presyong sobrang taas",
       "high_value_no_evidence": "Mamahaling gamit na walang ebidensya",
-      "new_account_large_claim": "Bagong account, malaking claim"
+      "new_account_large_claim": "Bagong account, malaking claim",
+      "site_photos_mismatch": "Hindi ipinapakita ng larawan ang trabaho",
+      "site_photos_partial": "Mukhang bahagya lang ang tapos",
+      "site_photos_unchecked": "Hindi nasuri ang larawan",
+      "site_photos_low_confidence": "Hindi sigurado ang pagsusuri",
+      "site_photo_dates": "Hindi tugma ang petsa ng larawan"
     },
     "yes": "Oo",
     "no": "Hindi",
@@ -404,7 +418,8 @@
     },
     "needsLevel2": "Kailangan ng verification level 2 para sa cash aid. Humingi ng patunay ng tirahan, o hilingin sa caseworker na hindi sumusuri sa kasong ito na managot para sa sambahayan.",
     "vouchPlaceholder": "Paano mo nalaman na dito nakatira ang pamilyang ito?",
-    "vouchButton": "Managot para sa sambahayang ito"
+    "vouchButton": "Managot para sa sambahayang ito",
+    "milestoneTitle": "Yugto {{seq}}: {{title}}"
   },
   "calendar": {
     "title": "Mga video call",
@@ -462,5 +477,113 @@
     "videoNeeded": "Kailangan ng maikling video call para sa hiling na ito. Magtatakda ng oras ang tagasuri kasama ka.",
     "replyPlaceholder": "Ang sagot mo",
     "sendReply": "Ipadala ang sagot"
+  },
+  "rebuild": {
+    "title": "Muling Pagtatayo",
+    "subtitle": "Kumuha ng lisensyadong kontratista at magbayad habang natatapos ang trabaho. Naghihintay ang pera sa escrow, at walang ibinabayad hangga't hindi ninyo inaaprubahan.",
+    "defaultTitle": "Itayo muli ang aming bahay",
+    "startTitle": "Mag-imbita ng kontratista",
+    "startBody": "Sinuri ng Hearthline ang lisensya ng mga kontratistang ito. Magpapadala ng planong may mga yugto ang inimbitahan ninyo; kayo ang magpapasya kung tatanggapin ito.",
+    "projectTitle": "Ano ang kailangang itayo",
+    "invite": "Imbitahang magpadala ng plano",
+    "license": "Lisensya sa {{state}} #{{number}}",
+    "licenseNo": "Lisensya #{{number}}",
+    "verified": "beripikado",
+    "deposit": "Paunang bayad",
+    "doneLooksLike": "Ganito ang tapos",
+    "willReview": "Kapag inaprubahan, susuriin muna ito ng reviewer ng Hearthline bago bayaran, dahil sa halaga o sa nakita ng pagsusuri ng larawan.",
+    "willPay": "Maayos ang mga larawan. Kapag inaprubahan, babayaran agad ang kontratista ng {{amount}} sa PayPal.",
+    "approveToReview": "Aprubahan at ipasa sa reviewer",
+    "approveAndPay": "Aprubahan at bayaran",
+    "dispute": "May mali",
+    "disputePlaceholder": "Sabihin sa reviewer kung ano ang hindi pa tapos o hindi tama.",
+    "sendDispute": "Magbukas ng reklamo",
+    "explain": {
+      "pending": "Hindi pa nagsisimula. Magpapadala ng larawan ang kontratista kapag tapos na.",
+      "under_review": "Sinusuri ito ng reviewer ng Hearthline bago bayaran ang kontratista.",
+      "disputed": "Tinitingnan ng reviewer ang inyong reklamo. Mananatili ang pera sa escrow hanggang maayos ito.",
+      "refunded": "Pumanig sa inyo ang reviewer. Bumalik ang perang ito sa inyong pondo."
+    },
+    "paidOn": "Nabayaran noong {{date}}",
+    "projectStatus": {
+      "awaiting_plan": "Naghihintay ng plano",
+      "plan_submitted": "Planong susuriin",
+      "active": "Isinasagawa",
+      "completed": "Tapos na"
+    },
+    "price": "Presyo ng kontrata",
+    "inEscrow": "Nasa escrow",
+    "escrowHint": "Inilalabas isang yugto bawat beses",
+    "paidOut": "Naibayad sa kontratista",
+    "awaitingPlan": "Inihahanda ng {{name}} ang planong may mga yugto, petsa at presyo.",
+    "reviewPlan": "Nagpadala ng plano ang {{name}}. Tingnan ang mga yugto sa ibaba.",
+    "acceptExplain": "Kapag tinanggap, ililipat ang buong presyo mula sa inyong pondo papunta sa escrow. Sa presyong ito, {{cap}} ang pinakamataas na paunang bayad ayon sa batas ng California, at hinihintay ng bawat ibang bayad ang inyong pag-apruba.",
+    "accept": "Tanggapin at itabi ang {{amount}} sa escrow",
+    "status": {
+      "pending": "Hindi pa nagsisimula",
+      "submitted": "Handa para sa inyong pag-apruba",
+      "under_review": "Nasa reviewer",
+      "paid": "Bayad na",
+      "disputed": "May reklamo",
+      "refunded": "Naibalik"
+    },
+    "siteCheck": {
+      "title": "Pagsusuri ng larawan",
+      "confidence": "{{value}}% sigurado",
+      "concerns": "Mainam itanong",
+      "verdict": {
+        "matches": "Tugma sa yugto",
+        "partial": "Bahagyang tapos",
+        "does_not_match": "Hindi tugma",
+        "unchecked": "Hindi nasuri"
+      }
+    },
+    "gantt": {
+      "milestone": "Yugto",
+      "start": "Simula",
+      "end": "Katapusan",
+      "editHint": "I-drag ang yugtong hindi pa nagsisimula para ilipat ito. Hindi gumagalaw ang naipasa o tapos nang trabaho.",
+      "viewHint": "Ina-update ng inyong kontratista ang iskedyul na ito. Berde ang bayad na, kahel ang naghihintay sa inyo o sa reviewer."
+    }
+  },
+  "contractor": {
+    "title": "Inyong mga proyekto",
+    "subtitle": "Mga pamilyang nag-imbita sa inyong magtayo muli. Magpadala ng plano, mag-upload ng larawan kapag tapos ang yugto, at mabayaran sa PayPal.",
+    "empty": "Kapag inimbitahan kayo ng isang pamilya na magpadala ng plano, lalabas dito ang kanilang proyekto.",
+    "template": {
+      "deposit": "Paunang bayad",
+      "demolition": "Paglilinis ng labi at demolisyon",
+      "repair": "Pagkukumpuni"
+    },
+    "milestoneTitle": "Yugto",
+    "donePlaceholder": "Ano ang makikita sa larawan kapag tapos na",
+    "amount": "Halaga",
+    "removeRow": "Alisin ang yugto",
+    "addRow": "Magdagdag ng yugto",
+    "total": "Kabuuan",
+    "depositCap": "Limitasyon ng paunang bayad: {{cap}} (California: 10% o $1,000, alinman ang mas mababa)",
+    "send": "Ipadala ang plano sa pamilya",
+    "resend": "Ipadala ang binagong plano",
+    "photos": "Mga larawan ng tapos na trabaho",
+    "checking": "Sinusuri ang mga larawan…",
+    "requestDeposit": "Hilingin ang paunang bayad",
+    "submitWork": "Ipasa para maaprubahan",
+    "explain": {
+      "submitted": "Naghihintay ng pag-apruba ng may-ari ng bahay.",
+      "under_review": "Sinusuri ng reviewer ng Hearthline ang yugtong ito bago bayaran.",
+      "disputed": "Nagbukas ng reklamo ang may-ari ng bahay. Isang reviewer ang magpapasya.",
+      "pending": "Ipasa muna ang mga naunang yugto."
+    },
+    "projectStatus": {
+      "awaiting_plan": "Kailangan ang inyong plano",
+      "plan_submitted": "Naipadala ang plano",
+      "active": "Isinasagawa",
+      "completed": "Tapos na"
+    },
+    "escrowed": "Naghihintay sa escrow",
+    "escrowHint": "Nakatabi na ang pera ng pamilya",
+    "received": "Naibayad sa inyo",
+    "planSent": "Sinusuri ng pamilya ang inyong plano. Puwede pa ninyo itong baguhin hangga't hindi nila tinatanggap.",
+    "planIntro": "Hatiin ang trabaho sa mga yugtong masusuri ng pamilya sa pamamagitan ng larawan. Binabayaran ang bawat isa kapag tapos na."
   }
 }

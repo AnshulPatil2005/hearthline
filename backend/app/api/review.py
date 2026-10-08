@@ -15,7 +15,7 @@ from app.api.households import MyHousehold
 from app.auth import CurrentUser, require_role
 from app.db import get_db
 from app.media import media_url
-from app.models import Case, Item, Media, Registry, Role, User
+from app.models import Case, Item, Media, Milestone, Registry, Role, User
 from app.schemas import ORM, Money
 
 router = APIRouter(tags=["review"])
@@ -87,6 +87,46 @@ class EvidencePhoto(BaseModel):
     captured_at: datetime | None
 
 
+class MilestoneEvidence(BaseModel):
+    id: int
+    seq: int
+    title: str
+    project_id: int
+    project_title: str
+    contractor_name: str
+    license_number: str
+    done_looks_like: str
+    amount: Money
+    start_date: datetime
+    end_date: datetime
+    status: str
+    site_check: dict | None
+    photo_urls: list[str]
+
+
+def _milestone_evidence(db: Session, case: Case) -> MilestoneEvidence | None:
+    m = db.scalar(select(Milestone).where(Milestone.case_id == case.id))
+    if m is None:
+        return None
+    p = m.project
+    return MilestoneEvidence(
+        id=m.id,
+        seq=m.seq,
+        title=m.title,
+        project_id=p.id,
+        project_title=p.title,
+        contractor_name=p.contractor.business_name,
+        license_number=p.contractor.license_number,
+        done_looks_like=m.done_looks_like,
+        amount=m.amount,
+        start_date=m.start_date,
+        end_date=m.end_date,
+        status=m.status,
+        site_check=m.site_check,
+        photo_urls=[media_url(mid) for mid in m.photo_media_ids],
+    )
+
+
 class CaseDetailOut(QueueRowOut):
     note: str
     flags: list[dict]
@@ -109,6 +149,7 @@ class CaseDetailOut(QueueRowOut):
     photos: list[EvidencePhoto]
     reviews: list[ReviewOut]
     reviewers: list[str]
+    milestone: MilestoneEvidence | None = None
 
 
 def _mask(email: str | None) -> str | None:
@@ -202,7 +243,9 @@ def case_detail(case_id: int, me: Staff, db: DB) -> CaseDetailOut:
         raise HTTPException(404, "Case not found")
     home = case.household
     items = list(db.scalars(select(Item).where(Item.household_id == home.id)))
-    photos = db.scalars(select(Media).where(Media.household_id == home.id).order_by(Media.id).limit(8))
+    photos = db.scalars(  # the family's own photos; a contractor's site photos are shown with the milestone
+        select(Media).where(Media.household_id == home.id, Media.kind != "site_photo").order_by(Media.id).limit(8)
+    )
     reg = db.scalar(select(Registry).where(Registry.household_id == home.id))
     return CaseDetailOut(
         **queue_row(case, me).model_dump(),
@@ -236,6 +279,7 @@ def case_detail(case_id: int, me: Staff, db: DB) -> CaseDetailOut:
             for r in case.reviews
         ],
         reviewers=[f"{a.reviewer.name} ({a.role})" for a in case.assignments],
+        milestone=_milestone_evidence(db, case),
     )
 
 

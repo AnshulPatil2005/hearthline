@@ -29,6 +29,17 @@ def _existing_batch(error: PayPalError) -> str | None:
     return None
 
 
+def failure_reason(error: PayPalError, what: str = "the payment") -> str:
+    """A message for the person who pressed the button. Nothing was sent when this is shown."""
+    name = error.body.get("name") if isinstance(error.body, dict) else None
+    if name == "INSUFFICIENT_FUNDS":
+        return (
+            f"The relief fund's PayPal balance can't cover {what} right now. "
+            "Nothing was sent; try again once it's topped up."
+        )
+    return f"PayPal couldn't send {what} ({error.status}). Try again in a moment."
+
+
 async def _send(items: list[dict], batch_id: str, subject: str) -> PayoutResult:
     async with PayPalREST.from_settings() as pp:
         try:

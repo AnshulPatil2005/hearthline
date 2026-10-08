@@ -4,9 +4,11 @@ import { useTranslation } from 'react-i18next'
 import { Link, useParams } from 'react-router'
 import { api, ApiError, mediaUrl, type CaseDetail } from '../api'
 import { useAuth } from '../auth'
+import { PhotoStrip, SiteCheckView } from '../components/Milestones'
 import RiskBadge from '../components/RiskBadge'
 import VideoCalls from '../components/VideoCalls'
 import { money } from '../format'
+import { dateRange } from '../rebuild'
 
 const SEVERITY: Record<string, string> = {
   high: 'border-danger/40 bg-danger-soft text-danger',
@@ -198,6 +200,25 @@ export default function ReviewCase() {
               </ul>
             )}
           </Panel>
+
+          {c.milestone && (
+            <Panel title={t('review.milestoneTitle', { seq: c.milestone.seq, title: c.milestone.title })}>
+              <p className="text-sm text-ink-soft">
+                {c.milestone.contractor_name} · {t('rebuild.licenseNo', { number: c.milestone.license_number })} ·{' '}
+                {c.milestone.project_title}
+              </p>
+              <p className="mt-2 text-sm">
+                <span className="font-medium">{t('rebuild.doneLooksLike')}:</span> {c.milestone.done_looks_like}
+              </p>
+              <p className="mt-1 text-xs text-ink-faint">
+                {money(c.milestone.amount)} · {dateRange(c.milestone, i18n.resolvedLanguage)}
+              </p>
+              <div className="mt-3 space-y-3">
+                <PhotoStrip urls={c.milestone.photo_urls} />
+                {c.milestone.site_check && <SiteCheckView check={c.milestone.site_check} />}
+              </div>
+            </Panel>
+          )}
 
           {c.photos.length > 0 && (
             <Panel title={t('review.photosTitle')}>

@@ -20,7 +20,9 @@
     "review": "Review queue",
     "calendar": "Calls",
     "board": "Pipeline",
-    "aid": "Aid"
+    "aid": "Aid",
+    "rebuild": "Rebuild",
+    "projects": "Projects"
   },
   "roles": {
     "household": "Household",
@@ -301,7 +303,12 @@
       "payout": "Payout",
       "refund": "Refund",
       "fee": "Fee",
-      "adjustment": "Adjustment"
+      "adjustment": "Adjustment",
+      "cash_aid": "Cash aid",
+      "escrow": "Moved to escrow",
+      "escrow_release": "Returned from escrow",
+      "insurance_payment": "Insurance payment",
+      "milestone_payment": "Contractor payment"
     }
   },
   "review": {
@@ -330,7 +337,9 @@
     "kind": {
       "cash_aid": "Cash aid",
       "registry_verification": "New registry",
-      "contents_claim": "Contents claim"
+      "contents_claim": "Contents claim",
+      "milestone_payment": "Milestone payment",
+      "contractor_dispute": "Contractor dispute"
     },
     "status": {
       "in_review": "In review",
@@ -348,7 +357,12 @@
       "no_photo_metadata": "No photo dates",
       "price_outlier": "Price far above market",
       "high_value_no_evidence": "Costly items without evidence",
-      "new_account_large_claim": "New account, large claim"
+      "new_account_large_claim": "New account, large claim",
+      "site_photos_mismatch": "Photos don't show the work",
+      "site_photos_partial": "Work looks partly done",
+      "site_photos_unchecked": "Photos not checked",
+      "site_photos_low_confidence": "Unsure photo check",
+      "site_photo_dates": "Photo dates don't fit"
     },
     "yes": "Yes",
     "no": "No",
@@ -404,7 +418,8 @@
     },
     "needsLevel2": "Cash aid needs verification level 2. Ask for proof of residence, or have a caseworker who isn't reviewing this case vouch for the household.",
     "vouchPlaceholder": "How do you know this family lives here?",
-    "vouchButton": "Vouch for this household"
+    "vouchButton": "Vouch for this household",
+    "milestoneTitle": "Milestone {{seq}}: {{title}}"
   },
   "calendar": {
     "title": "Video calls",
@@ -462,5 +477,113 @@
     "videoNeeded": "This request needs a short video call. A reviewer will book a time with you.",
     "replyPlaceholder": "Your answer",
     "sendReply": "Send reply"
+  },
+  "rebuild": {
+    "title": "Rebuild",
+    "subtitle": "Hire a licensed contractor and pay as the work gets done. The money waits in escrow, and nothing is paid until you approve.",
+    "defaultTitle": "Rebuild our home",
+    "startTitle": "Invite a contractor",
+    "startBody": "These contractors have a license checked by Hearthline. The one you invite sends a plan with milestones; you decide whether to accept it.",
+    "projectTitle": "What needs to be built",
+    "invite": "Invite to send a plan",
+    "license": "{{state}} license #{{number}}",
+    "licenseNo": "License #{{number}}",
+    "verified": "verified",
+    "deposit": "Deposit",
+    "doneLooksLike": "Done looks like",
+    "willReview": "Approving sends this to a Hearthline reviewer before payment, because of the amount or what the photo check found.",
+    "willPay": "The photos check out. Approving pays {{amount}} to the contractor through PayPal right away.",
+    "approveToReview": "Approve and send to a reviewer",
+    "approveAndPay": "Approve and pay",
+    "dispute": "Something's wrong",
+    "disputePlaceholder": "Tell the reviewer what isn't finished or isn't right.",
+    "sendDispute": "Open a dispute",
+    "explain": {
+      "pending": "Not started yet. The contractor submits photos when it's done.",
+      "under_review": "A Hearthline reviewer is checking this before the contractor is paid.",
+      "disputed": "A reviewer is looking at your dispute. The money stays in escrow until it's settled.",
+      "refunded": "The reviewer agreed with you. This money went back to your fund."
+    },
+    "paidOn": "Paid {{date}}",
+    "projectStatus": {
+      "awaiting_plan": "Waiting for a plan",
+      "plan_submitted": "Plan to review",
+      "active": "In progress",
+      "completed": "Finished"
+    },
+    "price": "Contract price",
+    "inEscrow": "Held in escrow",
+    "escrowHint": "Released one milestone at a time",
+    "paidOut": "Paid to contractor",
+    "awaitingPlan": "{{name}} is putting together a plan with milestones, dates and prices.",
+    "reviewPlan": "{{name}} sent a plan. Look over the milestones below.",
+    "acceptExplain": "Accepting moves the full price from your fund into escrow. California caps the deposit at {{cap}} for this price, and every other payment waits for your approval.",
+    "accept": "Accept and hold {{amount}} in escrow",
+    "status": {
+      "pending": "Not started",
+      "submitted": "Ready for your approval",
+      "under_review": "With a reviewer",
+      "paid": "Paid",
+      "disputed": "Disputed",
+      "refunded": "Refunded"
+    },
+    "siteCheck": {
+      "title": "Photo check",
+      "confidence": "{{value}}% sure",
+      "concerns": "Worth asking about",
+      "verdict": {
+        "matches": "Matches the milestone",
+        "partial": "Partly done",
+        "does_not_match": "Doesn't match",
+        "unchecked": "Not checked"
+      }
+    },
+    "gantt": {
+      "milestone": "Milestone",
+      "start": "Start",
+      "end": "End",
+      "editHint": "Drag a milestone that hasn't started to move it. Finished and submitted work stays where it is.",
+      "viewHint": "Your contractor keeps this schedule up to date. Green is paid, orange is waiting on you or a reviewer."
+    }
+  },
+  "contractor": {
+    "title": "Your projects",
+    "subtitle": "Families who invited you to rebuild. Send a plan, submit photos when a milestone is done, and get paid through PayPal.",
+    "empty": "When a family invites you to send a plan, their project appears here.",
+    "template": {
+      "deposit": "Deposit",
+      "demolition": "Debris removal and demolition",
+      "repair": "Repair"
+    },
+    "milestoneTitle": "Milestone",
+    "donePlaceholder": "What the finished work will look like in photos",
+    "amount": "Amount",
+    "removeRow": "Remove milestone",
+    "addRow": "Add a milestone",
+    "total": "Total",
+    "depositCap": "Deposit limit: {{cap}} (California: 10% or $1,000, whichever is less)",
+    "send": "Send the plan to the family",
+    "resend": "Send the revised plan",
+    "photos": "Photos of the finished work",
+    "checking": "Checking the photos…",
+    "requestDeposit": "Request the deposit",
+    "submitWork": "Submit for approval",
+    "explain": {
+      "submitted": "Waiting for the homeowner to approve.",
+      "under_review": "A Hearthline reviewer is checking this milestone before payment.",
+      "disputed": "The homeowner opened a dispute. A reviewer will decide.",
+      "pending": "Submit the earlier milestones first."
+    },
+    "projectStatus": {
+      "awaiting_plan": "Needs your plan",
+      "plan_submitted": "Plan sent",
+      "active": "In progress",
+      "completed": "Finished"
+    },
+    "escrowed": "Waiting in escrow",
+    "escrowHint": "The family's money is already set aside",
+    "received": "Paid to you",
+    "planSent": "The family is reviewing your plan. You can still change it until they accept.",
+    "planIntro": "Break the job into milestones the family can check with photos. Each one is paid when it's done."
   }
 }

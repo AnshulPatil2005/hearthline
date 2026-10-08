@@ -263,6 +263,7 @@ export type CaseDetail = QueueRow & {
   photos: { media_id: number; url: string; captured_at: string | null }[]
   reviews: { reviewer_name: string; role: string; decision: string; reason: string; created_at: string }[]
   reviewers: string[]
+  milestone: MilestoneEvidence | null
 }
 
 export type Verification = {
@@ -276,7 +277,7 @@ export type Verification = {
 
 export type HouseholdCase = {
   id: number
-  kind: 'cash_aid' | 'registry_verification' | 'contents_claim'
+  kind: 'cash_aid' | 'registry_verification' | 'contents_claim' | 'milestone_payment' | 'contractor_dispute'
   title: string
   amount_requested: string
   status: 'in_review' | 'needs_info' | 'escalated' | 'approved' | 'rejected'
@@ -285,3 +286,57 @@ export type HouseholdCase = {
   created_at: string
   decided_at: string | null
 }
+
+export type SiteCheck = {
+  verdict: 'matches' | 'partial' | 'does_not_match' | 'unchecked'
+  confidence: number
+  observations: string[]
+  concerns: string[]
+  metadata_concerns?: string[]
+}
+
+export type MilestoneStatus = 'pending' | 'submitted' | 'under_review' | 'paid' | 'disputed' | 'refunded'
+
+export type Milestone = {
+  id: number
+  seq: number
+  title: string
+  done_looks_like: string
+  amount: string
+  is_deposit: boolean
+  start_date: string
+  end_date: string
+  status: MilestoneStatus
+  site_check: SiteCheck | null
+  case_id: number | null
+  paypal_ref: string | null
+  submitted_at: string | null
+  paid_at: string | null
+  photo_urls: string[]
+  needs_human_review: boolean
+}
+
+export type Contractor = {
+  id: number
+  business_name: string
+  license_number: string
+  license_state: string
+  license_verified: boolean
+}
+
+export type Project = {
+  id: number
+  title: string
+  status: 'awaiting_plan' | 'plan_submitted' | 'active' | 'completed'
+  total_price: string
+  household_name: string
+  contractor: Contractor
+  deposit_cap: string
+  escrow_balance: string
+  milestones: Milestone[]
+}
+
+export type MilestoneEvidence = Pick<
+  Milestone,
+  'id' | 'seq' | 'title' | 'done_looks_like' | 'amount' | 'start_date' | 'end_date' | 'status' | 'site_check' | 'photo_urls'
+> & { project_id: number; project_title: string; contractor_name: string; license_number: string }

@@ -25,3 +25,12 @@ def test_already_submitted_batch_is_recognized():
     }
     assert payouts._existing_batch(PayPalError(400, body)) == "9HTUD94NJDRL6"
     assert payouts._existing_batch(PayPalError(422, {"name": "INSUFFICIENT_FUNDS"})) is None
+
+
+def test_low_balance_is_explained_instead_of_asking_to_retry():
+    low = payouts.failure_reason(PayPalError(422, {"name": "INSUFFICIENT_FUNDS"}), "the cash aid")
+    assert "balance can't cover the cash aid" in low and "Nothing was sent" in low
+    assert (
+        payouts.failure_reason(PayPalError(503, None))
+        == "PayPal couldn't send the payment (503). Try again in a moment."
+    )

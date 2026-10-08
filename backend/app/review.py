@@ -85,9 +85,11 @@ def open_case(
     actor_user_id: int | None = None,
     rng: random.Random | None = None,
     explain: bool = True,  # False for seeding: rule messages instead of an AI call
+    extra_flags: list[trust.Flag] | None = None,  # signs specific to this case, e.g. a failed photo check
+    context: dict | None = None,  # extra facts for Sentinel
 ) -> Case:
     rng = rng or random.Random()
-    flags = trust.sentinel_flags(db, home, amount)
+    flags = trust.sentinel_flags(db, home, amount) + (extra_flags or [])
     score, tier = trust.risk(flags)
     facts = {
         "case": kind,
@@ -96,6 +98,7 @@ def open_case(
         "town": f"{home.city}, {home.state}",
         "verification_level": trust.verification_level(db, home),
         "household_note": note,
+        **(context or {}),
     }
     explained = (
         sentinel.explain(facts, flags)
@@ -306,7 +309,7 @@ def _send_cash_aid(db: Session, case: Case, home: Household) -> None:
             subject="You have received disaster cash aid",
         )
     except PayPalError as e:  # nothing is approved or recorded if PayPal didn't take the payout
-        raise ReviewError(f"PayPal couldn't send the cash aid ({e.status}). Try again in a moment.") from e
+        raise ReviewError(payouts.failure_reason(e, "the cash aid")) from e
     case.paypal_ref = result.batch_id
     ledger.post(
         db,

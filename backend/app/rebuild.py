@@ -11,7 +11,7 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
-from app import audit, ledger
+from app import audit, ledger, trust
 from app.agents import site
 from app.models import Media, Milestone, RebuildProject, User, now
 from app.paypal import payouts
@@ -170,6 +170,68 @@ def needs_human_review(milestone: Milestone) -> bool:
     )
 
 
+def site_check_flags(milestone: Milestone) -> list[trust.Flag]:
+    """What the photo check found, as warning signs for the reviewer (they set the case's risk and review depth)."""
+    check = milestone.site_check or {}
+    verdict, confidence = check.get("verdict"), float(check.get("confidence", 0))
+    evidence = {"milestone_id": milestone.id, "concerns": check.get("concerns", [])}
+    flags = []
+    if verdict == "does_not_match":
+        flags.append(
+            trust.Flag(
+                "site_photos_mismatch",
+                "high",
+                f"The photo check says these photos don't show the finished work ({confidence:.0%} sure).",
+                evidence,
+            )
+        )
+    elif verdict == "partial":
+        flags.append(
+            trust.Flag(
+                "site_photos_partial", "medium", "The photo check says the work looks only partly done.", evidence
+            )
+        )
+    elif verdict == "unchecked":
+        flags.append(
+            trust.Flag(
+                "site_photos_unchecked",
+                "medium",
+                "The photos couldn't be checked automatically; look at them closely.",
+                evidence,
+            )
+        )
+    elif confidence < AUTO_PAY_MIN_CONFIDENCE and not milestone.is_deposit:
+        flags.append(
+            trust.Flag(
+                "site_photos_low_confidence",
+                "low",
+                f"The photo check matched the work but is only {confidence:.0%} sure.",
+                evidence,
+            )
+        )
+    if check.get("metadata_concerns"):
+        flags.append(
+            trust.Flag(
+                "site_photo_dates",
+                "medium",
+                "; ".join(check["metadata_concerns"]) + ".",
+                {"milestone_id": milestone.id},
+            )
+        )
+    return flags
+
+
+def _milestone_context(milestone: Milestone) -> dict:
+    check = milestone.site_check or {}
+    return {
+        "milestone": milestone.title,
+        "done_looks_like": milestone.done_looks_like,
+        "contractor": milestone.project.contractor.business_name,
+        "photo_check_verdict": check.get("verdict"),
+        "photo_check_observations": check.get("observations", []),
+    }
+
+
 def approve_milestone(db: Session, milestone: Milestone, homeowner: User) -> Milestone:
     """The homeowner signs off. Clean, smaller milestones pay now; the rest go to a human reviewer."""
     from app import review  # avoid an import cycle (review pays milestones when cases are approved)
@@ -186,7 +248,6 @@ def approve_milestone(db: Session, milestone: Milestone, homeowner: User) -> Mil
     if not needs_human_review(milestone):
         return pay_milestone(db, milestone, homeowner)
     project = milestone.project
-    check = milestone.site_check or {}
     case = review.open_case(
         db,
         project.household,
@@ -194,10 +255,8 @@ def approve_milestone(db: Session, milestone: Milestone, homeowner: User) -> Mil
         title=f"Milestone {milestone.seq}: {milestone.title} ({project.contractor.business_name})",
         amount=milestone.amount,
         actor_user_id=homeowner.id,
-        note=(
-            f"Photo check: {check.get('verdict')} ({check.get('confidence', 0):.0%}). "
-            f"Concerns: {'; '.join(check.get('concerns', []) + check.get('metadata_concerns', [])) or 'none'}."
-        ),
+        extra_flags=site_check_flags(milestone),
+        context=_milestone_context(milestone),
     )
     milestone.case_id = case.id
     milestone.status = "under_review"
@@ -219,6 +278,8 @@ def dispute_milestone(db: Session, milestone: Milestone, homeowner: User, reason
         amount=milestone.amount,
         note=reason,
         actor_user_id=homeowner.id,
+        extra_flags=site_check_flags(milestone),
+        context=_milestone_context(milestone),
     )
     milestone.case_id = case.id
     milestone.status = "disputed"
@@ -250,7 +311,7 @@ def pay_milestone(db: Session, milestone: Milestone, approved_by: User) -> Miles
             subject=f"Milestone payment for {project.title}",
         )
     except PayPalError as e:
-        raise RebuildError(f"PayPal couldn't send the payment ({e.status}). Try again in a moment.") from e
+        raise RebuildError(payouts.failure_reason(e)) from e
     ledger.post(
         db,
         kind="milestone_payment",

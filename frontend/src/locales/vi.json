@@ -20,7 +20,9 @@
     "review": "Hàng đợi xét duyệt",
     "calendar": "Cuộc gọi",
     "board": "Tiến trình",
-    "aid": "Hỗ trợ"
+    "aid": "Hỗ trợ",
+    "rebuild": "Xây lại",
+    "projects": "Dự án"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -297,7 +299,12 @@
       "payout": "Chi trả",
       "refund": "Hoàn tiền",
       "fee": "Phí",
-      "adjustment": "Điều chỉnh"
+      "adjustment": "Điều chỉnh",
+      "cash_aid": "Hỗ trợ tiền mặt",
+      "escrow": "Chuyển vào ký quỹ",
+      "escrow_release": "Hoàn lại từ ký quỹ",
+      "insurance_payment": "Tiền bảo hiểm",
+      "milestone_payment": "Trả cho nhà thầu"
     }
   },
   "review": {
@@ -325,7 +332,9 @@
     "kind": {
       "cash_aid": "Hỗ trợ tiền mặt",
       "registry_verification": "Danh sách mới",
-      "contents_claim": "Bồi thường tài sản"
+      "contents_claim": "Bồi thường tài sản",
+      "milestone_payment": "Thanh toán giai đoạn",
+      "contractor_dispute": "Tranh chấp với nhà thầu"
     },
     "status": {
       "in_review": "Đang xét duyệt",
@@ -343,7 +352,12 @@
       "no_photo_metadata": "Ảnh không có ngày",
       "price_outlier": "Giá cao hơn nhiều so với thị trường",
       "high_value_no_evidence": "Đồ đắt tiền không có bằng chứng",
-      "new_account_large_claim": "Tài khoản mới, yêu cầu lớn"
+      "new_account_large_claim": "Tài khoản mới, yêu cầu lớn",
+      "site_photos_mismatch": "Ảnh không cho thấy công việc",
+      "site_photos_partial": "Công việc có vẻ mới xong một phần",
+      "site_photos_unchecked": "Ảnh chưa được kiểm tra",
+      "site_photos_low_confidence": "Kiểm tra ảnh chưa chắc chắn",
+      "site_photo_dates": "Ngày chụp ảnh không khớp"
     },
     "yes": "Có",
     "no": "Không",
@@ -398,7 +412,8 @@
     },
     "needsLevel2": "Hỗ trợ tiền mặt cần xác minh cấp 2. Hãy yêu cầu giấy tờ chứng minh nơi ở, hoặc nhờ một nhân viên xã hội không xét duyệt hồ sơ này bảo lãnh cho hộ gia đình.",
     "vouchPlaceholder": "Làm sao bạn biết gia đình này sống ở đây?",
-    "vouchButton": "Bảo lãnh cho hộ này"
+    "vouchButton": "Bảo lãnh cho hộ này",
+    "milestoneTitle": "Giai đoạn {{seq}}: {{title}}"
   },
   "calendar": {
     "title": "Cuộc gọi video",
@@ -456,5 +471,113 @@
     "videoNeeded": "Yêu cầu này cần một cuộc gọi video ngắn. Người xét duyệt sẽ hẹn giờ với bạn.",
     "replyPlaceholder": "Câu trả lời của bạn",
     "sendReply": "Gửi trả lời"
+  },
+  "rebuild": {
+    "title": "Xây lại",
+    "subtitle": "Thuê nhà thầu có giấy phép và trả tiền theo tiến độ công việc. Tiền được giữ trong ký quỹ và không khoản nào được trả khi chưa có sự chấp thuận của quý vị.",
+    "defaultTitle": "Xây lại nhà của chúng tôi",
+    "startTitle": "Mời nhà thầu",
+    "startBody": "Hearthline đã kiểm tra giấy phép của các nhà thầu này. Nhà thầu quý vị mời sẽ gửi kế hoạch theo từng giai đoạn; quý vị quyết định có chấp nhận hay không.",
+    "projectTitle": "Cần xây những gì",
+    "invite": "Mời gửi kế hoạch",
+    "license": "Giấy phép {{state}} số {{number}}",
+    "licenseNo": "Giấy phép số {{number}}",
+    "verified": "đã xác minh",
+    "deposit": "Tiền đặt cọc",
+    "doneLooksLike": "Khi xong sẽ trông như",
+    "willReview": "Khi chấp thuận, khoản này sẽ được người duyệt của Hearthline kiểm tra trước khi trả, do số tiền hoặc do kết quả kiểm tra ảnh.",
+    "willPay": "Ảnh đạt yêu cầu. Khi chấp thuận, {{amount}} sẽ được trả ngay cho nhà thầu qua PayPal.",
+    "approveToReview": "Chấp thuận và gửi người duyệt",
+    "approveAndPay": "Chấp thuận và thanh toán",
+    "dispute": "Có vấn đề",
+    "disputePlaceholder": "Cho người duyệt biết phần nào chưa xong hoặc chưa đúng.",
+    "sendDispute": "Mở tranh chấp",
+    "explain": {
+      "pending": "Chưa bắt đầu. Nhà thầu sẽ gửi ảnh khi hoàn thành.",
+      "under_review": "Người duyệt của Hearthline đang kiểm tra trước khi trả tiền cho nhà thầu.",
+      "disputed": "Người duyệt đang xem xét tranh chấp của quý vị. Tiền vẫn nằm trong ký quỹ cho đến khi giải quyết xong.",
+      "refunded": "Người duyệt đồng ý với quý vị. Số tiền này đã trở về quỹ của quý vị."
+    },
+    "paidOn": "Đã trả ngày {{date}}",
+    "projectStatus": {
+      "awaiting_plan": "Đang chờ kế hoạch",
+      "plan_submitted": "Kế hoạch cần xem",
+      "active": "Đang thi công",
+      "completed": "Đã hoàn thành"
+    },
+    "price": "Giá hợp đồng",
+    "inEscrow": "Đang giữ ký quỹ",
+    "escrowHint": "Giải ngân từng giai đoạn một",
+    "paidOut": "Đã trả nhà thầu",
+    "awaitingPlan": "{{name}} đang lập kế hoạch với các giai đoạn, ngày và giá.",
+    "reviewPlan": "{{name}} đã gửi kế hoạch. Hãy xem các giai đoạn bên dưới.",
+    "acceptExplain": "Khi chấp nhận, toàn bộ giá sẽ chuyển từ quỹ của quý vị vào ký quỹ. Với giá này, luật California giới hạn tiền đặt cọc ở mức {{cap}}, và mọi khoản thanh toán khác đều chờ quý vị chấp thuận.",
+    "accept": "Chấp nhận và giữ {{amount}} trong ký quỹ",
+    "status": {
+      "pending": "Chưa bắt đầu",
+      "submitted": "Chờ quý vị chấp thuận",
+      "under_review": "Người duyệt đang xem",
+      "paid": "Đã trả",
+      "disputed": "Đang tranh chấp",
+      "refunded": "Đã hoàn tiền"
+    },
+    "siteCheck": {
+      "title": "Kiểm tra ảnh",
+      "confidence": "Chắc chắn {{value}}%",
+      "concerns": "Nên hỏi thêm",
+      "verdict": {
+        "matches": "Khớp với giai đoạn",
+        "partial": "Xong một phần",
+        "does_not_match": "Không khớp",
+        "unchecked": "Chưa kiểm tra"
+      }
+    },
+    "gantt": {
+      "milestone": "Giai đoạn",
+      "start": "Bắt đầu",
+      "end": "Kết thúc",
+      "editHint": "Kéo giai đoạn chưa bắt đầu để dời lịch. Công việc đã gửi hoặc đã xong thì giữ nguyên.",
+      "viewHint": "Nhà thầu cập nhật lịch này. Màu xanh lá là đã trả, màu cam là đang chờ quý vị hoặc người duyệt."
+    }
+  },
+  "contractor": {
+    "title": "Dự án của quý vị",
+    "subtitle": "Các gia đình đã mời quý vị xây lại nhà. Gửi kế hoạch, tải ảnh lên khi xong mỗi giai đoạn và nhận tiền qua PayPal.",
+    "empty": "Khi một gia đình mời quý vị gửi kế hoạch, dự án của họ sẽ hiện ở đây.",
+    "template": {
+      "deposit": "Tiền đặt cọc",
+      "demolition": "Dọn đổ nát và phá dỡ",
+      "repair": "Sửa chữa"
+    },
+    "milestoneTitle": "Giai đoạn",
+    "donePlaceholder": "Ảnh công việc hoàn thành sẽ cho thấy gì",
+    "amount": "Số tiền",
+    "removeRow": "Xóa giai đoạn",
+    "addRow": "Thêm giai đoạn",
+    "total": "Tổng",
+    "depositCap": "Giới hạn đặt cọc: {{cap}} (California: 10% hoặc $1,000, tùy mức nào thấp hơn)",
+    "send": "Gửi kế hoạch cho gia đình",
+    "resend": "Gửi kế hoạch đã sửa",
+    "photos": "Ảnh công việc đã hoàn thành",
+    "checking": "Đang kiểm tra ảnh…",
+    "requestDeposit": "Yêu cầu tiền đặt cọc",
+    "submitWork": "Gửi để chấp thuận",
+    "explain": {
+      "submitted": "Đang chờ chủ nhà chấp thuận.",
+      "under_review": "Người duyệt của Hearthline đang kiểm tra giai đoạn này trước khi trả tiền.",
+      "disputed": "Chủ nhà đã mở tranh chấp. Người duyệt sẽ quyết định.",
+      "pending": "Hãy gửi các giai đoạn trước trước."
+    },
+    "projectStatus": {
+      "awaiting_plan": "Cần kế hoạch của quý vị",
+      "plan_submitted": "Đã gửi kế hoạch",
+      "active": "Đang thi công",
+      "completed": "Đã hoàn thành"
+    },
+    "escrowed": "Đang chờ trong ký quỹ",
+    "escrowHint": "Tiền của gia đình đã được để riêng",
+    "received": "Đã trả cho quý vị",
+    "planSent": "Gia đình đang xem kế hoạch của quý vị. Quý vị vẫn có thể sửa cho đến khi họ chấp nhận.",
+    "planIntro": "Chia công việc thành các giai đoạn mà gia đình có thể kiểm tra bằng ảnh. Mỗi giai đoạn được trả khi hoàn thành."
   }
 }

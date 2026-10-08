@@ -66,11 +66,21 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               <NavLink to="/registry" className={navClass}>
                 {t('nav.registry')}
               </NavLink>
+              <NavLink to="/rebuild" className={navClass}>
+                {t('nav.rebuild')}
+              </NavLink>
               <NavLink to="/money" className={navClass}>
                 {t('nav.money')}
               </NavLink>
               <NavLink to="/aid" className={navClass}>
                 {t('nav.aid')}
+              </NavLink>
+            </nav>
+          )}
+          {user?.role === 'contractor' && (
+            <nav className="flex gap-1">
+              <NavLink to="/contractor" className={navClass}>
+                {t('nav.projects')}
               </NavLink>
             </nav>
           )}

@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import ledger, review
+from app import audit, ledger, rebuild, review
 from app.db import SessionLocal
 from app.media import prepare_image
 from app.models import (
@@ -26,6 +26,7 @@ from app.models import (
     Household,
     Item,
     Media,
+    RebuildProject,
     Registry,
     RegistryItem,
     Role,
@@ -270,6 +271,8 @@ def seed_review_demo(db: Session) -> None:
     rng = random.Random(7)
 
     rivera = db.scalar(select(Household).where(Household.name == "Rivera household"))
+    for member in rivera.members:  # the Riveras signed up months before the fire (see their early scans)
+        member.created_at = now() - timedelta(days=90)
     rivera.payout_email = "elena.rivera@personal.example.com"
     rivera.residence_verified = True  # utility bill checked at the shelter (level 2: can receive cash aid)
     for n in (1, 2):
@@ -397,10 +400,159 @@ def seed_review_demo(db: Session) -> None:
     db.commit()
 
 
+# (title, what "done" looks like, amount, is deposit, start offset in days from today, length in days)
+RIVERA_REBUILD = [
+    ("Deposit", "Contract signed and permits filed.", "1000.00", True, -24, 3),
+    (
+        "Debris removal and demolition",
+        "Burned structure and ash hauled away, lot cleared down to the slab, debris dumpster removed.",
+        "6000.00",
+        False,
+        -18,
+        16,
+    ),
+    (
+        "Foundation repair",
+        "Cracked slab sections replaced; new anchor bolts set and inspected.",
+        "9000.00",
+        False,
+        1,
+        14,
+    ),
+    ("Framing", "Walls, roof trusses and sheathing up; framing inspection passed.", "12000.00", False, 16, 21),
+    ("Roofing", "Class A fire-rated roof installed with ember-resistant vents.", "9500.00", False, 38, 10),
+    (
+        "Electrical and plumbing rough-in",
+        "Wiring, panel and supply lines installed and passed rough-in inspection.",
+        "10500.00",
+        False,
+        49,
+        14,
+    ),
+]
+
+
+def _cleared_lot_picture() -> bytes:
+    """A generated 'cleared lot' site photo (placeholder until real demo photos are added)."""
+    img = Image.new("RGB", (800, 600), (178, 205, 228))  # sky
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 300, 800, 600], fill=(150, 120, 90))  # bare dirt
+    d.rectangle([180, 360, 620, 470], fill=(170, 170, 165))  # cleaned slab
+    d.rectangle([660, 330, 780, 400], fill=(40, 90, 60))  # dumpster
+    d.line([(0, 300), (800, 300)], fill=(90, 110, 80), width=6)  # tree line
+    buf = io.BytesIO()
+    img.save(buf, format="JPEG", quality=90)
+    return buf.getvalue()
+
+
+def seed_rebuild_demo(db: Session) -> None:
+    """Rivera's rebuild with Okafor Builders: deposit paid, demolition submitted and waiting for Elena."""
+    if db.scalar(select(RebuildProject.id).limit(1)) is not None:
+        return
+    rivera = db.scalar(select(Household).where(Household.name == "Rivera household"))
+    elena = db.scalar(select(User).where(User.name == "Elena Rivera"))
+    dana = db.scalar(select(User).where(User.name == "Dana Okafor"))
+    contractor = db.scalar(select(Contractor).where(Contractor.user_id == dana.id))
+
+    ledger.post(
+        db,
+        kind="insurance_payment",
+        description="Dwelling coverage advance (Golden Poppy Mutual, fictional)",
+        household_id=rivera.id,
+        paypal_ref="DEMO-INSURANCE-ADVANCE-1",
+        meta={"insurer": "Golden Poppy Mutual"},
+        lines={ledger.CASH: Decimal("60000.00"), ledger.household_fund(rivera.id): -Decimal("60000.00")},
+    )
+    project = RebuildProject(household_id=rivera.id, contractor_id=contractor.id, title="Rebuild 214 Juniper Lane")
+    db.add(project)
+    db.flush()
+    today = now().replace(hour=8, minute=0, second=0, microsecond=0)
+    plan = [
+        {
+            "title": title,
+            "done_looks_like": done,
+            "amount": Decimal(amount),
+            "is_deposit": deposit,
+            "start_date": today + timedelta(days=start),
+            "end_date": today + timedelta(days=start + length),
+        }
+        for title, done, amount, deposit, start, length in RIVERA_REBUILD
+    ]
+    rebuild.submit_plan(db, project, plan, dana)
+    rebuild.accept_plan(db, project, elena)
+
+    deposit, demolition = project.milestones[0], project.milestones[1]
+    # Recorded directly so start-up never sends a real payout; the live flow goes through rebuild.pay_milestone.
+    ledger.post(
+        db,
+        kind="milestone_payment",
+        description=f"{contractor.business_name}: {deposit.title}",
+        household_id=rivera.id,
+        paypal_ref="DEMO-MILESTONE-DEPOSIT",
+        meta={"project_id": project.id, "milestone_id": deposit.id},
+        lines={rebuild.escrow_account(project.id): deposit.amount, ledger.CASH: -deposit.amount},
+    )
+    deposit.status, deposit.paid_at, deposit.paypal_ref = "paid", today - timedelta(days=23), "DEMO-MILESTONE-DEPOSIT"
+    deposit.submitted_at = today - timedelta(days=24)
+    deposit.site_check = {
+        "verdict": "matches",
+        "confidence": 1.0,
+        "observations": ["Deposit: no work to photograph"],
+        "concerns": [],
+        "metadata_concerns": [],
+    }
+
+    img = prepare_image(_cleared_lot_picture())
+    photo = Media(
+        household_id=rivera.id,
+        content_type="image/jpeg",
+        data=img.jpeg,
+        width=img.width,
+        height=img.height,
+        sha256=img.sha256,
+        phash=img.phash,
+        captured_at=today - timedelta(days=1),
+        kind="site_photo",
+    )
+    db.add(photo)
+    db.flush()
+    demolition.photo_media_ids = [photo.id]
+    demolition.status, demolition.submitted_at = "submitted", today - timedelta(hours=20)
+    demolition.site_check = {
+        "verdict": "matches",
+        "confidence": 0.86,
+        "observations": [
+            "The lot is cleared down to a bare concrete slab",
+            "No ash or burned debris is visible",
+            "A roll-off dumpster is still on site at the right edge",
+        ],
+        "concerns": ["Ask when the dumpster will be picked up"],
+        "metadata_concerns": [],
+    }
+    audit.record(
+        db,
+        actor_user_id=dana.id,
+        action="milestone.submitted",
+        subject_type="milestone",
+        subject_id=demolition.id,
+        data={"verdict": "matches", "confidence": 0.86},
+    )
+    # A second family has invited Okafor Builders and is waiting for a plan.
+    haddad = db.scalar(select(Household).where(Household.name == "Haddad household"))
+    if haddad is not None:
+        db.add(
+            RebuildProject(
+                household_id=haddad.id, contractor_id=contractor.id, title="Repair the fire-damaged garage and roof"
+            )
+        )
+    db.commit()
+
+
 def main() -> None:
     with SessionLocal() as db:
         seed(db)
         seed_review_demo(db)
+        seed_rebuild_demo(db)
     print("Seeded the Sablewood demo scenario.")
 
 

@@ -67,6 +67,7 @@ class MilestoneOut(ORM):
     submitted_at: datetime | None
     paid_at: datetime | None
     photo_urls: list[str] = []
+    needs_human_review: bool = False  # what happens when the homeowner approves (rules live in app.rebuild)
 
 
 class ProjectOut(ORM):
@@ -81,12 +82,15 @@ class ProjectOut(ORM):
     milestones: list[MilestoneOut]
 
 
+def milestone_out(m: Milestone) -> MilestoneOut:
+    out = MilestoneOut.model_validate(m)
+    out.photo_urls = [media_url(mid) for mid in m.photo_media_ids]
+    out.needs_human_review = m.status == "submitted" and rebuild.needs_human_review(m)
+    return out
+
+
 def project_out(db: Session, p: RebuildProject) -> ProjectOut:
-    milestones = []
-    for m in p.milestones:
-        out = MilestoneOut.model_validate(m)
-        out.photo_urls = [media_url(mid) for mid in m.photo_media_ids]
-        milestones.append(out)
+    milestones = [milestone_out(m) for m in p.milestones]
     return ProjectOut(
         id=p.id,
         title=p.title,
@@ -219,22 +223,20 @@ async def submit_milestone(
         )
     db.add_all(media)
     db.flush()
-    out = MilestoneOut.model_validate(run(rebuild.submit_milestone, db, m, media, user))
-    out.photo_urls = [media_url(mid) for mid in m.photo_media_ids]
-    return out
+    return milestone_out(run(rebuild.submit_milestone, db, m, media, user))
 
 
 @router.post("/milestones/{milestone_id}/approve", response_model=MilestoneOut)
-def approve_milestone(milestone_id: int, home: MyHousehold, user: CurrentUser, db: DB) -> Milestone:
+def approve_milestone(milestone_id: int, home: MyHousehold, user: CurrentUser, db: DB) -> MilestoneOut:
     m = milestone_for(db, milestone_id, user)
     if m.project.household_id != home.id:
         raise HTTPException(404, "Milestone not found")
-    return run(rebuild.approve_milestone, db, m, user)
+    return milestone_out(run(rebuild.approve_milestone, db, m, user))
 
 
 @router.post("/milestones/{milestone_id}/dispute", response_model=MilestoneOut)
-def dispute_milestone(milestone_id: int, body: DisputeIn, home: MyHousehold, user: CurrentUser, db: DB) -> Milestone:
+def dispute_milestone(milestone_id: int, body: DisputeIn, home: MyHousehold, user: CurrentUser, db: DB) -> MilestoneOut:
     m = milestone_for(db, milestone_id, user)
     if m.project.household_id != home.id:
         raise HTTPException(404, "Milestone not found")
-    return run(rebuild.dispute_milestone, db, m, user, body.reason)
+    return milestone_out(run(rebuild.dispute_milestone, db, m, user, body.reason))

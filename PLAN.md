@@ -368,7 +368,10 @@ hearthline/
 - **Done when:** the scam-clone scenario is caught, rejected and refunded, and a real claim is approved and paid out. **Both verified in the browser (e2e/review_scam.py, e2e/cash_aid.py).**
 
 ### Week 4: Oct 26 – Nov 1: Rebuild and Command Center → **core feature-complete**
-- [ ] Contractor portal, Bryntum **Gantt** with milestones tied to escrow, deposit cap, Site agent photo check, Payouts, Disputes flow
+- [x] Contractor portal, Bryntum **Gantt** with milestones tied to escrow, deposit cap, Site agent photo check, Payouts, Disputes flow
+  - Stage 1 (backend): projects, plans with the California deposit cap, escrow in the ledger, milestone submission with the Site agent and photo-date checks, auto-pay only for clean milestones up to $10,000, everything else and every dispute goes to human review.
+  - Stage 2: household `/rebuild` page (invite a verified contractor, accept the plan into escrow, approve or dispute each milestone with its photos and photo check) and contractor `/contractor` portal (plan editor with a live deposit-cap check, submit work in order). Bryntum Gantt over CrudManager load/sync: read-only for the family; the contractor can drag milestones that haven't been submitted, and the server re-checks that. Reviewers see the milestone, photos and photo check on the case. Photo-check results are Sentinel flags, so a mismatch makes the case high risk with two reviewers. Start-up seed: a $60,000 insurance advance, the Rivera rebuild with Okafor Builders (deposit paid, demolition waiting for approval) and a Haddad project waiting for a plan.
+  - **Sandbox limit found:** the hackathon app's sandbox business account can't cover a $6,000 payout (`INSUFFICIENT_FUNDS`). The app now says so plainly and nothing moves. The account needs a larger balance before the demo.
 - [ ] Command Center: 2,000 seeded households (server-side AG Grid), **batch cash aid via Payouts** with two-person approval, Bryntum **Scheduler Pro** for crews and deliveries, "Ask the grid" (AI Toolkit)
 - [ ] **Nov 1: record a rough version of the video.** This is the fallback if week 5 goes badly.
 - **Done when:** the whole household story works end to end on the Render deployment.

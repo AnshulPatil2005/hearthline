@@ -20,7 +20,9 @@
     "review": "Casos por revisar",
     "calendar": "Llamadas",
     "board": "Flujo",
-    "aid": "Ayuda"
+    "aid": "Ayuda",
+    "rebuild": "Reconstruir",
+    "projects": "Proyectos"
   },
   "roles": {
     "household": "Hogar",
@@ -301,7 +303,12 @@
       "payout": "Pago",
       "refund": "Reembolso",
       "fee": "Comisión",
-      "adjustment": "Ajuste"
+      "adjustment": "Ajuste",
+      "cash_aid": "Ayuda en efectivo",
+      "escrow": "Pasado a depósito de garantía",
+      "escrow_release": "Devuelto del depósito de garantía",
+      "insurance_payment": "Pago del seguro",
+      "milestone_payment": "Pago al contratista"
     }
   },
   "review": {
@@ -330,7 +337,9 @@
     "kind": {
       "cash_aid": "Ayuda en efectivo",
       "registry_verification": "Lista nueva",
-      "contents_claim": "Reclamo de contenido"
+      "contents_claim": "Reclamo de contenido",
+      "milestone_payment": "Pago de etapa",
+      "contractor_dispute": "Disputa con contratista"
     },
     "status": {
       "in_review": "En revisión",
@@ -348,7 +357,12 @@
       "no_photo_metadata": "Fotos sin fecha",
       "price_outlier": "Precio muy por encima del mercado",
       "high_value_no_evidence": "Artículos caros sin evidencia",
-      "new_account_large_claim": "Cuenta nueva, reclamo grande"
+      "new_account_large_claim": "Cuenta nueva, reclamo grande",
+      "site_photos_mismatch": "Las fotos no muestran el trabajo",
+      "site_photos_partial": "El trabajo parece a medias",
+      "site_photos_unchecked": "Fotos sin revisar",
+      "site_photos_low_confidence": "Revisión de fotos dudosa",
+      "site_photo_dates": "Las fechas de las fotos no cuadran"
     },
     "yes": "Sí",
     "no": "No",
@@ -404,7 +418,8 @@
     },
     "needsLevel2": "La ayuda en efectivo requiere el nivel 2 de verificación. Pide un comprobante de domicilio o que un trabajador social que no revise este caso responda por el hogar.",
     "vouchPlaceholder": "¿Cómo sabes que esta familia vive aquí?",
-    "vouchButton": "Responder por este hogar"
+    "vouchButton": "Responder por este hogar",
+    "milestoneTitle": "Etapa {{seq}}: {{title}}"
   },
   "calendar": {
     "title": "Videollamadas",
@@ -462,5 +477,113 @@
     "videoNeeded": "Esta solicitud necesita una breve videollamada. Un revisor acordará una hora contigo.",
     "replyPlaceholder": "Tu respuesta",
     "sendReply": "Enviar respuesta"
+  },
+  "rebuild": {
+    "title": "Reconstruir",
+    "subtitle": "Contrate a un contratista con licencia y pague a medida que avanza la obra. El dinero espera en un depósito de garantía y no se paga nada sin su aprobación.",
+    "defaultTitle": "Reconstruir nuestra casa",
+    "startTitle": "Invitar a un contratista",
+    "startBody": "Hearthline verificó la licencia de estos contratistas. El que invite enviará un plan por etapas; usted decide si lo acepta.",
+    "projectTitle": "Qué hay que construir",
+    "invite": "Invitar a enviar un plan",
+    "license": "Licencia de {{state}} n.º {{number}}",
+    "licenseNo": "Licencia n.º {{number}}",
+    "verified": "verificada",
+    "deposit": "Anticipo",
+    "doneLooksLike": "Terminado se ve así",
+    "willReview": "Al aprobar, un revisor de Hearthline lo revisará antes del pago, por el monto o por lo que encontró la revisión de fotos.",
+    "willPay": "Las fotos están bien. Al aprobar, se pagan {{amount}} al contratista por PayPal de inmediato.",
+    "approveToReview": "Aprobar y enviar a un revisor",
+    "approveAndPay": "Aprobar y pagar",
+    "dispute": "Algo está mal",
+    "disputePlaceholder": "Cuéntele al revisor qué no está terminado o no está bien.",
+    "sendDispute": "Abrir una disputa",
+    "explain": {
+      "pending": "Aún no empieza. El contratista enviará fotos cuando termine.",
+      "under_review": "Un revisor de Hearthline lo está revisando antes de pagar al contratista.",
+      "disputed": "Un revisor está viendo su disputa. El dinero sigue en garantía hasta que se resuelva.",
+      "refunded": "El revisor le dio la razón. Este dinero volvió a su fondo."
+    },
+    "paidOn": "Pagado el {{date}}",
+    "projectStatus": {
+      "awaiting_plan": "Esperando un plan",
+      "plan_submitted": "Plan por revisar",
+      "active": "En curso",
+      "completed": "Terminado"
+    },
+    "price": "Precio del contrato",
+    "inEscrow": "En depósito de garantía",
+    "escrowHint": "Se libera etapa por etapa",
+    "paidOut": "Pagado al contratista",
+    "awaitingPlan": "{{name}} está preparando un plan con etapas, fechas y precios.",
+    "reviewPlan": "{{name}} envió un plan. Revise las etapas abajo.",
+    "acceptExplain": "Al aceptar, el precio total pasa de su fondo al depósito de garantía. California limita el anticipo a {{cap}} para este precio, y cada pago espera su aprobación.",
+    "accept": "Aceptar y guardar {{amount}} en garantía",
+    "status": {
+      "pending": "Sin empezar",
+      "submitted": "Lista para su aprobación",
+      "under_review": "Con un revisor",
+      "paid": "Pagada",
+      "disputed": "En disputa",
+      "refunded": "Reembolsada"
+    },
+    "siteCheck": {
+      "title": "Revisión de fotos",
+      "confidence": "{{value}} % de certeza",
+      "concerns": "Vale la pena preguntar",
+      "verdict": {
+        "matches": "Coincide con la etapa",
+        "partial": "Parcialmente hecha",
+        "does_not_match": "No coincide",
+        "unchecked": "Sin revisar"
+      }
+    },
+    "gantt": {
+      "milestone": "Etapa",
+      "start": "Inicio",
+      "end": "Fin",
+      "editHint": "Arrastre una etapa que no haya empezado para moverla. El trabajo enviado o terminado no se mueve.",
+      "viewHint": "Su contratista mantiene este calendario al día. Verde está pagado; naranja espera por usted o por un revisor."
+    }
+  },
+  "contractor": {
+    "title": "Sus proyectos",
+    "subtitle": "Familias que lo invitaron a reconstruir. Envíe un plan, suba fotos al terminar cada etapa y reciba el pago por PayPal.",
+    "empty": "Cuando una familia lo invite a enviar un plan, su proyecto aparecerá aquí.",
+    "template": {
+      "deposit": "Anticipo",
+      "demolition": "Retiro de escombros y demolición",
+      "repair": "Reparación"
+    },
+    "milestoneTitle": "Etapa",
+    "donePlaceholder": "Cómo se verá el trabajo terminado en las fotos",
+    "amount": "Monto",
+    "removeRow": "Quitar etapa",
+    "addRow": "Agregar una etapa",
+    "total": "Total",
+    "depositCap": "Límite del anticipo: {{cap}} (California: 10 % o $1,000, lo que sea menor)",
+    "send": "Enviar el plan a la familia",
+    "resend": "Enviar el plan revisado",
+    "photos": "Fotos del trabajo terminado",
+    "checking": "Revisando las fotos…",
+    "requestDeposit": "Solicitar el anticipo",
+    "submitWork": "Enviar para aprobación",
+    "explain": {
+      "submitted": "Esperando la aprobación del propietario.",
+      "under_review": "Un revisor de Hearthline está revisando esta etapa antes del pago.",
+      "disputed": "El propietario abrió una disputa. Un revisor decidirá.",
+      "pending": "Envíe primero las etapas anteriores."
+    },
+    "projectStatus": {
+      "awaiting_plan": "Falta su plan",
+      "plan_submitted": "Plan enviado",
+      "active": "En curso",
+      "completed": "Terminado"
+    },
+    "escrowed": "Esperando en garantía",
+    "escrowHint": "El dinero de la familia ya está apartado",
+    "received": "Pagado a usted",
+    "planSent": "La familia está revisando su plan. Puede cambiarlo hasta que lo acepten.",
+    "planIntro": "Divida el trabajo en etapas que la familia pueda verificar con fotos. Cada una se paga al terminarla."
   }
 }

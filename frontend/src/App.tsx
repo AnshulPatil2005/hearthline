@@ -2,10 +2,12 @@ import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Aid from './pages/Aid'
 import ComingSoon from './pages/ComingSoon'
+import ContractorPortal from './pages/ContractorPortal'
 import HouseholdHome from './pages/HouseholdHome'
 import Inventory from './pages/Inventory'
 import Login from './pages/Login'
 import Money from './pages/Money'
+import Rebuild from './pages/Rebuild'
 import RegistryManage from './pages/RegistryManage'
 import RegistryPublic from './pages/RegistryPublic'
 import ReviewCase from './pages/ReviewCase'
@@ -52,6 +54,22 @@ export default function App() {
         element={
           <RequireAuth role="household">
             <Aid />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/rebuild"
+        element={
+          <RequireAuth role="household" wide>
+            <Rebuild />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/contractor"
+        element={
+          <RequireAuth role="contractor" wide>
+            <ContractorPortal />
           </RequireAuth>
         }
       />
