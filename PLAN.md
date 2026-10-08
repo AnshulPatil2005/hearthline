@@ -381,7 +381,7 @@ hearthline/
 - **Done when:** the whole household story works end to end on the Render deployment.
 
 ### Week 5: Nov 2 – Nov 8: additions, API and polish
-- [x] **Reopen Fund** (Subscriptions for regulars still to do; verification, tranches and refunds are staff-approved in the Command Center):
+- [x] **Reopen Fund** (verification, tranches and refunds are staff-approved in the Command Center; regulars pay monthly through PayPal Subscriptions, live-verified up to the approval page):
   - business verification
   - gift-card pre-sales (Orders, Venmo, Pay Later)
   - Subscriptions for regulars

@@ -819,6 +819,13 @@
       "scan": "扫描二维码",
       "stopScan": "停止扫描",
       "noCamera": "无法使用摄像头，请手动输入代码。"
+    },
+    "regular": {
+      "title": "成为常客",
+      "body": "在 {{name}} 歇业期间，每月支付 {{monthly}}，共 {{months}} 个月。每次付款都会在您的礼品卡上增加 {{worth}}。可随时在 PayPal 中取消。",
+      "count_other": "目前已有 {{count}} 位常客",
+      "start": "通过 PayPal 订阅",
+      "going": "正在打开 PayPal…"
     }
   },
   "business": {
@@ -986,7 +993,8 @@
     "finishing": "正在通过 PayPal 完成付款…",
     "thanks": "谢谢！您的捐赠已完成。",
     "donationBody": "这个家庭的清单已更新。物品筹满后，Hearthline 的 Shopper 会购买并寄给他们。",
-    "cardReady": "您的礼品卡已准备好"
+    "cardReady": "您的礼品卡已准备好",
+    "regularReady": "您已成为常客！每月都会充值到这张卡"
   },
   "giving": {
     "title": "您的捐赠",

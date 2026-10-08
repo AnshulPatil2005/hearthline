@@ -681,6 +681,10 @@ class ReopenCampaign(Base):
     # live | reopened | refunded | closed
     status: Mapped[str] = mapped_column(String(20), default="live")
     raised: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    # "Regulars" pre-pay monthly (PayPal Subscriptions); each payment adds to their gift card.
+    regular_monthly: Mapped[Decimal] = mapped_column(Money, default=Decimal("20.00"), server_default="20.00")
+    regular_months: Mapped[int] = mapped_column(default=6, server_default="6")
+    paypal_plan_id: Mapped[str | None] = mapped_column(String(64))
     created_at: Mapped[datetime] = mapped_column(default=now)
     reopened_at: Mapped[datetime | None]
     refunded_at: Mapped[datetime | None]
@@ -735,6 +739,7 @@ class GiftCard(Base):
 
     campaign: Mapped[ReopenCampaign] = relationship(back_populates="cards")
     redemptions: Mapped[list["GiftCardRedemption"]] = relationship(back_populates="card")
+    payments: Mapped[list["GiftCardPayment"]] = relationship(order_by="GiftCardPayment.id")
 
 
 class GiftCardRedemption(Base):
@@ -799,3 +804,37 @@ class InsurancePolicy(Base):
     summary: Mapped[dict | None] = mapped_column(JSON)
     error: Mapped[str | None] = mapped_column(String(300))
     created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class GiftCardPayment(Base):
+    """One payment that added value to a card: a regular's monthly subscription payment (a PayPal sale)."""
+
+    __tablename__ = "gift_card_payments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    gift_card_id: Mapped[int] = mapped_column(ForeignKey("gift_cards.id", ondelete="CASCADE"), index=True)
+    paypal_sale_id: Mapped[str] = mapped_column(String(64), unique=True)
+    amount: Mapped[Decimal] = mapped_column(Money)
+    fee: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    refunded_amount: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class ReopenRegular(Base):
+    """A customer who pre-pays a closed business every month through a PayPal subscription."""
+
+    __tablename__ = "reopen_regulars"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    campaign_id: Mapped[int] = mapped_column(ForeignKey("reopen_campaigns.id", ondelete="CASCADE"), index=True)
+    gift_card_id: Mapped[int] = mapped_column(ForeignKey("gift_cards.id", ondelete="CASCADE"))
+    buyer_name: Mapped[str | None] = mapped_column(String(120))
+    buyer_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    paypal_subscription_id: Mapped[str | None] = mapped_column(String(64), unique=True)
+    # pending (waiting for approval) | active | cancelled | expired
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    activated_at: Mapped[datetime | None]
+
+    card: Mapped[GiftCard] = relationship()
+    campaign: Mapped[ReopenCampaign] = relationship()

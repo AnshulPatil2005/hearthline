@@ -227,3 +227,90 @@ def test_reopening_plan_gantt(luis, paypal):
         == 403
     )
     assert client.post("/bryntum/reopen/morenos-bakery/sync", headers=luis, json=move).json()["success"] is True
+
+
+@pytest.fixture
+def subs(monkeypatch):
+    """Fake PayPal Subscriptions: plans, subscriptions, status, payments, cancellations and sale refunds."""
+    from app.paypal import subscriptions
+
+    calls = {"plans": [], "subs": [], "cancelled": [], "refunds": [], "status": "APPROVAL_PENDING", "payments": []}
+
+    def create_plan(*, name, description, amount, months, request_id):
+        calls["plans"].append((name, amount, months))
+        return f"P-{len(calls['plans'])}"
+
+    def subscribe(*, plan_id, custom_id, brand, return_url, cancel_url):
+        calls["subs"].append((plan_id, custom_id, return_url))
+        n = len(calls["subs"])
+        return subscriptions.NewSubscription(
+            id=f"I-SUB{n}", approval_url=f"https://www.sandbox.paypal.com/approve/{n}", status="APPROVAL_PENDING"
+        )
+
+    monkeypatch.setattr(subscriptions, "create_plan", create_plan)
+    monkeypatch.setattr(subscriptions, "subscribe", subscribe)
+    monkeypatch.setattr(subscriptions, "status", lambda sid: calls["status"])
+    monkeypatch.setattr(subscriptions, "payments", lambda sid: calls["payments"])
+    monkeypatch.setattr(subscriptions, "cancel", lambda sid, reason: calls["cancelled"].append(sid))
+    monkeypatch.setattr(
+        subscriptions, "refund_sale", lambda sale, amount: calls["refunds"].append((sale, amount)) or "completed"
+    )
+    return calls
+
+
+def sale(event_id: str, sale_id: str, sub_id: str, amount: str = "20.00") -> dict:
+    return {
+        "id": event_id,
+        "event_type": "PAYMENT.SALE.COMPLETED",
+        "resource": {
+            "id": sale_id,
+            "billing_agreement_id": sub_id,
+            "amount": {"total": amount},
+            "transaction_fee": {"value": "1.19"},
+        },
+    }
+
+
+def test_regulars_prepay_monthly_and_each_payment_tops_up_their_card(luis, paypal, subs):
+    live_campaign(luis)
+    first = client.post("/reopen/morenos-bakery/regulars", json={"buyer_name": "Ana"}).json()
+    second = client.post("/reopen/morenos-bakery/regulars", json={"buyer_name": "Bo"}).json()
+    assert first["approval_url"].startswith("https://www.sandbox.paypal.com/") and len(subs["plans"]) == 1  # one plan
+    assert subs["plans"][0] == ("Moreno's Bakery regulars", D("20.00"), 6)
+    assert subs["subs"][0][2].endswith(f"/paid?kind=regular&id={first['regular_id']}")
+    with SessionLocal() as db:
+        for event in (
+            sale("WH-S1", "SALE-1", "I-SUB1"),
+            sale("WH-S2", "SALE-2", "I-SUB1"),
+            sale("WH-S1b", "SALE-1", "I-SUB1"),
+        ):
+            handle(db, event, verified=True)  # the third repeats the first sale: counted once
+    card = client.post(f"/regulars/{first['regular_id']}/sync").json()
+    assert card["status"] == "active" and card["payments"] == 2
+    assert card["card"]["face_value"] == "48.00" and card["card"]["balance"] == "48.00"  # 2 x $20 + 20% bonus
+    page = client.get("/reopen/morenos-bakery").json()["campaign"]
+    assert page["raised"] == "40.00" and page["regulars"] == 1 and page["regular_monthly"] == "20.00"
+    subs["status"], subs["payments"] = "ACTIVE", [("SALE-9", D("20.00"), D("1.19"))]
+    synced = client.post(f"/regulars/{second['regular_id']}/sync").json()  # the return page after approval
+    assert synced["status"] == "active" and synced["card"]["balance"] == "24.00"
+
+
+def test_missing_the_deadline_cancels_regulars_and_refunds_their_payments(luis, paypal, subs):
+    live_campaign(luis)
+    regular = client.post("/reopen/morenos-bakery/regulars", json={"buyer_name": "Ana"}).json()
+    with SessionLocal() as db:
+        handle(db, sale("WH-1", "SALE-1", "I-SUB1"), verified=True)
+        handle(db, sale("WH-2", "SALE-2", "I-SUB1"), verified=True)
+    buy("60")  # an ordinary card too
+    with SessionLocal() as db:
+        c = db.query(ReopenCampaign).one()
+        c.reopen_by = datetime.now(UTC) - timedelta(days=1)
+        db.commit()
+    client.post("/command/reopen/deadlines", headers=login_as("Sam Whitfield"))
+    assert subs["cancelled"] == ["I-SUB1"]
+    assert subs["refunds"] == [
+        ("SALE-2", D("20.00")),
+        ("SALE-1", D("20.00")),
+    ]  # newest first, all of it (nothing released)
+    card = client.post(f"/regulars/{regular['regular_id']}/sync").json()
+    assert card["card"]["status"] == "refunded" and card["card"]["refunded_amount"] == "40.00"

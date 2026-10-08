@@ -17,13 +17,24 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import audit, ledger
-from app.models import Business, GiftCard, GiftCardRedemption, ReopenCampaign, ReopenTranche, User, now
-from app.paypal import orders, payouts
+from app.models import (
+    Business,
+    GiftCard,
+    GiftCardPayment,
+    GiftCardRedemption,
+    ReopenCampaign,
+    ReopenRegular,
+    ReopenTranche,
+    User,
+    now,
+)
+from app.paypal import orders, payouts, subscriptions
 from app.paypal.orders import Capture
 from app.paypal.rest import PayPalError
 from app.paypal.webhooks import on
 
 CUSTOM_ID_PREFIX = "giftcard:"
+REGULAR_PREFIX = "regular:"
 MAX_BONUS_PERCENT = 25
 CARD_MIN, CARD_MAX = Decimal("10"), Decimal("500")
 CODE_LETTERS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no 0/O or 1/I: codes are read aloud and typed
@@ -343,9 +354,31 @@ def _shares(total: Decimal, weights: list[Decimal]) -> list[Decimal]:
     return shares
 
 
+def _refund_sales(card: GiftCard, share: Decimal) -> None:
+    """Spread a regular's refund over their monthly payments, newest first."""
+    left = share
+    for payment in reversed(card.payments):
+        amount = min(left, payment.amount - payment.refunded_amount)
+        if amount <= 0:
+            continue
+        if not payment.paypal_sale_id.startswith("DEMO-"):
+            subscriptions.refund_sale(payment.paypal_sale_id, amount)
+        payment.refunded_amount += amount
+        left -= amount
+        if left <= 0:
+            return
+
+
 def refund_campaign(db: Session, campaign: ReopenCampaign, reason: str, actor: User | None = None) -> int:
     """Return what's left in escrow to buyers, in proportion to what they paid. Returns cards refunded."""
-    cards = [c for c in campaign.cards if c.status == "active"]
+    for regular in db.scalars(select(ReopenRegular).where(ReopenRegular.campaign_id == campaign.id)):
+        if regular.status == "active" and regular.paypal_subscription_id:
+            try:
+                subscriptions.cancel(regular.paypal_subscription_id, f"{campaign.business.name} did not reopen in time")
+            except PayPalError:
+                continue  # tried again at the next deadline check
+            regular.status = "cancelled"
+    cards = [c for c in campaign.cards if c.status == "active" and c.amount_paid > 0]
     held = escrow_balance(db, campaign.id)
     refunded = 0
     for card, share in zip(
@@ -353,7 +386,12 @@ def refund_campaign(db: Session, campaign: ReopenCampaign, reason: str, actor: U
         _shares(min(held, sum((c.amount_paid for c in cards), Decimal(0))), [c.amount_paid for c in cards]),
         strict=True,
     ):
-        if share > 0 and card.paypal_capture_id and not card.paypal_capture_id.startswith("DEMO-"):
+        if share > 0 and card.payments:  # a regular: refund across their monthly payments
+            try:
+                _refund_sales(card, share)
+            except PayPalError:
+                continue
+        elif share > 0 and card.paypal_capture_id and not card.paypal_capture_id.startswith("DEMO-"):
             try:
                 orders.refund_capture(card.paypal_capture_id, None if share >= card.amount_paid else share)
             except ErrorException:
@@ -394,3 +432,134 @@ def run_deadlines(db: Session, actor: User | None = None) -> list[int]:
     for campaign in overdue:
         refund_campaign(db, campaign, f"Not reopened by {_aware(campaign.reopen_by):%b %d, %Y}", actor)
     return [c.id for c in overdue]
+
+
+# --- Regulars: monthly pre-payments through PayPal Subscriptions ------------------------------------
+
+
+def start_regular(
+    db: Session, campaign: ReopenCampaign, buyer_name: str | None, buyer: User | None, return_url: str
+) -> tuple[ReopenRegular, str | None]:
+    """A pending regular with an empty card, and the PayPal link where the person approves the subscription."""
+    if campaign.status != "live" or now() >= _aware(campaign.reopen_by):
+        raise ReopenError("This Reopen Fund is not taking new regulars right now")
+    business = campaign.business
+    card = GiftCard(
+        campaign_id=campaign.id,
+        code=new_code(business),
+        buyer_name=(buyer_name or "").strip()[:120] or None,
+        buyer_user_id=buyer.id if buyer else None,
+        amount_paid=Decimal(0),
+        face_value=Decimal(0),
+        payment_method="paypal",
+    )
+    db.add(card)
+    db.flush()
+    regular = ReopenRegular(
+        campaign_id=campaign.id, gift_card_id=card.id, buyer_name=card.buyer_name, buyer_user_id=card.buyer_user_id
+    )
+    db.add(regular)
+    db.flush()
+    try:
+        if campaign.paypal_plan_id is None:
+            campaign.paypal_plan_id = subscriptions.create_plan(
+                name=f"{business.name} regulars",
+                description=f"Hearthline Reopen Fund: ${campaign.regular_monthly:.0f} a month for "
+                f"{campaign.regular_months} months, added to your gift card",
+                amount=campaign.regular_monthly,
+                months=campaign.regular_months,
+                request_id=f"reopen-plan-{campaign.id}",
+            )
+        back = f"{return_url}?kind=regular&id={regular.id}"
+        sub = subscriptions.subscribe(
+            plan_id=campaign.paypal_plan_id,
+            custom_id=f"{REGULAR_PREFIX}{regular.id}",
+            brand="Hearthline",
+            return_url=back,
+            cancel_url=back + "&cancelled=1",
+        )
+    except PayPalError as e:
+        db.rollback()
+        raise ReopenError(f"PayPal could not start the subscription ({e.status}). Try again in a moment.") from e
+    regular.paypal_subscription_id = sub.id
+    db.commit()
+    return regular, sub.approval_url
+
+
+def record_payment(db: Session, regular: ReopenRegular, sale_id: str, gross: Decimal, fee: Decimal) -> bool:
+    """One monthly payment: it goes into escrow and its value (with the bonus) onto the card. Safe twice."""
+    if db.scalar(select(GiftCardPayment.id).where(GiftCardPayment.paypal_sale_id == sale_id)):
+        return False
+    card, campaign = regular.card, regular.campaign
+    value = (gross * (100 + campaign.bonus_percent) / 100).quantize(CENT)
+    card.payments.append(GiftCardPayment(paypal_sale_id=sale_id, amount=gross, fee=fee))
+    card.amount_paid += gross
+    card.face_value += value
+    card.balance += value
+    card.status, card.activated_at = "active", card.activated_at or now()
+    campaign.raised += gross
+    ledger.post(
+        db,
+        kind="gift_card",
+        description=f"Regular's monthly payment to {campaign.business.name}",
+        paypal_ref=sale_id,
+        meta={"gift_card_id": card.id, "campaign_id": campaign.id, "regular_id": regular.id},
+        lines={ledger.CASH: gross - fee, ledger.FEES: fee, escrow_account(campaign.id): -gross},
+    )
+    audit.record(
+        db,
+        actor_user_id=regular.buyer_user_id,
+        action="reopen.regular_paid",
+        subject_type="gift_card",
+        subject_id=card.id,
+        data={"sale_id": sale_id, "amount": gross},
+    )
+    db.commit()
+    return True
+
+
+def sync_regular(db: Session, regular: ReopenRegular) -> ReopenRegular:
+    """Ask PayPal where the subscription stands and record payments we have not seen (webhooks also do)."""
+    if not regular.paypal_subscription_id:
+        return regular
+    try:
+        state = subscriptions.status(regular.paypal_subscription_id)
+        payments = subscriptions.payments(regular.paypal_subscription_id)
+    except PayPalError as e:
+        raise ReopenError(f"PayPal could not report on the subscription ({e.status})") from e
+    if state in {"ACTIVE", "APPROVED"} and regular.status == "pending":
+        regular.status, regular.activated_at = "active", now()
+    elif state in {"CANCELLED", "EXPIRED", "SUSPENDED"}:
+        regular.status = state.lower()
+    db.commit()
+    for sale_id, gross, fee in payments:
+        record_payment(db, regular, sale_id, gross, fee)
+    return regular
+
+
+@on("PAYMENT.SALE.COMPLETED")
+def on_sale_completed(db: Session, resource: dict) -> None:
+    subscription_id = resource.get("billing_agreement_id")
+    regular = db.scalar(select(ReopenRegular).where(ReopenRegular.paypal_subscription_id == subscription_id))
+    if regular is None:
+        return
+    if regular.status == "pending":
+        regular.status, regular.activated_at = "active", now()
+    record_payment(
+        db,
+        regular,
+        resource["id"],
+        Decimal(resource["amount"]["total"]),
+        Decimal(resource.get("transaction_fee", {}).get("value", "0")),
+    )
+
+
+def _on_subscription_ended(db: Session, resource: dict) -> None:
+    regular = db.scalar(select(ReopenRegular).where(ReopenRegular.paypal_subscription_id == resource.get("id")))
+    if regular is not None:
+        regular.status = resource.get("status", "CANCELLED").lower()
+        db.commit()
+
+
+for _event in ("BILLING.SUBSCRIPTION.CANCELLED", "BILLING.SUBSCRIPTION.EXPIRED", "BILLING.SUBSCRIPTION.SUSPENDED"):
+    on(_event)(_on_subscription_ended)

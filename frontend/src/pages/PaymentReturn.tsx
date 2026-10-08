@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link, useSearchParams } from 'react-router'
-import { api, ApiError, type GiftCardInfo } from '../api'
+import { api, ApiError, type GiftCardInfo, type RegularInfo } from '../api'
 import { GiftCardQr } from '../components/GiftCardQr'
 import { PublicFrame } from '../components/PublicFrame'
 import { money } from '../format'
@@ -18,17 +18,24 @@ export default function PaymentReturn() {
   const kind = params.get('kind')
   const id = params.get('id')
   const cancelled = params.get('cancelled') === '1'
-  const capture = useQuery<GiftCardInfo | DonationDone>({
+  const capture = useQuery<GiftCardInfo | DonationDone | RegularInfo>({
     queryKey: ['paid', kind, id],
-    enabled: !cancelled && !!id && (kind === 'donation' || kind === 'gift_card'),
+    enabled: !cancelled && !!id && (kind === 'donation' || kind === 'gift_card' || kind === 'regular'),
     retry: false,
     staleTime: Infinity, // capture once per visit
     queryFn: () =>
       kind === 'gift_card'
         ? api<GiftCardInfo>(`/gift-cards/${id}/capture`, { method: 'POST' })
-        : api<DonationDone>(`/donations/${id}/capture`, { method: 'POST' }),
+        : kind === 'regular'
+          ? api<RegularInfo>(`/regulars/${id}/sync`, { method: 'POST' })
+          : api<DonationDone>(`/donations/${id}/capture`, { method: 'POST' }),
   })
-  const card = kind === 'gift_card' ? (capture.data as GiftCardInfo | undefined) : undefined
+  const card =
+    kind === 'gift_card'
+      ? (capture.data as GiftCardInfo | undefined)
+      : kind === 'regular'
+        ? (capture.data as RegularInfo | undefined)?.card
+        : undefined
 
   return (
     <PublicFrame>
@@ -46,7 +53,7 @@ export default function PaymentReturn() {
         )}
         {card && (
           <>
-            <p className="text-2xl font-semibold text-sage">{t('paid.cardReady')}</p>
+            <p className="text-2xl font-semibold text-sage">{kind === 'regular' ? t('paid.regularReady') : t('paid.cardReady')}</p>
             <div className="mt-4 flex justify-center">
               <GiftCardQr code={card.code} />
             </div>

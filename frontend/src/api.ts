@@ -433,6 +433,9 @@ export type ReopenCampaign = {
   reopened_at: string | null
   refunded_at: string | null
   tranches: Tranche[]
+  regular_monthly: string
+  regular_months: number
+  regulars: number
 }
 
 export type BusinessInfo = {
@@ -568,3 +571,5 @@ export type ClaimCheck = {
 }
 export type PolicyInfo = { filename: string; uploaded_at: string; summary: PolicyRead; check: ClaimCheck }
 export type PolicyAnswer = { answer: string; quote: string | null; in_policy: boolean }
+
+export type RegularInfo = { id: number; status: string; payments: number; card: GiftCardInfo }

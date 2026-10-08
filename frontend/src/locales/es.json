@@ -831,6 +831,14 @@
       "scan": "Escanear código QR",
       "stopScan": "Dejar de escanear",
       "noCamera": "La cámara no está disponible. Escriba el código."
+    },
+    "regular": {
+      "title": "Hágase cliente fiel",
+      "body": "Pague {{monthly}} al mes durante {{months}} meses mientras {{name}} está cerrado. Cada pago suma {{worth}} a su tarjeta de regalo. Cancele cuando quiera en PayPal.",
+      "count_one": "{{count}} cliente fiel hasta ahora",
+      "count_other": "{{count}} clientes fieles hasta ahora",
+      "start": "Suscribirse con PayPal",
+      "going": "Abriendo PayPal…"
     }
   },
   "business": {
@@ -1001,7 +1009,8 @@
     "finishing": "Completando su pago con PayPal…",
     "thanks": "¡Gracias! Su donación se realizó.",
     "donationBody": "La lista de la familia está actualizada. Cuando un artículo se financia por completo, el Shopper de Hearthline lo compra y se lo envía.",
-    "cardReady": "Su tarjeta de regalo está lista"
+    "cardReady": "Su tarjeta de regalo está lista",
+    "regularReady": "¡Ya es cliente fiel! Cada mes se suma a esta tarjeta"
   },
   "giving": {
     "title": "Sus donaciones",

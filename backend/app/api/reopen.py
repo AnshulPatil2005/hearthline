@@ -9,14 +9,15 @@ from typing import Annotated, Literal
 from fastapi import APIRouter, Body, Depends, HTTPException
 from paypalserversdk.exceptions.error_exception import ErrorException
 from pydantic import BaseModel, Field
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app import audit, reopen
 from app.api.registry import paypal_reason
 from app.auth import OptionalUser, require_role
+from app.config import get_settings
 from app.db import get_db
-from app.models import Business, GiftCard, ReopenCampaign, ReopenTranche, Role, User
+from app.models import Business, GiftCard, ReopenCampaign, ReopenRegular, ReopenTranche, Role, User
 from app.paypal import orders
 from app.schemas import Money
 
@@ -63,6 +64,9 @@ class CampaignOut(BaseModel):
     reopened_at: datetime | None
     refunded_at: datetime | None
     tranches: list[TrancheOut]
+    regular_monthly: Money
+    regular_months: int
+    regulars: int
 
 
 class BusinessOut(BaseModel):
@@ -123,6 +127,13 @@ def campaign_out(db: Session, c: ReopenCampaign) -> CampaignOut:
         reopened_at=c.reopened_at,
         refunded_at=c.refunded_at,
         tranches=[TrancheOut.model_validate(t, from_attributes=True) for t in c.tranches],
+        regular_monthly=c.regular_monthly,
+        regular_months=c.regular_months,
+        regulars=db.scalar(
+            select(func.count(ReopenRegular.id)).where(
+                ReopenRegular.campaign_id == c.id, ReopenRegular.status == "active"
+            )
+        ),
     )
 
 
@@ -226,6 +237,45 @@ def capture_card(card_id: int, db: DB) -> CardOut:
         if capture.status != "COMPLETED":
             raise HTTPException(402, f"Payment is {capture.status.lower()}; the card activates when PayPal confirms it")
     return card_out(card)
+
+
+class RegularIn(BaseModel):
+    buyer_name: str | None = Field(default=None, max_length=120)
+
+
+class RegularStarted(BaseModel):
+    regular_id: int
+    approval_url: str | None
+
+
+class RegularOut(BaseModel):
+    id: int
+    status: str
+    payments: int
+    card: CardOut
+
+
+@router.post("/reopen/{slug}/regulars", response_model=RegularStarted, status_code=201)
+def become_regular(slug: str, body: RegularIn, buyer: OptionalUser, db: DB) -> RegularStarted:
+    """Monthly pre-payment through a PayPal subscription; the person approves it at `approval_url`."""
+    b = business_by_slug(db, slug)
+    campaign = reopen.current_campaign(b)
+    if campaign is None:
+        raise HTTPException(409, "This Reopen Fund is not taking new regulars right now")
+    regular, link = run(reopen.start_regular, db, campaign, body.buyer_name, buyer, f"{get_settings().web_url}/paid")
+    return RegularStarted(regular_id=regular.id, approval_url=link)
+
+
+@router.post("/regulars/{regular_id}/sync", response_model=RegularOut)
+def sync_regular(regular_id: int, db: DB) -> RegularOut:
+    """After approval (PayPal's return page) or any time: the subscription's status and payments so far."""
+    regular = db.get(ReopenRegular, regular_id)
+    if regular is None:
+        raise HTTPException(404, "Not found")
+    run(reopen.sync_regular, db, regular)
+    return RegularOut(
+        id=regular.id, status=regular.status, payments=len(regular.card.payments), card=card_out(regular.card)
+    )
 
 
 @router.get("/gift-cards/{code}", response_model=CardOut)

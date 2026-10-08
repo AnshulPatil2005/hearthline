@@ -831,6 +831,14 @@
       "scan": "I-scan ang QR code",
       "stopScan": "Itigil ang pag-scan",
       "noCamera": "Hindi magamit ang camera. I-type na lang ang code."
+    },
+    "regular": {
+      "title": "Maging suki",
+      "body": "Magbayad ng {{monthly}} bawat buwan sa loob ng {{months}} buwan habang sarado ang {{name}}. Bawat bayad ay nagdaragdag ng {{worth}} sa inyong gift card. Kanselahin kahit kailan sa PayPal.",
+      "count_one": "{{count}} suki na sa ngayon",
+      "count_other": "{{count}} suki na sa ngayon",
+      "start": "Mag-subscribe gamit ang PayPal",
+      "going": "Binubuksan ang PayPal…"
     }
   },
   "business": {
@@ -1001,7 +1009,8 @@
     "finishing": "Tinatapos ang inyong bayad sa PayPal…",
     "thanks": "Salamat! Natuloy ang inyong regalo.",
     "donationBody": "Na-update ang listahan ng pamilya. Kapag buo nang napondohan ang isang item, bibilhin ito ng Shopper ng Hearthline at ipapadala sa kanila.",
-    "cardReady": "Handa na ang inyong gift card"
+    "cardReady": "Handa na ang inyong gift card",
+    "regularReady": "Suki na kayo! Bawat buwan ay nadaragdag sa card na ito"
   },
   "giving": {
     "title": "Inyong ibinigay",

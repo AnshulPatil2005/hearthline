@@ -819,6 +819,13 @@
       "scan": "Quét mã QR",
       "stopScan": "Dừng quét",
       "noCamera": "Không dùng được camera. Hãy nhập mã."
+    },
+    "regular": {
+      "title": "Trở thành khách quen",
+      "body": "Trả {{monthly}} mỗi tháng trong {{months}} tháng khi {{name}} đóng cửa. Mỗi lần trả cộng {{worth}} vào thẻ quà tặng của quý vị. Có thể hủy bất cứ lúc nào trong PayPal.",
+      "count_other": "Đã có {{count}} khách quen",
+      "start": "Đăng ký qua PayPal",
+      "going": "Đang mở PayPal…"
     }
   },
   "business": {
@@ -986,7 +993,8 @@
     "finishing": "Đang hoàn tất thanh toán với PayPal…",
     "thanks": "Cảm ơn! Món quà của quý vị đã được gửi.",
     "donationBody": "Danh sách của gia đình đã được cập nhật. Khi một món đủ tiền, Shopper của Hearthline sẽ mua và gửi đến họ.",
-    "cardReady": "Thẻ quà tặng của quý vị đã sẵn sàng"
+    "cardReady": "Thẻ quà tặng của quý vị đã sẵn sàng",
+    "regularReady": "Quý vị đã là khách quen! Mỗi tháng sẽ cộng vào thẻ này"
   },
   "giving": {
     "title": "Đóng góp của quý vị",

@@ -831,6 +831,14 @@
       "scan": "Scan a QR code",
       "stopScan": "Stop scanning",
       "noCamera": "The camera isn't available. Type the code instead."
+    },
+    "regular": {
+      "title": "Become a regular",
+      "body": "Pay {{monthly}} a month for {{months}} months while {{name}} is closed. Each payment adds {{worth}} to your gift card. Cancel any time in PayPal.",
+      "count_one": "{{count}} regular so far",
+      "count_other": "{{count}} regulars so far",
+      "start": "Subscribe with PayPal",
+      "going": "Opening PayPal…"
     }
   },
   "business": {
@@ -1001,7 +1009,8 @@
     "finishing": "Finishing your payment with PayPal…",
     "thanks": "Thank you! Your gift went through.",
     "donationBody": "The family's registry is updated. When an item is fully funded, Hearthline's Shopper buys it and ships it to them.",
-    "cardReady": "Your gift card is ready"
+    "cardReady": "Your gift card is ready",
+    "regularReady": "You're a regular! Each month adds to this card"
   },
   "giving": {
     "title": "Your giving",

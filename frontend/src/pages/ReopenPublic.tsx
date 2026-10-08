@@ -111,6 +111,61 @@ function BuyCard({ campaign, onBought }: { campaign: PublicCampaign; onBought: (
   )
 }
 
+/** Monthly pre-payment (PayPal Subscriptions): the person approves on PayPal, then comes back to /paid. */
+function BecomeRegular({ campaign }: { campaign: PublicCampaign }) {
+  const { t } = useTranslation()
+  const c = campaign.campaign!
+  const [name, setName] = useState('')
+  const [error, setError] = useState<string | null>(null)
+  const [going, setGoing] = useState(false)
+  const monthlyWorth = (Number(c.regular_monthly) * (100 + c.bonus_percent)) / 100
+  const start = async () => {
+    setGoing(true)
+    setError(null)
+    try {
+      const r = await api<{ regular_id: number; approval_url: string | null }>(`/reopen/${campaign.slug}/regulars`, {
+        method: 'POST',
+        body: JSON.stringify({ buyer_name: name || null }),
+      })
+      if (r.approval_url) window.location.assign(r.approval_url)
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t('errors.generic'))
+      setGoing(false)
+    }
+  }
+  return (
+    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+      <h2 className="text-lg font-semibold">{t('reopen.regular.title')}</h2>
+      <p className="mt-1 text-sm text-ink-soft">
+        {t('reopen.regular.body', {
+          monthly: money(c.regular_monthly),
+          months: c.regular_months,
+          worth: money(monthlyWorth, { cents: true }),
+          name: campaign.name,
+        })}
+      </p>
+      {c.regulars > 0 && <p className="mt-1 text-xs text-ink-faint">{t('reopen.regular.count', { count: c.regulars })}</p>}
+      <div className="mt-3 flex flex-wrap gap-2">
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder={t('reopen.buy.name')}
+          maxLength={80}
+          className="min-w-48 flex-1 rounded-lg border border-line bg-surface px-3 py-2 text-sm"
+        />
+        <button
+          onClick={() => void start()}
+          disabled={going}
+          className="rounded-lg bg-ember px-3 py-2 text-sm font-medium text-on-ember disabled:opacity-40"
+        >
+          {going ? t('reopen.regular.going') : t('reopen.regular.start')}
+        </button>
+      </div>
+      {error && <p className="mt-2 text-sm text-danger">{error}</p>}
+    </section>
+  )
+}
+
 export default function ReopenPublic() {
   const { slug = '' } = useParams()
   const { t, i18n } = useTranslation()
@@ -166,7 +221,10 @@ export default function ReopenPublic() {
               </div>
             </div>
             {c.status === 'live' && (
-              <BuyCard campaign={b} onBought={() => void queryClient.invalidateQueries({ queryKey: ['reopen', slug] })} />
+              <div className="space-y-4">
+                <BuyCard campaign={b} onBought={() => void queryClient.invalidateQueries({ queryKey: ['reopen', slug] })} />
+                <BecomeRegular campaign={b} />
+              </div>
             )}
           </div>
 
