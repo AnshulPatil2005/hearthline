@@ -36,3 +36,15 @@ def no_live_price_history(monkeypatch):
 
     monkeypatch.setattr(gouging, "_channel3_history", lambda product_id, days: [])
     monkeypatch.setattr(gouging, "_start_tracking", lambda product_id: None)
+
+
+@pytest.fixture(autouse=True)
+def no_live_tracking(monkeypatch):
+    """Shipping a purchase adds tracking to donors' PayPal payments; tests record the calls instead."""
+    from app.paypal import tracking
+
+    calls = []
+    monkeypatch.setattr(
+        tracking, "add", lambda order_id, capture_id, number, carrier: calls.append((order_id, capture_id, number))
+    )
+    return calls

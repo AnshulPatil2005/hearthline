@@ -141,3 +141,13 @@ def test_household_ledger_shows_running_balance(fakes):
         for p in rows[1]["postings"]
     }
     assert postings == {"assets:paypal": "136.00", "expenses:paypal_fees": "3.00", "liabilities:household": "-139.00"}
+
+
+def test_shipping_puts_the_tracking_number_on_donors_paypal_payments(fakes, no_live_tracking):
+    fund("Steel-toe work boots")
+    h = login_as("Elena Rivera")
+    p = client.get("/households/me/purchases", headers=h).json()[0]
+    shipped = client.post(f"/purchases/{p['id']}/simulate-shipping", headers=h).json()
+    with SessionLocal() as db:
+        item = db.query(RegistryItem).filter_by(name="Steel-toe work boots").one()
+    assert no_live_tracking == [(f"O-{item.id}", f"CAP-{item.id}", shipped["tracking_number"])]

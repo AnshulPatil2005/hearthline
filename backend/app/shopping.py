@@ -16,8 +16,9 @@ from app import audit, geo, gouging, ledger, policy
 from app.agents import shopper
 from app.config import get_settings
 from app.db import SessionLocal
-from app.models import Household, Purchase, RegistryItem, now
-from app.paypal import payouts
+from app.models import Donation, Household, Purchase, RegistryItem, now
+from app.paypal import payouts, tracking
+from app.paypal.rest import PayPalError
 
 log = logging.getLogger(__name__)
 STANDIN_RETAILER = "retailer-standin@example.com"  # sandbox: payouts to unknown emails stay UNCLAIMED
@@ -232,3 +233,22 @@ def shop_item(item_id: int) -> None:
 def start_auto_shop(item_id: int) -> None:
     """Called when donations fully fund an item. Runs the Shopper without delaying the donor."""
     threading.Thread(target=shop_item, args=(item_id,), daemon=True).start()
+
+
+def share_tracking(db: Session, purchase: Purchase) -> int:
+    """Put the shipment on each donor's PayPal payment for this item. Best effort: shipping never waits on it."""
+    if purchase.registry_item_id is None or not purchase.tracking_number:
+        return 0
+    donations = db.scalars(
+        select(Donation).where(Donation.registry_item_id == purchase.registry_item_id, Donation.status == "captured")
+    )
+    shared = 0
+    for d in donations:
+        if not d.paypal_order_id or not d.paypal_capture_id or d.paypal_capture_id.startswith("DEMO-"):
+            continue
+        try:
+            tracking.add(d.paypal_order_id, d.paypal_capture_id, purchase.tracking_number, purchase.carrier or "OTHER")
+            shared += 1
+        except PayPalError:
+            log.warning("Tracking not added to donation %s", d.id)
+    return shared

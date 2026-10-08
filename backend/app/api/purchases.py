@@ -106,12 +106,13 @@ def simulate_shipping(purchase_id: int, home: MyHousehold, db: DB) -> Purchase:
             purchase.registry_item.status = "delivered"
     else:
         raise HTTPException(409, f"Purchase is {purchase.status}")
+    shared = shopping.share_tracking(db, purchase) if purchase.status == "shipped" else 0
     audit.record(
         db,
         action=f"purchase.{purchase.status}",
         subject_type="purchase",
         subject_id=purchase.id,
-        data={"tracking": purchase.tracking_number},
+        data={"tracking": purchase.tracking_number, "added_to_paypal_payments": shared},
     )
     db.commit()
     return purchase
