@@ -30,7 +30,11 @@ class ReviewError(ValueError):
 
 
 def _depth(tier: str, kind: str, amount: Decimal) -> tuple[int, bool]:
-    two = tier == "high" or (kind == "cash_aid" and amount > TWO_REVIEWERS_OVER)
+    two = (
+        tier == "high"
+        or (kind == "cash_aid" and amount > TWO_REVIEWERS_OVER)
+        or (kind in {"milestone_payment", "contractor_dispute"} and amount > Decimal("10000"))
+    )
     return (2 if two else 1), tier in {"medium", "high"}
 
 
@@ -242,6 +246,8 @@ def apply_decision(db: Session, case: Case, decision: str, reason: str, decided_
     home = case.household
     if case.kind == "cash_aid" and decision == "approve":
         _send_cash_aid(db, case, home)
+    elif case.kind in {"milestone_payment", "contractor_dispute"}:
+        _settle_milestone(db, case, decision, reason, decided_by)
     elif case.kind == "registry_verification":
         reg = db.scalar(select(Registry).where(Registry.household_id == home.id))
         if reg is not None:
@@ -262,6 +268,25 @@ def apply_decision(db: Session, case: Case, decision: str, reason: str, decided_
         subject_id=case.id,
         data={"kind": case.kind, "amount": case.amount_requested, "paypal": case.paypal_ref},
     )
+
+
+def _settle_milestone(db: Session, case: Case, decision: str, reason: str, decided_by: User) -> None:
+    """Approving pays the contractor. Rejecting a payment sends the contractor back to fix the work;
+    rejecting in a dispute (siding with the homeowner) returns the money to the family's fund."""
+    from app import rebuild  # rebuild opens review cases, so import lazily
+
+    milestone = db.scalar(select(rebuild.Milestone).where(rebuild.Milestone.case_id == case.id))
+    if milestone is None:
+        return
+    try:
+        if decision == "approve":
+            rebuild.pay_milestone(db, milestone, decided_by)
+        elif case.kind == "contractor_dispute":
+            rebuild.release_back_to_household(db, milestone, reason, decided_by)
+        else:
+            milestone.status = "pending"
+    except rebuild.RebuildError as e:
+        raise ReviewError(str(e)) from e
 
 
 def _send_cash_aid(db: Session, case: Case, home: Household) -> None:

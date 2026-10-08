@@ -18,6 +18,7 @@ from app.db import SessionLocal
 from app.media import prepare_image
 from app.models import (
     Case,
+    Contractor,
     DisasterEvent,
     DisasterKind,
     Donation,
@@ -178,6 +179,17 @@ def seed(db: Session) -> None:
             is_demo=True,
             household=homes.get(home_key),
         )
+    dana = db.scalar(select(User).where(User.email == "dana.okafor@demo.hearthline.app"))
+    _get_or_create(
+        db,
+        Contractor,
+        {"user_id": dana.id},
+        business_name="Okafor Builders",
+        license_number="1048821",
+        license_state="CA",
+        license_verified=True,
+        payout_email="dana.okafor@business.example.com",
+    )
     rivera = homes["rivera"]
     if db.scalar(select(Registry).where(Registry.slug == RIVERA_REGISTRY["slug"])) is None:
         registry = Registry(household_id=rivera.id, **RIVERA_REGISTRY)

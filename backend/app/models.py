@@ -136,7 +136,7 @@ class Media(Base):
     height: Mapped[int]
     sha256: Mapped[str] = mapped_column(String(64), index=True)
     phash: Mapped[str | None] = mapped_column(String(16), index=True)  # perceptual hash: survives resizing
-    kind: Mapped[str] = mapped_column(String(20), default="photo", server_default="photo")  # photo | document
+    kind: Mapped[str] = mapped_column(String(20), default="photo", server_default="photo")  # photo | document | site_photo
     captured_at: Mapped[datetime | None]
     uploaded_at: Mapped[datetime] = mapped_column(default=now)
 
@@ -473,3 +473,63 @@ class Appointment(Base):
 
     case: Mapped[Case] = relationship()
     reviewer: Mapped[User] = relationship()
+
+
+class Contractor(Base):
+    __tablename__ = "contractors"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), unique=True)
+    business_name: Mapped[str] = mapped_column(String(160))
+    license_number: Mapped[str] = mapped_column(String(40))
+    license_state: Mapped[str] = mapped_column(String(2), default="CA")
+    license_verified: Mapped[bool] = mapped_column(default=False)  # a reviewer checked the state license board
+    payout_email: Mapped[str] = mapped_column(String(255))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    user: Mapped[User] = relationship()
+
+
+class RebuildProject(Base):
+    """A contractor job for a household. The full price sits in escrow; milestones release it."""
+
+    __tablename__ = "rebuild_projects"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    contractor_id: Mapped[int] = mapped_column(ForeignKey("contractors.id", ondelete="CASCADE"), index=True)
+    title: Mapped[str] = mapped_column(String(200))
+    # awaiting_plan | plan_submitted | active | completed | cancelled
+    status: Mapped[str] = mapped_column(String(20), default="awaiting_plan")
+    total_price: Mapped[Decimal] = mapped_column(Money, default=Decimal("0"))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    household: Mapped[Household] = relationship()
+    contractor: Mapped[Contractor] = relationship()
+    milestones: Mapped[list["Milestone"]] = relationship(
+        back_populates="project", cascade="all, delete-orphan", order_by="Milestone.seq"
+    )
+
+
+class Milestone(Base):
+    __tablename__ = "milestones"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey("rebuild_projects.id", ondelete="CASCADE"), index=True)
+    seq: Mapped[int]
+    title: Mapped[str] = mapped_column(String(160))
+    done_looks_like: Mapped[str] = mapped_column(String(1000), default="")  # what the Site agent checks photos against
+    amount: Mapped[Decimal] = mapped_column(Money)
+    is_deposit: Mapped[bool] = mapped_column(default=False)
+    start_date: Mapped[datetime]
+    end_date: Mapped[datetime]
+    # pending | submitted | under_review | paid | disputed
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    photo_media_ids: Mapped[list] = mapped_column(JSON, default=list)
+    site_check: Mapped[dict | None] = mapped_column(JSON)
+    case_id: Mapped[int | None] = mapped_column(ForeignKey("cases.id", ondelete="SET NULL"))
+    paypal_ref: Mapped[str | None] = mapped_column(String(80))
+    submitted_at: Mapped[datetime | None]
+    paid_at: Mapped[datetime | None]
+
+    project: Mapped[RebuildProject] = relationship(back_populates="milestones")
