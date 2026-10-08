@@ -1,9 +1,11 @@
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app import ai
+from app import ai, mcp_server
 from app.api import (
     alerts,
     auth,
@@ -14,6 +16,7 @@ from app.api import (
     inventory,
     ledger,
     price_watch,
+    public,
     purchases,
     rebuild,
     registry,
@@ -26,11 +29,24 @@ from app.config import get_settings
 from app.db import engine
 
 settings = get_settings()
+mcp_app = mcp_server.http_app()
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    async with mcp_app.router.lifespan_context(mcp_app):  # the MCP session manager runs with the API
+        yield
+
 
 app = FastAPI(
     title="Hearthline API",
-    version="0.1.0",
-    description="Disaster recovery platform: Prepare, Respond, Rebuild, Reopen.",
+    version="1.0.0",
+    description=(
+        "Disaster recovery platform: Prepare, Respond, Rebuild, Reopen. The **Public API v1** (`/v1`) is for "
+        "partners, donors' apps and AI agents; the same operations are MCP tools at `/mcp`. Preparing a gift "
+        "returns a PayPal approval link: a person approves every payment."
+    ),
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -56,6 +72,7 @@ app.include_router(crews.router)
 app.include_router(reopen.router)
 app.include_router(price_watch.router)
 app.include_router(webhooks.router)
+app.include_router(public.router)
 
 
 def database_ok() -> bool:
@@ -79,3 +96,7 @@ def health() -> dict:
             "PayPal": settings.paypal_configured,
         },
     }
+
+
+# Last, so every API route above matches first: the MCP server answers at /mcp.
+app.mount("/", mcp_app)

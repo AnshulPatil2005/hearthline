@@ -992,5 +992,12 @@
     "stop": "Stop listening",
     "blocked": "Allow the microphone to speak instead of typing.",
     "failed": "Didn't catch that. Try again or type it."
+  },
+  "paid": {
+    "cancelled": "You cancelled the payment. Nothing was charged.",
+    "finishing": "Finishing your payment with PayPal…",
+    "thanks": "Thank you! Your gift went through.",
+    "donationBody": "The family's registry is updated. When an item is fully funded, Hearthline's Shopper buys it and ships it to them.",
+    "cardReady": "Your gift card is ready"
   }
 }

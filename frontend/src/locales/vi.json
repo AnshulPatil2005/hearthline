@@ -977,5 +977,12 @@
     "stop": "Dừng nghe",
     "blocked": "Hãy cho phép micro để nói thay vì gõ.",
     "failed": "Chưa nghe rõ. Hãy thử lại hoặc gõ."
+  },
+  "paid": {
+    "cancelled": "Quý vị đã hủy thanh toán. Không bị trừ tiền.",
+    "finishing": "Đang hoàn tất thanh toán với PayPal…",
+    "thanks": "Cảm ơn! Món quà của quý vị đã được gửi.",
+    "donationBody": "Danh sách của gia đình đã được cập nhật. Khi một món đủ tiền, Shopper của Hearthline sẽ mua và gửi đến họ.",
+    "cardReady": "Thẻ quà tặng của quý vị đã sẵn sàng"
   }
 }

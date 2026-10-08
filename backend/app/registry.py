@@ -6,11 +6,54 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import audit, ledger, shopping
-from app.models import Donation, now
+from app.models import Donation, Registry, RegistryItem, User, now
 from app.paypal.orders import Capture
 from app.paypal.webhooks import on
 
 CUSTOM_ID_PREFIX = "donation:"
+
+
+class DonationError(ValueError):
+    def __init__(self, message: str, status: int = 409):
+        super().__init__(message)
+        self.status = status
+
+
+def new_donation(
+    db: Session,
+    reg: Registry,
+    *,
+    item_id: int | None,
+    amount: Decimal,
+    donor_name: str | None,
+    message: str,
+    payment_method: str,
+    donor: User | None,
+) -> Donation:
+    """Check a gift against the registry and item, then record it (the PayPal order is created next)."""
+    if reg.status != "active":
+        raise DonationError("This registry isn't accepting donations right now")
+    item = None
+    if item_id is not None:
+        item = db.get(RegistryItem, item_id)
+        if item is None or item.registry_id != reg.id:
+            raise DonationError("Item not found on this registry", 404)
+        if item.status != "open" or item.remaining <= 0:
+            raise DonationError("This item is already fully funded")
+        if amount > item.remaining:
+            raise DonationError(f"This item only needs ${item.remaining:.2f} more", 422)
+    donation = Donation(
+        registry_id=reg.id,
+        registry_item_id=item.id if item else None,
+        donor_user_id=donor.id if donor else None,
+        donor_name=(donor_name or "").strip()[:80] or None,
+        message=message.strip(),
+        amount=amount,
+        payment_method=payment_method,
+    )
+    db.add(donation)
+    db.flush()
+    return donation
 
 
 def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation:

@@ -11,6 +11,7 @@ import HouseholdHome from './pages/HouseholdHome'
 import Inventory from './pages/Inventory'
 import Login from './pages/Login'
 import Money from './pages/Money'
+import PaymentReturn from './pages/PaymentReturn'
 import PriceWatch from './pages/PriceWatch'
 import Rebuild from './pages/Rebuild'
 import RegistryManage from './pages/RegistryManage'
@@ -35,6 +36,7 @@ export default function App() {
       <Route path="/reopen/:slug" element={<ReopenPublic />} />
       <Route path="/card/:code" element={<GiftCardView />} />
       <Route path="/price-watch" element={<PriceWatch />} />
+      <Route path="/paid" element={<PaymentReturn />} />
       <Route
         path="/business"
         element={

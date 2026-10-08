@@ -12,6 +12,11 @@ from paypalserversdk.models.amount_with_breakdown import AmountWithBreakdown
 from paypalserversdk.models.checkout_payment_intent import CheckoutPaymentIntent
 from paypalserversdk.models.money import Money
 from paypalserversdk.models.order_request import OrderRequest
+from paypalserversdk.models.payment_source import PaymentSource
+from paypalserversdk.models.paypal_experience_user_action import PaypalExperienceUserAction
+from paypalserversdk.models.paypal_wallet import PaypalWallet
+from paypalserversdk.models.paypal_wallet_context_shipping_preference import PaypalWalletContextShippingPreference
+from paypalserversdk.models.paypal_wallet_experience_context import PaypalWalletExperienceContext
 from paypalserversdk.models.purchase_unit_request import PurchaseUnitRequest
 from paypalserversdk.models.refund_request import RefundRequest
 from paypalserversdk.paypal_serversdk_client import PaypalServersdkClient
@@ -42,6 +47,35 @@ def client() -> PaypalServersdkClient:
 
 def create_order(*, amount: Decimal, description: str, custom_id: str, reference_id: str) -> str:
     """Create a CAPTURE order the buyer approves in the browser (PayPal, Venmo or Pay Later button)."""
+    return create_order_with_link(
+        amount=amount, description=description, custom_id=custom_id, reference_id=reference_id
+    )[0]
+
+
+def create_order_with_link(
+    *,
+    amount: Decimal,
+    description: str,
+    custom_id: str,
+    reference_id: str,
+    return_url: str | None = None,
+    cancel_url: str | None = None,
+) -> tuple[str, str | None]:
+    """Create a CAPTURE order. With `return_url`, PayPal also gives a link a person can open to approve it
+    (used by the public API and agents); afterwards PayPal sends them to `return_url` to finish."""
+    payment_source = None
+    if return_url:
+        payment_source = PaymentSource(
+            paypal=PaypalWallet(
+                experience_context=PaypalWalletExperienceContext(
+                    brand_name="Hearthline",
+                    return_url=return_url,
+                    cancel_url=cancel_url or return_url,
+                    user_action=PaypalExperienceUserAction.PAY_NOW,
+                    shipping_preference=PaypalWalletContextShippingPreference.NO_SHIPPING,
+                )
+            )
+        )
     body = OrderRequest(
         intent=CheckoutPaymentIntent.CAPTURE,
         purchase_units=[
@@ -53,9 +87,11 @@ def create_order(*, amount: Decimal, description: str, custom_id: str, reference
                 soft_descriptor="HEARTHLINE",
             )
         ],
+        payment_source=payment_source,
     )
     response = client().orders.create_order({"body": body, "paypal_request_id": str(uuid.uuid4())})
-    return response.body.id
+    link = next((x.href for x in response.body.links or [] if x.rel in {"payer-action", "approve"}), None)
+    return response.body.id, link
 
 
 def capture_order(order_id: str) -> Capture:

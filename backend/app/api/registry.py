@@ -252,28 +252,20 @@ def view_registry(slug: str, db: DB) -> RegistryOut:
 @router.post("/registries/{slug}/donations", response_model=DonationCreated, status_code=201)
 def start_donation(slug: str, body: DonationIn, donor: OptionalUser, db: DB) -> DonationCreated:
     reg = get_registry(db, slug)
-    if reg.status != "active":
-        raise HTTPException(409, "This registry isn't accepting donations right now")
-    item = None
-    if body.item_id is not None:
-        item = db.get(RegistryItem, body.item_id)
-        if item is None or item.registry_id != reg.id:
-            raise HTTPException(404, "Item not found on this registry")
-        if item.status != "open" or item.remaining <= 0:
-            raise HTTPException(409, "This item is already fully funded")
-        if body.amount > item.remaining:
-            raise HTTPException(422, f"This item only needs ${item.remaining:.2f} more")
-    donation = Donation(
-        registry_id=reg.id,
-        registry_item_id=item.id if item else None,
-        donor_user_id=donor.id if donor else None,
-        donor_name=(body.donor_name or "").strip() or None,
-        message=body.message.strip(),
-        amount=body.amount,
-        payment_method=body.payment_method,
-    )
-    db.add(donation)
-    db.flush()
+    try:
+        donation = registry.new_donation(
+            db,
+            reg,
+            item_id=body.item_id,
+            amount=body.amount,
+            donor_name=body.donor_name,
+            message=body.message,
+            payment_method=body.payment_method,
+            donor=donor,
+        )
+    except registry.DonationError as e:
+        raise HTTPException(e.status, str(e)) from None
+    item = donation.item
     try:
         donation.paypal_order_id = orders.create_order(
             amount=body.amount,

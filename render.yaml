@@ -45,6 +45,12 @@ services:
         sync: false
       - key: PAYPAL_ENVIRONMENT
         value: sandbox
+      # The web app's hostname, for links the API hands out (PayPal return pages for agents).
+      - key: WEB_HOST
+        fromService:
+          type: web
+          name: hearthline-web
+          property: host
 
   - type: web
     name: hearthline-web

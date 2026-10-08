@@ -29,6 +29,11 @@ class Settings(BaseSettings):
 
     channel3_api_key: str | None = None
 
+    # Where the web app lives, for links the API hands out (PayPal return pages, registry links).
+    # On Render, WEB_HOST is the static site's hostname (render.yaml) and RENDER_EXTERNAL_HOSTNAME is ours.
+    web_host: str | None = None
+    render_external_hostname: str | None = None
+
     paypal_client_id: str | None = None
     paypal_client_secret: str | None = None
     paypal_environment: str = "sandbox"
@@ -36,6 +41,15 @@ class Settings(BaseSettings):
     # Sandbox test accounts used by spikes and demo seeding.
     paypal_sandbox_retailer_email: str | None = None
     paypal_sandbox_payout_receivers: str = ""
+
+    @property
+    def web_url(self) -> str:
+        return f"https://{self.web_host}" if self.web_host else "http://localhost:5173"
+
+    @property
+    def api_url(self) -> str:
+        host = self.render_external_hostname
+        return f"https://{host}" if host else "http://localhost:8000"
 
     @property
     def paypal_configured(self) -> bool:

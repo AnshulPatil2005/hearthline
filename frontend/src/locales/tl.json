@@ -992,5 +992,12 @@
     "stop": "Itigil ang pakikinig",
     "blocked": "Payagan ang mikropono para makapagsalita sa halip na mag-type.",
     "failed": "Hindi narinig nang maayos. Subukan ulit o i-type ito."
+  },
+  "paid": {
+    "cancelled": "Kinansela ninyo ang bayad. Walang siningil.",
+    "finishing": "Tinatapos ang inyong bayad sa PayPal…",
+    "thanks": "Salamat! Natuloy ang inyong regalo.",
+    "donationBody": "Na-update ang listahan ng pamilya. Kapag buo nang napondohan ang isang item, bibilhin ito ng Shopper ng Hearthline at ipapadala sa kanila.",
+    "cardReady": "Handa na ang inyong gift card"
   }
 }

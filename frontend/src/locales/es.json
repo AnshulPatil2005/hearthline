@@ -992,5 +992,12 @@
     "stop": "Dejar de escuchar",
     "blocked": "Permita el micrófono para hablar en lugar de escribir.",
     "failed": "No se entendió. Intente de nuevo o escríbalo."
+  },
+  "paid": {
+    "cancelled": "Canceló el pago. No se cobró nada.",
+    "finishing": "Completando su pago con PayPal…",
+    "thanks": "¡Gracias! Su donación se realizó.",
+    "donationBody": "La lista de la familia está actualizada. Cuando un artículo se financia por completo, el Shopper de Hearthline lo compra y se lo envía.",
+    "cardReady": "Su tarjeta de regalo está lista"
   }
 }

@@ -977,5 +977,12 @@
     "stop": "停止聆听",
     "blocked": "请允许使用麦克风才能语音输入。",
     "failed": "没有听清，请再试一次或直接输入。"
+  },
+  "paid": {
+    "cancelled": "您已取消付款，未产生任何费用。",
+    "finishing": "正在通过 PayPal 完成付款…",
+    "thanks": "谢谢！您的捐赠已完成。",
+    "donationBody": "这个家庭的清单已更新。物品筹满后，Hearthline 的 Shopper 会购买并寄给他们。",
+    "cardReady": "您的礼品卡已准备好"
   }
 }

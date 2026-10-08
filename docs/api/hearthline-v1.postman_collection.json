@@ -1,0 +1,301 @@
+{
+  "info": {
+    "name": "Hearthline Public API v1",
+    "description": "Find verified families' Rebuild Registries and local businesses' Reopen Funds after a disaster, check essential prices against their pre-disaster baseline, and prepare gifts. Preparing a gift returns a PayPal approval link: a person approves every payment, nothing is charged before that. The same operations are MCP tools at /mcp.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://hearthline-api.onrender.com"
+    }
+  ],
+  "item": [
+    {
+      "name": "List Disasters",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/disasters",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "disasters"
+          ],
+          "variable": []
+        },
+        "description": "Disasters Hearthline is responding to."
+      }
+    },
+    {
+      "name": "Find Registries",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/registries",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "registries"
+          ],
+          "variable": []
+        },
+        "description": "Families' verified Rebuild Registries, those that still need the most first."
+      }
+    },
+    {
+      "name": "Get Registry",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/registries/:slug",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "registries",
+            ":slug"
+          ],
+          "variable": [
+            {
+              "key": "slug",
+              "value": "rivera-family"
+            }
+          ]
+        },
+        "description": "A registry with every item and what it still needs."
+      }
+    },
+    {
+      "name": "Prepare Donation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/registries/:slug/donations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "registries",
+            ":slug",
+            "donations"
+          ],
+          "variable": [
+            {
+              "key": "slug",
+              "value": "rivera-family"
+            }
+          ]
+        },
+        "description": "Prepare a gift to a family. Returns a PayPal link the donor opens to approve it.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 50\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Donation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/donations/:donation_id",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "donations",
+            ":donation_id"
+          ],
+          "variable": [
+            {
+              "key": "donation_id",
+              "value": ""
+            }
+          ]
+        },
+        "description": "Where a gift went: paid, item bought, shipped, delivered."
+      }
+    },
+    {
+      "name": "List Reopen Funds",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/reopen-funds",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "reopen-funds"
+          ],
+          "variable": []
+        },
+        "description": "Local businesses selling gift cards to pay for reopening."
+      }
+    },
+    {
+      "name": "Get Reopen Fund",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/reopen-funds/:slug",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "reopen-funds",
+            ":slug"
+          ],
+          "variable": [
+            {
+              "key": "slug",
+              "value": "rivera-family"
+            }
+          ]
+        },
+        "description": "Get Reopen Fund"
+      }
+    },
+    {
+      "name": "Prepare Gift Card",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/reopen-funds/:slug/gift-cards",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "reopen-funds",
+            ":slug",
+            "gift-cards"
+          ],
+          "variable": [
+            {
+              "key": "slug",
+              "value": "rivera-family"
+            }
+          ]
+        },
+        "description": "Prepare a gift card purchase. Returns a PayPal link the buyer opens to approve it.",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"amount\": 50\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Gift Card",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/gift-cards/:code",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "gift-cards",
+            ":code"
+          ],
+          "variable": [
+            {
+              "key": "code",
+              "value": ""
+            }
+          ]
+        },
+        "description": "Get Gift Card"
+      }
+    },
+    {
+      "name": "Price Watch",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/v1/price-watch",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "v1",
+            "price-watch"
+          ],
+          "variable": []
+        },
+        "description": "Essential prices against their pre-disaster baseline (California's 10% limit)."
+      }
+    }
+  ]
+}

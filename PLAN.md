@@ -393,7 +393,7 @@ hearthline/
 - [ ] AI impact reports (donor timelines and an organization grant-report PDF)
 - [x] Voice input (Web Speech API) in the app's language: Ask the grid (speaking runs the question), the cash-aid note and the milestone dispute reason; the button hides where the browser has no speech recognition (Firefox)
 - [ ] Policy agent (insurance PDF)
-- [ ] Hearthline Public API v1, SDKs in all languages, the docs site on Render, the **Hearthline MCP server**, a donor-agent demo script, a Postman collection
+- [x] Hearthline Public API v1 (`/v1`, no login; preparing a gift returns a PayPal approval link and `/paid` completes it), the **Hearthline MCP server** at `/mcp` (7 tools, same service layer), OpenAPI + Postman collection in `docs/api` (generated, kept in sync by a test). *Still to do: SDKs and API portal from APIMatic (needs an APIMatic account), a donor-agent demo script.*
 
 ### Week 6: Mon Nov 9 – Thu Nov 12: freeze and ship
 - [ ] **Mon Nov 9: feature freeze.** Only bug fixes and polish after this.
