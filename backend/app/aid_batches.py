@@ -318,6 +318,7 @@ def _on_item_event(db: Session, resource: dict) -> None:
     )
 
 
+# PayPal's payout item events. (REVERSED is an item status PayPal reports, but there is no webhook event for it.)
 for _event in (
     "SUCCEEDED",
     "UNCLAIMED",
@@ -325,7 +326,6 @@ for _event in (
     "RETURNED",
     "BLOCKED",
     "REFUNDED",
-    "REVERSED",
     "DENIED",
     "HELD",
     "CANCELED",
