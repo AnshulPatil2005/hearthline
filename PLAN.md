@@ -144,7 +144,7 @@ flowchart LR
 | 10 | **Webhooks** (with signature verification) | Drive every status change | REST |
 | 11 | **JS SDK v6**: PayPal, **Venmo**, **Pay Later** buttons | Registry and Reopen checkout | Browser |
 | 12 | **Log in with PayPal** | Links a household's or contractor's own PayPal account. It provides the consent step for registries started by friends, and makes that account the verified payee. | REST |
-| 13 | **PayPal MCP server** (Agent Toolkit tools) | The agents' PayPal tools, every call routed through our rules engine | `mcp` client |
+| 13 | **PayPal MCP server** (Agent Toolkit tools) | "Ask PayPal": the Funds agent reads PayPal with PayPal's own tools; code offers only read tools, refuses money-moving ones and audits every call | `mcp` client (SSE) |
 
 **Sandbox accounts needed:**
 - a platform business account (Hearthline)
@@ -396,6 +396,7 @@ hearthline/
 - [x] Hearthline Public API v1 (`/v1`, no login; preparing a gift returns a PayPal approval link and `/paid` completes it), the **Hearthline MCP server** at `/mcp` (7 tools, same service layer), OpenAPI + Postman collection in `docs/api` (generated, kept in sync by a test). `examples/donor_agent.py`: an LLM agent that gives through the MCP tools (live-verified: it prepared a real sandbox order with an approval link). *Still to do: SDKs and API portal from APIMatic (needs an APIMatic account).*
 - [x] **Shipment tracking on donors' payments**: when the Shopper's purchase ships, the tracking number is added to every donor's PayPal capture for that item (Orders v2 `track`), so donors see the shipment in PayPal too.
 - [x] **Payment disputes desk** (`/command/disputes`): PayPal disputes about donations and gift cards arrive by webhook (`CUSTOMER.DISPUTE.*`) or a sync, are linked to the payment, and code gathers Hearthline's records (purchase and tracking, escrow share, refunds, scam review). Rules recommend message / evidence / refund; the Funds agent drafts the words; staff edit and decide. Evidence goes as multipart with tracking info and a records PDF; accepting a claim books the refund in the ledger (family fund or escrow first, the spent part as a dispute loss). Three seeded demo disputes. *Live sandbox disputes need the personal buyer account; the three calls were checked against the sandbox with an unknown id (request format accepted).*
+- [x] **Ask PayPal** (on the Disputes desk): the Funds agent answers staff questions with **PayPal's MCP server** (Agent Toolkit tools over SSE) plus a lookup into Hearthline's records. Code offers only the 14 read tools; refunds, captures, cancellations and invoice changes are never offered and refused if asked; DEMO ids never reach PayPal; every PayPal read is in the audit log. Live-verified (subscription plans, disputes, a refused refund request). *Invoices and transactions answer 403 until Invoicing and Transaction Search are enabled on the app.*
 
 ### Week 6: Mon Nov 9 – Thu Nov 12: freeze and ship
 - [ ] **Mon Nov 9: feature freeze.** Only bug fixes and polish after this.

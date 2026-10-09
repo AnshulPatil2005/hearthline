@@ -1,7 +1,7 @@
 """Payment disputes desk: Sam (relief org admin) answers the three demo disputes the way the rules recommend:
 a message for the bakery gift card inquiry, a refund for the gift to the copycat registry, and evidence for the
-Ridge Outfitters card that was already refunded. Uses up to three AI calls (drafts). Needs the API (fresh demo
-seed) and the web app."""
+Ridge Outfitters card that was already refunded. Then "Ask PayPal" reads PayPal through PayPal's MCP server
+and refuses a refund. Uses about eight AI calls. Needs the API (fresh demo seed) and the web app."""
 
 import asyncio
 from pathlib import Path
@@ -60,6 +60,19 @@ async def main() -> None:
         await page.get_by_role("button", name="Send evidence").click()
         await page.wait_for_selector("text=sent evidence", timeout=15000)
         await page.screenshot(path=OUT / "disputes-evidence.png", full_page=True)
+
+        # 4. Ask PayPal: the Funds agent reads PayPal through PayPal's MCP server, and refuses to move money.
+        panel = page.locator("#ask-paypal")
+        for example in ("Which subscription plans", "Refund Jordan"):
+            await panel.get_by_role("button", name=example).click()
+            asking = panel.get_by_role("button", name="Asking PayPal…")
+            await asking.wait_for(timeout=5000)
+            await asking.wait_for(state="detached", timeout=180000)
+            await panel.locator("p.whitespace-pre-line").wait_for(timeout=10000)
+            print(f"ask '{example}':", (await panel.locator("p.whitespace-pre-line").inner_text())[:300])
+            steps = await panel.locator("ol li").all_inner_texts()
+            print("   steps:", [" ".join(x.split())[:110] for x in steps])
+        await panel.screenshot(path=OUT / "ask-paypal.png")
 
         pills = await page.locator("ul li button span.rounded-full").all_inner_texts()
         print("statuses:", pills)

@@ -1132,6 +1132,20 @@
       "evidence_sent": "{{name}} sent evidence on {{date}}. PayPal is reviewing it.",
       "refunded": "{{name}} refunded the payer on {{date}}."
     },
-    "resolved": "Closed by PayPal ({{outcome}})"
+    "resolved": "Closed by PayPal ({{outcome}})",
+    "ask": {
+      "title": "Ask PayPal",
+      "subtitle": "The Funds agent looks things up in PayPal with PayPal's own MCP tools and in Hearthline's records. It can only read: refunds and other changes are refused in code and stay with people.",
+      "placeholder": "e.g. Are the bakery regulars' subscriptions active?",
+      "ask": "Ask",
+      "asking": "Asking PayPal…",
+      "ex1": "Which subscription plans do we have in PayPal, and are they active?",
+      "ex2": "Are there open disputes in PayPal right now?",
+      "ex3": "Refund Jordan's $75 gift.",
+      "steps_one": "How it found this ({{count}} step)",
+      "steps_other": "How it found this ({{count}} steps)",
+      "paypal": "PayPal",
+      "hearthline": "Hearthline"
+    }
   }
 }

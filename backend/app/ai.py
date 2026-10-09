@@ -136,6 +136,25 @@ def parse_json(
     return _submit(_inline_refs(schema), validate, "answer", system=system, content=content, max_tokens=max_tokens)
 
 
+def chat(messages: list[dict[str, Any]], *, tools: list[dict[str, Any]] | None = None, max_tokens: int = 1500) -> Any:
+    """One turn of a tool-using agent: the assistant message (text or tool calls). Models in AI_MODELS are tried
+    in order when one is unavailable; the conversation is stateless, so a turn can move to the next model."""
+    errors: list[str] = []
+    for provider, model in models():
+        try:
+            response = client(provider).chat.completions.create(
+                model=model, messages=messages, tools=tools or None, max_tokens=max_tokens
+            )
+        except UNAVAILABLE as e:
+            errors.append(f"{model}: {type(e).__name__}")
+            continue
+        if not response.choices:
+            errors.append(f"{model}: {getattr(response, 'error', None) or 'empty response'}")
+            continue
+        return response.choices[0].message
+    raise AIError("No AI model could answer: " + "; ".join(errors or ["none configured"]))
+
+
 def _submit[T](
     parameters: dict[str, Any],
     validate: Callable[[str], T],

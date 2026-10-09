@@ -1110,6 +1110,19 @@
       "evidence_sent": "{{name}} đã gửi bằng chứng ngày {{date}}. PayPal đang xem xét.",
       "refunded": "{{name}} đã hoàn tiền cho người trả tiền ngày {{date}}."
     },
-    "resolved": "PayPal đã đóng ({{outcome}})"
+    "resolved": "PayPal đã đóng ({{outcome}})",
+    "ask": {
+      "title": "Hỏi PayPal",
+      "subtitle": "Trợ lý Quỹ tra cứu PayPal bằng chính các công cụ MCP của PayPal và hồ sơ của Hearthline. Nó chỉ có thể đọc: hoàn tiền và các thay đổi khác bị mã từ chối và do con người thực hiện.",
+      "placeholder": "vd. Các gói đăng ký của khách quen tiệm bánh có đang hoạt động không?",
+      "ask": "Hỏi",
+      "asking": "Đang hỏi PayPal…",
+      "ex1": "Chúng ta có những gói đăng ký nào trên PayPal, và chúng có hoạt động không?",
+      "ex2": "Hiện có khiếu nại nào đang mở trên PayPal không?",
+      "ex3": "Hoàn lại khoản quyên góp 75 đô la của Jordan.",
+      "steps_other": "Cách tìm ra ({{count}} bước)",
+      "paypal": "PayPal",
+      "hearthline": "Hearthline"
+    }
   }
 }

@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, downloadFile, type DisputeAction, type DisputeDetail, type DisputeRow } from '../api'
+import { AskPayPal } from '../components/AskPayPal'
 import { money } from '../format'
 
 // The PayPal action behind each answer: PayPal's links on the dispute say which ones are possible right now.
@@ -331,6 +332,8 @@ export default function Disputes() {
           {current !== null && <Detail key={current} id={current} onChanged={refresh} />}
         </div>
       )}
+
+      <AskPayPal />
     </div>
   )
 }

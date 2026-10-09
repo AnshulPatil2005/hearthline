@@ -606,3 +606,6 @@ export type DisputeDetail = DisputeRow & {
   decided_by: string | null
   decided_at: string | null
 }
+
+export type PayPalAgentStep = { tool: string; source: 'paypal' | 'hearthline'; args: Record<string, unknown>; ok: boolean; summary: string }
+export type PayPalAgentAnswer = { answer: string; steps: PayPalAgentStep[] }

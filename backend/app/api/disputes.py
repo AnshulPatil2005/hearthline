@@ -1,5 +1,7 @@
-"""Payment disputes desk for relief-organization staff: see what our records show, edit the draft, decide."""
+"""Payment disputes desk for relief-organization staff: see what our records show, edit the draft, decide.
+Also "Ask PayPal": the Funds agent reads PayPal through PayPal's MCP server."""
 
+import logging
 from datetime import datetime
 from typing import Annotated, Literal
 
@@ -9,12 +11,14 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import dispute_pdf, disputes
+from app import ai, dispute_pdf, disputes
+from app.agents import paypal_desk
 from app.auth import require_role
 from app.db import get_db
 from app.models import PaymentDispute, Role, User
 from app.schemas import Money
 
+log = logging.getLogger(__name__)
 router = APIRouter(prefix="/command/disputes", tags=["disputes"])
 DB = Annotated[Session, Depends(get_db)]
 OrgStaff = Annotated[User, Depends(require_role(Role.ORG_ADMIN, Role.SUPERVISOR))]
@@ -169,3 +173,38 @@ def evidence_pdf(dispute_id: int, staff: OrgStaff, db: DB) -> Response:
         media_type="application/pdf",
         headers={"Content-Disposition": f'inline; filename="hearthline-{d.paypal_dispute_id}.pdf"'},
     )
+
+
+paypal_router = APIRouter(prefix="/command/paypal", tags=["disputes"])
+
+
+class Question(BaseModel):
+    question: str = Field(min_length=3, max_length=500)
+
+
+class AgentStep(BaseModel):
+    tool: str
+    source: Literal["paypal", "hearthline"]
+    args: dict
+    ok: bool
+    summary: str
+
+
+class PayPalAnswer(BaseModel):
+    answer: str
+    steps: list[AgentStep]
+
+
+@paypal_router.post("/ask", response_model=PayPalAnswer)
+def ask_paypal(body: Question, staff: OrgStaff, db: DB) -> PayPalAnswer:
+    """The Funds agent answers with PayPal's own MCP tools (read-only) and Hearthline's records."""
+    if not ai.configured():
+        raise HTTPException(503, "No AI model is configured")
+    try:
+        result = paypal_desk.ask(db, body.question, staff)
+    except ai.AIError as e:
+        raise HTTPException(503, "The AI models are busy right now. Try again in a minute.") from e
+    except Exception as e:  # PayPal's MCP server unreachable or failing
+        log.exception("Ask PayPal failed")
+        raise HTTPException(502, "Couldn't reach PayPal's MCP server. Try again in a minute.") from e
+    return PayPalAnswer(answer=result.answer, steps=[AgentStep(**vars(s)) for s in result.steps])

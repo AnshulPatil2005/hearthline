@@ -1110,6 +1110,19 @@
       "evidence_sent": "{{name}} 于 {{date}} 提交了证据，PayPal 正在审核。",
       "refunded": "{{name}} 于 {{date}} 向付款人退款。"
     },
-    "resolved": "已由 PayPal 结案（{{outcome}}）"
+    "resolved": "已由 PayPal 结案（{{outcome}}）",
+    "ask": {
+      "title": "询问 PayPal",
+      "subtitle": "资金助手使用 PayPal 自己的 MCP 工具查询 PayPal，并查询 Hearthline 的记录。它只能读取：退款和其他更改会被代码拒绝，由人来处理。",
+      "placeholder": "例如：面包店常客的订阅是否有效？",
+      "ask": "询问",
+      "asking": "正在询问 PayPal…",
+      "ex1": "我们在 PayPal 有哪些订阅计划？它们是否有效？",
+      "ex2": "PayPal 现在有未结的争议吗？",
+      "ex3": "退还 Jordan 的 75 美元捐款。",
+      "steps_other": "查找过程（{{count}} 步）",
+      "paypal": "PayPal",
+      "hearthline": "Hearthline"
+    }
   }
 }

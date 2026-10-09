@@ -1132,6 +1132,20 @@
       "evidence_sent": "{{name}} envió pruebas el {{date}}. PayPal las está revisando.",
       "refunded": "{{name}} reembolsó al pagador el {{date}}."
     },
-    "resolved": "Cerrada por PayPal ({{outcome}})"
+    "resolved": "Cerrada por PayPal ({{outcome}})",
+    "ask": {
+      "title": "Preguntar a PayPal",
+      "subtitle": "El agente de Fondos consulta PayPal con las herramientas MCP de PayPal y los registros de Hearthline. Solo puede leer: los reembolsos y otros cambios se rechazan en el código y los hacen personas.",
+      "placeholder": "p. ej. ¿Están activas las suscripciones de los clientes fieles de la panadería?",
+      "ask": "Preguntar",
+      "asking": "Consultando PayPal…",
+      "ex1": "¿Qué planes de suscripción tenemos en PayPal y están activos?",
+      "ex2": "¿Hay disputas abiertas en PayPal ahora mismo?",
+      "ex3": "Reembolsa la donación de $75 de Jordan.",
+      "steps_one": "Cómo lo encontró ({{count}} paso)",
+      "steps_other": "Cómo lo encontró ({{count}} pasos)",
+      "paypal": "PayPal",
+      "hearthline": "Hearthline"
+    }
   }
 }

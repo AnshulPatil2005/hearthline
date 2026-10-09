@@ -1132,6 +1132,20 @@
       "evidence_sent": "Nagpadala si {{name}} ng ebidensya noong {{date}}. Sinusuri ito ng PayPal.",
       "refunded": "Ni-refund ni {{name}} ang nagbayad noong {{date}}."
     },
-    "resolved": "Isinara ng PayPal ({{outcome}})"
+    "resolved": "Isinara ng PayPal ({{outcome}})",
+    "ask": {
+      "title": "Magtanong sa PayPal",
+      "subtitle": "Tinitingnan ng Funds agent ang PayPal gamit ang sariling MCP tools ng PayPal at ang mga rekord ng Hearthline. Pagbasa lang ang kaya nito: tinatanggihan ng code ang mga refund at iba pang pagbabago, at tao ang gumagawa nito.",
+      "placeholder": "hal. Aktibo ba ang mga subscription ng mga suki ng panaderya?",
+      "ask": "Magtanong",
+      "asking": "Nagtatanong sa PayPal…",
+      "ex1": "Anong mga subscription plan ang mayroon tayo sa PayPal, at aktibo ba sila?",
+      "ex2": "May bukas bang dispute sa PayPal ngayon?",
+      "ex3": "I-refund ang $75 na regalo ni Jordan.",
+      "steps_one": "Paano ito nahanap ({{count}} hakbang)",
+      "steps_other": "Paano ito nahanap ({{count}} hakbang)",
+      "paypal": "PayPal",
+      "hearthline": "Hearthline"
+    }
   }
 }
