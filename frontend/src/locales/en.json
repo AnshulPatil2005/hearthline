@@ -29,7 +29,8 @@
     "businesses": "Businesses",
     "priceWatch": "Price Watch",
     "giving": "My giving",
-    "insurance": "Insurance"
+    "insurance": "Insurance",
+    "disputes": "Disputes"
   },
   "roles": {
     "household": "Household",
@@ -1067,5 +1068,70 @@
     "askPlaceholder": "e.g. Is my mother's jewelry covered?",
     "ask": "Ask",
     "notAdvice": "The Policy agent explains what your policy says. It isn't legal advice, and your insurer decides what it pays."
+  },
+  "disputes": {
+    "title": "Payment disputes",
+    "subtitle": "People who dispute a gift or a gift card with PayPal. Rules check Hearthline's records and recommend an answer, the Funds agent drafts it, and you decide. Nothing goes to PayPal until you do.",
+    "sync": "Check PayPal now",
+    "syncing": "Checking…",
+    "synced_one": "PayPal reports {{count}} dispute",
+    "synced_other": "PayPal reports {{count}} disputes",
+    "none": "No disputes. When someone disputes a payment, PayPal tells Hearthline and it shows up here.",
+    "waiting_one": "{{count}} needs an answer",
+    "waiting_other": "{{count}} need an answer",
+    "needsAnswer": "Needs an answer",
+    "decision": {
+      "message_sent": "Message sent",
+      "evidence_sent": "Evidence sent",
+      "refunded": "Refunded"
+    },
+    "overdue": "Past the deadline",
+    "dueIn_one": "Answer within {{count}} day",
+    "dueIn_other": "Answer within {{count}} days",
+    "stage": {
+      "INQUIRY": "Inquiry",
+      "CHARGEBACK": "Claim",
+      "PRE_ARBITRATION": "Pre-arbitration",
+      "ARBITRATION": "Arbitration"
+    },
+    "demo": "Demo data",
+    "reason": {
+      "MERCHANDISE_OR_SERVICE_NOT_RECEIVED": "Says it was never received",
+      "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED": "Says it was not as described",
+      "UNAUTHORISED": "Says they did not make this payment",
+      "CREDIT_NOT_PROCESSED": "Says a refund was never made",
+      "DUPLICATE_TRANSACTION": "Says they were charged twice",
+      "INCORRECT_AMOUNT": "Says the amount was wrong",
+      "PAYMENT_BY_OTHER_MEANS": "Says they paid another way",
+      "CANCELED_RECURRING_BILLING": "Says they had cancelled the monthly payment",
+      "PROBLEM_WITH_REMITTANCE": "A problem with the payment",
+      "OTHER": "Other"
+    },
+    "payerSays": "The payer says",
+    "records": "What our records show",
+    "timeline": "Timeline",
+    "rules": "Recommended by the rules",
+    "action": {
+      "message": "Message the payer",
+      "evidence": "Send evidence",
+      "refund": "Refund {{amount}}"
+    },
+    "evidenceType": "Evidence: {{type}}, with a PDF of our records",
+    "response": "Response to the payer and PayPal",
+    "drafting": "The Funds agent is drafting…",
+    "byAgent": "Drafted by the Funds agent. Check it before sending",
+    "byTemplate": "Template draft",
+    "confirmRefund": "Refund {{amount}} to the payer? This can't be undone.",
+    "confirm": "Refund",
+    "cancel": "Cancel",
+    "redraft": "Draft again",
+    "pdf": "Preview the evidence PDF",
+    "humanNote": "Hearthline never answers a dispute on its own. The answer is logged with your name.",
+    "done": {
+      "message_sent": "{{name}} messaged the payer on {{date}}. Waiting for their reply.",
+      "evidence_sent": "{{name}} sent evidence on {{date}}. PayPal is reviewing it.",
+      "refunded": "{{name}} refunded the payer on {{date}}."
+    },
+    "resolved": "Closed by PayPal ({{outcome}})"
   }
 }

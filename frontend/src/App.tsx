@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Aid from './pages/Aid'
 import BusinessesReview from './pages/BusinessesReview'
+import Disputes from './pages/Disputes'
 import BusinessHome from './pages/BusinessHome'
 import CommandCenter from './pages/CommandCenter'
 import ComingSoon from './pages/ComingSoon'
@@ -52,6 +53,14 @@ export default function App() {
         element={
           <RequireAuth role="business" wide>
             <BusinessHome />
+          </RequireAuth>
+        }
+      />
+      <Route
+        path="/command/disputes"
+        element={
+          <RequireAuth role={['org_admin', 'supervisor']} wide>
+            <Disputes />
           </RequireAuth>
         }
       />

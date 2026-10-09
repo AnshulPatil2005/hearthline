@@ -838,3 +838,39 @@ class ReopenRegular(Base):
 
     card: Mapped[GiftCard] = relationship()
     campaign: Mapped[ReopenCampaign] = relationship()
+
+
+class PaymentDispute(Base):
+    """A payer's PayPal dispute about a donation or a gift card. The Funds agent drafts a response from Hearthline's
+    records; a staff member decides whether to send evidence or refund."""
+
+    __tablename__ = "payment_disputes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    paypal_dispute_id: Mapped[str] = mapped_column(String(64), unique=True)
+    reason: Mapped[str] = mapped_column(String(60), default="OTHER")
+    # OPEN | WAITING_FOR_SELLER_RESPONSE | WAITING_FOR_BUYER_RESPONSE | UNDER_REVIEW | RESOLVED | OTHER
+    status: Mapped[str] = mapped_column(String(40), default="OPEN")
+    stage: Mapped[str] = mapped_column(String(30), default="INQUIRY")  # INQUIRY | CHARGEBACK | PRE_ARBITRATION | ...
+    amount: Mapped[Decimal] = mapped_column(Money)
+    transaction_id: Mapped[str | None] = mapped_column(String(64), index=True)  # the seller transaction (capture/sale)
+    payer_message: Mapped[str] = mapped_column(String(2000), default="")
+    respond_by: Mapped[datetime | None]
+    outcome: Mapped[str | None] = mapped_column(String(60))
+    # What PayPal allows now, from the dispute's links: provide_evidence, accept_claim, send_message, ...
+    actions: Mapped[list] = mapped_column(JSON, default=list)
+    donation_id: Mapped[int | None] = mapped_column(ForeignKey("donations.id", ondelete="SET NULL"))
+    gift_card_id: Mapped[int | None] = mapped_column(ForeignKey("gift_cards.id", ondelete="SET NULL"))
+    gift_card_payment_id: Mapped[int | None] = mapped_column(ForeignKey("gift_card_payments.id", ondelete="SET NULL"))
+    recommendation: Mapped[str | None] = mapped_column(String(20))  # send_evidence | refund
+    draft: Mapped[str | None] = mapped_column(Text)  # the response to PayPal; staff edit it before sending
+    draft_by_ai: Mapped[bool] = mapped_column(default=False)
+    decision: Mapped[str | None] = mapped_column(String(20))  # evidence_sent | message_sent | refunded
+    decided_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decided_at: Mapped[datetime | None]
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    updated_at: Mapped[datetime] = mapped_column(default=now, onupdate=now)
+
+    donation: Mapped["Donation | None"] = relationship()
+    gift_card: Mapped["GiftCard | None"] = relationship()
+    gift_card_payment: Mapped["GiftCardPayment | None"] = relationship()

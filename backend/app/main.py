@@ -12,6 +12,7 @@ from app.api import (
     bryntum,
     command,
     crews,
+    disputes,
     households,
     impact,
     insurance,
@@ -75,6 +76,7 @@ app.include_router(reopen.router)
 app.include_router(price_watch.router)
 app.include_router(impact.router)
 app.include_router(insurance.router)
+app.include_router(disputes.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

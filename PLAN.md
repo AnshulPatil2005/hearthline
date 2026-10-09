@@ -138,8 +138,8 @@ flowchart LR
 | 4 | **Payouts** (single and batch) | Batch cash aid, contractor milestones, volunteer reimbursements | `httpx` client |
 | 5 | **Subscriptions** | Paid Prepare plan, monthly "adopt a family" donors, Reopen regulars | MCP tools |
 | 6 | **Invoicing** | Contractors invoice homeowners, plus large Reopen pre-orders | MCP tools |
-| 7 | **Disputes** | Mediation between homeowners and contractors | MCP tools + REST |
-| 8 | **Shipment tracking** | Delivery proof for each purchase, shown on the donor's timeline | MCP tools |
+| 7 | **Disputes** | Mediation between homeowners and contractors; the payment disputes desk for donations and gift cards | REST |
+| 8 | **Shipment tracking** | Delivery proof for each purchase, shown on the donor's timeline and added to each donor's PayPal payment (Orders v2 `track`) | REST |
 | 9 | **Transaction Search / Reporting** | Nightly check that our ledger matches PayPal, plus Sentinel signals | MCP tools |
 | 10 | **Webhooks** (with signature verification) | Drive every status change | REST |
 | 11 | **JS SDK v6**: PayPal, **Venmo**, **Pay Later** buttons | Registry and Reopen checkout | Browser |
@@ -394,6 +394,8 @@ hearthline/
 - [x] Voice input (Web Speech API) in the app's language: Ask the grid (speaking runs the question), the cash-aid note and the milestone dispute reason; the button hides where the browser has no speech recognition (Firefox)
 - [x] Policy agent (insurance PDF): pypdf text, structured read (coverages, sub-limits with item words, deductible, settlement, deadlines), Q&A with a quote; code compares limits with the inventory (each item under its best sub-limit, known sub-limit words expanded in code) and turns deadlines into dates; /insurance page; fictional sample policy in frontend/public/samples; Riveras' pre-fire inventory seeded
 - [x] Hearthline Public API v1 (`/v1`, no login; preparing a gift returns a PayPal approval link and `/paid` completes it), the **Hearthline MCP server** at `/mcp` (7 tools, same service layer), OpenAPI + Postman collection in `docs/api` (generated, kept in sync by a test). `examples/donor_agent.py`: an LLM agent that gives through the MCP tools (live-verified: it prepared a real sandbox order with an approval link). *Still to do: SDKs and API portal from APIMatic (needs an APIMatic account).*
+- [x] **Shipment tracking on donors' payments**: when the Shopper's purchase ships, the tracking number is added to every donor's PayPal capture for that item (Orders v2 `track`), so donors see the shipment in PayPal too.
+- [x] **Payment disputes desk** (`/command/disputes`): PayPal disputes about donations and gift cards arrive by webhook (`CUSTOMER.DISPUTE.*`) or a sync, are linked to the payment, and code gathers Hearthline's records (purchase and tracking, escrow share, refunds, scam review). Rules recommend message / evidence / refund; the Funds agent drafts the words; staff edit and decide. Evidence goes as multipart with tracking info and a records PDF; accepting a claim books the refund in the ledger (family fund or escrow first, the spent part as a dispute loss). Three seeded demo disputes. *Live sandbox disputes need the personal buyer account; the three calls were checked against the sandbox with an unknown id (request format accepted).*
 
 ### Week 6: Mon Nov 9 – Thu Nov 12: freeze and ship
 - [ ] **Mon Nov 9: feature freeze.** Only bug fixes and polish after this.

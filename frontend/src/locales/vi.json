@@ -29,7 +29,8 @@
     "businesses": "Doanh nghiệp",
     "priceWatch": "Theo dõi giá",
     "giving": "Đóng góp của tôi",
-    "insurance": "Bảo hiểm"
+    "insurance": "Bảo hiểm",
+    "disputes": "Khiếu nại"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -1048,5 +1049,67 @@
     "askPlaceholder": "vd. Trang sức của mẹ tôi có được bảo hiểm không?",
     "ask": "Hỏi",
     "notAdvice": "Policy agent giải thích nội dung hợp đồng. Đây không phải tư vấn pháp lý, và công ty bảo hiểm quyết định số tiền chi trả."
+  },
+  "disputes": {
+    "title": "Khiếu nại thanh toán",
+    "subtitle": "Những người khiếu nại một khoản quyên góp hoặc thẻ quà tặng qua PayPal. Các quy tắc đối chiếu hồ sơ của Hearthline và đề xuất cách trả lời, trợ lý Quỹ soạn thảo, và quý vị quyết định. Không có gì được gửi đến PayPal cho đến khi quý vị quyết định.",
+    "sync": "Kiểm tra PayPal ngay",
+    "syncing": "Đang kiểm tra…",
+    "synced_other": "PayPal báo có {{count}} khiếu nại",
+    "none": "Không có khiếu nại. Khi có người khiếu nại một khoản thanh toán, PayPal sẽ báo cho Hearthline và nó sẽ hiện ở đây.",
+    "waiting_other": "{{count}} cần trả lời",
+    "needsAnswer": "Cần trả lời",
+    "decision": {
+      "message_sent": "Đã gửi tin nhắn",
+      "evidence_sent": "Đã gửi bằng chứng",
+      "refunded": "Đã hoàn tiền"
+    },
+    "overdue": "Đã quá hạn",
+    "dueIn_other": "Trả lời trong {{count}} ngày",
+    "stage": {
+      "INQUIRY": "Hỏi đáp",
+      "CHARGEBACK": "Khiếu nại",
+      "PRE_ARBITRATION": "Tiền trọng tài",
+      "ARBITRATION": "Trọng tài"
+    },
+    "demo": "Dữ liệu mẫu",
+    "reason": {
+      "MERCHANDISE_OR_SERVICE_NOT_RECEIVED": "Nói rằng chưa bao giờ nhận được",
+      "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED": "Nói rằng không đúng như mô tả",
+      "UNAUTHORISED": "Nói rằng họ không thực hiện khoản thanh toán này",
+      "CREDIT_NOT_PROCESSED": "Nói rằng chưa được hoàn tiền",
+      "DUPLICATE_TRANSACTION": "Nói rằng bị trừ tiền hai lần",
+      "INCORRECT_AMOUNT": "Nói rằng số tiền không đúng",
+      "PAYMENT_BY_OTHER_MEANS": "Nói rằng đã trả bằng cách khác",
+      "CANCELED_RECURRING_BILLING": "Nói rằng đã hủy khoản thanh toán hằng tháng",
+      "PROBLEM_WITH_REMITTANCE": "Có vấn đề với khoản thanh toán",
+      "OTHER": "Khác"
+    },
+    "payerSays": "Người trả tiền nói",
+    "records": "Hồ sơ của chúng tôi cho thấy",
+    "timeline": "Dòng thời gian",
+    "rules": "Quy tắc đề xuất",
+    "action": {
+      "message": "Nhắn cho người trả tiền",
+      "evidence": "Gửi bằng chứng",
+      "refund": "Hoàn {{amount}}"
+    },
+    "evidenceType": "Bằng chứng: {{type}}, kèm PDF hồ sơ của chúng tôi",
+    "response": "Trả lời người trả tiền và PayPal",
+    "drafting": "Trợ lý Quỹ đang soạn thảo…",
+    "byAgent": "Do trợ lý Quỹ soạn thảo. Hãy kiểm tra trước khi gửi",
+    "byTemplate": "Bản nháp theo mẫu",
+    "confirmRefund": "Hoàn {{amount}} cho người trả tiền? Không thể hoàn tác.",
+    "confirm": "Hoàn tiền",
+    "cancel": "Hủy",
+    "redraft": "Soạn lại",
+    "pdf": "Xem trước PDF bằng chứng",
+    "humanNote": "Hearthline không bao giờ tự trả lời khiếu nại. Câu trả lời được ghi lại kèm tên của quý vị.",
+    "done": {
+      "message_sent": "{{name}} đã nhắn cho người trả tiền ngày {{date}}. Đang chờ trả lời.",
+      "evidence_sent": "{{name}} đã gửi bằng chứng ngày {{date}}. PayPal đang xem xét.",
+      "refunded": "{{name}} đã hoàn tiền cho người trả tiền ngày {{date}}."
+    },
+    "resolved": "PayPal đã đóng ({{outcome}})"
   }
 }

@@ -29,7 +29,8 @@
     "businesses": "Negocios",
     "priceWatch": "Vigilancia de precios",
     "giving": "Mis donaciones",
-    "insurance": "Seguro"
+    "insurance": "Seguro",
+    "disputes": "Disputas"
   },
   "roles": {
     "household": "Hogar",
@@ -1067,5 +1068,70 @@
     "askPlaceholder": "p. ej. ¿Están cubiertas las joyas de mi madre?",
     "ask": "Preguntar",
     "notAdvice": "El agente explica lo que dice su póliza. No es asesoría legal y su aseguradora decide lo que paga."
+  },
+  "disputes": {
+    "title": "Disputas de pago",
+    "subtitle": "Personas que disputan una donación o una tarjeta de regalo con PayPal. Las reglas revisan los registros de Hearthline y recomiendan una respuesta, el agente de Fondos la redacta y usted decide. Nada se envía a PayPal hasta que usted lo haga.",
+    "sync": "Consultar PayPal ahora",
+    "syncing": "Consultando…",
+    "synced_one": "PayPal informa {{count}} disputa",
+    "synced_other": "PayPal informa {{count}} disputas",
+    "none": "No hay disputas. Cuando alguien disputa un pago, PayPal avisa a Hearthline y aparece aquí.",
+    "waiting_one": "{{count}} necesita respuesta",
+    "waiting_other": "{{count}} necesitan respuesta",
+    "needsAnswer": "Necesita respuesta",
+    "decision": {
+      "message_sent": "Mensaje enviado",
+      "evidence_sent": "Pruebas enviadas",
+      "refunded": "Reembolsado"
+    },
+    "overdue": "Fuera de plazo",
+    "dueIn_one": "Responder en {{count}} día",
+    "dueIn_other": "Responder en {{count}} días",
+    "stage": {
+      "INQUIRY": "Consulta",
+      "CHARGEBACK": "Reclamo",
+      "PRE_ARBITRATION": "Prearbitraje",
+      "ARBITRATION": "Arbitraje"
+    },
+    "demo": "Datos de demostración",
+    "reason": {
+      "MERCHANDISE_OR_SERVICE_NOT_RECEIVED": "Dice que nunca lo recibió",
+      "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED": "Dice que no era lo descrito",
+      "UNAUTHORISED": "Dice que no hizo este pago",
+      "CREDIT_NOT_PROCESSED": "Dice que nunca recibió un reembolso",
+      "DUPLICATE_TRANSACTION": "Dice que le cobraron dos veces",
+      "INCORRECT_AMOUNT": "Dice que el monto era incorrecto",
+      "PAYMENT_BY_OTHER_MEANS": "Dice que pagó de otra forma",
+      "CANCELED_RECURRING_BILLING": "Dice que había cancelado el pago mensual",
+      "PROBLEM_WITH_REMITTANCE": "Un problema con el pago",
+      "OTHER": "Otro"
+    },
+    "payerSays": "El pagador dice",
+    "records": "Lo que muestran nuestros registros",
+    "timeline": "Cronología",
+    "rules": "Recomendado por las reglas",
+    "action": {
+      "message": "Escribir al pagador",
+      "evidence": "Enviar pruebas",
+      "refund": "Reembolsar {{amount}}"
+    },
+    "evidenceType": "Pruebas: {{type}}, con un PDF de nuestros registros",
+    "response": "Respuesta al pagador y a PayPal",
+    "drafting": "El agente de Fondos está redactando…",
+    "byAgent": "Redactado por el agente de Fondos. Revíselo antes de enviar",
+    "byTemplate": "Borrador de plantilla",
+    "confirmRefund": "¿Reembolsar {{amount}} al pagador? No se puede deshacer.",
+    "confirm": "Reembolsar",
+    "cancel": "Cancelar",
+    "redraft": "Redactar de nuevo",
+    "pdf": "Ver el PDF de pruebas",
+    "humanNote": "Hearthline nunca responde una disputa por su cuenta. La respuesta queda registrada con su nombre.",
+    "done": {
+      "message_sent": "{{name}} escribió al pagador el {{date}}. Esperando su respuesta.",
+      "evidence_sent": "{{name}} envió pruebas el {{date}}. PayPal las está revisando.",
+      "refunded": "{{name}} reembolsó al pagador el {{date}}."
+    },
+    "resolved": "Cerrada por PayPal ({{outcome}})"
   }
 }

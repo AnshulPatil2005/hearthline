@@ -19,12 +19,14 @@ CASH = "assets:paypal"
 FEES = "expenses:paypal_fees"
 CASH_AID = "expenses:cash_aid"
 GRANTS = "income:relief_grants"
+DISPUTE_LOSSES = "expenses:dispute_losses"
 
 ACCOUNT_DEFAULTS = {
     CASH: ("PayPal balance", "asset"),
     FEES: ("PayPal fees", "expense"),
     CASH_AID: ("Cash aid paid by the relief organization", "expense"),
     GRANTS: ("Grants and general gifts to the relief fund", "income"),
+    DISPUTE_LOSSES: ("Disputes refunded after the money was spent", "expense"),
 }
 
 

@@ -29,7 +29,8 @@
     "businesses": "Mga Negosyo",
     "priceWatch": "Bantay-Presyo",
     "giving": "Aking ibinigay",
-    "insurance": "Insurance"
+    "insurance": "Insurance",
+    "disputes": "Mga dispute"
   },
   "roles": {
     "household": "Sambahayan",
@@ -1067,5 +1068,70 @@
     "askPlaceholder": "hal. Sakop ba ang alahas ng aking ina?",
     "ask": "Itanong",
     "notAdvice": "Ipinaliliwanag ng Policy agent ang sinasabi ng inyong policy. Hindi ito legal na payo, at ang insurer ang magpapasya kung magkano ang ibabayad."
+  },
+  "disputes": {
+    "title": "Mga dispute sa bayad",
+    "subtitle": "Mga taong nag-dispute ng donasyon o gift card sa PayPal. Sinusuri ng mga patakaran ang mga rekord ng Hearthline at nagrerekomenda ng sagot, isinusulat ito ng Funds agent, at kayo ang magpapasya. Walang ipinapadala sa PayPal hangga't hindi kayo nagpapasya.",
+    "sync": "Tingnan ang PayPal ngayon",
+    "syncing": "Tinitingnan…",
+    "synced_one": "{{count}} dispute ang iniulat ng PayPal",
+    "synced_other": "{{count}} dispute ang iniulat ng PayPal",
+    "none": "Walang dispute. Kapag may nag-dispute ng bayad, sinasabihan ng PayPal ang Hearthline at lalabas ito rito.",
+    "waiting_one": "{{count}} ang kailangang sagutin",
+    "waiting_other": "{{count}} ang kailangang sagutin",
+    "needsAnswer": "Kailangang sagutin",
+    "decision": {
+      "message_sent": "Naipadala ang mensahe",
+      "evidence_sent": "Naipadala ang ebidensya",
+      "refunded": "Na-refund"
+    },
+    "overdue": "Lampas na sa deadline",
+    "dueIn_one": "Sagutin sa loob ng {{count}} araw",
+    "dueIn_other": "Sagutin sa loob ng {{count}} araw",
+    "stage": {
+      "INQUIRY": "Tanong",
+      "CHARGEBACK": "Claim",
+      "PRE_ARBITRATION": "Pre-arbitration",
+      "ARBITRATION": "Arbitration"
+    },
+    "demo": "Demo data",
+    "reason": {
+      "MERCHANDISE_OR_SERVICE_NOT_RECEIVED": "Sinasabing hindi ito natanggap",
+      "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED": "Sinasabing hindi ito tulad ng inilarawan",
+      "UNAUTHORISED": "Sinasabing hindi sila ang nagbayad",
+      "CREDIT_NOT_PROCESSED": "Sinasabing hindi naibalik ang refund",
+      "DUPLICATE_TRANSACTION": "Sinasabing dalawang beses silang siningil",
+      "INCORRECT_AMOUNT": "Sinasabing mali ang halaga",
+      "PAYMENT_BY_OTHER_MEANS": "Sinasabing nagbayad sila sa ibang paraan",
+      "CANCELED_RECURRING_BILLING": "Sinasabing kinansela na nila ang buwanang bayad",
+      "PROBLEM_WITH_REMITTANCE": "May problema sa bayad",
+      "OTHER": "Iba pa"
+    },
+    "payerSays": "Sabi ng nagbayad",
+    "records": "Ang ipinapakita ng aming mga rekord",
+    "timeline": "Timeline",
+    "rules": "Rekomendasyon ng mga patakaran",
+    "action": {
+      "message": "Mag-message sa nagbayad",
+      "evidence": "Magpadala ng ebidensya",
+      "refund": "I-refund ang {{amount}}"
+    },
+    "evidenceType": "Ebidensya: {{type}}, may PDF ng aming mga rekord",
+    "response": "Sagot sa nagbayad at sa PayPal",
+    "drafting": "Isinusulat ng Funds agent…",
+    "byAgent": "Isinulat ng Funds agent. Suriin bago ipadala",
+    "byTemplate": "Template na draft",
+    "confirmRefund": "I-refund ang {{amount}} sa nagbayad? Hindi na ito maibabalik.",
+    "confirm": "I-refund",
+    "cancel": "Kanselahin",
+    "redraft": "Isulat muli",
+    "pdf": "Tingnan ang PDF ng ebidensya",
+    "humanNote": "Hindi kailanman sumasagot ang Hearthline sa dispute nang mag-isa. Nakatala ang sagot kasama ang inyong pangalan.",
+    "done": {
+      "message_sent": "Nag-message si {{name}} sa nagbayad noong {{date}}. Hinihintay ang sagot.",
+      "evidence_sent": "Nagpadala si {{name}} ng ebidensya noong {{date}}. Sinusuri ito ng PayPal.",
+      "refunded": "Ni-refund ni {{name}} ang nagbayad noong {{date}}."
+    },
+    "resolved": "Isinara ng PayPal ({{outcome}})"
   }
 }

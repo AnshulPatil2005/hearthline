@@ -575,6 +575,9 @@ def main() -> None:
         from app.seed_giving import seed_giving_demo
 
         seed_giving_demo(db)
+        from app.seed_disputes import seed_disputes_demo
+
+        seed_disputes_demo(db)
     print("Seeded the Sablewood demo scenario.")
 
 

@@ -573,3 +573,36 @@ export type PolicyInfo = { filename: string; uploaded_at: string; summary: Polic
 export type PolicyAnswer = { answer: string; quote: string | null; in_policy: boolean }
 
 export type RegularInfo = { id: number; status: string; payments: number; card: GiftCardInfo }
+
+export type DisputeAction = 'message' | 'evidence' | 'refund'
+export type DisputeRow = {
+  id: number
+  paypal_dispute_id: string
+  reason: string
+  reason_text: string
+  status: string
+  stage: string
+  amount: string
+  subject: string
+  kind: 'donation' | 'gift_card' | 'unmatched'
+  respond_by: string | null
+  recommendation: DisputeAction | null
+  decision: 'message_sent' | 'evidence_sent' | 'refunded' | null
+  created_at: string
+  demo: boolean
+}
+export type DisputeDetail = DisputeRow & {
+  payer_message: string
+  outcome: string | null
+  actions: string[]
+  facts: { label: string; value: string }[]
+  timeline: { at: string; what: string }[]
+  evidence_type: string
+  tracking: { carrier_name: string; tracking_number: string }[]
+  recommended: DisputeAction
+  because: string
+  draft: string | null
+  draft_by_ai: boolean
+  decided_by: string | null
+  decided_at: string | null
+}

@@ -64,12 +64,14 @@ class PayPalREST:
         *,
         json: Any = None,
         params: dict[str, Any] | None = None,
+        files: dict[str, tuple[str | None, bytes | str, str]] | None = None,
         idempotency_key: str | None = None,
     ) -> Any:
+        """`files` sends multipart/form-data instead of JSON (the Disputes API takes evidence that way)."""
         headers = {"Authorization": f"Bearer {await self.access_token()}"}
         if method.upper() == "POST":
             headers["PayPal-Request-Id"] = idempotency_key or str(uuid.uuid4())
-        r = await self._http.request(method, path, json=json, params=params, headers=headers)
+        r = await self._http.request(method, path, json=json, params=params, files=files, headers=headers)
         if r.is_error:
             raise PayPalError(r.status_code, r.json() if r.content else None)
         return r.json() if r.content else None

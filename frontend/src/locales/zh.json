@@ -29,7 +29,8 @@
     "businesses": "商家",
     "priceWatch": "价格监督",
     "giving": "我的捐赠",
-    "insurance": "保险"
+    "insurance": "保险",
+    "disputes": "争议"
   },
   "roles": {
     "household": "住户",
@@ -1048,5 +1049,67 @@
     "askPlaceholder": "例如：我母亲的首饰在承保范围内吗？",
     "ask": "提问",
     "notAdvice": "保单助手只解释保单内容，不构成法律建议，赔付金额由保险公司决定。"
+  },
+  "disputes": {
+    "title": "付款争议",
+    "subtitle": "有人通过 PayPal 对捐款或礼品卡提出争议。规则会核对 Hearthline 的记录并建议如何答复，资金助手起草答复，由您决定。在您决定之前，不会向 PayPal 发送任何内容。",
+    "sync": "立即查询 PayPal",
+    "syncing": "正在查询…",
+    "synced_other": "PayPal 报告了 {{count}} 个争议",
+    "none": "暂无争议。有人对付款提出争议时，PayPal 会通知 Hearthline，并显示在这里。",
+    "waiting_other": "{{count}} 个待答复",
+    "needsAnswer": "待答复",
+    "decision": {
+      "message_sent": "已发送消息",
+      "evidence_sent": "已提交证据",
+      "refunded": "已退款"
+    },
+    "overdue": "已过期限",
+    "dueIn_other": "请在 {{count}} 天内答复",
+    "stage": {
+      "INQUIRY": "询问",
+      "CHARGEBACK": "索赔",
+      "PRE_ARBITRATION": "预仲裁",
+      "ARBITRATION": "仲裁"
+    },
+    "demo": "演示数据",
+    "reason": {
+      "MERCHANDISE_OR_SERVICE_NOT_RECEIVED": "称从未收到",
+      "MERCHANDISE_OR_SERVICE_NOT_AS_DESCRIBED": "称与描述不符",
+      "UNAUTHORISED": "称并非本人付款",
+      "CREDIT_NOT_PROCESSED": "称从未收到退款",
+      "DUPLICATE_TRANSACTION": "称被重复扣款",
+      "INCORRECT_AMOUNT": "称金额有误",
+      "PAYMENT_BY_OTHER_MEANS": "称已用其他方式付款",
+      "CANCELED_RECURRING_BILLING": "称已取消每月付款",
+      "PROBLEM_WITH_REMITTANCE": "付款出现问题",
+      "OTHER": "其他"
+    },
+    "payerSays": "付款人说",
+    "records": "我们的记录显示",
+    "timeline": "时间线",
+    "rules": "规则建议",
+    "action": {
+      "message": "给付款人发消息",
+      "evidence": "提交证据",
+      "refund": "退款 {{amount}}"
+    },
+    "evidenceType": "证据：{{type}}，附我们记录的 PDF",
+    "response": "给付款人和 PayPal 的答复",
+    "drafting": "资金助手正在起草…",
+    "byAgent": "由资金助手起草。发送前请检查",
+    "byTemplate": "模板草稿",
+    "confirmRefund": "向付款人退款 {{amount}}？此操作无法撤销。",
+    "confirm": "退款",
+    "cancel": "取消",
+    "redraft": "重新起草",
+    "pdf": "预览证据 PDF",
+    "humanNote": "Hearthline 从不自行答复争议。答复会以您的名字记录。",
+    "done": {
+      "message_sent": "{{name}} 于 {{date}} 给付款人发了消息，正在等待回复。",
+      "evidence_sent": "{{name}} 于 {{date}} 提交了证据，PayPal 正在审核。",
+      "refunded": "{{name}} 于 {{date}} 向付款人退款。"
+    },
+    "resolved": "已由 PayPal 结案（{{outcome}}）"
   }
 }
