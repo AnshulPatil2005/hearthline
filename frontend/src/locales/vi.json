@@ -1148,5 +1148,64 @@
     "done": "Tài khoản PayPal của quý vị đã được kết nối",
     "cancelled": "Không có gì thay đổi. Quý vị có thể kết nối tài khoản PayPal bất cứ lúc nào.",
     "back": "Quay lại Hearthline"
+  },
+  "legal": {
+    "questions": "Có câu hỏi? Hãy mở một issue trên",
+    "privacy": {
+      "title": "Quyền riêng tư",
+      "intro": "Hearthline là bản demo cho một cuộc thi hackathon: thị trấn, con người và các khoản thanh toán đều là hư cấu, và thanh toán chạy trong môi trường thử nghiệm của PayPal nên không có tiền thật nào được chuyển. Trang này cho biết ứng dụng lưu những gì về quý vị và vì sao.",
+      "sections": [
+        {
+          "h": "Những gì chúng tôi lưu",
+          "p": "Thông tin hộ gia đình của quý vị (địa chỉ, số người, mức thiệt hại), ảnh quý vị thêm vào và danh mục đồ đạc lập từ đó, danh sách nhận quà của quý vị, và mọi khoản thanh toán trong sổ kế toán kép. Quyết định của người duyệt và các thao tác quan trọng khác được ghi vào nhật ký kiểm tra không thể sửa lén."
+        },
+        {
+          "h": "Tài khoản PayPal của quý vị",
+          "p": "Nếu quý vị kết nối tài khoản bằng Đăng nhập bằng PayPal, chúng tôi lưu ID tài khoản PayPal, email, tên và việc PayPal đã xác minh tài khoản hay chưa, để gửi tiền của quý vị vào đó. Chúng tôi không lưu mã đăng nhập của PayPal. PayPal xử lý các khoản thanh toán; chúng tôi không bao giờ thấy thông tin thẻ hay ngân hàng."
+        },
+        {
+          "h": "AI và các dịch vụ khác",
+          "p": "Ảnh và văn bản quý vị thêm vào được gửi đến một dịch vụ AI (Google Gemini, hoặc OpenRouter dự phòng) để liệt kê đồ đạc, kiểm tra ảnh và soạn ghi chú. Tên đồ đạc được gửi đến Channel3 để tìm giá. Luôn có người duyệt trước khi bất kỳ khoản tiền nào liên quan đến yêu cầu bồi thường được chuyển."
+        },
+        {
+          "h": "Ai thấy gì",
+          "p": "Người quyên góp thấy câu chuyện và các món trong danh sách, không bao giờ thấy địa chỉ của quý vị. Người duyệt và nhân viên cứu trợ chỉ thấy những gì cần để quyết định một hồ sơ. Địa chỉ PayPal được che trong nhật ký và trên màn hình không cần địa chỉ đầy đủ."
+        },
+        {
+          "h": "Lựa chọn của quý vị",
+          "p": "Quý vị có thể đổi tài khoản PayPal nhận tiền bất cứ lúc nào. Khi dùng thật, quý vị có thể yêu cầu xem hoặc xóa dữ liệu của mình; trong bản demo này, dữ liệu được đặt lại thường xuyên."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Điều khoản",
+      "intro": "Hearthline là bản demo cho một cuộc thi hackathon, được cung cấp nguyên trạng. Mã nguồn mở theo giấy phép MIT.",
+      "sections": [
+        {
+          "h": "Không có tiền thật",
+          "p": "Thanh toán chạy trong môi trường thử nghiệm của PayPal với tài khoản thử. Không có thao tác nào ở đây thu tiền hay trả tiền cho ai."
+        },
+        {
+          "h": "Không phải lời khuyên chuyên môn",
+          "p": "Trợ lý hợp đồng bảo hiểm, kiểm tra giá và báo cáo giúp quý vị hiểu tình hình của mình. Đó không phải là tư vấn pháp lý, bảo hiểm hay thuế."
+        },
+        {
+          "h": "Con người quyết định",
+          "p": "AI chuẩn bị bằng chứng và bản nháp. Con người phê duyệt tiền hỗ trợ, yêu cầu bồi thường, hoàn tiền và câu trả lời cho khiếu nại thanh toán, và mọi quyết định đều được ghi lại."
+        },
+        {
+          "h": "Sử dụng đúng mục đích",
+          "p": "Đừng dùng Hearthline để mạo danh người khác hoặc chuyển tiền không phải của mình. Các danh sách sao chép một gia đình thật sẽ bị từ chối và quà tặng được hoàn lại."
+        },
+        {
+          "h": "Công cụ khác",
+          "p": "AG Grid, Bryntum, Channel3, APIMatic, Render và PayPal được sử dụng theo điều khoản riêng của từng bên."
+        },
+        {
+          "h": "Không bảo đảm",
+          "p": "Phần mềm được cung cấp không kèm bảo đảm, như giấy phép MIT quy định."
+        }
+      ]
+    }
   }
 }

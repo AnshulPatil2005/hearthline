@@ -1171,5 +1171,64 @@
     "done": "Su cuenta de PayPal está conectada",
     "cancelled": "No se cambió nada. Puede conectar su cuenta de PayPal cuando quiera.",
     "back": "Volver a Hearthline"
+  },
+  "legal": {
+    "questions": "¿Preguntas? Abra un caso en",
+    "privacy": {
+      "title": "Privacidad",
+      "intro": "Hearthline es una demostración para un hackathon: el pueblo, las personas y los pagos son ficticios, y los pagos se hacen en el entorno de pruebas de PayPal, así que no se mueve dinero real. Esta página explica qué guarda la aplicación sobre usted y por qué.",
+      "sections": [
+        {
+          "h": "Lo que guardamos",
+          "p": "Los datos de su hogar (dirección, número de personas, daños), las fotos que agrega y el inventario creado a partir de ellas, su registro y cada pago, en un libro contable de doble entrada. Las decisiones de los revisores y otras acciones importantes quedan en un registro de auditoría a prueba de alteraciones."
+        },
+        {
+          "h": "Su cuenta de PayPal",
+          "p": "Si conecta su cuenta con Iniciar sesión con PayPal, guardamos su ID de cuenta de PayPal, su correo, su nombre y si PayPal la ha verificado, para enviarle allí su dinero. No guardamos los tokens de inicio de sesión de PayPal. PayPal maneja los pagos; nunca vemos datos de tarjetas ni de bancos."
+        },
+        {
+          "h": "IA y otros servicios",
+          "p": "Las fotos y textos que agrega se envían a un servicio de IA (Google Gemini, u OpenRouter como respaldo) para listar objetos, revisar fotos y redactar notas. Los nombres de los objetos se envían a Channel3 para buscar precios. Una persona revisa antes de que se mueva dinero relacionado con un reclamo."
+        },
+        {
+          "h": "Quién ve qué",
+          "p": "Los donantes ven la historia y los artículos de un registro, nunca su dirección. Los revisores y el personal de ayuda ven lo necesario para decidir un caso. Las direcciones de PayPal aparecen ocultas en registros y pantallas que no necesitan la dirección completa."
+        },
+        {
+          "h": "Sus opciones",
+          "p": "Puede cambiar en cualquier momento la cuenta de PayPal que recibe su dinero. En un uso real podría pedir ver o borrar sus datos; en esta demostración, los datos se reinician con frecuencia."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Términos",
+      "intro": "Hearthline es una demostración para un hackathon, ofrecida tal cual. Su código es abierto, con licencia MIT.",
+      "sections": [
+        {
+          "h": "Sin dinero real",
+          "p": "Los pagos se hacen en el entorno de pruebas de PayPal con cuentas de prueba. Nada de lo que haga aquí cobra ni paga a nadie."
+        },
+        {
+          "h": "No es asesoría",
+          "p": "El agente de pólizas, las revisiones de precios y los informes le ayudan a entender su situación. No son asesoría legal, de seguros ni de impuestos."
+        },
+        {
+          "h": "Deciden las personas",
+          "p": "La IA prepara pruebas y borradores. Las personas aprueban la ayuda en efectivo, los reclamos, los reembolsos y las respuestas a disputas de pago, y cada decisión queda registrada."
+        },
+        {
+          "h": "Uso justo",
+          "p": "No use Hearthline para hacerse pasar por otra persona ni para mover dinero que no es suyo. Los registros que copian a una familia real se rechazan y sus donaciones se reembolsan."
+        },
+        {
+          "h": "Otras herramientas",
+          "p": "AG Grid, Bryntum, Channel3, APIMatic, Render y PayPal se usan según sus propios términos."
+        },
+        {
+          "h": "Sin garantía",
+          "p": "El software se ofrece sin garantía, como dice la licencia MIT."
+        }
+      ]
+    }
   }
 }

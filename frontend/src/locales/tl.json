@@ -1171,5 +1171,64 @@
     "done": "Nakakonekta na ang inyong PayPal account",
     "cancelled": "Walang binago. Maaari ninyong ikonekta ang PayPal account kahit kailan.",
     "back": "Bumalik sa Hearthline"
+  },
+  "legal": {
+    "questions": "May tanong? Magbukas ng issue sa",
+    "privacy": {
+      "title": "Privacy",
+      "intro": "Ang Hearthline ay isang demo para sa hackathon: kathang-isip ang bayan, ang mga tao at ang mga bayad, at tumatakbo ang mga bayad sa sandbox ng PayPal, kaya walang totoong perang gumagalaw. Sinasabi ng pahinang ito kung ano ang itinatago ng app tungkol sa inyo at bakit.",
+      "sections": [
+        {
+          "h": "Ang itinatago namin",
+          "p": "Ang detalye ng inyong sambahayan (address, laki ng pamilya, pinsala), ang mga larawang idinagdag ninyo at ang imbentaryong ginawa mula rito, ang inyong registry, at bawat bayad, sa double-entry ledger. Nakatala ang mga desisyon ng reviewer at iba pang mahahalagang kilos sa audit log na hindi maaaring baguhin nang palihim."
+        },
+        {
+          "h": "Ang inyong PayPal account",
+          "p": "Kung ikinonekta ninyo ang PayPal account gamit ang Mag-log in gamit ang PayPal, itinatago namin ang PayPal account ID, email, pangalan at kung verified ito ng PayPal, para doon maipadala ang inyong pera. Hindi namin itinatago ang sign-in tokens ng PayPal. Ang PayPal ang humahawak ng mga bayad; hindi namin nakikita ang detalye ng card o bangko."
+        },
+        {
+          "h": "AI at iba pang serbisyo",
+          "p": "Ang mga larawan at tekstong idinagdag ninyo ay ipinapadala sa AI service (Google Gemini, o OpenRouter bilang reserba) para ilista ang mga gamit, suriin ang mga larawan at gumawa ng draft. Ang pangalan ng mga gamit ay ipinapadala sa Channel3 para hanapin ang presyo. May taong sumusuri bago gumalaw ang anumang perang may kinalaman sa claim."
+        },
+        {
+          "h": "Sino ang nakakakita ng ano",
+          "p": "Nakikita ng mga donor ang kuwento at mga gamit sa registry, hindi kailanman ang inyong address. Nakikita ng mga reviewer at relief staff ang kailangan lang para magpasya sa isang kaso. Nakatago ang mga PayPal address sa mga log at screen na hindi kailangan ang buong address."
+        },
+        {
+          "h": "Ang inyong pagpipilian",
+          "p": "Maaari ninyong palitan kahit kailan ang PayPal account na tumatanggap ng inyong pera. Sa totoong paggamit, maaari ninyong hilinging makita o burahin ang inyong data; sa demo na ito, regular na nire-reset ang data."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Mga tuntunin",
+      "intro": "Ang Hearthline ay isang demo para sa hackathon, ibinibigay kung ano ito. Open source ang code nito sa ilalim ng MIT license.",
+      "sections": [
+        {
+          "h": "Walang totoong pera",
+          "p": "Tumatakbo ang mga bayad sa sandbox ng PayPal gamit ang mga test account. Walang anumang gagawin ninyo rito ang sisingil o magbabayad sa sinuman."
+        },
+        {
+          "h": "Hindi payo",
+          "p": "Tinutulungan kayo ng Policy agent, mga pagsusuri ng presyo at mga ulat na maunawaan ang inyong sitwasyon. Hindi ito legal, insurance o tax na payo."
+        },
+        {
+          "h": "Tao ang nagpapasya",
+          "p": "Ang AI ang naghahanda ng ebidensya at draft. Tao ang nag-aapruba ng cash aid, claim, refund at sagot sa mga dispute sa bayad, at nakatala ang bawat desisyon."
+        },
+        {
+          "h": "Tamang paggamit",
+          "p": "Huwag gamitin ang Hearthline para magpanggap bilang iba o para maglipat ng perang hindi sa inyo. Tinatanggihan ang mga registry na kumokopya sa totoong pamilya at ibinabalik ang kanilang mga natanggap na regalo."
+        },
+        {
+          "h": "Ibang mga tool",
+          "p": "Ginagamit ang AG Grid, Bryntum, Channel3, APIMatic, Render at PayPal ayon sa kani-kanilang tuntunin."
+        },
+        {
+          "h": "Walang warranty",
+          "p": "Ibinibigay ang software nang walang warranty, ayon sa MIT license."
+        }
+      ]
+    }
   }
 }

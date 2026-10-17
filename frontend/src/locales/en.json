@@ -1171,5 +1171,64 @@
     "done": "Your PayPal account is connected",
     "cancelled": "Nothing was changed. You can connect your PayPal account any time.",
     "back": "Back to Hearthline"
+  },
+  "legal": {
+    "questions": "Questions? Open an issue on",
+    "privacy": {
+      "title": "Privacy",
+      "intro": "Hearthline is a hackathon demo: the town, the people and the payments are fictional, and payments run in PayPal's sandbox, so no real money moves. This page says what the app keeps about you and why.",
+      "sections": [
+        {
+          "h": "What we keep",
+          "p": "Your household's details (address, household size, damage), the photos you add and the inventory made from them, your registry, and every payment, in a double-entry ledger. Reviewers' decisions and other important actions go in a tamper-evident audit log."
+        },
+        {
+          "h": "Your PayPal account",
+          "p": "If you connect your PayPal account with Log in with PayPal, we keep its PayPal account ID, email, name and whether PayPal has verified it, so we can send your money there. We don't keep PayPal's sign-in tokens. PayPal handles the payments themselves; we never see card or bank details."
+        },
+        {
+          "h": "AI and other services",
+          "p": "Photos and text you add are sent to an AI service (Google Gemini, or OpenRouter as a backup) to list items, check photos and draft notes. Item names go to Channel3 to find prices. A person reviews before any claim-related money moves."
+        },
+        {
+          "h": "Who sees what",
+          "p": "Donors see a registry's story and items, never your address. Reviewers and relief staff see what they need to decide a case. PayPal addresses are masked in logs and on screens that don't need the full address."
+        },
+        {
+          "h": "Your choices",
+          "p": "You can change the PayPal account your money goes to at any time. In a real deployment you could ask to see or delete your data; in this demo, the data is reset regularly."
+        }
+      ]
+    },
+    "terms": {
+      "title": "Terms",
+      "intro": "Hearthline is a hackathon demo, offered as is. Its code is open source under the MIT license.",
+      "sections": [
+        {
+          "h": "No real money",
+          "p": "Payments run in PayPal's sandbox with test accounts. Nothing you do here charges or pays anyone."
+        },
+        {
+          "h": "Not advice",
+          "p": "The Policy agent, price checks and reports help you understand your situation. They are not legal, insurance or tax advice."
+        },
+        {
+          "h": "People decide",
+          "p": "AI prepares evidence and drafts. People approve cash aid, claims, refunds and answers to payment disputes, and every decision is logged."
+        },
+        {
+          "h": "Fair use",
+          "p": "Don't use Hearthline to impersonate anyone or to move money that isn't yours. Registries that copy a real family are rejected and their gifts refunded."
+        },
+        {
+          "h": "Other tools",
+          "p": "AG Grid, Bryntum, Channel3, APIMatic, Render and PayPal are used under their own terms."
+        },
+        {
+          "h": "No warranty",
+          "p": "The software is provided without warranty, as the MIT license says."
+        }
+      ]
+    }
   }
 }

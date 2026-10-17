@@ -4,6 +4,7 @@ import { Link, NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../auth'
 import { LANGUAGES } from '../i18n'
 import { STAFF_ROLES } from '../paths'
+import { Footer } from './Footer'
 
 export function Logo({ className = 'size-7' }: { className?: string }) {
   return (
@@ -159,7 +160,7 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
         </div>
       </header>
       <main className={`mx-auto w-full ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-1 px-4 py-8`}>{children}</main>
-      <footer className="border-t border-line px-4 py-3 text-center text-xs text-ink-faint">{t('app.demoNotice')}</footer>
+      <Footer />
     </div>
   )
 }

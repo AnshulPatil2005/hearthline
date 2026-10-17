@@ -4,6 +4,7 @@ import Aid from './pages/Aid'
 import BusinessesReview from './pages/BusinessesReview'
 import ConnectPayPalReturn from './pages/ConnectPayPalReturn'
 import Disputes from './pages/Disputes'
+import Legal from './pages/Legal'
 import BusinessHome from './pages/BusinessHome'
 import CommandCenter from './pages/CommandCenter'
 import ComingSoon from './pages/ComingSoon'
@@ -41,6 +42,8 @@ export default function App() {
       <Route path="/card/:code" element={<GiftCardView />} />
       <Route path="/price-watch" element={<PriceWatch />} />
       <Route path="/paid" element={<PaymentReturn />} />
+      <Route path="/privacy" element={<Legal doc="privacy" />} />
+      <Route path="/terms" element={<Legal doc="terms" />} />
       <Route
         path="/connect/paypal"
         element={
