@@ -1,0 +1,6 @@
+# Keep LF line endings in the repo (files written on Windows may have CRLF).
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.xlsx binary
