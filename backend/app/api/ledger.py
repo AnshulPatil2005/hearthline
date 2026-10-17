@@ -39,13 +39,10 @@ class LedgerRowOut(BaseModel):
 @router.get("/households/me/ledger", response_model=list[LedgerRowOut])
 def household_ledger(home: MyHousehold, db: DB) -> list[LedgerRowOut]:
     fund_code = ledger.household_fund(home.id)
+    # A subquery, not DISTINCT: Postgres can't compare the JSON `meta` column, so DISTINCT over the rows fails there.
+    touching = select(LedgerPosting.transaction_id).join(LedgerAccount).where(LedgerAccount.code == fund_code)
     txns = db.scalars(
-        select(LedgerTransaction)
-        .join(LedgerPosting)
-        .join(LedgerAccount)
-        .where(LedgerAccount.code == fund_code)
-        .order_by(LedgerTransaction.id)
-        .distinct()
+        select(LedgerTransaction).where(LedgerTransaction.id.in_(touching)).order_by(LedgerTransaction.id)
     )
     rows, balance = [], Decimal(0)
     for txn in txns:

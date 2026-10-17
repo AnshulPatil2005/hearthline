@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, downloadFile, type DisputeAction, type DisputeDetail, type DisputeRow } from '../api'
 import { AskPayPal } from '../components/AskPayPal'
-import { money } from '../format'
+import { money, parseTime } from '../format'
 
 // The PayPal action behind each answer: PayPal's links on the dispute say which ones are possible right now.
 const PAYPAL_ACTION: Record<DisputeAction, string> = {
@@ -17,7 +17,7 @@ const SITE_TIME_ZONE = 'America/Los_Angeles'
 
 function daysLeft(iso: string | null): number | null {
   if (!iso) return null
-  return Math.ceil((new Date(iso + (iso.endsWith('Z') ? '' : 'Z')).getTime() - Date.now()) / 86_400_000)
+  return Math.ceil((parseTime(iso).getTime() - Date.now()) / 86_400_000)
 }
 
 function StatusPill({ row }: { row: DisputeRow }) {
@@ -43,7 +43,10 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
   const { t, i18n } = useTranslation()
   const queryClient = useQueryClient()
   const key = ['dispute', id]
-  const detail = useQuery({ queryKey: key, queryFn: () => api<DisputeDetail>(`/command/disputes/${id}`) })
+  const detail = useQuery({
+    queryKey: key,
+    queryFn: () => api<DisputeDetail>(`/command/disputes/${id}`),
+  })
   const [note, setNote] = useState('')
   const [confirmRefund, setConfirmRefund] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -61,7 +64,10 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
   })
   const respond = useMutation({
     mutationFn: (action: DisputeAction) =>
-      api<DisputeDetail>(`/command/disputes/${id}/respond`, { method: 'POST', body: JSON.stringify({ action, note }) }),
+      api<DisputeDetail>(`/command/disputes/${id}/respond`, {
+        method: 'POST',
+        body: JSON.stringify({ action, note }),
+      }),
     onSuccess: (r) => {
       queryClient.setQueryData(key, r)
       setConfirmRefund(false)
@@ -85,7 +91,7 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
   if (!d) return <div className="h-64 animate-pulse rounded-xl bg-sunken" />
   const allowed = ORDER.filter((a) => d.demo || d.actions.includes(PAYPAL_ACTION[a]))
   const when = (iso: string) =>
-    new Date(iso + (iso.endsWith('Z') ? '' : 'Z')).toLocaleDateString(i18n.resolvedLanguage, {
+    parseTime(iso).toLocaleDateString(i18n.resolvedLanguage, {
       dateStyle: 'medium',
       timeZone: SITE_TIME_ZONE,
     })
@@ -95,7 +101,9 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
       <header className="space-y-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="font-mono text-ink-faint">{d.paypal_dispute_id}</span>
-          <span className="rounded-full bg-sunken px-2 py-0.5 text-ink-soft">{t(`disputes.stage.${d.stage}`, { defaultValue: d.stage })}</span>
+          <span className="rounded-full bg-sunken px-2 py-0.5 text-ink-soft">
+            {t(`disputes.stage.${d.stage}`, { defaultValue: d.stage })}
+          </span>
           <StatusPill row={d} />
           {d.demo && <span className="rounded-full bg-sunken px-2 py-0.5 text-ink-faint">{t('disputes.demo')}</span>}
         </div>
@@ -145,13 +153,19 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
       <section className="rounded-lg bg-sunken px-4 py-3 text-sm">
         <p className="text-xs font-medium uppercase tracking-wide text-ink-faint">{t('disputes.rules')}</p>
         <p className="mt-1">
-          <span className="font-semibold">{t(`disputes.action.${d.recommended}`, { amount: money(d.amount, { cents: true }) })}</span>
+          <span className="font-semibold">
+            {t(`disputes.action.${d.recommended}`, {
+              amount: money(d.amount, { cents: true }),
+            })}
+          </span>
           {' — '}
           {d.because}
         </p>
         {d.recommended === 'evidence' && (
           <p className="mt-1 text-xs text-ink-soft">
-            {t('disputes.evidenceType', { type: d.evidence_type.replaceAll('_', ' ').toLowerCase() })}
+            {t('disputes.evidenceType', {
+              type: d.evidence_type.replaceAll('_', ' ').toLowerCase(),
+            })}
             {d.tracking.map((x) => ` · ${x.carrier_name} ${x.tracking_number}`)}
           </p>
         )}
@@ -161,7 +175,10 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
         <section className="space-y-3">
           {d.decision === 'message_sent' && (
             <p className="text-sm font-semibold text-sage">
-              {t('disputes.done.message_sent', { name: d.decided_by ?? '—', date: d.decided_at ? when(d.decided_at) : '' })}
+              {t('disputes.done.message_sent', {
+                name: d.decided_by ?? '—',
+                date: d.decided_at ? when(d.decided_at) : '',
+              })}
             </p>
           )}
           <div className="flex flex-wrap items-center justify-between gap-2">
@@ -190,8 +207,13 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
           <div className="flex flex-wrap items-center gap-2">
             {allowed.map((a) =>
               a === 'refund' && confirmRefund ? (
-                <span key={a} className="flex items-center gap-2 rounded-lg bg-danger-soft px-3 py-1.5 text-sm text-danger">
-                  {t('disputes.confirmRefund', { amount: money(d.amount, { cents: true }) })}
+                <span
+                  key={a}
+                  className="flex items-center gap-2 rounded-lg bg-danger-soft px-3 py-1.5 text-sm text-danger"
+                >
+                  {t('disputes.confirmRefund', {
+                    amount: money(d.amount, { cents: true }),
+                  })}
                   <button
                     onClick={() => respond.mutate('refund')}
                     disabled={respond.isPending}
@@ -214,7 +236,9 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
                       : 'rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-sunken disabled:opacity-40'
                   }
                 >
-                  {t(`disputes.action.${a}`, { amount: money(d.amount, { cents: true }) })}
+                  {t(`disputes.action.${a}`, {
+                    amount: money(d.amount, { cents: true }),
+                  })}
                 </button>
               ),
             )}
@@ -226,7 +250,9 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
               {t('disputes.redraft')}
             </button>
             <button
-              onClick={() => void downloadFile(`/command/disputes/${id}/evidence.pdf`, `hearthline-${d.paypal_dispute_id}.pdf`)}
+              onClick={() =>
+                void downloadFile(`/command/disputes/${id}/evidence.pdf`, `hearthline-${d.paypal_dispute_id}.pdf`)
+              }
               className="text-sm text-ink-soft underline-offset-2 hover:underline"
             >
               {t('disputes.pdf')}
@@ -256,7 +282,10 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
 export default function Disputes() {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
-  const list = useQuery({ queryKey: ['disputes'], queryFn: () => api<DisputeRow[]>('/command/disputes') })
+  const list = useQuery({
+    queryKey: ['disputes'],
+    queryFn: () => api<DisputeRow[]>('/command/disputes'),
+  })
   const [selected, setSelected] = useState<number | null>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const rows = list.data ?? []
@@ -294,7 +323,9 @@ export default function Disputes() {
       {!list.isSuccess ? (
         <div className="h-64 animate-pulse rounded-xl bg-sunken" />
       ) : rows.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-line p-8 text-center text-ink-soft">{t('disputes.none')}</p>
+        <p className="rounded-xl border border-dashed border-line p-8 text-center text-ink-soft">
+          {t('disputes.none')}
+        </p>
       ) : (
         <div className="grid items-start gap-6 lg:grid-cols-[22rem_1fr]">
           <div className="space-y-2">
@@ -319,7 +350,11 @@ export default function Disputes() {
                       <span className="font-medium">{r.subject}</span>
                       <span className="tabular-nums font-semibold">{money(r.amount, { cents: true })}</span>
                     </div>
-                    <p className="mt-0.5 text-ink-soft">{t(`disputes.reason.${r.reason}`, { defaultValue: r.reason_text })}</p>
+                    <p className="mt-0.5 text-ink-soft">
+                      {t(`disputes.reason.${r.reason}`, {
+                        defaultValue: r.reason_text,
+                      })}
+                    </p>
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-xs">
                       <StatusPill row={r} />
                       {!r.decision && r.status !== 'RESOLVED' && <Due iso={r.respond_by} />}

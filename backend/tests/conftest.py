@@ -1,11 +1,12 @@
-"""Point the app at a throwaway SQLite database before anything imports app.db."""
+"""Point the app at a throwaway database before anything imports app.db: SQLite by default, or the Postgres in
+TEST_DATABASE_URL (what Render runs; every table is dropped and recreated, so never point it at real data)."""
 
 import os
 import tempfile
 from pathlib import Path
 
 _db = Path(tempfile.mkdtemp()) / "test.db"
-os.environ["DATABASE_URL"] = f"sqlite:///{_db}"
+os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL") or f"sqlite:///{_db}"
 
 import pytest  # noqa: E402
 

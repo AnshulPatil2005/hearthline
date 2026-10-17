@@ -10,3 +10,8 @@ export function money(value: string | number | null | undefined, opts: { cents?:
     maximumFractionDigits: digits,
   }).format(Number(value))
 }
+
+/** An API timestamp as a Date. Postgres sends UTC with a zone ("…Z"); SQLite sends none, which is also UTC. */
+export function parseTime(iso: string): Date {
+  return new Date(/(Z|[+-]\d\d:?\d\d)$/.test(iso) ? iso : `${iso}Z`)
+}

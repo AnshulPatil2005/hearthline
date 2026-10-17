@@ -2,6 +2,7 @@ import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, type PayPalConnection } from '../api'
+import { parseTime } from '../format'
 
 /**
  * Where this person's money goes: their own PayPal account, connected with Log in with PayPal. Shown to households
@@ -9,10 +10,16 @@ import { api, ApiError, type PayPalConnection } from '../api'
  */
 export function ConnectPayPal() {
   const { t, i18n } = useTranslation()
-  const status = useQuery({ queryKey: ['paypal-connect'], queryFn: () => api<PayPalConnection>('/paypal/connect') })
+  const status = useQuery({
+    queryKey: ['paypal-connect'],
+    queryFn: () => api<PayPalConnection>('/paypal/connect'),
+  })
   const [error, setError] = useState<string | null>(null)
   const start = useMutation({
-    mutationFn: () => api<{ authorize_url: string }>('/paypal/connect/start', { method: 'POST' }),
+    mutationFn: () =>
+      api<{ authorize_url: string }>('/paypal/connect/start', {
+        method: 'POST',
+      }),
     onSuccess: (r) => window.location.assign(r.authorize_url),
     onError: (e) => setError(e instanceof ApiError ? e.message : t('errors.generic')),
   })
@@ -28,7 +35,11 @@ export function ConnectPayPal() {
         {s.connected ? (
           <>
             <p className="text-sm">
-              {t('connectPayPal.connected', { name: s.name || s.email, email: s.email, what })}
+              {t('connectPayPal.connected', {
+                name: s.name || s.email,
+                email: s.email,
+                what,
+              })}
             </p>
             <p className="flex flex-wrap items-center gap-2 text-xs text-ink-soft">
               <span
@@ -40,16 +51,15 @@ export function ConnectPayPal() {
               </span>
               {s.connected_at &&
                 t('connectPayPal.since', {
-                  date: new Date(s.connected_at + (s.connected_at.endsWith('Z') ? '' : 'Z')).toLocaleDateString(
-                    i18n.resolvedLanguage,
-                    { dateStyle: 'medium' },
-                  ),
+                  date: parseTime(s.connected_at).toLocaleDateString(i18n.resolvedLanguage, { dateStyle: 'medium' }),
                 })}
             </p>
           </>
         ) : (
           <p className="text-sm text-ink-soft">
-            {current ? t('connectPayPal.notConnectedHas', { current, what }) : t('connectPayPal.notConnected', { what })}
+            {current
+              ? t('connectPayPal.notConnectedHas', { current, what })
+              : t('connectPayPal.notConnected', { what })}
           </p>
         )}
         {error && <p className="text-sm text-danger">{error}</p>}
@@ -64,7 +74,11 @@ export function ConnectPayPal() {
             : 'rounded-lg bg-[#0070e0] px-4 py-2 text-sm font-semibold text-white hover:bg-[#005ea6] disabled:opacity-40'
         }
       >
-        {start.isPending ? t('connectPayPal.opening') : s.connected ? t('connectPayPal.change') : t('connectPayPal.connect')}
+        {start.isPending
+          ? t('connectPayPal.opening')
+          : s.connected
+            ? t('connectPayPal.change')
+            : t('connectPayPal.connect')}
       </button>
     </section>
   )
