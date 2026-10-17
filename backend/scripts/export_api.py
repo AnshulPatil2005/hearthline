@@ -119,5 +119,5 @@ def files() -> dict[Path, str]:
 if __name__ == "__main__":
     DOCS.mkdir(parents=True, exist_ok=True)
     for path, text in files().items():
-        path.write_text(text, encoding="utf-8")
+        path.write_text(text, encoding="utf-8", newline="\n")
         print("wrote", path)

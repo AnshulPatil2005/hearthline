@@ -205,7 +205,7 @@
             }
           ]
         },
-        "description": "Get Reopen Fund"
+        "description": "A business's Reopen Fund: its plan, what's raised and which steps' money staff have released."
       }
     },
     {
@@ -270,7 +270,7 @@
             }
           ]
         },
-        "description": "Get Gift Card"
+        "description": "A gift card's balance and whether it can be spent yet."
       }
     },
     {

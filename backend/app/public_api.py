@@ -40,40 +40,50 @@ class PublicError(ValueError):
 
 
 class Disaster(BaseModel):
-    slug: str = Field(examples=["sablewood-fire"])
-    name: str = Field(examples=["Sablewood Fire"])
-    kind: str = Field(examples=["wildfire"])
-    status: str = Field(examples=["active"])
-    declared_at: datetime
+    """A disaster Hearthline is responding to."""
+
+    slug: str = Field(description="Stable id used in URLs", examples=["sablewood-fire"])
+    name: str = Field(description="Public name", examples=["Sablewood Fire"])
+    kind: str = Field(description="wildfire | flood | hurricane | earthquake", examples=["wildfire"])
+    status: str = Field(description="active while Hearthline is responding", examples=["active"])
+    declared_at: datetime = Field(description="When the state of emergency was declared (UTC)")
     price_protection_until: datetime | None = Field(description="Prices of essentials may rise at most 10% until then")
-    is_fictional: bool
+    is_fictional: bool = Field(description="True for the demo scenario (a fictional town)")
 
 
 class RegistryItemInfo(BaseModel):
-    id: int
-    name: str = Field(examples=["Twin mattresses"])
-    note: str
-    category: str = Field(examples=["bedding"])
-    quantity: int
+    """Something specific a family needs, and how much of it is paid for."""
+
+    id: int = Field(description="Item id; pass it as `item_id` to give toward this item")
+    name: str = Field(description="What the family needs", examples=["Twin mattresses"])
+    note: str = Field(description="Why they need it, in the family's words")
+    category: str = Field(
+        description="Kind of item, e.g. bedding, clothing, electronics, kitchenware, tools", examples=["bedding"]
+    )
+    quantity: int = Field(description="How many")
     target_amount: Decimal = Field(description="Total needed for this item, in USD")
-    funded_amount: Decimal
-    remaining: Decimal
+    funded_amount: Decimal = Field(description="Given so far, in USD")
+    remaining: Decimal = Field(description="Still needed, in USD")
     status: str = Field(description="open | funded | purchased | delivered")
 
 
 class RegistrySummary(BaseModel):
-    slug: str = Field(examples=["rivera-family"])
-    title: str = Field(examples=["Help the Riveras come home"])
-    city: str
-    state: str
-    open_items: int
+    """A verified family's Rebuild Registry. Shows the town, never the family's address."""
+
+    slug: str = Field(description="Stable id used in URLs", examples=["rivera-family"])
+    title: str = Field(description="The registry's title", examples=["Help the Riveras come home"])
+    city: str = Field(description="Town", examples=["Sablewood"])
+    state: str = Field(description="US state code", examples=["CA"])
+    open_items: int = Field(description="Items that still need money")
     still_needed: Decimal = Field(description="Sum of what open items still need, in USD")
     url: str = Field(description="The registry's public page")
 
 
 class RegistryDetail(RegistrySummary):
-    story: str
-    items: list[RegistryItemInfo]
+    """A registry with its story and every item."""
+
+    story: str = Field(description="The family's story, in their words")
+    items: list[RegistryItemInfo] = Field(description="Every item, most urgent first")
 
 
 class Checkout(BaseModel):
@@ -81,62 +91,80 @@ class Checkout(BaseModel):
 
     id: int = Field(description="Donation or gift card id")
     order_id: str = Field(description="PayPal order id")
-    amount: Decimal
+    amount: Decimal = Field(description="USD")
     approval_url: str | None = Field(description="Open this to approve the payment with PayPal")
     status_url: str = Field(description="API URL to check the payment's status")
-    note: str = "A person must approve this payment with PayPal. Nothing is charged until they do."
+    note: str = Field(
+        default="A person must approve this payment with PayPal. Nothing is charged until they do.",
+        description="A reminder to show the person paying",
+    )
 
 
 class TimelineEvent(BaseModel):
-    at: datetime | None
-    event: str
+    """One step in a gift's journey."""
+
+    at: datetime | None = Field(description="When it happened (UTC); null if it hasn't yet")
+    event: str = Field(description="What happened, in plain words", examples=["Delivered to the family"])
 
 
 class DonationStatus(BaseModel):
-    id: int
+    """Where a gift is: paid, the item bought, shipped and delivered."""
+
+    id: int = Field(description="Donation id")
     status: str = Field(description="created (waiting for approval) | captured | failed | refunded")
-    amount: Decimal
-    item: str | None
-    timeline: list[TimelineEvent]
+    amount: Decimal = Field(description="USD")
+    item: str | None = Field(description="The registry item it pays for; null for the household fund")
+    timeline: list[TimelineEvent] = Field(description="What happened, in order")
 
 
 class ReopenStep(BaseModel):
-    title: str
-    amount: Decimal
+    """One step of a business's reopening plan. Staff release each step's money from escrow."""
+
+    title: str = Field(description="What the money is for", examples=["Replace the ovens"])
+    amount: Decimal = Field(description="USD")
     status: str = Field(description="pending | requested | released | rejected")
 
 
 class ReopenFund(BaseModel):
-    slug: str = Field(examples=["morenos-bakery"])
-    business: str = Field(examples=["Moreno's Bakery"])
-    kind: str
-    city: str
+    """A local business selling gift cards to pay for reopening. The money is held in escrow and refunded to
+    buyers, from what's left, if the business misses its reopening date."""
+
+    slug: str = Field(description="Stable id used in URLs", examples=["morenos-bakery"])
+    business: str = Field(description="Business name", examples=["Moreno's Bakery"])
+    kind: str = Field(description="bakery | restaurant | retail | services | other")
+    city: str = Field(description="Town")
     status: str = Field(description="live | reopened | refunded | closed")
-    goal_amount: Decimal
-    raised: Decimal
+    goal_amount: Decimal = Field(description="What the reopening plan costs, in USD")
+    raised: Decimal = Field(description="Paid for gift cards so far, in USD")
     bonus_percent: int = Field(description="A card is worth this much more in the shop than it costs")
-    reopen_by: datetime
-    url: str
-    steps: list[ReopenStep]
+    reopen_by: datetime = Field(description="The promised reopening date (UTC); escrow is refunded if missed")
+    url: str = Field(description="The fund's public page")
+    steps: list[ReopenStep] = Field(description="The reopening plan, in order")
 
 
 class GiftCardStatus(BaseModel):
-    code: str
-    business: str
+    """A Reopen gift card. Whoever has the code can spend it, so treat the code like cash."""
+
+    code: str = Field(description="The card's code (also printed as a QR code)")
+    business: str = Field(description="Where it can be spent")
     status: str = Field(description="active | refunded")
-    face_value: Decimal
-    balance: Decimal
-    usable_now: bool
+    face_value: Decimal = Field(description="What the card was worth when bought, in USD (price plus bonus)")
+    balance: Decimal = Field(description="What's left to spend, in USD")
+    usable_now: bool = Field(description="True once the business has reopened")
 
 
 class PriceReport(BaseModel):
-    title: str
-    seller: str
-    category: str
+    """An essential item's price now against its price before the disaster (California Penal Code 396)."""
+
+    title: str = Field(description="Product or service", examples=["Portable generator 3500W"])
+    seller: str = Field(description="Store or local seller")
+    category: str = Field(
+        description="water | fuel | generator | lodging | medical | tools | building_materials | emergency_supplies"
+    )
     source: str = Field(description="channel3 (online) | local_survey (demo data)")
     baseline_price: Decimal | None = Field(description="Median price in the 30 days before the declaration")
-    current_price: Decimal | None
-    markup_percent: float | None
+    current_price: Decimal | None = Field(description="Latest price seen, in USD")
+    markup_percent: float | None = Field(description="Change from the baseline, in percent")
     status: str = Field(description="ok | gouging | no_baseline | unknown")
 
 
