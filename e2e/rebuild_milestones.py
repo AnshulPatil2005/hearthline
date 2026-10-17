@@ -4,6 +4,7 @@ Needs the API (fresh demo seed) and the web app running. Sends one real sandbox 
 
 import asyncio
 import json
+import os
 import urllib.request
 from pathlib import Path
 
@@ -11,8 +12,8 @@ from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
-API = "http://localhost:8000"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
+API = os.environ.get("E2E_API", "http://localhost:8000")
 
 
 def api(path: str, token: str) -> dict | list:

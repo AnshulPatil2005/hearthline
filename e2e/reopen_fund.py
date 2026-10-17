@@ -8,15 +8,17 @@
 Needs the API (fresh demo seed) and the web app running."""
 
 import asyncio
-import sqlite3
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
+from sqlalchemy import create_engine, text
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
-DB = Path(__file__).parent.parent / "backend" / "hearthline.db"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
+# The same database the API uses (SQLite by default, or Postgres via DATABASE_URL).
+DB = os.environ.get("DATABASE_URL") or f"sqlite:///{Path(__file__).parent.parent / 'backend' / 'hearthline.db'}"
 
 
 async def main() -> None:
@@ -70,9 +72,10 @@ async def main() -> None:
 
 
         # Reopen and take a card.
-        code = sqlite3.connect(DB).execute(
-            "select code from gift_cards where campaign_id = 1 and status = 'active' order by id limit 1"
-        ).fetchone()[0]
+        with create_engine(DB.replace("postgresql://", "postgresql+psycopg://", 1)).connect() as conn:
+            code = conn.execute(
+                text("select code from gift_cards where campaign_id = 1 and status = 'active' order by id limit 1")
+            ).scalar_one()
         await page.goto(f"{WEB}/login?as=luis.moreno", wait_until="networkidle")
         await page.get_by_role("button", name="We're open again").click()
         await page.get_by_role("button", name="Yes, we're open").click()

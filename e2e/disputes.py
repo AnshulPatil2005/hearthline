@@ -4,13 +4,14 @@ Ridge Outfitters card that was already refunded. Then "Ask PayPal" reads PayPal 
 and refuses a refund. Uses about eight AI calls. Needs the API (fresh demo seed) and the web app."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import Page, async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
 
 
 async def drafted(page: Page) -> str:

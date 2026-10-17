@@ -68,6 +68,9 @@ services:
           type: web
           name: hearthline-api
           property: host
+      # AG Grid Enterprise license (from the sponsor). Without it the grids run in trial mode with a watermark.
+      - key: VITE_AG_GRID_LICENSE
+        sync: false
 
 databases:
   - name: hearthline-db

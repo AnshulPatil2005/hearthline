@@ -5,13 +5,14 @@ if the sandbox account's balance is too low, the batch is marked "Not sent" and 
 Needs the API (fresh demo seed) and the web app running."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
 
 
 async def set_filter(page, col_id: str, label: str) -> None:

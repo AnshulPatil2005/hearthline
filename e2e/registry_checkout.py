@@ -2,13 +2,14 @@
 click the PayPal button and confirm a real sandbox order is created (the popup needs a buyer login)."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-URL = "http://localhost:5173/r/rivera-family"
+URL = os.environ.get("E2E_WEB", "http://localhost:5173") + "/r/rivera-family"
 
 
 async def main() -> None:

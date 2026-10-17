@@ -3,13 +3,14 @@ it in, the server checks it, and the grid applies the filters, sorting and group
 Needs the API and the web app running."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
 
 
 async def main() -> None:

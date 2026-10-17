@@ -3,13 +3,14 @@ with their inventory (jewelry over its sub-limit) and turns deadlines into dates
 with a quote from the policy. Uses two AI calls. Needs the API (fresh demo seed) and the web app."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
 SAMPLE = Path(__file__).parent.parent / "frontend" / "public" / "samples" / "golden-poppy-homeowners-policy.pdf"
 
 

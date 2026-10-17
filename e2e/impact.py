@@ -2,13 +2,14 @@
 admin downloads the grant report PDF. Uses up to two AI calls. Needs the API (demo seed) and the web app."""
 
 import asyncio
+import os
 from pathlib import Path
 
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
 OUT.mkdir(exist_ok=True)
-WEB = "http://localhost:5173"
+WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
 
 
 async def main() -> None:

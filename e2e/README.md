@@ -25,4 +25,8 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `disputes.py` | Payment disputes desk: the org admin answers the three seeded PayPal disputes the way the rules recommend: messages the bakery card buyer about their share of the escrow, refunds the gift to the copycat registry (confirmed first), and sends proof of refund for the outfitter card; each answer starts from the Funds agent's draft. Then "Ask PayPal": the Funds agent answers from PayPal's own MCP server (read-only tools) and refuses a refund request (uses about eight AI calls; needs a freshly seeded database) |
 | `connect_paypal.py` | Log in with PayPal: the household's Aid page, the contractor portal and the business home show where each person's money goes and a "Log in with PayPal" button that opens PayPal's sign-in page for the app; a cancelled return changes nothing (finishing the sign-in needs the return URL set in the PayPal developer dashboard) |
 
+To check another stack (for example the API on Postgres), point the scripts at it: `E2E_WEB` (web app, default
+`http://localhost:5173`), `E2E_API` (API, default `http://localhost:8000`) and `DATABASE_URL` (the API's database,
+read by `reopen_fund.py`). Most scripts expect a freshly seeded database.
+
 Screenshots land in `e2e/screenshots/` (git-ignored).
