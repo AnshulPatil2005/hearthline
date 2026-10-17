@@ -376,7 +376,8 @@
       "site_photos_partial": "Work looks partly done",
       "site_photos_unchecked": "Photos not checked",
       "site_photos_low_confidence": "Unsure photo check",
-      "site_photo_dates": "Photo dates don't fit"
+      "site_photo_dates": "Photo dates don't fit",
+      "payout_account_unverified": "PayPal account not verified"
     },
     "yes": "Yes",
     "no": "No",
@@ -1147,5 +1148,28 @@
       "paypal": "PayPal",
       "hearthline": "Hearthline"
     }
+  },
+  "connectPayPal": {
+    "title": "Your PayPal account",
+    "what": {
+      "cash_aid": "cash aid",
+      "milestone_payments": "milestone payments",
+      "reopen_releases": "Reopen Fund releases"
+    },
+    "connected": "{{name}} ({{email}}) is connected. We send your {{what}} to this account.",
+    "verified": "Verified PayPal account",
+    "notVerified": "PayPal hasn't verified this account yet",
+    "notVerifiedNote": "PayPal says this account isn't verified yet. A reviewer may take a closer look before money is sent.",
+    "since": "Connected {{date}}",
+    "notConnected": "Connect your own PayPal account so we send your {{what}} to an account PayPal confirms is yours.",
+    "notConnectedHas": "We send your {{what}} to {{current}}. Connect your own PayPal account so PayPal confirms it's yours.",
+    "connect": "Log in with PayPal",
+    "change": "Use a different account",
+    "opening": "Opening PayPal…",
+    "unavailable": "PayPal isn't set up on this server",
+    "finishing": "Connecting your PayPal account…",
+    "done": "Your PayPal account is connected",
+    "cancelled": "Nothing was changed. You can connect your PayPal account any time.",
+    "back": "Back to Hearthline"
   }
 }

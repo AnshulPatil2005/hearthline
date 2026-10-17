@@ -11,6 +11,7 @@ import { Progress } from '../components/PublicFrame'
 import { money } from '../format'
 import { gridTheme } from '../grid'
 import { codeFrom } from '../reopen'
+import { ConnectPayPal } from '../components/ConnectPayPal'
 
 const errorText = (e: unknown, fallback: string) => (e instanceof ApiError ? e.message : fallback)
 const day = (d: Date) => d.toISOString().slice(0, 10)
@@ -342,6 +343,7 @@ export default function BusinessHome() {
               </Link>
             )}
           </div>
+          <ConnectPayPal />
           {b.verification !== 'verified' && (
             <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
               {t(`business.verification.${b.verification}`)}

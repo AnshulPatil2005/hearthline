@@ -371,7 +371,8 @@
       "site_photos_partial": "Công việc có vẻ mới xong một phần",
       "site_photos_unchecked": "Ảnh chưa được kiểm tra",
       "site_photos_low_confidence": "Kiểm tra ảnh chưa chắc chắn",
-      "site_photo_dates": "Ngày chụp ảnh không khớp"
+      "site_photo_dates": "Ngày chụp ảnh không khớp",
+      "payout_account_unverified": "Tài khoản PayPal chưa xác minh"
     },
     "yes": "Có",
     "no": "Không",
@@ -1124,5 +1125,28 @@
       "paypal": "PayPal",
       "hearthline": "Hearthline"
     }
+  },
+  "connectPayPal": {
+    "title": "Tài khoản PayPal của quý vị",
+    "what": {
+      "cash_aid": "tiền hỗ trợ",
+      "milestone_payments": "khoản thanh toán theo giai đoạn",
+      "reopen_releases": "khoản giải ngân của Quỹ Mở cửa lại"
+    },
+    "connected": "{{name}} ({{email}}) đã được kết nối. Chúng tôi gửi {{what}} của quý vị vào tài khoản này.",
+    "verified": "Tài khoản PayPal đã xác minh",
+    "notVerified": "PayPal chưa xác minh tài khoản này",
+    "notVerifiedNote": "PayPal cho biết tài khoản này chưa được xác minh. Người duyệt có thể kiểm tra kỹ hơn trước khi gửi tiền.",
+    "since": "Kết nối ngày {{date}}",
+    "notConnected": "Kết nối tài khoản PayPal của chính quý vị để chúng tôi gửi {{what}} vào tài khoản mà PayPal xác nhận là của quý vị.",
+    "notConnectedHas": "Chúng tôi đang gửi {{what}} của quý vị đến {{current}}. Kết nối tài khoản PayPal của chính quý vị để PayPal xác nhận đó là của quý vị.",
+    "connect": "Đăng nhập bằng PayPal",
+    "change": "Dùng tài khoản khác",
+    "opening": "Đang mở PayPal…",
+    "unavailable": "Máy chủ này chưa thiết lập PayPal",
+    "finishing": "Đang kết nối tài khoản PayPal của quý vị…",
+    "done": "Tài khoản PayPal của quý vị đã được kết nối",
+    "cancelled": "Không có gì thay đổi. Quý vị có thể kết nối tài khoản PayPal bất cứ lúc nào.",
+    "back": "Quay lại Hearthline"
   }
 }

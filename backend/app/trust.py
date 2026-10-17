@@ -14,7 +14,7 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app import geo
-from app.models import EvidenceLevel, Household, Item, Media
+from app.models import EvidenceLevel, Household, Item, Media, PayPalLink
 
 DUPLICATE_DISTANCE = 6  # max differing bits (of 64) for two photos to count as the same picture
 SEVERITY_POINTS = {"high": 40, "medium": 15, "low": 5}
@@ -126,6 +126,17 @@ def sentinel_flags(db: Session, home: Household, claim_amount: Decimal = Decimal
                     "high",
                     f"The PayPal account for cash aid is also used by {len(sharing)} other household(s).",
                     {"other_household_ids": sharing},
+                )
+            )
+
+        link = db.scalar(select(PayPalLink).where(PayPalLink.email == home.payout_email))
+        if link is not None and not link.verified_account:
+            flags.append(
+                Flag(
+                    "payout_account_unverified",
+                    "low",
+                    "PayPal says the account connected for cash aid is not a verified PayPal account.",
+                    {},
                 )
             )
 

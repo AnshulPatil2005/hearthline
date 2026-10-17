@@ -874,3 +874,19 @@ class PaymentDispute(Base):
     donation: Mapped["Donation | None"] = relationship()
     gift_card: Mapped["GiftCard | None"] = relationship()
     gift_card_payment: Mapped["GiftCardPayment | None"] = relationship()
+
+
+class PayPalLink(Base):
+    """A user's own PayPal account, connected with Log in with PayPal. The money they receive goes there."""
+
+    __tablename__ = "paypal_links"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), unique=True)
+    payer_id: Mapped[str] = mapped_column(String(40), index=True)
+    email: Mapped[str] = mapped_column(String(255), index=True)
+    name: Mapped[str] = mapped_column(String(160), default="")
+    verified_account: Mapped[bool] = mapped_column(default=False)  # PayPal's own check of the account
+    connected_at: Mapped[datetime] = mapped_column(default=now)
+
+    user: Mapped[User] = relationship()

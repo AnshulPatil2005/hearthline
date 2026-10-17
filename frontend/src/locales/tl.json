@@ -376,7 +376,8 @@
       "site_photos_partial": "Mukhang bahagya lang ang tapos",
       "site_photos_unchecked": "Hindi nasuri ang larawan",
       "site_photos_low_confidence": "Hindi sigurado ang pagsusuri",
-      "site_photo_dates": "Hindi tugma ang petsa ng larawan"
+      "site_photo_dates": "Hindi tugma ang petsa ng larawan",
+      "payout_account_unverified": "Hindi verified ang PayPal account"
     },
     "yes": "Oo",
     "no": "Hindi",
@@ -1147,5 +1148,28 @@
       "paypal": "PayPal",
       "hearthline": "Hearthline"
     }
+  },
+  "connectPayPal": {
+    "title": "Ang inyong PayPal account",
+    "what": {
+      "cash_aid": "cash aid",
+      "milestone_payments": "bayad sa bawat milestone",
+      "reopen_releases": "mga release ng Reopen Fund"
+    },
+    "connected": "Nakakonekta ang {{name}} ({{email}}). Dito pumupunta ang inyong {{what}}.",
+    "verified": "Verified na PayPal account",
+    "notVerified": "Hindi pa na-verify ng PayPal ang account na ito",
+    "notVerifiedNote": "Sabi ng PayPal, hindi pa verified ang account na ito. Maaaring suriin muna ito ng reviewer bago magpadala ng pera.",
+    "since": "Nakakonekta noong {{date}}",
+    "notConnected": "Ikonekta ang sarili ninyong PayPal account para ang inyong {{what}} ay mapunta sa account na kinukumpirma ng PayPal na sa inyo.",
+    "notConnectedHas": "Ang inyong {{what}} ay pumupunta sa {{current}}. Ikonekta ang sarili ninyong PayPal account para makumpirma ng PayPal na sa inyo ito.",
+    "connect": "Mag-log in gamit ang PayPal",
+    "change": "Gumamit ng ibang account",
+    "opening": "Binubuksan ang PayPal…",
+    "unavailable": "Hindi naka-set up ang PayPal sa server na ito",
+    "finishing": "Ikinokonekta ang inyong PayPal account…",
+    "done": "Nakakonekta na ang inyong PayPal account",
+    "cancelled": "Walang binago. Maaari ninyong ikonekta ang PayPal account kahit kailan.",
+    "back": "Bumalik sa Hearthline"
   }
 }

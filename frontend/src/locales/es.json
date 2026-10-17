@@ -376,7 +376,8 @@
       "site_photos_partial": "El trabajo parece a medias",
       "site_photos_unchecked": "Fotos sin revisar",
       "site_photos_low_confidence": "Revisión de fotos dudosa",
-      "site_photo_dates": "Las fechas de las fotos no cuadran"
+      "site_photo_dates": "Las fechas de las fotos no cuadran",
+      "payout_account_unverified": "Cuenta de PayPal no verificada"
     },
     "yes": "Sí",
     "no": "No",
@@ -1147,5 +1148,28 @@
       "paypal": "PayPal",
       "hearthline": "Hearthline"
     }
+  },
+  "connectPayPal": {
+    "title": "Su cuenta de PayPal",
+    "what": {
+      "cash_aid": "ayuda en efectivo",
+      "milestone_payments": "pagos por etapas",
+      "reopen_releases": "entregas del Fondo de Reapertura"
+    },
+    "connected": "{{name}} ({{email}}) está conectada. Le enviamos {{what}} a esta cuenta.",
+    "verified": "Cuenta de PayPal verificada",
+    "notVerified": "PayPal aún no ha verificado esta cuenta",
+    "notVerifiedNote": "PayPal indica que esta cuenta aún no está verificada. Un revisor puede revisarla antes de enviar dinero.",
+    "since": "Conectada el {{date}}",
+    "notConnected": "Conecte su propia cuenta de PayPal para que le enviemos {{what}} a una cuenta que PayPal confirma que es suya.",
+    "notConnectedHas": "Le enviamos {{what}} a {{current}}. Conecte su propia cuenta de PayPal para que PayPal confirme que es suya.",
+    "connect": "Iniciar sesión con PayPal",
+    "change": "Usar otra cuenta",
+    "opening": "Abriendo PayPal…",
+    "unavailable": "PayPal no está configurado en este servidor",
+    "finishing": "Conectando su cuenta de PayPal…",
+    "done": "Su cuenta de PayPal está conectada",
+    "cancelled": "No se cambió nada. Puede conectar su cuenta de PayPal cuando quiera.",
+    "back": "Volver a Hearthline"
   }
 }

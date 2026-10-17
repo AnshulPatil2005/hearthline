@@ -2,6 +2,7 @@ import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
 import Aid from './pages/Aid'
 import BusinessesReview from './pages/BusinessesReview'
+import ConnectPayPalReturn from './pages/ConnectPayPalReturn'
 import Disputes from './pages/Disputes'
 import BusinessHome from './pages/BusinessHome'
 import CommandCenter from './pages/CommandCenter'
@@ -40,6 +41,14 @@ export default function App() {
       <Route path="/card/:code" element={<GiftCardView />} />
       <Route path="/price-watch" element={<PriceWatch />} />
       <Route path="/paid" element={<PaymentReturn />} />
+      <Route
+        path="/connect/paypal"
+        element={
+          <RequireAuth role={['household', 'contractor', 'business']}>
+            <ConnectPayPalReturn />
+          </RequireAuth>
+        }
+      />
       <Route
         path="/giving"
         element={

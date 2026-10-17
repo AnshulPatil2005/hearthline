@@ -18,6 +18,7 @@ from app.api import (
     insurance,
     inventory,
     ledger,
+    paypal_connect,
     price_watch,
     public,
     purchases,
@@ -78,6 +79,7 @@ app.include_router(impact.router)
 app.include_router(insurance.router)
 app.include_router(disputes.router)
 app.include_router(disputes.paypal_router)
+app.include_router(paypal_connect.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

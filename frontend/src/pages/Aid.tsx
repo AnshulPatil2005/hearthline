@@ -5,6 +5,7 @@ import { api, ApiError, type HouseholdCase, type Verification } from '../api'
 import type { Call } from '../components/VideoCalls'
 import { VoiceButton } from '../components/VoiceButton'
 import { money } from '../format'
+import { ConnectPayPal } from '../components/ConnectPayPal'
 
 const STATUS_TONE: Record<HouseholdCase['status'], string> = {
   in_review: 'bg-sunken text-ink',
@@ -184,6 +185,7 @@ export default function Aid() {
           })}
         </p>
       )}
+      <ConnectPayPal />
       <RequestCashAid onDone={refresh} />
       <section>
         <h2 className="text-lg font-semibold">{t('aid.casesTitle')}</h2>

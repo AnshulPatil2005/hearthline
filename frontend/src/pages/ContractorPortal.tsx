@@ -5,6 +5,7 @@ import { api, ApiError, type Milestone, type Project } from '../api'
 import { GanttSlot, MilestoneStatusPill, PhotoStrip, SiteCheckView, Stat } from '../components/Milestones'
 import { money } from '../format'
 import { dateRange, paidOut } from '../rebuild'
+import { ConnectPayPal } from '../components/ConnectPayPal'
 
 type Row = { title: string; done_looks_like: string; amount: string; start: string; end: string; is_deposit: boolean }
 
@@ -305,6 +306,7 @@ export default function ContractorPortal() {
         <h1 className="text-3xl font-semibold tracking-tight">{t('contractor.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('contractor.subtitle')}</p>
       </div>
+      <ConnectPayPal />
       {projects.isError && <p className="rounded-lg bg-danger-soft px-4 py-3 text-danger">{t('errors.generic')}</p>}
       {projects.isPending && <div className="h-64 animate-pulse rounded-xl bg-sunken" />}
       {projects.data?.length === 0 && <p className="text-ink-soft">{t('contractor.empty')}</p>}

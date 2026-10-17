@@ -609,3 +609,13 @@ export type DisputeDetail = DisputeRow & {
 
 export type PayPalAgentStep = { tool: string; source: 'paypal' | 'hearthline'; args: Record<string, unknown>; ok: boolean; summary: string }
 export type PayPalAgentAnswer = { answer: string; steps: PayPalAgentStep[] }
+
+export type PayPalConnection = {
+  connected: boolean
+  name: string | null
+  email: string | null
+  verified_account: boolean | null
+  connected_at: string | null
+  receives: { what: 'cash_aid' | 'milestone_payments' | 'reopen_releases'; current: string | null }[]
+  available: boolean
+}

@@ -371,7 +371,8 @@
       "site_photos_partial": "工作似乎只完成一部分",
       "site_photos_unchecked": "照片未经检查",
       "site_photos_low_confidence": "照片检查把握不足",
-      "site_photo_dates": "照片日期不符"
+      "site_photo_dates": "照片日期不符",
+      "payout_account_unverified": "PayPal 账户未验证"
     },
     "yes": "是",
     "no": "否",
@@ -1124,5 +1125,28 @@
       "paypal": "PayPal",
       "hearthline": "Hearthline"
     }
+  },
+  "connectPayPal": {
+    "title": "您的 PayPal 账户",
+    "what": {
+      "cash_aid": "现金援助",
+      "milestone_payments": "里程碑付款",
+      "reopen_releases": "重开基金拨款"
+    },
+    "connected": "已连接 {{name}}（{{email}}）。您的{{what}}将汇入此账户。",
+    "verified": "已验证的 PayPal 账户",
+    "notVerified": "PayPal 尚未验证此账户",
+    "notVerifiedNote": "PayPal 表示此账户尚未验证。汇款前审核人员可能会进一步核查。",
+    "since": "连接于 {{date}}",
+    "notConnected": "连接您自己的 PayPal 账户，让您的{{what}}汇入 PayPal 确认属于您的账户。",
+    "notConnectedHas": "您的{{what}}目前汇入 {{current}}。连接您自己的 PayPal 账户，由 PayPal 确认属于您。",
+    "connect": "使用 PayPal 登录",
+    "change": "使用其他账户",
+    "opening": "正在打开 PayPal…",
+    "unavailable": "此服务器尚未设置 PayPal",
+    "finishing": "正在连接您的 PayPal 账户…",
+    "done": "您的 PayPal 账户已连接",
+    "cancelled": "没有任何更改。您可以随时连接 PayPal 账户。",
+    "back": "返回 Hearthline"
   }
 }
