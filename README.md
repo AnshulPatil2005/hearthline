@@ -1,51 +1,201 @@
 # Hearthline
 
-**Disaster recovery for the people who live through it.** Hearthline helps a family document their home *before* a disaster, get help that can't be stolen or diverted *during* it, rebuild with contractors who are paid only for verified work, and helps local businesses reopen with support from their regulars.
+**Disaster recovery for the people who live through it.** Hearthline helps a family document their home *before* a
+disaster, get help that can't be stolen or diverted *during* it, rebuild with contractors who are paid only for
+verified work, and helps the local businesses they depend on reopen with support from their regulars.
 
-Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on the PayPal developer platform (sandbox) with Google Gemini (via its OpenAI-compatible API, with OpenRouter as a fallback), AG Grid, Bryntum, Channel3, APIMatic and Render.
+Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on the PayPal sandbox, with Google Gemini,
+AG Grid, Bryntum, Channel3, APIMatic and Render.
 
-> Status: **in development** (core features built; demo polish, README and video come in the final week). See [PLAN.md](PLAN.md) for the full product and build plan.
+- **Video:** _link added at submission_
+- **Live demo:** _link added at submission_ (Render's free plan sleeps; the first visit takes about a minute)
+- **The demo is fictional.** Sablewood, its wildfire and its people are made up. Every payment runs in the PayPal
+  sandbox, so no real money moves.
 
-## Repository layout
+## Try it
 
-```
-backend/    Python 3.12 · FastAPI API, agents, PayPal/Channel3 integrations, Alembic migrations
-  spikes/   Week-0 experiments that de-risk the design (see backend/spikes/README.md)
-frontend/   React + TypeScript (Vite) · AG Grid and Bryntum UIs
-render.yaml Render Blueprint for the whole stack
-PLAN.md     Product scope, architecture and week-by-week plan
-```
+Open the app and pick a persona on the sign-in page (no password), or use a direct link such as
+`/login?as=elena.rivera`. Each persona shows a different side of the same disaster.
+
+| Persona | Who they are | Try this |
+|---|---|---|
+| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf) and ask about it), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
+| `marcus.chen` | A donor | **My giving**: each gift's journey from paid to bought to delivered, and a note from the Funds agent |
+| `dana.okafor` | A licensed contractor | **Projects**: drag milestones in the Gantt, submit work photos for the Site agent's check |
+| `luis.moreno` | Owner of Moreno's Bakery, closed by the fire | **Reopen Fund**: ask for the next step's money, mark the bakery reopened, take a gift card by its QR code |
+| `priya.nair`, `tom.becker` | Claim reviewers | **Review queue**: open the copycat registry case and reject it (two reviewers are needed) |
+| `grace.alvarez` | Review supervisor | Settles disagreements; approves cash-aid batches |
+| `sam.whitfield` | Relief organization admin | **Command Center** (2,000 households, "Ask the grid", batch cash aid), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Price Watch** |
+
+Pages anyone can open: a family's registry (`/r/rivera-family`), a Reopen Fund (`/reopen/morenos-bakery`) and the
+public Price Watch (`/price-watch`).
+
+### PayPal sandbox logins
+
+To pay as a donor in the checkout, use this sandbox buyer account (sandbox only, no real money):
+
+- Email: _added at submission_
+- Password: _added at submission_
+
+Venmo and Pay Later buttons appear in the sandbox for US buyers.
+
+## What it does
+
+- **Prepare.** Photograph each room. The Inventory agent lists what it sees, and the Valuation agent prices each
+  item with Channel3. The result is a dated, priced inventory in AG Grid that exports to Excel for an insurance claim.
+  National Weather Service alerts warn the household when a disaster nears.
+- **Respond.** A family's Rebuild Registry lists specific things they need. Donors pay with PayPal, Venmo or Pay
+  Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
+  sellers who raise prices past California's 10% limit. A copycat registry is caught, two people reject it, and its
+  donors are refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
+- **Rebuild.** A contractor's plan sits in escrow under California's deposit cap. Each milestone is paid only after
+  the Site agent checks the work photos and the homeowner approves.
+- **Reopen.** A closed local business sells gift cards, or monthly "regular" plans through PayPal Subscriptions.
+  The money waits in escrow, and staff release it step by step. If the business misses its reopening date, buyers
+  are refunded automatically from what's left.
+- **Run the response.** The Command Center shows 2,000 households, sends cash-aid batches that need a second person's
+  approval, dispatches crews, verifies businesses, answers PayPal disputes and writes the grant report.
+
+Everything works in **English, Spanish, Chinese, Tagalog and Vietnamese**, with voice input where the browser
+supports it.
+
+## PayPal at the core
+
+| PayPal feature | Where Hearthline uses it |
+|---|---|
+| **Orders v2** (via the APIMatic-generated Server SDK): create, capture, full and partial refunds | Registry gifts, Reopen gift cards, gifts prepared through the Public API, refunds when a scam registry is rejected or a business misses its date |
+| **JS SDK v6**: PayPal, **Venmo** and **Pay Later** buttons | Registry and Reopen checkout |
+| **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; contractor milestones released from escrow; Reopen steps; the Shopper paying the stand-in retailer |
+| **Subscriptions** (catalog product, plan, subscription, transactions, cancel, sale refunds) | Reopen "regulars" who pay monthly toward a gift card |
+| **Shipment tracking** (Orders `track`) | When the Shopper's purchase ships, the tracking number appears on each donor's PayPal payment |
+| **Disputes**: list, details, message, evidence (multipart with a records PDF and tracking), accept claim | The payment disputes desk for gifts and gift cards |
+| **Webhooks** with signature verification | Captures, payouts, subscriptions and disputes; each event is stored once, so retries are safe |
+| **Log in with PayPal** (OpenID Connect) | Families, contractors and businesses connect the PayPal account their money goes to |
+| **PayPal MCP server** (Agent Toolkit tools) | "Ask PayPal": the Funds agent reads PayPal with PayPal's own tools, read-only |
+
+**Being honest about purchases.** Channel3 finds real products at real stores, but in the sandbox the Shopper pays a
+stand-in "retailer" sandbox account through Payouts. In production it would check out with the retailer itself.
+
+## AI that prepares, people who decide
+
+| Agent | What it does | What limits it |
+|---|---|---|
+| **Inventory** | Turns room photos into items: name, room, quantity, condition | The household confirms or edits every item |
+| **Valuation** | Prices each item from Channel3 offers | Outliers need more proof |
+| **Shopper** | Buys funded registry items | Nine rules in code: money held for the family, within what was given for the item, per-item and daily limits, allowed categories, known retailers, ships only to the verified address, price sanity, no price gouging. Purchases over $300 wait for the household's OK |
+| **Sentinel** | Flags warning signs (copied photos, shared payout accounts, addresses outside the disaster zone, photos taken after the disaster) and explains them | Never decides. It only sets how many people must review a case |
+| **Site** | Checks a contractor's milestone photos against the work described | A mismatch makes the case high risk, which needs two reviewers |
+| **Policy** | Reads an insurance policy PDF: limits, sub-limits, deadlines; answers questions with a quote | Read-only, and not legal advice; code does the math against the inventory |
+| **Funds** | Writes donors' impact notes, the grant-report narrative and replies to payment disputes; answers "Ask PayPal" | Can't move money. Rules in code recommend the dispute answer; staff edit and send it |
+| **Ask the grid** | Turns a question into AG Grid state through the AG Grid AI Toolkit | The server checks the answer before the grid applies it |
+
+**People approve money.** Review depth scales with risk: one reviewer for low-risk cases; a video call for medium;
+two independent reviewers (and a supervisor if they disagree) for high-risk or large amounts. 5% of cases are
+re-checked at random. Batch payouts need a second person. Every decision goes into a tamper-evident audit log, and
+every money movement into a double-entry ledger.
+
+The models are Google Gemini through its OpenAI-compatible API, falling back to free OpenRouter models
+(`AI_MODELS` in `backend/.env`).
+
+## Sponsor tools
+
+- **AG Grid Enterprise + AG Charts.** The household inventory (grouped by room, inline editing, Excel export); the
+  ledger (master/detail of each transaction's postings); the review queue; the Command Center (**server-side row
+  model** over 2,000 households, filters and grouping translated to SQL, set filters with server values,
+  sparklines); batch cash aid (master/detail); Price Watch (sparklines); **"Ask the grid"** with the **AI Toolkit**
+  (`getStructuredSchema` → model → server check → `setState`).
+- **Bryntum.** **Gantt** for each rebuild plan and each business's reopening plan (only the contractor can move
+  milestones that haven't been submitted; the server checks again). **Scheduler Pro** for crew dispatch, with
+  travel-time buffers. **Calendar** for reviewers' video verification calls. **TaskBoard** for the case pipeline. All
+  four load and save through FastAPI, which implements Bryntum's CrudManager protocol.
+- **Channel3.** Product search to price inventory items and to find what the Shopper buys; **price history** for the
+  pre-disaster baseline behind the price-gouging guard; **price tracking** on every offer the Shopper considers.
+- **APIMatic.** PayPal's Python Server SDK, which Hearthline uses for Orders, is generated by APIMatic. Hearthline's
+  own Public API is described by a validated OpenAPI 3.1 file ([docs/api](docs/api)) that is kept in sync by a test;
+  _APIMatic-generated SDKs and the API portal are added before submission._
+- **Render.** [`render.yaml`](render.yaml) deploys the API, the web app and Postgres on free plans (see
+  [Deploy](#deploy-on-render)).
+
+## Public API and MCP server
+
+Partners, donors' apps and AI agents can find verified registries and Reopen Funds, check essential prices, and
+prepare gifts. Preparing a gift returns a PayPal approval link: a person approves every payment.
+
+- REST: `/v1` ([OpenAPI](docs/api/hearthline-v1.openapi.json), [Postman collection](docs/api/hearthline-v1.postman_collection.json), [guide](docs/api/README.md))
+- MCP: the same operations as 7 tools at `/mcp` (Streamable HTTP)
+- [`examples/donor_agent.py`](examples/donor_agent.py): an LLM agent that gives through the MCP server
 
 ## Run locally
 
-Prerequisites: [uv](https://docs.astral.sh/uv/), Node.js 20+.
+Prerequisites: [uv](https://docs.astral.sh/uv/) and Node.js 20+.
 
 ```bash
-# API
+# API: http://localhost:8000
 cd backend
-cp .env.example .env        # then fill in your keys
+cp .env.example .env              # then fill in your keys (below)
 uv sync
-uv run alembic upgrade head              # creates backend/hearthline.db (SQLite)
-uv run python -m app.seed                # the fictional Sablewood wildfire demo (personas, households, payments)
-uv run uvicorn app.main:app              # http://localhost:8000/health
+uv run alembic upgrade head       # creates backend/hearthline.db (SQLite)
+uv run python -m app.seed         # the fictional Sablewood demo: personas, 2,000 households, payments
+uv run uvicorn app.main:app
 
-# Web
+# Web: http://localhost:5173
 cd frontend
 npm install
-npm run dev                  # http://localhost:5173
+npm run dev
 ```
 
-Tests: `cd backend && uv run pytest`. Browser checks: see [e2e/README.md](e2e/README.md).
+| Setting in `backend/.env` | What for |
+|---|---|
+| `GEMINI_API_KEY` and/or `OPENROUTER_API_KEY` | The AI agents (free tiers work) |
+| `CHANNEL3_API_KEY` | Product prices and price history |
+| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | A PayPal sandbox app with Payouts, Subscriptions, Customer disputes and Log in with PayPal enabled (return URL `http://localhost:5173/connect/paypal`) |
+| `PAYPAL_WEBHOOK_ID` | Only on a public deployment (see below) |
+| `DATABASE_URL` | Empty for SQLite; a Postgres URL otherwise |
 
-## Deploy (Render)
+To reset the demo, stop the API, delete `backend/hearthline.db`, and run the migration and seed commands again.
 
-`render.yaml` deploys the API, the web app and Postgres on Render's free plans; enter the secrets marked
-`sync: false` in the Render dashboard. Then point PayPal's webhooks at the API (subscribes to every event
-Hearthline handles) and put the printed id in `PAYPAL_WEBHOOK_ID`:
+**Tests.** `cd backend && uv run pytest`. The same tests pass on Postgres: set `TEST_DATABASE_URL` to an empty
+database. Browser checks are in [e2e](e2e/README.md).
+
+## Deploy on Render
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AnshulPatil2005/hearthline)
+
+The blueprint creates `hearthline-api`, `hearthline-web` and `hearthline-db`. Enter the secrets it asks for; the API
+migrates and seeds the demo at start-up. Then point PayPal's webhooks at the API and put the printed id in
+`PAYPAL_WEBHOOK_ID`:
 
 ```bash
 cd backend
 uv run python -m scripts.paypal_webhook https://<your-api-host>
+```
+
+Render deletes free Postgres databases 30 days after creation, so a deployment meant to last longer needs a paid
+database or another Postgres host.
+
+## How it fits together
+
+```mermaid
+flowchart LR
+  web["Web app (React, AG Grid, Bryntum)"] --> api["FastAPI"]
+  agent["Donors' AI agents"] -- "MCP /mcp, REST /v1" --> api
+  api --> db[("Postgres / SQLite: ledger, audit log")]
+  api -- "Orders, Payouts, Subscriptions, Disputes, Tracking, Log in" --> paypal["PayPal sandbox"]
+  paypal -- "signed webhooks" --> api
+  api -- "Agent Toolkit tools" --> mcp["PayPal MCP server"]
+  api --> ai["Gemini / OpenRouter"]
+  api --> c3["Channel3"]
+  api --> nws["National Weather Service"]
+```
+
+```
+backend/    FastAPI app (app/), agents (app/agents/), PayPal clients (app/paypal/), Alembic migrations, tests
+frontend/   React + TypeScript (Vite), AG Grid and Bryntum pages, translations (src/locales/)
+docs/api/   Public API contract: OpenAPI and Postman
+examples/   An AI donor agent that uses the MCP server
+e2e/        Browser checks (Playwright)
+render.yaml Render Blueprint
+PLAN.md     Product scope, decisions and build plan
 ```
 
 ## License
