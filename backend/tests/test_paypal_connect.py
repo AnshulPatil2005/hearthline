@@ -18,6 +18,7 @@ def paypal(monkeypatch):
     s = get_settings()
     monkeypatch.setattr(s, "paypal_client_id", "CLIENT-ID")
     monkeypatch.setattr(s, "paypal_client_secret", "SECRET")
+    monkeypatch.setattr(s, "paypal_connect_return_url", None)  # the web app's own /connect/paypal
     people = {
         "code-elena": identity.PayPalPerson("PAYER-ELENA", "elena.r@personal.example.com", "Elena Rivera", True),
         "code-unverified": identity.PayPalPerson("PAYER-X", "new.account@personal.example.com", "E. Rivera", False),
@@ -120,3 +121,10 @@ def test_userinfo_shapes():
     bare = identity.person_from({"user_id": "https://x/user/XYZ", "given_name": "A", "family_name": "B"})
     assert (bare.payer_id, bare.email, bare.name, bare.verified) == ("XYZ", None, "A B", False)
     assert paypal_connect.mask("ab@x.example") == "ab•@x.example"
+
+
+def test_a_configured_return_url_is_what_paypal_gets(paypal, monkeypatch):
+    """PayPal only saves public https return URLs, so local runs register a placeholder (see .env.example)."""
+    monkeypatch.setattr(get_settings(), "paypal_connect_return_url", "https://example.com/connect/paypal")
+    url = client.post("/paypal/connect/start", headers=login_as("Elena Rivera")).json()["authorize_url"]
+    assert parse_qs(urlparse(url).query)["redirect_uri"] == ["https://example.com/connect/paypal"]

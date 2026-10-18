@@ -37,8 +37,8 @@ public Price Watch (`/price-watch`).
 
 To pay as a donor in the checkout, use this sandbox buyer account (sandbox only, no real money):
 
-- Email: _added at submission_
-- Password: _added at submission_
+- Email: `sb-m9476w53417949@personal.example.com`
+- Password: `S-Ca7>oD`
 
 Venmo and Pay Later buttons appear in the sandbox for US buyers.
 

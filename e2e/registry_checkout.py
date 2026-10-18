@@ -1,10 +1,12 @@
-"""Drive the public registry page: open it, start funding an item, check PayPal buttons render,
-click the PayPal button and confirm a real sandbox order is created (the popup needs a buyer login)."""
+"""Drive the public registry page: open it, start funding an item, check PayPal buttons render, click the PayPal
+button and confirm a real sandbox order is created. With the sandbox buyer login in backend/.env, the buyer signs in
+inside PayPal's popup, pays, and the page thanks them (a real sandbox capture)."""
 
 import asyncio
 import os
 from pathlib import Path
 
+from paypal_sandbox import confirm, have_buyer, sign_in
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
@@ -46,8 +48,15 @@ async def main() -> None:
             await popup.wait_for_timeout(4000)
             print("popup opened:", popup.url[:90])
             await popup.screenshot(path=OUT / "registry_popup.png")
+            if have_buyer():
+                await sign_in(popup)
+                print("confirmed with:", await confirm(popup))
+                await page.wait_for_selector("text=Thank you! You gave", timeout=90000)
+                print("paid:", await page.locator("text=Thank you! You gave").first.inner_text())
+                await page.screenshot(path=OUT / "registry_paid.png")
         except Exception as e:  # noqa: BLE001
-            print("no popup:", type(e).__name__)
+            print("popup flow failed:", type(e).__name__, str(e).splitlines()[0][:160])
+            raise
         await page.wait_for_timeout(2000)
         print("donation calls:", donation_calls)
         print("console errors:", [c for c in console if c.startswith("error")][:5])

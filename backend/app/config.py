@@ -41,6 +41,9 @@ class Settings(BaseSettings):
     paypal_client_secret: str | None = None
     paypal_environment: str = "sandbox"
     paypal_webhook_id: str | None = None
+    # Log in with PayPal sends people back here. PayPal only saves public https return URLs, so local development
+    # registers a placeholder (e.g. https://example.com/connect/paypal); empty = the web app's /connect/paypal.
+    paypal_connect_return_url: str | None = None
     # Sandbox test accounts used by spikes and demo seeding.
     paypal_sandbox_retailer_email: str | None = None
     paypal_sandbox_payout_receivers: str = ""

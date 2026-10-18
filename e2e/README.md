@@ -10,7 +10,7 @@ uv run --with playwright python ../e2e/registry_checkout.py
 
 | Script | Checks |
 |---|---|
-| `registry_checkout.py` | The public registry loads; "Fund this" opens the donation panel; PayPal, Venmo and Pay Later buttons render; clicking PayPal creates a donation and opens the PayPal sandbox checkout |
+| `registry_checkout.py` | The public registry loads; "Fund this" opens the donation panel; PayPal, Venmo and Pay Later buttons render; clicking PayPal creates a donation and opens the PayPal sandbox checkout; with the sandbox buyer login, the buyer signs in inside the popup, pays, and the page thanks them (a real sandbox capture) |
 | `video_calls.py` | A reviewer books a video call on the medium-risk case; it appears in Bryntum Calendar; Bryntum TaskBoard shows the case pipeline |
 | `cash_aid.py` | The household requests cash aid on the Aid page; the randomly assigned reviewer approves it; a real PayPal sandbox payout is sent; the household sees "Approved" (uses one AI call) |
 | `review_scam.py` | Two reviewers open the seeded impersonation registry from their queues and reject it with reasons; the registry closes and its donations are refunded (needs a freshly seeded database) |
@@ -25,6 +25,9 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `disputes.py` | Payment disputes desk: the org admin answers the three seeded PayPal disputes the way the rules recommend: messages the bakery card buyer about their share of the escrow, refunds the gift to the copycat registry (confirmed first), and sends proof of refund for the outfitter card; each answer starts from the Funds agent's draft. Then "Ask PayPal": the Funds agent answers from PayPal's own MCP server (read-only tools) and refuses a refund request (uses about eight AI calls; needs a freshly seeded database) |
 | `connect_paypal.py` | Log in with PayPal: the household's Aid page, the contractor portal and the business home show where each person's money goes and a "Log in with PayPal" button that opens PayPal's sign-in page for the app; a cancelled return changes nothing (finishing the sign-in needs the return URL set in the PayPal developer dashboard) |
 | `demo_reset.py` | Reset the demo: after shared state was changed (a dispute answered, a registry closed), "Put it back to the start" on the sign-in page restores the seeded data for everyone; a second reset right away is refused |
+
+Scripts that sign in at PayPal use the sandbox buyer account from `backend/.env` (`PAYPAL_SANDBOX_BUYER_EMAIL`,
+`PAYPAL_SANDBOX_BUYER_PASSWORD`); `paypal_sandbox.py` holds the sign-in steps for PayPal's sandbox pages.
 
 To check another stack (for example the API on Postgres), point the scripts at it: `E2E_WEB` (web app, default
 `http://localhost:5173`), `E2E_API` (API, default `http://localhost:8000`) and `DATABASE_URL` (the API's database,

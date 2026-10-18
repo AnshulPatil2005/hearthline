@@ -28,7 +28,8 @@ class ConnectError(ValueError):
 
 
 def redirect_uri() -> str:
-    return f"{get_settings().web_url}/connect/paypal"
+    s = get_settings()
+    return s.paypal_connect_return_url or f"{s.web_url}/connect/paypal"
 
 
 def mask(email: str | None) -> str | None:
