@@ -30,11 +30,13 @@ export function PublicFrame({ children, wide = false }: { children: ReactNode; w
 }
 
 export function Progress({ funded, target }: { funded: number; target: number }) {
+  const { t } = useTranslation()
   const pct = target > 0 ? Math.min(100, (funded / target) * 100) : 0
   return (
     <div
       className="h-2 overflow-hidden rounded-full bg-sunken"
       role="progressbar"
+      aria-label={t('a11y.progress', { pct: Math.round(pct) })}
       aria-valuenow={Math.round(pct)}
       aria-valuemin={0}
       aria-valuemax={100}

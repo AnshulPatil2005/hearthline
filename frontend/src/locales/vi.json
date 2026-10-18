@@ -1207,5 +1207,10 @@
         }
       ]
     }
+  },
+  "a11y": {
+    "progress": "Đã gây quỹ {{pct}}%",
+    "openPhoto": "Mở ảnh {{n}} trong thẻ mới",
+    "pickItem": "Thêm một món từ danh mục đồ đạc hoặc một món mới"
   }
 }

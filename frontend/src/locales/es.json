@@ -1230,5 +1230,10 @@
         }
       ]
     }
+  },
+  "a11y": {
+    "progress": "{{pct}} % financiado",
+    "openPhoto": "Abrir la foto {{n}} en una pestaña nueva",
+    "pickItem": "Agregar un artículo de su inventario o uno nuevo"
   }
 }

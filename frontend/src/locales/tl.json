@@ -1230,5 +1230,10 @@
         }
       ]
     }
+  },
+  "a11y": {
+    "progress": "{{pct}}% napondohan",
+    "openPhoto": "Buksan ang larawan {{n}} sa bagong tab",
+    "pickItem": "Magdagdag ng gamit mula sa inyong imbentaryo o bago"
   }
 }

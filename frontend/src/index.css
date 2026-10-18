@@ -8,12 +8,12 @@
   --sunken: #f3eee7;
   --ink: #1f1a17;
   --ink-soft: #5b524b;
-  --ink-faint: #8f857c;
+  --ink-faint: #736960; /* 4.6:1 or better on paper, surface and sunken (WCAG AA) */
   --line: #e7e0d7;
   --ember: #c2410c;
   --ember-soft: #fff1e6;
   --on-ember: #ffffff;
-  --sage: #2f7d4f;
+  --sage: #2b7549;
   --sage-soft: #e8f5ec;
   --amber: #b45309;
   --amber-soft: #fff6e0;
@@ -29,7 +29,7 @@
     --sunken: #26211c;
     --ink: #f4efe9;
     --ink-soft: #c5bbb0;
-    --ink-faint: #8c8279;
+    --ink-faint: #9a9087;
     --line: #353029;
     --ember: #fb8a4c;
     --ember-soft: #3a2216;
@@ -85,4 +85,10 @@ body {
   font-size: 0.75em;
   opacity: 0.8;
   font-weight: 400;
+}
+
+/* Bryntum's "today" line label is white on #f4511e (3.5:1). Ours passes WCAG AA in both themes. */
+.b-sch-time-range.b-sch-line > label {
+  background-color: var(--ember) !important;
+  color: var(--on-ember) !important;
 }

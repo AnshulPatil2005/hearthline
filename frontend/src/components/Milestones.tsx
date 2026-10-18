@@ -31,12 +31,13 @@ export function MilestoneStatusPill({ status }: { status: MilestoneStatus }) {
 }
 
 export function PhotoStrip({ urls }: { urls: string[] }) {
+  const { t } = useTranslation()
   if (urls.length === 0) return null
   return (
     <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
-      {urls.map((u) => (
+      {urls.map((u, i) => (
         <li key={u}>
-          <a href={mediaUrl(u) ?? undefined} target="_blank" rel="noreferrer">
+          <a href={mediaUrl(u) ?? undefined} target="_blank" rel="noreferrer" aria-label={t('a11y.openPhoto', { n: i + 1 })}>
             <img src={mediaUrl(u) ?? ''} alt="" className="aspect-[4/3] w-full rounded-lg object-cover" />
           </a>
         </li>

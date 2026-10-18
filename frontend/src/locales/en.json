@@ -1230,5 +1230,10 @@
         }
       ]
     }
+  },
+  "a11y": {
+    "progress": "{{pct}}% funded",
+    "openPhoto": "Open photo {{n}} in a new tab",
+    "pickItem": "Add an item from your inventory or a new one"
   }
 }
