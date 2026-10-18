@@ -40,3 +40,15 @@ def test_me_rejects_missing_and_bad_tokens():
 
 def test_demo_login_unknown_user():
     assert client.post("/auth/demo-login", json={"user_id": 9999}).status_code == 404
+
+
+def test_production_refuses_the_development_secret():
+    import pytest
+    from pydantic import ValidationError
+
+    from app.config import Settings
+
+    with pytest.raises(ValidationError, match="SECRET_KEY"):
+        Settings(environment="production", _env_file=None)
+    assert Settings(environment="production", secret_key="x" * 40, _env_file=None).secret_key == "x" * 40
+    assert Settings(_env_file=None).environment == "development"  # local runs keep the default

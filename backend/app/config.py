@@ -1,9 +1,11 @@
 from functools import lru_cache
 from pathlib import Path
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BACKEND_DIR = Path(__file__).resolve().parent.parent
+DEV_SECRET = "dev-only-insecure-secret-change-me-0123456789"
 
 
 class Settings(BaseSettings):
@@ -11,8 +13,9 @@ class Settings(BaseSettings):
 
     environment: str = "development"
     database_url: str | None = None
-    # Signs login tokens. Render generates a random value; the default is for local dev only.
-    secret_key: str = "dev-only-insecure-secret-change-me-0123456789"
+    # Signs login tokens, media links and PayPal sign-in state. Render generates a random value; the default is for
+    # local development only, and production refuses to start with it.
+    secret_key: str = DEV_SECRET
     token_ttl_hours: int = 72
     # Localhost on any port, plus the Render static site (and its preview environments).
     cors_origin_regex: str = r"http://localhost:\d+|https://hearthline-web(-[a-z0-9-]+)?\.onrender\.com"
@@ -41,6 +44,12 @@ class Settings(BaseSettings):
     # Sandbox test accounts used by spikes and demo seeding.
     paypal_sandbox_retailer_email: str | None = None
     paypal_sandbox_payout_receivers: str = ""
+
+    @model_validator(mode="after")
+    def _real_secret_in_production(self) -> "Settings":
+        if self.environment == "production" and (self.secret_key == DEV_SECRET or len(self.secret_key) < 32):
+            raise ValueError("Set SECRET_KEY to a long random value in production (render.yaml generates one)")
+        return self
 
     @property
     def web_url(self) -> str:
