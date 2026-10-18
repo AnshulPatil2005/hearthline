@@ -19,7 +19,7 @@ function VerificationCard({ v }: { v: Verification }) {
   const { t } = useTranslation()
   return (
     <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
-      <div className="flex items-center justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <h2 className="font-semibold">{t('aid.verificationTitle')}</h2>
         <span className="rounded-full bg-sunken px-2.5 py-0.5 text-sm font-medium">
           {t(`review.levels.${v.level}`)}
@@ -151,7 +151,7 @@ function CaseCard({ c, onChanged }: { c: HouseholdCase; onChanged: () => void })
 }
 
 export default function Aid() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const queryClient = useQueryClient()
   const verification = useQuery({
     queryKey: ['verification'],
@@ -175,7 +175,7 @@ export default function Aid() {
         <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
           {t('home.upcomingCall', {
             name: calls.data[0].reviewer_name.split(' ')[0],
-            when: new Date(calls.data[0].starts_at).toLocaleString(undefined, {
+            when: new Date(calls.data[0].starts_at).toLocaleString(i18n.resolvedLanguage, {
               weekday: 'long',
               month: 'short',
               day: 'numeric',

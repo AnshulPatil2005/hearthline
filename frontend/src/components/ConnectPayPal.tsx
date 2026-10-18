@@ -30,7 +30,7 @@ export function ConnectPayPal() {
 
   return (
     <section className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-surface p-5 shadow-sm">
-      <div className="min-w-0 flex-1 space-y-1">
+      <div className="min-w-0 flex-[1_1_16rem] space-y-1">
         <h2 className="text-lg font-semibold">{t('connectPayPal.title')}</h2>
         {s.connected ? (
           <>

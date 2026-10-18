@@ -74,13 +74,13 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
   return (
     <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
       <h2 className="font-semibold">{t('registry.addTitle')}</h2>
-      <div className="mt-3 grid gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-        <div className="grid gap-3 sm:grid-cols-2">
+      <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
           {priced.length > 0 && (
             <select
               value={fromInventory}
               onChange={(e) => setFromInventory(e.target.value)}
-              className="rounded-lg border border-line bg-surface px-3 py-2 text-sm sm:col-span-2"
+              className="w-full min-w-0 rounded-lg border border-line bg-surface px-3 py-2 text-sm sm:col-span-2"
             >
               <option value="">{t('registry.custom')}</option>
               {priced.map((i) => (

@@ -56,8 +56,11 @@ export function LanguageSelect() {
   )
 }
 
+// On phones the links get their own full-width row that scrolls sideways, so the page itself never does.
+const navRow =
+  'order-last -mx-1 flex w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none] lg:order-none lg:mx-0 lg:w-auto lg:overflow-visible lg:px-0'
 const navClass = ({ isActive }: { isActive: boolean }) =>
-  `rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-sunken text-ink' : 'text-ink-soft hover:text-ink'}`
+  `shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-sunken text-ink' : 'text-ink-soft hover:text-ink'}`
 
 export function Shell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   const { t } = useTranslation()
@@ -75,7 +78,7 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
             Hearthline
           </Link>
           {user?.role === 'household' && (
-            <nav className="flex gap-1">
+            <nav className={navRow}>
               <NavLink to="/home" className={navClass}>
                 {t('nav.home')}
               </NavLink>
@@ -100,7 +103,7 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
             </nav>
           )}
           {user?.role === 'donor' && (
-            <nav className="flex gap-1">
+            <nav className={navRow}>
               <NavLink to="/giving" className={navClass}>
                 {t('nav.giving')}
               </NavLink>
@@ -110,21 +113,21 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
             </nav>
           )}
           {user?.role === 'business' && (
-            <nav className="flex gap-1">
+            <nav className={navRow}>
               <NavLink to="/business" className={navClass}>
                 {t('nav.reopenFund')}
               </NavLink>
             </nav>
           )}
           {user?.role === 'contractor' && (
-            <nav className="flex gap-1">
+            <nav className={navRow}>
               <NavLink to="/contractor" className={navClass}>
                 {t('nav.projects')}
               </NavLink>
             </nav>
           )}
           {user && STAFF_ROLES.includes(user.role) && (
-            <nav className="flex gap-1">
+            <nav className={navRow}>
               {(user.role === 'org_admin' || user.role === 'supervisor') && (
                 <>
                   <NavLink to="/command" end className={navClass}>

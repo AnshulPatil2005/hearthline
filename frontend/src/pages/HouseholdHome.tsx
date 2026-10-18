@@ -112,7 +112,7 @@ function Rooms({ summary }: { summary: InventorySummary }) {
 }
 
 export default function HouseholdHome() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
   const { user } = useAuth()
   const home = useQuery({ queryKey: ['household'], queryFn: () => api<Household>('/households/me') })
   const calls = useQuery({ queryKey: ['my-calls'], queryFn: () => api<Call[]>('/households/me/appointments') })
@@ -145,7 +145,7 @@ export default function HouseholdHome() {
         <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
           {t('home.upcomingCall', {
             name: calls.data[0].reviewer_name.split(' ')[0],
-            when: new Date(calls.data[0].starts_at).toLocaleString(undefined, {
+            when: new Date(calls.data[0].starts_at).toLocaleString(i18n.resolvedLanguage, {
               weekday: 'long',
               month: 'short',
               day: 'numeric',
