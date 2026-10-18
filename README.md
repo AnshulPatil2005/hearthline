@@ -27,6 +27,9 @@ Open the app and pick a persona on the sign-in page (no password), or use a dire
 | `grace.alvarez` | Review supervisor | Settles disagreements; approves cash-aid batches |
 | `sam.whitfield` | Relief organization admin | **Command Center** (2,000 households, "Ask the grid", batch cash aid), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Price Watch** |
 
+Someone else changed the demo? **Put it back to the start** at the bottom of the sign-in page resets every
+persona's data for everyone (at most once every ten minutes).
+
 Pages anyone can open: a family's registry (`/r/rivera-family`), a Reopen Fund (`/reopen/morenos-bakery`) and the
 public Price Watch (`/price-watch`).
 

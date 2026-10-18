@@ -1,9 +1,10 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router'
-import { api, type Role, type User } from '../api'
+import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
+import { Footer } from '../components/Footer'
 import { LanguageSelect, Logo } from '../components/Shell'
 import { homePathFor } from '../paths'
 
@@ -23,6 +24,71 @@ const initials = (name: string) =>
     .map((part) => part[0])
     .join('')
     .slice(0, 2)
+
+type ResetStatus = { running: boolean; available_in_seconds: number; error: string | null }
+
+/** Judges change shared demo state; anyone can put it back (at most every ten minutes). */
+function ResetDemo() {
+  const { t } = useTranslation()
+  const queryClient = useQueryClient()
+  const [confirming, setConfirming] = useState(false)
+  const [message, setMessage] = useState<string | null>(null)
+  const status = useQuery({
+    queryKey: ['demo-reset'],
+    queryFn: () => api<ResetStatus>('/demo/reset'),
+    refetchInterval: (q) => (q.state.data?.running ? 3000 : false),
+  })
+  const running = status.data?.running ?? false
+  const wasRunning = useRef(false)
+  useEffect(() => {
+    if (wasRunning.current && !running) {
+      setMessage(status.data?.error ? t('login.reset.failed') : t('login.reset.done'))
+      void queryClient.invalidateQueries({ queryKey: ['personas'] })
+    }
+    wasRunning.current = running
+  }, [running, status.data?.error, queryClient, t])
+  const reset = useMutation({
+    mutationFn: () => api<ResetStatus>('/demo/reset', { method: 'POST' }),
+    onSuccess: (r) => {
+      setConfirming(false)
+      setMessage(null)
+      queryClient.setQueryData(['demo-reset'], r)
+    },
+    onError: (e) => {
+      setConfirming(false)
+      setMessage(e instanceof ApiError ? e.message : t('errors.generic'))
+    },
+  })
+
+  return (
+    <div className="mt-8 text-center text-sm text-ink-soft" aria-live="polite">
+      {running ? (
+        <p>{t('login.reset.running')}</p>
+      ) : confirming ? (
+        <p className="flex flex-wrap items-center justify-center gap-2">
+          {t('login.reset.confirm')}
+          <button
+            onClick={() => reset.mutate()}
+            disabled={reset.isPending}
+            className="rounded-md bg-ember px-2.5 py-1 font-medium text-on-ember disabled:opacity-40"
+          >
+            {t('login.reset.yes')}
+          </button>
+          <button onClick={() => setConfirming(false)} className="underline">
+            {t('login.reset.cancel')}
+          </button>
+        </p>
+      ) : (
+        <p>
+          {message && <span className="mr-2">{message}</span>}
+          <button onClick={() => setConfirming(true)} className="text-ember underline-offset-2 hover:underline">
+            {t('login.reset.ask')}
+          </button>
+        </p>
+      )}
+    </div>
+  )
+}
 
 export default function Login() {
   const { t } = useTranslation()
@@ -94,7 +160,9 @@ export default function Login() {
                 className="flex h-full w-full flex-col rounded-xl border border-line bg-surface p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-ember hover:shadow-md disabled:opacity-60"
               >
                 <div className="flex items-center gap-3">
-                  <span className={`grid size-10 place-items-center rounded-full text-sm font-semibold ${ROLE_TINT[p.role]}`}>
+                  <span
+                    className={`grid size-10 place-items-center rounded-full text-sm font-semibold ${ROLE_TINT[p.role]}`}
+                  >
                     {initials(p.name)}
                   </span>
                   <div>
@@ -113,7 +181,10 @@ export default function Login() {
           ))}
         </ul>
 
-        <p className="mt-10 text-center text-xs text-ink-faint">{t('app.demoNotice')}</p>
+        <ResetDemo />
+      </div>
+      <div className="mt-10">
+        <Footer />
       </div>
     </div>
   )

@@ -1,9 +1,11 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
+from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
+from app import demo_reset
 from app.auth import CurrentUser, issue_token
 from app.db import get_db
 from app.models import User
@@ -30,3 +32,24 @@ def demo_login(body: DemoLoginIn, db: DB) -> TokenOut:
 @router.get("/me", response_model=UserOut)
 def me(user: CurrentUser) -> User:
     return user
+
+
+class ResetStatus(BaseModel):
+    running: bool
+    available_in_seconds: int
+    error: str | None
+
+
+@router.get("/demo/reset", response_model=ResetStatus)
+def demo_reset_status() -> dict:
+    return demo_reset.status()
+
+
+@router.post("/demo/reset", response_model=ResetStatus, status_code=202)
+def reset_demo() -> dict:
+    """Put every persona's data back to the start, for everyone. At most once every ten minutes."""
+    try:
+        demo_reset.start()
+    except demo_reset.TooSoon as e:
+        raise HTTPException(429, str(e)) from e
+    return demo_reset.status()

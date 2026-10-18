@@ -45,7 +45,16 @@
     "title": "¿Quién eres hoy?",
     "subtitle": "El incendio de Sablewood es inventado, igual que estas personas. Elige una para ver Hearthline desde su perspectiva.",
     "signIn": "Continuar como {{name}}",
-    "error": "No pudimos iniciar sesión. ¿Está funcionando la API?"
+    "error": "No pudimos iniciar sesión. ¿Está funcionando la API?",
+    "reset": {
+      "ask": "¿Alguien cambió la demostración? Volver al inicio",
+      "confirm": "Esto restablece los datos de todos los personajes para todas las personas que usan la demostración.",
+      "yes": "Restablecer la demostración",
+      "cancel": "Cancelar",
+      "running": "Restableciendo la demostración… tarda cerca de un minuto.",
+      "done": "La demostración volvió al inicio.",
+      "failed": "El restablecimiento no terminó. Inténtelo de nuevo en unos minutos."
+    }
   },
   "home": {
     "greeting": "Hola de nuevo, {{name}}",

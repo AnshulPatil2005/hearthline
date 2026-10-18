@@ -45,7 +45,16 @@
     "title": "Hôm nay bạn là ai?",
     "subtitle": "Vụ cháy Sablewood là hư cấu, những người này cũng vậy. Hãy chọn một người để xem Hearthline qua góc nhìn của họ.",
     "signIn": "Tiếp tục với vai {{name}}",
-    "error": "Không thể đăng nhập. API có đang chạy không?"
+    "error": "Không thể đăng nhập. API có đang chạy không?",
+    "reset": {
+      "ask": "Có người đã thay đổi bản demo? Đưa về trạng thái ban đầu",
+      "confirm": "Thao tác này đặt lại dữ liệu của mọi nhân vật cho tất cả người đang dùng bản demo.",
+      "yes": "Đặt lại bản demo",
+      "cancel": "Hủy",
+      "running": "Đang đặt lại bản demo… mất khoảng một phút.",
+      "done": "Bản demo đã trở về trạng thái ban đầu.",
+      "failed": "Việc đặt lại chưa xong. Vui lòng thử lại sau vài phút."
+    }
   },
   "home": {
     "greeting": "Chào mừng trở lại, {{name}}",

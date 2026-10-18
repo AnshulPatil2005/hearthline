@@ -45,7 +45,16 @@
     "title": "Sino ka ngayon?",
     "subtitle": "Gawa-gawa lang ang Sablewood Fire, pati ang mga taong ito. Pumili ng isa para makita ang Hearthline mula sa kanilang pananaw.",
     "signIn": "Magpatuloy bilang {{name}}",
-    "error": "Hindi ka namin ma-sign in. Tumatakbo ba ang API?"
+    "error": "Hindi ka namin ma-sign in. Tumatakbo ba ang API?",
+    "reset": {
+      "ask": "May nagbago sa demo? Ibalik ito sa simula",
+      "confirm": "Nire-reset nito ang data ng bawat persona para sa lahat ng gumagamit ng demo.",
+      "yes": "I-reset ang demo",
+      "cancel": "Kanselahin",
+      "running": "Nire-reset ang demo… mga isang minuto ito.",
+      "done": "Nakabalik na sa simula ang demo.",
+      "failed": "Hindi natapos ang reset. Subukang muli pagkalipas ng ilang minuto."
+    }
   },
   "home": {
     "greeting": "Maligayang pagbabalik, {{name}}",

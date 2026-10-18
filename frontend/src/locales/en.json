@@ -45,7 +45,16 @@
     "title": "Who are you today?",
     "subtitle": "The Sablewood Fire is made up, and so are these people. Pick one to see Hearthline through their eyes.",
     "signIn": "Continue as {{name}}",
-    "error": "We couldn't sign you in. Is the API running?"
+    "error": "We couldn't sign you in. Is the API running?",
+    "reset": {
+      "ask": "Someone changed the demo? Put it back to the start",
+      "confirm": "This resets every persona's data for everyone using the demo.",
+      "yes": "Reset the demo",
+      "cancel": "Cancel",
+      "running": "Resetting the demo… this takes about a minute.",
+      "done": "The demo is back to the start.",
+      "failed": "The reset didn't finish. Try again in a few minutes."
+    }
   },
   "home": {
     "greeting": "Welcome back, {{name}}",
