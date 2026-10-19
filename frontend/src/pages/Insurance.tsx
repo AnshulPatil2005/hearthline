@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { api, ApiError, type PolicyAnswer, type PolicyInfo } from '../api'
 import { Stat } from '../components/Milestones'
 import { Progress } from '../components/PublicFrame'
+import { SendClaim } from '../components/SendClaim'
 import { VoiceButton } from '../components/VoiceButton'
 import { money } from '../format'
 
@@ -212,6 +213,7 @@ export default function Insurance() {
             <p className="mt-3 rounded-lg bg-amber-soft px-3 py-2 text-sm">{t('insurance.advanceTip')}</p>
           </section>
 
+          <SendClaim insurer={p.summary.insurer} />
           <Ask />
           <Upload onDone={() => void queryClient.invalidateQueries({ queryKey: ['policy'] })} replacing />
         </>

@@ -3,7 +3,8 @@
 - Every payout PayPal made must trace to a decision people approved in Hearthline: a cash-aid case, a contractor
   milestone, a Reopen step, a Shopper purchase or a batch aid payment (the payout item's `custom_field` is our
   sender_item_id), for the same amount.
-- Every payment PayPal received must be a gift, gift card or regular's payment in our records, for the same amount;
+- Every payment PayPal received must be a gift, gift card, regular's payment or insurance claim payment in our records,
+  for the same amount;
   refunds must point at a payment we refunded.
 - Anything we recorded that PayPal doesn't show is missing, unless it's newer than PayPal's report (up to 3 hours).
 Seeded demo records (DEMO- ids) never touched PayPal and are left out.
@@ -26,6 +27,7 @@ from app.models import (
     Donation,
     GiftCard,
     GiftCardPayment,
+    InsuranceClaim,
     Milestone,
     Purchase,
     ReopenTranche,
@@ -112,6 +114,22 @@ def expected(db: Session, start: datetime) -> list[Expected]:
     for p in db.scalars(select(GiftCardPayment)):
         if _real(p.paypal_sale_id) and since(p.created_at):
             out.append(Expected(p.paypal_sale_id, "in", p.amount, _aware(p.created_at), f"Regular's payment #{p.id}"))
+
+    for claim in db.scalars(select(InsuranceClaim).where(InsuranceClaim.paypal_capture_id.is_not(None))):
+        if _real(claim.paypal_capture_id) and since(claim.paid_at):
+            what = f"Insurance claim #{claim.id} paid by {claim.insurer} (adjuster {claim.adjuster_name})"
+            out.append(
+                Expected(
+                    claim.paypal_capture_id, "in", claim.approved_amount or Decimal(0), _aware(claim.paid_at), what
+                )
+            )
+            if claim.payout_status == "sent" and _real(claim.payout_ref, "hearthline-claim-"):
+                what = f"Insurance claim #{claim.id} passed on to the household's PayPal account"
+                out.append(
+                    Expected(
+                        f"claim-{claim.id}", "out", claim.approved_amount or Decimal(0), _aware(claim.paid_at), what
+                    )
+                )
 
     for case in db.scalars(select(Case).where(Case.paypal_ref.is_not(None))):
         if _real(case.paypal_ref, "hearthline-case-") and since(case.decided_at):

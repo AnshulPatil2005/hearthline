@@ -332,7 +332,8 @@
       "milestone_payment": "Bayad sa kontratista",
       "grant": "Grant",
       "gift_card": "Gift card",
-      "tranche_payout": "Bayad mula sa pondo sa muling pagbubukas"
+      "tranche_payout": "Bayad mula sa pondo sa muling pagbubukas",
+      "claim_payout": "Ipinadala sa inyong PayPal"
     }
   },
   "review": {
@@ -1289,5 +1290,62 @@
       "refund": "Refund",
       "other": "Iba pa"
     }
+  },
+  "claim": {
+    "title": "Ipadala ang inyong claim sa {{insurer}}",
+    "body": "Binubuo ng Hearthline ang inyong claim sa mga gamit mula sa imbentaryong na-scan ninyo bago ang sunog, kasama ang mga limit at deductible ng inyong policy. Sinusuri ito ng inyong adjuster online at maaari siyang magbayad gamit ang PayPal, diretso sa sarili ninyong PayPal account.",
+    "items_one": "{{count}} gamit ang kini-claim",
+    "items_other": "{{count}} gamit ang kini-claim",
+    "estimate": "Ang mungkahi ng inyong policy",
+    "sendLink": "Ipadala ang pribadong link na ito sa inyong adjuster",
+    "copy": "Kopyahin",
+    "copied": "Nakopya",
+    "preview": "Tingnan ang makikita nila",
+    "prepare": "Ihanda ang aking claim",
+    "preparing": "Inihahanda…",
+    "update": "I-update ang claim mula sa pinakabagong imbentaryo",
+    "paid": "Nagbayad ang {{insurer}} ng {{amount}} noong {{date}}",
+    "sentTo": "Ipinadala ito ng Hearthline sa inyong PayPal account {{account}}.",
+    "held": "Naghihintay ito sa inyong Hearthline fund hanggang ikonekta ninyo ang inyong PayPal account.",
+    "connect": "Ikonekta ito sa pahina ng Tulong",
+    "adjuster": "Adjuster: {{name}}"
+  },
+  "claimView": {
+    "eyebrow": "Claim sa mga gamit · {{insurer}}",
+    "policy": "Policy {{number}}",
+    "loss": "Pagkawala noong {{date}} ({{disaster}})",
+    "paid": "Nabayaran ang {{amount}} noong {{date}}.",
+    "passedOn": "Ipinadala ito ng Hearthline sa PayPal account ng policyholder.",
+    "heldNote": "Nakatago ito sa Hearthline fund ng policyholder hanggang magkonekta siya ng PayPal account.",
+    "inventory_one": "{{count}} gamit ang kini-claim",
+    "inventory_other": "{{count}} gamit ang kini-claim",
+    "subLimitsCut": "Lampas sa mga sub-limit",
+    "limitAndDeductible": "Limit sa mga gamit · deductible",
+    "estimate": "Babayaran ayon sa policy (tantiya)",
+    "itemsNote": "Mga gamit ayon sa itinala ng sambahayan bago ang sakuna, kasama kung paano napatunayan ang bawat isa. Isinasaalang-alang ng tantiya ang mga sub-limit, limit sa mga gamit at deductible ng policy; kayo ang magpapasya ng halaga.",
+    "export": "I-export sa Excel",
+    "subLimitLine": "{{what}}: {{value}} ang kini-claim, limit {{limit}} ({{over}} na lampas)",
+    "col": {
+      "room": "Kuwarto",
+      "item": "Gamit",
+      "qty": "Dami",
+      "value": "Halaga",
+      "evidence": "Patunay",
+      "subLimit": "Sub-limit",
+      "photo": "Larawan"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Na-scan bago ang sakuna, {{date}}",
+      "photo": "Larawan, {{date}}",
+      "receipt": "Resibo, {{date}}",
+      "memory": "Mula sa alaala"
+    },
+    "view": "Tingnan",
+    "payTitle": "Bayaran ang claim na ito",
+    "payBody": "Pagpasyahan ang halaga, saka magbayad gamit ang PayPal account ng inyong kompanya. Ipapadala ng Hearthline ang buong halaga diretso sa PayPal account ng policyholder.",
+    "adjuster": "Pangalan ng adjuster",
+    "amount": "Halagang babayaran (USD)",
+    "note": "Tala para sa policyholder (opsyonal)",
+    "where": "Makikita ng policyholder ang halaga, ang inyong pangalan at tala. PayPal sandbox: walang totoong perang gumagalaw sa demo na ito."
   }
 }

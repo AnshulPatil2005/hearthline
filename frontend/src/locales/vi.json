@@ -328,7 +328,8 @@
       "milestone_payment": "Trả cho nhà thầu",
       "grant": "Tài trợ",
       "gift_card": "Thẻ quà tặng",
-      "tranche_payout": "Chi trả từ quỹ mở cửa lại"
+      "tranche_payout": "Chi trả từ quỹ mở cửa lại",
+      "claim_payout": "Đã chuyển vào PayPal của quý vị"
     }
   },
   "review": {
@@ -1265,5 +1266,60 @@
       "refund": "Hoàn tiền",
       "other": "Khác"
     }
+  },
+  "claim": {
+    "title": "Gửi yêu cầu bồi thường đến {{insurer}}",
+    "body": "Hearthline lập yêu cầu bồi thường đồ đạc từ danh mục quý vị đã quét trước vụ cháy, áp dụng hạn mức và mức khấu trừ của hợp đồng. Chuyên viên giám định xem trực tuyến và có thể trả bằng PayPal, thẳng vào tài khoản PayPal của chính quý vị.",
+    "items_other": "{{count}} món được yêu cầu",
+    "estimate": "Mức hợp đồng gợi ý",
+    "sendLink": "Gửi đường dẫn riêng này cho chuyên viên giám định",
+    "copy": "Sao chép",
+    "copied": "Đã sao chép",
+    "preview": "Xem trang họ thấy",
+    "prepare": "Lập yêu cầu bồi thường",
+    "preparing": "Đang lập…",
+    "update": "Cập nhật yêu cầu theo danh mục mới nhất",
+    "paid": "{{insurer}} đã trả {{amount}} ngày {{date}}",
+    "sentTo": "Hearthline đã chuyển tiếp vào tài khoản PayPal {{account}} của quý vị.",
+    "held": "Khoản tiền đang chờ trong quỹ Hearthline của quý vị cho đến khi quý vị kết nối tài khoản PayPal.",
+    "connect": "Kết nối ở trang Hỗ trợ",
+    "adjuster": "Chuyên viên giám định: {{name}}"
+  },
+  "claimView": {
+    "eyebrow": "Yêu cầu bồi thường đồ đạc · {{insurer}}",
+    "policy": "Hợp đồng {{number}}",
+    "loss": "Thiệt hại ngày {{date}} ({{disaster}})",
+    "paid": "Đã trả {{amount}} ngày {{date}}.",
+    "passedOn": "Hearthline đã chuyển tiếp vào tài khoản PayPal của người được bảo hiểm.",
+    "heldNote": "Khoản tiền được giữ trong quỹ Hearthline của người được bảo hiểm cho đến khi họ kết nối tài khoản PayPal.",
+    "inventory_other": "{{count}} món được yêu cầu",
+    "subLimitsCut": "Vượt hạn mức phụ",
+    "limitAndDeductible": "Hạn mức đồ đạc · mức khấu trừ",
+    "estimate": "Phải trả theo hợp đồng (ước tính)",
+    "itemsNote": "Các món đồ theo ghi nhận của hộ gia đình trước thảm họa, kèm cách chứng minh từng món. Ước tính đã áp dụng hạn mức phụ, hạn mức đồ đạc và mức khấu trừ của hợp đồng; quý vị quyết định số tiền.",
+    "export": "Xuất ra Excel",
+    "subLimitLine": "{{what}}: yêu cầu {{value}}, hạn mức {{limit}} (vượt {{over}})",
+    "col": {
+      "room": "Phòng",
+      "item": "Món đồ",
+      "qty": "SL",
+      "value": "Giá trị",
+      "evidence": "Bằng chứng",
+      "subLimit": "Hạn mức phụ",
+      "photo": "Ảnh"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Quét trước thảm họa, {{date}}",
+      "photo": "Ảnh, {{date}}",
+      "receipt": "Hóa đơn, {{date}}",
+      "memory": "Theo trí nhớ"
+    },
+    "view": "Xem",
+    "payTitle": "Thanh toán yêu cầu này",
+    "payBody": "Quyết định số tiền rồi thanh toán bằng tài khoản PayPal của công ty. Hearthline chuyển toàn bộ số tiền thẳng vào tài khoản PayPal của người được bảo hiểm.",
+    "adjuster": "Tên chuyên viên giám định",
+    "amount": "Số tiền thanh toán (USD)",
+    "note": "Ghi chú cho người được bảo hiểm (tùy chọn)",
+    "where": "Người được bảo hiểm thấy số tiền, tên và ghi chú của quý vị. Môi trường thử PayPal: bản demo này không chuyển tiền thật."
   }
 }

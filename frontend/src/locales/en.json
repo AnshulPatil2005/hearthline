@@ -332,7 +332,8 @@
       "milestone_payment": "Contractor payment",
       "grant": "Grant",
       "gift_card": "Gift card",
-      "tranche_payout": "Reopen Fund payout"
+      "tranche_payout": "Reopen Fund payout",
+      "claim_payout": "Sent to your PayPal"
     }
   },
   "review": {
@@ -1289,5 +1290,62 @@
       "refund": "Refund",
       "other": "Other"
     }
+  },
+  "claim": {
+    "title": "Send your claim to {{insurer}}",
+    "body": "Hearthline builds your contents claim from the inventory you scanned before the fire, with your policy's limits and deductible applied. Your adjuster reviews it online and can pay with PayPal, straight to your own PayPal account.",
+    "items_one": "{{count}} item claimed",
+    "items_other": "{{count}} items claimed",
+    "estimate": "What your policy suggests",
+    "sendLink": "Send this private link to your adjuster",
+    "copy": "Copy",
+    "copied": "Copied",
+    "preview": "See what they see",
+    "prepare": "Prepare my claim",
+    "preparing": "Preparing…",
+    "update": "Update the claim from my latest inventory",
+    "paid": "{{insurer}} paid {{amount}} on {{date}}",
+    "sentTo": "Hearthline sent it on to your PayPal account {{account}}.",
+    "held": "It's waiting in your Hearthline fund until you connect your PayPal account.",
+    "connect": "Connect it on the Aid page",
+    "adjuster": "Adjuster: {{name}}"
+  },
+  "claimView": {
+    "eyebrow": "Contents claim · {{insurer}}",
+    "policy": "Policy {{number}}",
+    "loss": "Loss on {{date}} ({{disaster}})",
+    "paid": "Paid {{amount}} on {{date}}.",
+    "passedOn": "Hearthline passed it on to the policyholder's PayPal account.",
+    "heldNote": "It's held in the policyholder's Hearthline fund until they connect a PayPal account.",
+    "inventory_one": "{{count}} item claimed",
+    "inventory_other": "{{count}} items claimed",
+    "subLimitsCut": "Over sub-limits",
+    "limitAndDeductible": "Contents limit · deductible",
+    "estimate": "Payable under the policy (estimate)",
+    "itemsNote": "Items as the household recorded them before the disaster, with how each one is evidenced. The estimate applies the policy's sub-limits, contents limit and deductible; you decide the amount.",
+    "export": "Export to Excel",
+    "subLimitLine": "{{what}}: {{value}} claimed, limit {{limit}} ({{over}} over)",
+    "col": {
+      "room": "Room",
+      "item": "Item",
+      "qty": "Qty",
+      "value": "Value",
+      "evidence": "Evidence",
+      "subLimit": "Sub-limit",
+      "photo": "Photo"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Scanned before the disaster, {{date}}",
+      "photo": "Photo, {{date}}",
+      "receipt": "Receipt, {{date}}",
+      "memory": "From memory"
+    },
+    "view": "View",
+    "payTitle": "Pay this claim",
+    "payBody": "Decide the amount, then pay with your company's PayPal account. Hearthline passes the full amount straight on to the policyholder's PayPal account.",
+    "adjuster": "Adjuster's name",
+    "amount": "Amount to pay (USD)",
+    "note": "Note to the policyholder (optional)",
+    "where": "The policyholder sees the amount, your name and your note. PayPal sandbox: no real money moves in this demo."
   }
 }

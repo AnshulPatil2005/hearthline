@@ -641,3 +641,51 @@ export type BooksReport = {
   lines: BooksLine[]
 }
 export type PayPalBalance = { available: string; total: string; as_of: string | null }
+
+export type ClaimStatus = {
+  id: number
+  status: 'submitted' | 'paid'
+  insurer: string
+  policy_number: string | null
+  items: number
+  inventory_value: string
+  estimate: string
+  link: string
+  adjuster_name: string | null
+  approved_amount: string | null
+  paid_at: string | null
+  payout_status: 'sent' | 'held' | null
+  payout_to: string | null
+}
+export type ClaimItem = {
+  name: string
+  room: string | null
+  category: string
+  quantity: number
+  value: string
+  evidence: 'pre_disaster_scan' | 'photo' | 'receipt' | 'memory'
+  recorded_at: string | null
+  photo_url: string | null
+  price_source: string | null
+  retailer: string | null
+  sub_limit: string | null
+}
+export type ClaimPacket = {
+  status: 'submitted' | 'paid'
+  policyholder: string
+  address: string
+  insurer: string
+  policy_number: string | null
+  loss_date: string | null
+  disaster: string | null
+  items: ClaimItem[]
+  sub_limits: { what: string; limit: string; items_value: string; over_by: string }[]
+  inventory_value: string
+  contents_limit: string | null
+  deductible: string | null
+  estimate: string
+  adjuster_name: string | null
+  approved_amount: string | null
+  paid_at: string | null
+  payout_status: 'sent' | 'held' | null
+}

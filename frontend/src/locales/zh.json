@@ -328,7 +328,8 @@
       "milestone_payment": "支付承包商",
       "grant": "拨款",
       "gift_card": "礼品卡",
-      "tranche_payout": "重新开业基金拨款"
+      "tranche_payout": "重新开业基金拨款",
+      "claim_payout": "已转入您的 PayPal"
     }
   },
   "review": {
@@ -1265,5 +1266,60 @@
       "refund": "退款",
       "other": "其他"
     }
+  },
+  "claim": {
+    "title": "向 {{insurer}} 提交理赔",
+    "body": "Hearthline 会根据您在火灾前扫描的物品清单生成财产理赔，并按保单的限额和免赔额计算。理赔员可在线审核，并通过 PayPal 直接付款到您自己的 PayPal 账户。",
+    "items_other": "理赔物品 {{count}} 件",
+    "estimate": "按保单估算",
+    "sendLink": "把这个私密链接发给您的理赔员",
+    "copy": "复制",
+    "copied": "已复制",
+    "preview": "查看理赔员看到的页面",
+    "prepare": "准备我的理赔",
+    "preparing": "正在准备…",
+    "update": "用最新的物品清单更新理赔",
+    "paid": "{{insurer}} 已于 {{date}} 赔付 {{amount}}",
+    "sentTo": "Hearthline 已转入您的 PayPal 账户 {{account}}。",
+    "held": "在您连接 PayPal 账户之前，这笔钱保存在您的 Hearthline 基金中。",
+    "connect": "在援助页面连接账户",
+    "adjuster": "理赔员：{{name}}"
+  },
+  "claimView": {
+    "eyebrow": "财产理赔 · {{insurer}}",
+    "policy": "保单 {{number}}",
+    "loss": "损失日期 {{date}}（{{disaster}}）",
+    "paid": "已于 {{date}} 支付 {{amount}}。",
+    "passedOn": "Hearthline 已转入投保人的 PayPal 账户。",
+    "heldNote": "在投保人连接 PayPal 账户之前，款项保存在其 Hearthline 基金中。",
+    "inventory_other": "理赔物品 {{count}} 件",
+    "subLimitsCut": "超出分项限额",
+    "limitAndDeductible": "财产限额 · 免赔额",
+    "estimate": "按保单应付（估算）",
+    "itemsNote": "物品为该家庭在灾前记录的内容，并注明每件的证明方式。估算已按保单的分项限额、财产限额和免赔额计算；金额由您决定。",
+    "export": "导出到 Excel",
+    "subLimitLine": "{{what}}：理赔 {{value}}，限额 {{limit}}（超出 {{over}}）",
+    "col": {
+      "room": "房间",
+      "item": "物品",
+      "qty": "数量",
+      "value": "价值",
+      "evidence": "证明",
+      "subLimit": "分项限额",
+      "photo": "照片"
+    },
+    "evidence": {
+      "pre_disaster_scan": "灾前扫描，{{date}}",
+      "photo": "照片，{{date}}",
+      "receipt": "收据，{{date}}",
+      "memory": "凭记忆"
+    },
+    "view": "查看",
+    "payTitle": "支付此理赔",
+    "payBody": "确定金额后，用贵公司的 PayPal 账户付款。Hearthline 会把全额直接转入投保人的 PayPal 账户。",
+    "adjuster": "理赔员姓名",
+    "amount": "支付金额（美元）",
+    "note": "给投保人的备注（可选）",
+    "where": "投保人会看到金额、您的姓名和备注。PayPal 沙盒：本演示不涉及真实资金。"
   }
 }

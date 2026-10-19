@@ -7,6 +7,7 @@ import { HomeRedirect, RequireAuth } from './routes'
 const Aid = lazy(() => import('./pages/Aid'))
 const Books = lazy(() => import('./pages/Books'))
 const BusinessesReview = lazy(() => import('./pages/BusinessesReview'))
+const ClaimView = lazy(() => import('./pages/ClaimView'))
 const ConnectPayPalReturn = lazy(() => import('./pages/ConnectPayPalReturn'))
 const Disputes = lazy(() => import('./pages/Disputes'))
 const Legal = lazy(() => import('./pages/Legal'))
@@ -44,6 +45,7 @@ export default function App() {
         <Route path="/card/:code" element={<GiftCardView />} />
         <Route path="/price-watch" element={<PriceWatch />} />
         <Route path="/paid" element={<PaymentReturn />} />
+        <Route path="/claim/:token" element={<ClaimView />} />
         <Route path="/privacy" element={<Legal doc="privacy" />} />
         <Route path="/terms" element={<Legal doc="terms" />} />
         <Route

@@ -332,7 +332,8 @@
       "milestone_payment": "Pago al contratista",
       "grant": "Subvención",
       "gift_card": "Tarjeta de regalo",
-      "tranche_payout": "Pago del fondo de reapertura"
+      "tranche_payout": "Pago del fondo de reapertura",
+      "claim_payout": "Enviado a su PayPal"
     }
   },
   "review": {
@@ -1289,5 +1290,62 @@
       "refund": "Reembolso",
       "other": "Otro"
     }
+  },
+  "claim": {
+    "title": "Envíe su reclamo a {{insurer}}",
+    "body": "Hearthline arma su reclamo de pertenencias con el inventario que escaneó antes del incendio, aplicando los límites y el deducible de su póliza. Su ajustador lo revisa en línea y puede pagar con PayPal, directo a su propia cuenta de PayPal.",
+    "items_one": "{{count}} artículo reclamado",
+    "items_other": "{{count}} artículos reclamados",
+    "estimate": "Lo que sugiere su póliza",
+    "sendLink": "Envíe este enlace privado a su ajustador",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "preview": "Ver lo que verá",
+    "prepare": "Preparar mi reclamo",
+    "preparing": "Preparando…",
+    "update": "Actualizar el reclamo con mi inventario más reciente",
+    "paid": "{{insurer}} pagó {{amount}} el {{date}}",
+    "sentTo": "Hearthline lo envió a su cuenta de PayPal {{account}}.",
+    "held": "Está esperando en su fondo de Hearthline hasta que conecte su cuenta de PayPal.",
+    "connect": "Conéctela en la página de Ayuda",
+    "adjuster": "Ajustador: {{name}}"
+  },
+  "claimView": {
+    "eyebrow": "Reclamo de pertenencias · {{insurer}}",
+    "policy": "Póliza {{number}}",
+    "loss": "Pérdida el {{date}} ({{disaster}})",
+    "paid": "Se pagaron {{amount}} el {{date}}.",
+    "passedOn": "Hearthline lo envió a la cuenta de PayPal del asegurado.",
+    "heldNote": "Se guarda en el fondo de Hearthline del asegurado hasta que conecte una cuenta de PayPal.",
+    "inventory_one": "{{count}} artículo reclamado",
+    "inventory_other": "{{count}} artículos reclamados",
+    "subLimitsCut": "Por encima de sublímites",
+    "limitAndDeductible": "Límite de pertenencias · deducible",
+    "estimate": "Pagadero según la póliza (estimado)",
+    "itemsNote": "Artículos tal como el hogar los registró antes del desastre, con la prueba de cada uno. El estimado aplica los sublímites, el límite de pertenencias y el deducible de la póliza; usted decide el monto.",
+    "export": "Exportar a Excel",
+    "subLimitLine": "{{what}}: {{value}} reclamado, límite {{limit}} ({{over}} por encima)",
+    "col": {
+      "room": "Cuarto",
+      "item": "Artículo",
+      "qty": "Cant.",
+      "value": "Valor",
+      "evidence": "Prueba",
+      "subLimit": "Sublímite",
+      "photo": "Foto"
+    },
+    "evidence": {
+      "pre_disaster_scan": "Escaneado antes del desastre, {{date}}",
+      "photo": "Foto, {{date}}",
+      "receipt": "Recibo, {{date}}",
+      "memory": "De memoria"
+    },
+    "view": "Ver",
+    "payTitle": "Pagar este reclamo",
+    "payBody": "Decida el monto y pague con la cuenta de PayPal de su compañía. Hearthline envía el monto completo directo a la cuenta de PayPal del asegurado.",
+    "adjuster": "Nombre del ajustador",
+    "amount": "Monto a pagar (USD)",
+    "note": "Nota para el asegurado (opcional)",
+    "where": "El asegurado ve el monto, su nombre y su nota. Entorno de pruebas de PayPal: en esta demostración no se mueve dinero real."
   }
 }

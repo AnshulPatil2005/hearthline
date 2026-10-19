@@ -26,6 +26,7 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `connect_paypal.py` | Log in with PayPal: the household's Aid page, the contractor portal and the business home show where each person's money goes and a "Log in with PayPal" button that opens PayPal's sign-in page for the app; a cancelled return changes nothing (finishing the sign-in needs the return URL set in the PayPal developer dashboard) |
 | `demo_reset.py` | Reset the demo: after shared state was changed (a dispute answered, a registry closed), "Put it back to the start" on the sign-in page restores the seeded data for everyone; a second reset right away is refused |
 | `books.py` | Books and PayPal: the reconciliation of the ledger against PayPal's Transaction Search loads with the PayPal balance, the counts and the grid; the batch cash-aid preview says whether that balance covers the batch |
+| `insurance_claim.py` | Insurers pay claims through PayPal: Elena prepares her contents claim from the pre-disaster inventory and her policy; the adjuster opens the private link, sees each item's evidence and the policy math (sub-limits, contents limit, deductible), pays with PayPal in the popup (the sandbox buyer stands in for the insurer), and Hearthline passes the money on to Elena's PayPal account (uses one AI call if the policy isn't read yet) |
 
 Scripts that sign in at PayPal use the sandbox buyer account from `backend/.env` (`PAYPAL_SANDBOX_BUYER_EMAIL`,
 `PAYPAL_SANDBOX_BUYER_PASSWORD`); `paypal_sandbox.py` holds the sign-in steps for PayPal's sandbox pages.

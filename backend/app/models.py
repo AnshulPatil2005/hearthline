@@ -890,3 +890,37 @@ class PayPalLink(Base):
     connected_at: Mapped[datetime] = mapped_column(default=now)
 
     user: Mapped[User] = relationship()
+
+
+class InsuranceClaim(Base):
+    """A contents claim the household sends their insurer: a snapshot of the pre-disaster inventory with the policy's
+    limits applied. The insurer's adjuster opens it with a private link, decides the amount and pays it with PayPal;
+    Hearthline passes the money straight on to the household's own PayPal account."""
+
+    __tablename__ = "insurance_claims"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    policy_id: Mapped[int | None] = mapped_column(ForeignKey("insurance_policies.id", ondelete="SET NULL"))
+    token: Mapped[str] = mapped_column(String(40), unique=True)  # the adjuster's link; whoever has it can view and pay
+    status: Mapped[str] = mapped_column(String(20), default="submitted")  # submitted | paid
+    insurer: Mapped[str] = mapped_column(String(160))
+    policy_number: Mapped[str | None] = mapped_column(String(60))
+    loss_date: Mapped[date | None]
+    items: Mapped[list] = mapped_column(JSON, default=list)  # the inventory as claimed (a snapshot)
+    sub_limits: Mapped[list] = mapped_column(JSON, default=list)
+    inventory_value: Mapped[Decimal] = mapped_column(Money)
+    contents_limit: Mapped[Decimal | None] = mapped_column(Money)
+    deductible: Mapped[Decimal | None] = mapped_column(Money)
+    estimate: Mapped[Decimal] = mapped_column(Money)  # what the policy's limits suggest; the adjuster decides
+    adjuster_name: Mapped[str | None] = mapped_column(String(120))
+    adjuster_note: Mapped[str | None] = mapped_column(String(500))
+    approved_amount: Mapped[Decimal | None] = mapped_column(Money)
+    paypal_order_id: Mapped[str | None] = mapped_column(String(40), index=True)
+    paypal_capture_id: Mapped[str | None] = mapped_column(String(40))
+    payout_ref: Mapped[str | None] = mapped_column(String(80))
+    payout_status: Mapped[str | None] = mapped_column(String(20))  # sent | held (no account or PayPal refused)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    paid_at: Mapped[datetime | None]
+
+    household: Mapped[Household] = relationship()

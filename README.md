@@ -19,7 +19,7 @@ Open the app and pick a persona on the sign-in page (no password), or use a dire
 
 | Persona | Who they are | Try this |
 |---|---|---|
-| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf) and ask about it), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
+| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf), ask about it, and send the insurer a claim they can pay with PayPal), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
 | `marcus.chen` | A donor | **My giving**: each gift's journey from paid to bought to delivered, and a note from the Funds agent |
 | `dana.okafor` | A licensed contractor | **Projects**: drag milestones in the Gantt, submit work photos for the Site agent's check |
 | `luis.moreno` | Owner of Moreno's Bakery, closed by the fire | **Reopen Fund**: ask for the next step's money, mark the bakery reopened, take a gift card by its QR code |
@@ -51,6 +51,9 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
   sellers who raise prices past California's 10% limit. A copycat registry is caught, two people reject it, and its
   donors are refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
+- **Claim.** From the inventory and the policy the Policy agent read, Hearthline builds the family's contents
+  claim with the policy's sub-limits, limit and deductible applied. The insurer's adjuster reviews it on a private
+  link and pays with PayPal; the money reaches the family's own PayPal account in minutes, not a mailed check.
 - **Rebuild.** A contractor's plan sits in escrow under California's deposit cap. Each milestone is paid only after
   the Site agent checks the work photos and the homeowner approves.
 - **Reopen.** A closed local business sells gift cards, or monthly "regular" plans through PayPal Subscriptions.
@@ -73,6 +76,7 @@ supports it.
 | **Shipment tracking** (Orders `track`) | When the Shopper's purchase ships, the tracking number appears on each donor's PayPal payment |
 | **Disputes**: list, details, message, evidence (multipart with a records PDF and tracking), accept claim | The payment disputes desk for gifts and gift cards |
 | **Webhooks** with signature verification | Captures, payouts, subscriptions and disputes; each event is stored once, so retries are safe |
+| **Orders v2** for insurers | Insurers pay contents claims: the adjuster reviews the claim built from the pre-disaster inventory, pays with PayPal, and Hearthline passes the money straight on to the family's PayPal account |
 | **Log in with PayPal** (OpenID Connect) | Families, contractors and businesses connect the PayPal account their money goes to |
 | **PayPal MCP server** (Agent Toolkit tools) | "Ask PayPal": the Funds agent reads PayPal with PayPal's own tools, read-only |
 | **Transaction Search** (balances and transactions, through APIMatic's PayPal Python SDK) | **Books and PayPal**: every payout traced to a decision people approved, every payment received found in the ledger; the batch cash-aid preview warns when PayPal's balance can't cover it |

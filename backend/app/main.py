@@ -11,6 +11,7 @@ from app.api import (
     auth,
     books,
     bryntum,
+    claims,
     command,
     crews,
     disputes,
@@ -84,6 +85,7 @@ app.include_router(disputes.router)
 app.include_router(disputes.paypal_router)
 app.include_router(paypal_connect.router)
 app.include_router(books.router)
+app.include_router(claims.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 
