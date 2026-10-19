@@ -26,6 +26,7 @@ from app.config import get_settings
 BASE_URLS = {"sandbox": "https://api-m.sandbox.paypal.com", "live": "https://api-m.paypal.com"}
 PAGE_SIZE = 500  # the largest page Transaction Search returns
 MAX_PAGES = 40
+NO_DATA_YET = "Data for the given start date is not available"
 
 _lock = threading.Lock()
 _client: PaypalClient | None = None
@@ -177,14 +178,20 @@ def transactions(start: datetime, end: datetime) -> tuple[list[Transaction], dat
     refreshed: datetime | None = None
     page, pages = 1, 1
     while page <= min(pages, MAX_PAGES):
-        response = client().transaction_search.search_transactions(
-            _rfc3339(start),
-            _rfc3339(end),
-            fields="transaction_info",
-            balance_affecting_records_only="Y",
-            page_size=PAGE_SIZE,
-            page=page,
-        )
+        try:
+            response = client().transaction_search.search_transactions(
+                _rfc3339(start),
+                _rfc3339(end),
+                fields="transaction_info",
+                balance_affecting_records_only="Y",
+                page_size=PAGE_SIZE,
+                page=page,
+            )
+        except ApiError as e:
+            # PayPal says so explicitly when the window starts after its latest report: no data yet, not a failure.
+            if page == 1 and e.status_code == 404 and isinstance(e.error, RawError) and NO_DATA_YET in e.error.text():
+                return [], None
+            raise
         refreshed = refreshed or _time(response.last_refreshed_datetime)
         pages = _value(response.total_pages) or 1
         for detail in _value(response.transaction_details) or []:

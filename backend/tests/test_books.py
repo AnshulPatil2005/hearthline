@@ -218,3 +218,32 @@ def test_batch_preview_says_whether_paypal_can_cover_it(paypal_reporting):
         "covers": False,
         "error": None,
     }
+
+
+def test_a_window_newer_than_paypals_report_is_waiting_not_an_error(paypal_reporting):
+    """After a reset the books open "now", before PayPal's latest report; PayPal answers 404 for that window."""
+    sam = login_as("Sam Whitfield")
+    now = datetime.now(UTC)
+    with SessionLocal() as db:
+        audit.record(db, action="demo.seeded", subject_type="demo", subject_id="test")
+        db.query(AuditEvent).filter_by(action="demo.seeded").update({"created_at": now - timedelta(minutes=30)})
+        reg = db.query(Registry).filter_by(slug="rivera-family").one()
+        db.add(
+            Donation(
+                registry_id=reg.id,
+                amount=D("25.00"),
+                status="captured",
+                paypal_order_id="O-NEW",
+                paypal_capture_id="CAPNEW00000000001",
+                captured_at=now - timedelta(minutes=5),
+            )
+        )
+        db.commit()
+    not_yet = {"name": "INVALID_REQUEST", "message": "Data for the given start date is not available.", "debug_id": "x"}
+    paypal_reporting.routes[TRANSACTIONS_PATH] = json_response(404, not_yet)
+    body = client.get("/command/books/reconcile", headers=sam).json()
+    assert [line["status"] for line in body["lines"]] == ["waiting"]
+    assert body["paypal_refreshed_at"] is None
+
+    paypal_reporting.routes[TRANSACTIONS_PATH] = json_response(404, {"name": "RESOURCE_NOT_FOUND", "message": "x"})
+    assert client.get("/command/books/reconcile", headers=sam).status_code == 400  # any other 404 is still an error
