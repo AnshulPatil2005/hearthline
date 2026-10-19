@@ -369,12 +369,14 @@ export type CommandSummary = {
   unmet_need: string
 }
 
+export type FundsCheck = { available: string | null; as_of: string | null; covers: boolean | null; error: string | null }
 export type BatchPreview = {
   households: number
   total: string
   by_damage: Record<string, { households: number; amount: string }>
   excluded: Record<string, number>
   too_many: boolean
+  paypal_balance?: FundsCheck
 }
 
 export type AidBatchItem = {
@@ -619,3 +621,23 @@ export type PayPalConnection = {
   receives: { what: 'cash_aid' | 'milestone_payments' | 'reopen_releases'; current: string | null }[]
   available: boolean
 }
+
+export type BooksLine = {
+  status: 'matched' | 'amount_differs' | 'not_in_books' | 'missing_at_paypal' | 'waiting' | 'info'
+  direction: 'in' | 'out' | 'refund' | 'other'
+  amount: string
+  at: string | null
+  paypal_id: string | null
+  hearthline: string | null
+  note: string
+}
+export type BooksReport = {
+  start: string
+  end: string
+  paypal_refreshed_at: string | null
+  counts: Record<BooksLine['status'], number>
+  paypal_in: string
+  paypal_out: string
+  lines: BooksLine[]
+}
+export type PayPalBalance = { available: string; total: string; as_of: string | null }

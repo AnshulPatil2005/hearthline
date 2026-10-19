@@ -30,7 +30,8 @@
     "priceWatch": "Vigilancia de precios",
     "giving": "Mis donaciones",
     "insurance": "Seguro",
-    "disputes": "Disputas"
+    "disputes": "Disputas",
+    "books": "Contabilidad"
   },
   "roles": {
     "household": "Hogar",
@@ -730,7 +731,10 @@
       "cancel": "Cancelar",
       "needsSomeoneElse": "Debe aprobarlo otra persona",
       "checkPaypal": "Consultar con PayPal",
-      "rejectWhy": "¿Por qué rechazar el lote n.º {{id}}?"
+      "rejectWhy": "¿Por qué rechazar el lote n.º {{id}}?",
+      "balanceCovers": "El saldo de PayPal, {{balance}} (a las {{time}}), cubre este lote.",
+      "balanceShort": "El saldo de PayPal es {{balance}} (a las {{time}}) pero este lote necesita {{total}}. Recargue primero la cuenta de PayPal o los pagos fallarán.",
+      "balanceUnknown": "No se pudo consultar el saldo de PayPal en este momento."
     },
     "ask": {
       "label": "Pregúntele a la tabla",
@@ -1244,5 +1248,46 @@
     "progress": "{{pct}} % financiado",
     "openPhoto": "Abrir la foto {{n}} en una pestaña nueva",
     "pickItem": "Agregar un artículo de su inventario o uno nuevo"
+  },
+  "books": {
+    "title": "Contabilidad y PayPal",
+    "subtitle": "El libro contable de Hearthline comparado con los registros de PayPal (Transaction Search). Cada pago enviado debe corresponder a una decisión aprobada por personas, y cada pago recibido debe estar en nuestros libros.",
+    "check": "Volver a comprobar",
+    "checking": "Consultando con PayPal…",
+    "export": "Exportar a Excel",
+    "balance": "Saldo de PayPal",
+    "asOf": "A las {{when}}",
+    "matched": "Coinciden",
+    "flows": "{{in}} recibidos · {{out}} enviados en PayPal",
+    "needsLook": "Necesitan revisión",
+    "waiting_one": "{{count}} esperando el informe de PayPal",
+    "waiting_other": "{{count}} esperando el informe de PayPal",
+    "window": "Revisado desde",
+    "refreshed": "Informe de PayPal actualizado {{when}}",
+    "empty": "No se ha movido dinero por PayPal desde que se abrieron los libros.",
+    "hint": "PayPal agrega las transacciones nuevas a su informe en un plazo de tres horas, así que los pagos más recientes pueden tardar. Los registros de demostración nunca pasaron por PayPal y no se incluyen.",
+    "col": {
+      "when": "Fecha",
+      "status": "Estado",
+      "direction": "Tipo",
+      "amount": "Monto",
+      "hearthline": "En Hearthline",
+      "note": "Nota",
+      "paypalId": "Transacción de PayPal"
+    },
+    "status": {
+      "matched": "Coincide",
+      "amount_differs": "Monto distinto",
+      "not_in_books": "No está en los libros",
+      "missing_at_paypal": "Falta en PayPal",
+      "waiting": "Esperando a PayPal",
+      "info": "Movimiento de PayPal"
+    },
+    "direction": {
+      "in": "Ingreso",
+      "out": "Pago enviado",
+      "refund": "Reembolso",
+      "other": "Otro"
+    }
   }
 }

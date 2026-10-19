@@ -578,6 +578,13 @@ def main() -> None:
         from app.seed_disputes import seed_disputes_demo
 
         seed_disputes_demo(db)
+        from app.models import AuditEvent
+
+        # The books open here: reconciliation with PayPal starts from this database's first seed (a demo reset
+        # wipes the audit log, so it opens them again). Render reruns the seed at every start; record it once.
+        if db.scalar(select(AuditEvent.id).where(AuditEvent.action == "demo.seeded").limit(1)) is None:
+            audit.record(db, action="demo.seeded", subject_type="demo", subject_id="sablewood")
+            db.commit()
     print("Seeded the Sablewood demo scenario.")
 
 

@@ -30,7 +30,8 @@
     "priceWatch": "价格监督",
     "giving": "我的捐赠",
     "insurance": "保险",
-    "disputes": "争议"
+    "disputes": "争议",
+    "books": "账目"
   },
   "roles": {
     "household": "住户",
@@ -721,7 +722,10 @@
       "cancel": "取消",
       "needsSomeoneElse": "需要其他人批准",
       "checkPaypal": "向 PayPal 查询",
-      "rejectWhy": "为什么拒绝第 {{id}} 号批次？"
+      "rejectWhy": "为什么拒绝第 {{id}} 号批次？",
+      "balanceCovers": "PayPal 余额 {{balance}}（截至 {{time}}）足以支付这批款项。",
+      "balanceShort": "PayPal 余额为 {{balance}}（截至 {{time}}），但这批款项需要 {{total}}。请先为 PayPal 账户充值，否则付款会失败。",
+      "balanceUnknown": "暂时无法查询 PayPal 余额。"
     },
     "ask": {
       "label": "向表格提问",
@@ -1221,5 +1225,45 @@
     "progress": "已筹得 {{pct}}%",
     "openPhoto": "在新标签页中打开第 {{n}} 张照片",
     "pickItem": "从您的物品清单中添加物品，或添加新物品"
+  },
+  "books": {
+    "title": "账目与 PayPal",
+    "subtitle": "用 PayPal 自己的记录（Transaction Search）核对 Hearthline 的账本。每笔付款都必须对应经人批准的决定，每笔收款都必须记在我们的账上。",
+    "check": "重新核对",
+    "checking": "正在向 PayPal 查询…",
+    "export": "导出到 Excel",
+    "balance": "PayPal 余额",
+    "asOf": "截至 {{when}}",
+    "matched": "已核对一致",
+    "flows": "PayPal 收入 {{in}} · 支出 {{out}}",
+    "needsLook": "需要人工查看",
+    "waiting_other": "{{count}} 笔等待 PayPal 报告",
+    "window": "核对起始",
+    "refreshed": "PayPal 报告更新于 {{when}}",
+    "empty": "开账以来没有经过 PayPal 的资金往来。",
+    "hint": "PayPal 会在三小时内把新交易加入报告，因此最新的付款可能需要等待。从未经过 PayPal 的演示数据不在其中。",
+    "col": {
+      "when": "时间",
+      "status": "状态",
+      "direction": "类型",
+      "amount": "金额",
+      "hearthline": "Hearthline 记录",
+      "note": "说明",
+      "paypalId": "PayPal 交易"
+    },
+    "status": {
+      "matched": "一致",
+      "amount_differs": "金额不符",
+      "not_in_books": "账上没有",
+      "missing_at_paypal": "PayPal 没有",
+      "waiting": "等待 PayPal",
+      "info": "PayPal 活动"
+    },
+    "direction": {
+      "in": "收款",
+      "out": "付款",
+      "refund": "退款",
+      "other": "其他"
+    }
   }
 }

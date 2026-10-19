@@ -30,7 +30,8 @@
     "priceWatch": "Price Watch",
     "giving": "My giving",
     "insurance": "Insurance",
-    "disputes": "Disputes"
+    "disputes": "Disputes",
+    "books": "Books"
   },
   "roles": {
     "household": "Household",
@@ -730,7 +731,10 @@
       "cancel": "Cancel",
       "needsSomeoneElse": "Needs someone else to approve",
       "checkPaypal": "Check with PayPal",
-      "rejectWhy": "Why reject batch #{{id}}?"
+      "rejectWhy": "Why reject batch #{{id}}?",
+      "balanceCovers": "PayPal balance {{balance}} (as of {{time}}) covers this batch.",
+      "balanceShort": "PayPal balance is {{balance}} (as of {{time}}) but this batch needs {{total}}. Top up the PayPal account first, or the payouts will fail.",
+      "balanceUnknown": "Couldn't check the PayPal balance right now."
     },
     "ask": {
       "label": "Ask the grid",
@@ -1244,5 +1248,46 @@
     "progress": "{{pct}}% funded",
     "openPhoto": "Open photo {{n}} in a new tab",
     "pickItem": "Add an item from your inventory or a new one"
+  },
+  "books": {
+    "title": "Books and PayPal",
+    "subtitle": "Hearthline's ledger checked against PayPal's own records (Transaction Search). Every payout must trace to a decision people approved, and every payment received must be in our books.",
+    "check": "Check again",
+    "checking": "Checking with PayPal…",
+    "export": "Export to Excel",
+    "balance": "PayPal balance",
+    "asOf": "As of {{when}}",
+    "matched": "Matched",
+    "flows": "{{in}} in · {{out}} out at PayPal",
+    "needsLook": "Need a person's look",
+    "waiting_one": "{{count}} waiting for PayPal's report",
+    "waiting_other": "{{count}} waiting for PayPal's report",
+    "window": "Checked since",
+    "refreshed": "PayPal's report refreshed {{when}}",
+    "empty": "Nothing has moved through PayPal since the books were opened.",
+    "hint": "PayPal adds new transactions to its report within three hours, so the newest Hearthline payments may wait a while. Seeded demo records never touched PayPal and are left out.",
+    "col": {
+      "when": "When",
+      "status": "Status",
+      "direction": "Direction",
+      "amount": "Amount",
+      "hearthline": "In Hearthline",
+      "note": "Note",
+      "paypalId": "PayPal transaction"
+    },
+    "status": {
+      "matched": "Matched",
+      "amount_differs": "Amount differs",
+      "not_in_books": "Not in our books",
+      "missing_at_paypal": "Missing at PayPal",
+      "waiting": "Waiting for PayPal",
+      "info": "PayPal activity"
+    },
+    "direction": {
+      "in": "Money in",
+      "out": "Payout",
+      "refund": "Refund",
+      "other": "Other"
+    }
   }
 }

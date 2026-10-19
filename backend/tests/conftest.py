@@ -49,3 +49,25 @@ def no_live_tracking(monkeypatch):
         tracking, "add", lambda order_id, capture_id, number, carrier: calls.append((order_id, capture_id, number))
     )
     return calls
+
+
+@pytest.fixture(autouse=True)
+def paypal_reporting(monkeypatch):
+    """PayPal Transaction Search through APIMatic's SDK, with the network replaced by a stub transport (the real
+    client and request pipeline still run). Defaults: a $50,000 balance and no transactions; tests set routes."""
+    from app.paypal import reporting
+    from tests.paypal_stub import (
+        BALANCES_PATH,
+        TRANSACTIONS_PATH,
+        RoutingTransport,
+        balances_body,
+        json_response,
+        stub_client,
+        transactions_body,
+    )
+
+    transport = RoutingTransport()
+    transport.routes[BALANCES_PATH] = json_response(200, balances_body("50000.00"))
+    transport.routes[TRANSACTIONS_PATH] = json_response(200, transactions_body([], refreshed="2099-01-01T00:00:00Z"))
+    monkeypatch.setattr(reporting, "_client", stub_client(transport))
+    return transport

@@ -12,6 +12,7 @@ dependencies = [
     "imagehash>=4.3.2",
     "mcp>=2.3.0",
     "openai>=3.26.0",
+    "paypal",
     "paypal-server-sdk>=2.4.0",
     "pillow>=12.3.0",
     "psycopg[binary]>=3.3.6",
@@ -40,3 +41,6 @@ select = ["E", "F", "I", "UP", "B"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.uv.sources]
+paypal = { git = "https://github.com/context-plugins/paypal-python-sdk.git", rev = "main" }

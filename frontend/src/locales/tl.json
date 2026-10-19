@@ -30,7 +30,8 @@
     "priceWatch": "Bantay-Presyo",
     "giving": "Aking ibinigay",
     "insurance": "Insurance",
-    "disputes": "Mga dispute"
+    "disputes": "Mga dispute",
+    "books": "Libro"
   },
   "roles": {
     "household": "Sambahayan",
@@ -730,7 +731,10 @@
       "cancel": "Kanselahin",
       "needsSomeoneElse": "Kailangan ng ibang mag-aapruba",
       "checkPaypal": "Tingnan sa PayPal",
-      "rejectWhy": "Bakit tatanggihan ang batch #{{id}}?"
+      "rejectWhy": "Bakit tatanggihan ang batch #{{id}}?",
+      "balanceCovers": "Sapat ang balanse sa PayPal na {{balance}} (noong {{time}}) para sa batch na ito.",
+      "balanceShort": "{{balance}} ang balanse sa PayPal (noong {{time}}) pero {{total}} ang kailangan ng batch na ito. Lagyan muna ng pondo ang PayPal account, kung hindi ay mabibigo ang mga bayad.",
+      "balanceUnknown": "Hindi ma-check ang balanse sa PayPal ngayon."
     },
     "ask": {
       "label": "Tanungin ang talahanayan",
@@ -1244,5 +1248,46 @@
     "progress": "{{pct}}% napondohan",
     "openPhoto": "Buksan ang larawan {{n}} sa bagong tab",
     "pickItem": "Magdagdag ng gamit mula sa inyong imbentaryo o bago"
+  },
+  "books": {
+    "title": "Libro at PayPal",
+    "subtitle": "Ang ledger ng Hearthline kumpara sa sariling rekord ng PayPal (Transaction Search). Bawat payout ay dapat may desisyong inaprubahan ng tao, at bawat bayad na natanggap ay dapat nasa aming libro.",
+    "check": "I-check muli",
+    "checking": "Kinukumpirma sa PayPal…",
+    "export": "I-export sa Excel",
+    "balance": "Balanse sa PayPal",
+    "asOf": "Noong {{when}}",
+    "matched": "Tugma",
+    "flows": "{{in}} pumasok · {{out}} lumabas sa PayPal",
+    "needsLook": "Kailangang tingnan ng tao",
+    "waiting_one": "{{count}} naghihintay sa ulat ng PayPal",
+    "waiting_other": "{{count}} naghihintay sa ulat ng PayPal",
+    "window": "Sinuri mula",
+    "refreshed": "Na-refresh ang ulat ng PayPal {{when}}",
+    "empty": "Walang perang dumaan sa PayPal mula nang buksan ang libro.",
+    "hint": "Idinadagdag ng PayPal ang mga bagong transaksyon sa ulat nito sa loob ng tatlong oras, kaya maaaring maghintay ang pinakabagong bayad. Hindi kasama ang demo data na hindi dumaan sa PayPal.",
+    "col": {
+      "when": "Kailan",
+      "status": "Status",
+      "direction": "Uri",
+      "amount": "Halaga",
+      "hearthline": "Sa Hearthline",
+      "note": "Tala",
+      "paypalId": "Transaksyon sa PayPal"
+    },
+    "status": {
+      "matched": "Tugma",
+      "amount_differs": "Iba ang halaga",
+      "not_in_books": "Wala sa aming libro",
+      "missing_at_paypal": "Wala sa PayPal",
+      "waiting": "Naghihintay sa PayPal",
+      "info": "Aktibidad ng PayPal"
+    },
+    "direction": {
+      "in": "Pumasok",
+      "out": "Payout",
+      "refund": "Refund",
+      "other": "Iba pa"
+    }
   }
 }

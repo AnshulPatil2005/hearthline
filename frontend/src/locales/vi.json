@@ -30,7 +30,8 @@
     "priceWatch": "Theo dõi giá",
     "giving": "Đóng góp của tôi",
     "insurance": "Bảo hiểm",
-    "disputes": "Khiếu nại"
+    "disputes": "Khiếu nại",
+    "books": "Sổ sách"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -721,7 +722,10 @@
       "cancel": "Hủy",
       "needsSomeoneElse": "Cần người khác duyệt",
       "checkPaypal": "Kiểm tra với PayPal",
-      "rejectWhy": "Vì sao từ chối lô số {{id}}?"
+      "rejectWhy": "Vì sao từ chối lô số {{id}}?",
+      "balanceCovers": "Số dư PayPal {{balance}} (lúc {{time}}) đủ cho đợt chi này.",
+      "balanceShort": "Số dư PayPal là {{balance}} (lúc {{time}}) nhưng đợt chi này cần {{total}}. Hãy nạp thêm tiền vào tài khoản PayPal trước, nếu không các khoản chi sẽ thất bại.",
+      "balanceUnknown": "Hiện không kiểm tra được số dư PayPal."
     },
     "ask": {
       "label": "Hỏi bảng",
@@ -1221,5 +1225,45 @@
     "progress": "Đã gây quỹ {{pct}}%",
     "openPhoto": "Mở ảnh {{n}} trong thẻ mới",
     "pickItem": "Thêm một món từ danh mục đồ đạc hoặc một món mới"
+  },
+  "books": {
+    "title": "Sổ sách và PayPal",
+    "subtitle": "Sổ cái của Hearthline đối chiếu với chính hồ sơ của PayPal (Transaction Search). Mỗi khoản chi phải ứng với một quyết định đã được con người phê duyệt, và mỗi khoản nhận phải có trong sổ của chúng tôi.",
+    "check": "Kiểm tra lại",
+    "checking": "Đang hỏi PayPal…",
+    "export": "Xuất ra Excel",
+    "balance": "Số dư PayPal",
+    "asOf": "Lúc {{when}}",
+    "matched": "Khớp",
+    "flows": "Vào {{in}} · ra {{out}} tại PayPal",
+    "needsLook": "Cần người xem",
+    "waiting_other": "{{count}} đang chờ báo cáo của PayPal",
+    "window": "Kiểm tra từ",
+    "refreshed": "Báo cáo PayPal cập nhật {{when}}",
+    "empty": "Chưa có tiền nào qua PayPal kể từ khi mở sổ.",
+    "hint": "PayPal đưa giao dịch mới vào báo cáo trong vòng ba giờ, nên các khoản mới nhất có thể phải chờ. Dữ liệu mẫu chưa từng qua PayPal không được tính.",
+    "col": {
+      "when": "Thời gian",
+      "status": "Trạng thái",
+      "direction": "Loại",
+      "amount": "Số tiền",
+      "hearthline": "Trong Hearthline",
+      "note": "Ghi chú",
+      "paypalId": "Giao dịch PayPal"
+    },
+    "status": {
+      "matched": "Khớp",
+      "amount_differs": "Sai số tiền",
+      "not_in_books": "Không có trong sổ",
+      "missing_at_paypal": "PayPal không có",
+      "waiting": "Chờ PayPal",
+      "info": "Hoạt động PayPal"
+    },
+    "direction": {
+      "in": "Tiền vào",
+      "out": "Khoản chi",
+      "refund": "Hoàn tiền",
+      "other": "Khác"
+    }
   }
 }

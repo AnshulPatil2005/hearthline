@@ -5,6 +5,7 @@ import { HomeRedirect, RequireAuth } from './routes'
 
 // Pages load on demand: a donor opening a registry link shouldn't download AG Grid or Bryntum.
 const Aid = lazy(() => import('./pages/Aid'))
+const Books = lazy(() => import('./pages/Books'))
 const BusinessesReview = lazy(() => import('./pages/BusinessesReview'))
 const ConnectPayPalReturn = lazy(() => import('./pages/ConnectPayPalReturn'))
 const Disputes = lazy(() => import('./pages/Disputes'))
@@ -66,6 +67,14 @@ export default function App() {
           element={
             <RequireAuth role="business" wide>
               <BusinessHome />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/command/books"
+          element={
+            <RequireAuth role={['org_admin', 'supervisor']} wide>
+              <Books />
             </RequireAuth>
           }
         />

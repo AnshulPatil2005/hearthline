@@ -9,6 +9,7 @@ from app import ai, mcp_server
 from app.api import (
     alerts,
     auth,
+    books,
     bryntum,
     command,
     crews,
@@ -31,6 +32,7 @@ from app.api import (
 )
 from app.config import get_settings
 from app.db import engine
+from app.paypal import reporting
 
 settings = get_settings()
 mcp_app = mcp_server.http_app()
@@ -40,6 +42,7 @@ mcp_app = mcp_server.http_app()
 async def lifespan(_app: FastAPI):
     async with mcp_app.router.lifespan_context(mcp_app):  # the MCP session manager runs with the API
         yield
+    reporting.close()  # the PayPal SDK client's connection pool
 
 
 app = FastAPI(
@@ -80,6 +83,7 @@ app.include_router(insurance.router)
 app.include_router(disputes.router)
 app.include_router(disputes.paypal_router)
 app.include_router(paypal_connect.router)
+app.include_router(books.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

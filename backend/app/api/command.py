@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import ai, aid_batches, command
+from app import ai, aid_batches, command, reconcile
 from app import ask_grid as ask_grid_module
 from app.auth import require_role
 from app.db import get_db
@@ -146,7 +146,9 @@ def run(fn, *args):
 
 @router.post("/command/batches/preview")
 def preview_batch(body: BatchRuleIn, staff: OrgStaff, db: DB) -> dict:
-    return run(aid_batches.preview, db, body.filter_model, body.amounts)
+    result = run(aid_batches.preview, db, body.filter_model, body.amounts)
+    result["paypal_balance"] = reconcile.funds_check(Decimal(result["total"]))  # payouts fail if it can't cover
+    return result
 
 
 @router.post("/command/batches", response_model=BatchOut, status_code=201)

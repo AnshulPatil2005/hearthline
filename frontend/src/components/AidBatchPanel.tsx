@@ -1,11 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { api, ApiError, type AidBatch, type BatchPreview } from '../api'
-import { money } from '../format'
+import { api, ApiError, type AidBatch, type BatchPreview, type FundsCheck } from '../api'
+import { money, parseTime } from '../format'
 
 const LEVELS = ['destroyed', 'major', 'minor', 'affected'] as const
-const DEFAULTS: Record<(typeof LEVELS)[number], string> = { destroyed: '1000', major: '750', minor: '400', affected: '200' }
+const DEFAULTS: Record<(typeof LEVELS)[number], string> = {
+  destroyed: '1000',
+  major: '750',
+  minor: '400',
+  affected: '200',
+}
 
 // Filter keys are field names; most match the column label keys.
 const COL: Record<string, string> = {
@@ -24,6 +29,26 @@ type Props = {
   /** The households grid's current filter: the batch covers exactly the households in view. */
   filterModel: () => Record<string, unknown>
   onCreated: () => void
+}
+
+/** Whether PayPal's latest balance covers the batch (payouts fail when it doesn't). The balance can lag 3 hours. */
+function FundsLine({ check, total }: { check: FundsCheck; total: string }) {
+  const { t, i18n } = useTranslation()
+  if (check.error || check.available === null) {
+    return <p className="mt-2 text-ink-faint">{t('command.batch.balanceUnknown')}</p>
+  }
+  const asOf = check.as_of
+    ? parseTime(check.as_of).toLocaleTimeString(i18n.resolvedLanguage, { hour: 'numeric', minute: '2-digit' })
+    : '—'
+  return check.covers ? (
+    <p className="mt-2 text-sage">
+      {t('command.batch.balanceCovers', { balance: money(check.available), time: asOf })}
+    </p>
+  ) : (
+    <p className="mt-2 font-medium text-danger">
+      {t('command.batch.balanceShort', { balance: money(check.available), time: asOf, total: money(total) })}
+    </p>
+  )
 }
 
 export function AidBatchPanel({ filterModel, onCreated }: Props) {
@@ -64,7 +89,9 @@ export function AidBatchPanel({ filterModel, onCreated }: Props) {
       <p className="mt-1 text-sm text-ink-soft">{t('command.batch.intro')}</p>
       <p className="mt-2 text-xs text-ink-faint">
         {filters.length
-          ? t('command.batch.scopeFiltered', { columns: filters.map((f) => t(`command.col.${COL[f] ?? f}`)).join(', ') })
+          ? t('command.batch.scopeFiltered', {
+              columns: filters.map((f) => t(`command.col.${COL[f] ?? f}`)).join(', '),
+            })
           : t('command.batch.scopeAll')}
       </p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_repeat(4,8rem)]">
@@ -127,11 +154,13 @@ export function AidBatchPanel({ filterModel, onCreated }: Props) {
             <ul className="mt-2 space-y-0.5 text-ink-soft">
               {Object.entries(preview.by_damage).map(([level, d]) => (
                 <li key={level}>
-                  {t(`command.damage.${level}`)}: {d.households.toLocaleString(i18n.resolvedLanguage)} · {money(d.amount)}
+                  {t(`command.damage.${level}`)}: {d.households.toLocaleString(i18n.resolvedLanguage)} ·{' '}
+                  {money(d.amount)}
                 </li>
               ))}
             </ul>
             {preview.too_many && <p className="mt-2 text-danger">{t('command.batch.tooMany')}</p>}
+            {preview.paypal_balance && <FundsLine check={preview.paypal_balance} total={preview.total} />}
           </div>
           <div>
             <p className="font-medium">{t('command.batch.leftOut')}</p>
