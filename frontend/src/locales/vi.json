@@ -7,7 +7,8 @@
       "rebuild": "Xây dựng lại",
       "reopen": "Mở cửa lại"
     },
-    "demoNotice": "Bản demo với thị trấn và con người hư cấu · PayPal sandbox · không có tiền thật"
+    "demoNotice": "Bản demo với thị trấn và con người hư cấu · PayPal sandbox · không có tiền thật",
+    "waking": "Đang đánh thức máy chủ demo. Dịch vụ lưu trữ miễn phí sẽ ngủ khi không ai dùng, nên có thể mất đến một phút."
   },
   "nav": {
     "home": "Trang chủ",

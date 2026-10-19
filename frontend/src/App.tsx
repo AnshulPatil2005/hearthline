@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Route, Routes } from 'react-router'
+import { WakingNotice } from './components/WakingNotice'
 import Login from './pages/Login'
 import { HomeRedirect, RequireAuth } from './routes'
 
@@ -37,193 +38,196 @@ const loading = <div className="h-96 animate-pulse rounded-xl bg-sunken" />
 
 export default function App() {
   return (
-    <Suspense fallback={<div className="min-h-svh" />}>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/r/:slug" element={<RegistryPublic />} />
-        <Route path="/reopen/:slug" element={<ReopenPublic />} />
-        <Route path="/card/:code" element={<GiftCardView />} />
-        <Route path="/price-watch" element={<PriceWatch />} />
-        <Route path="/paid" element={<PaymentReturn />} />
-        <Route path="/claim/:token" element={<ClaimView />} />
-        <Route path="/privacy" element={<Legal doc="privacy" />} />
-        <Route path="/terms" element={<Legal doc="terms" />} />
-        <Route
-          path="/connect/paypal"
-          element={
-            <RequireAuth role={['household', 'contractor', 'business']}>
-              <ConnectPayPalReturn />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/giving"
-          element={
-            <RequireAuth role="donor" wide>
-              <Giving />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/business"
-          element={
-            <RequireAuth role="business" wide>
-              <BusinessHome />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/command/books"
-          element={
-            <RequireAuth role={['org_admin', 'supervisor']} wide>
-              <Books />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/command/disputes"
-          element={
-            <RequireAuth role={['org_admin', 'supervisor']} wide>
-              <Disputes />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/command/businesses"
-          element={
-            <RequireAuth role={['org_admin', 'supervisor']} wide>
-              <BusinessesReview />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/registry"
-          element={
-            <RequireAuth role="household">
-              <RegistryManage />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/home"
-          element={
-            <RequireAuth role="household">
-              <HouseholdHome />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/inventory"
-          element={
-            <RequireAuth role="household" wide>
-              <Inventory />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/aid"
-          element={
-            <RequireAuth role="household">
-              <Aid />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/insurance"
-          element={
-            <RequireAuth role="household">
-              <Insurance />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/rebuild"
-          element={
-            <RequireAuth role="household" wide>
-              <Rebuild />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/contractor"
-          element={
-            <RequireAuth role="contractor" wide>
-              <ContractorPortal />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/money"
-          element={
-            <RequireAuth role="household" wide>
-              <Money />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/review"
-          element={
-            <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
-              <ReviewQueue />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/review/calendar"
-          element={
-            <RequireAuth role={[...STAFF]} wide>
-              <Suspense fallback={loading}>
-                <ReviewCalendar />
-              </Suspense>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/review/board"
-          element={
-            <RequireAuth role={[...STAFF]} wide>
-              <Suspense fallback={loading}>
-                <ReviewBoard />
-              </Suspense>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/command"
-          element={
-            <RequireAuth role={['org_admin', 'supervisor']} wide>
-              <CommandCenter />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/command/crews"
-          element={
-            <RequireAuth role={['org_admin', 'supervisor']} wide>
-              <Suspense fallback={loading}>
-                <CrewSchedule />
-              </Suspense>
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/review/cases/:id"
-          element={
-            <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
-              <ReviewCase />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="/workspace"
-          element={
-            <RequireAuth>
-              <ComingSoon />
-            </RequireAuth>
-          }
-        />
-        <Route path="*" element={<HomeRedirect />} />
-      </Routes>
-    </Suspense>
+    <>
+      <WakingNotice />
+      <Suspense fallback={<div className="min-h-svh" />}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/r/:slug" element={<RegistryPublic />} />
+          <Route path="/reopen/:slug" element={<ReopenPublic />} />
+          <Route path="/card/:code" element={<GiftCardView />} />
+          <Route path="/price-watch" element={<PriceWatch />} />
+          <Route path="/paid" element={<PaymentReturn />} />
+          <Route path="/claim/:token" element={<ClaimView />} />
+          <Route path="/privacy" element={<Legal doc="privacy" />} />
+          <Route path="/terms" element={<Legal doc="terms" />} />
+          <Route
+            path="/connect/paypal"
+            element={
+              <RequireAuth role={['household', 'contractor', 'business']}>
+                <ConnectPayPalReturn />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/giving"
+            element={
+              <RequireAuth role="donor" wide>
+                <Giving />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/business"
+            element={
+              <RequireAuth role="business" wide>
+                <BusinessHome />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command/books"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <Books />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command/disputes"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <Disputes />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command/businesses"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <BusinessesReview />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/registry"
+            element={
+              <RequireAuth role="household">
+                <RegistryManage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <RequireAuth role="household">
+                <HouseholdHome />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/inventory"
+            element={
+              <RequireAuth role="household" wide>
+                <Inventory />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/aid"
+            element={
+              <RequireAuth role="household">
+                <Aid />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/insurance"
+            element={
+              <RequireAuth role="household">
+                <Insurance />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/rebuild"
+            element={
+              <RequireAuth role="household" wide>
+                <Rebuild />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/contractor"
+            element={
+              <RequireAuth role="contractor" wide>
+                <ContractorPortal />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/money"
+            element={
+              <RequireAuth role="household" wide>
+                <Money />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/review"
+            element={
+              <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
+                <ReviewQueue />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/review/calendar"
+            element={
+              <RequireAuth role={[...STAFF]} wide>
+                <Suspense fallback={loading}>
+                  <ReviewCalendar />
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/review/board"
+            element={
+              <RequireAuth role={[...STAFF]} wide>
+                <Suspense fallback={loading}>
+                  <ReviewBoard />
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <CommandCenter />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command/crews"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <Suspense fallback={loading}>
+                  <CrewSchedule />
+                </Suspense>
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/review/cases/:id"
+            element={
+              <RequireAuth role={['reviewer', 'supervisor', 'org_admin']} wide>
+                <ReviewCase />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/workspace"
+            element={
+              <RequireAuth>
+                <ComingSoon />
+              </RequireAuth>
+            }
+          />
+          <Route path="*" element={<HomeRedirect />} />
+        </Routes>
+      </Suspense>
+    </>
   )
 }

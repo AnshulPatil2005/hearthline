@@ -7,7 +7,8 @@
       "rebuild": "Rebuild",
       "reopen": "Reopen"
     },
-    "demoNotice": "Demo with a fictional town and fictional people · PayPal sandbox · no real money moves"
+    "demoNotice": "Demo with a fictional town and fictional people · PayPal sandbox · no real money moves",
+    "waking": "Waking up the demo server. Free hosting sleeps when no one is using it, so this can take up to a minute."
   },
   "nav": {
     "home": "Home",

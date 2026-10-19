@@ -7,7 +7,8 @@
       "rebuild": "Muling Itayo",
       "reopen": "Muling Magbukas"
     },
-    "demoNotice": "Demo na may kathang-isip na bayan at mga tao · PayPal sandbox · walang totoong perang gumagalaw"
+    "demoNotice": "Demo na may kathang-isip na bayan at mga tao · PayPal sandbox · walang totoong perang gumagalaw",
+    "waking": "Ginigising ang demo server. Natutulog ang libreng hosting kapag walang gumagamit, kaya maaaring umabot ito ng hanggang isang minuto."
   },
   "nav": {
     "home": "Home",

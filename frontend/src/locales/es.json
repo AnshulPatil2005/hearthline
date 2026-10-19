@@ -7,7 +7,8 @@
       "rebuild": "Reconstruir",
       "reopen": "Reabrir"
     },
-    "demoNotice": "Demostración con un pueblo y personas ficticias · PayPal sandbox · no se mueve dinero real"
+    "demoNotice": "Demostración con un pueblo y personas ficticias · PayPal sandbox · no se mueve dinero real",
+    "waking": "Despertando el servidor de la demostración. El alojamiento gratuito se duerme cuando nadie lo usa, así que puede tardar hasta un minuto."
   },
   "nav": {
     "home": "Inicio",

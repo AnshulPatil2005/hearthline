@@ -8,14 +8,15 @@ Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on th
 AG Grid, Bryntum, Channel3, APIMatic and Render.
 
 - **Video:** _link added at submission_
-- **Live demo:** _link added at submission_ (Render's free plan sleeps; the first visit takes about a minute)
+- **Live demo:** https://hearthline-web.onrender.com (Render's free plan sleeps when idle, so the first visit can take
+  about a minute; the page says when it's waking up)
 - **The demo is fictional.** Sablewood, its wildfire and its people are made up. Every payment runs in the PayPal
   sandbox, so no real money moves.
 
 ## Try it
 
 Open the app and pick a persona on the sign-in page (no password), or use a direct link such as
-`/login?as=elena.rivera`. Each persona shows a different side of the same disaster.
+[`/login?as=elena.rivera`](https://hearthline-web.onrender.com/login?as=elena.rivera). Each persona shows a different side of the same disaster.
 
 | Persona | Who they are | Try this |
 |---|---|---|
@@ -163,9 +164,13 @@ npm run dev
 |---|---|
 | `GEMINI_API_KEY` and/or `OPENROUTER_API_KEY` | The AI agents (free tiers work) |
 | `CHANNEL3_API_KEY` | Product prices and price history |
-| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | A PayPal sandbox app with Payouts, Subscriptions, Customer disputes and Log in with PayPal enabled (return URL `http://localhost:5173/connect/paypal`) |
+| `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | A PayPal sandbox app with Payouts, Subscriptions, Customer disputes, Transaction search and Log in with PayPal enabled (Email and Full name requested) |
+| `PAYPAL_CONNECT_RETURN_URL` | Log in with PayPal's return URL. PayPal saves only public https URLs, so locally register a placeholder such as `https://example.com/connect/paypal` and set it here; a deployment uses `https://<web-host>/connect/paypal` |
 | `PAYPAL_WEBHOOK_ID` | Only on a public deployment (see below) |
 | `DATABASE_URL` | Empty for SQLite; a Postgres URL otherwise |
+
+The web app reads `VITE_AG_GRID_LICENSE` (in `frontend/.env.local`, or on the Render static site) for the AG Grid
+Enterprise key; without it the grids show AG Grid's trial watermark.
 
 To reset the demo, stop the API, delete `backend/hearthline.db`, and run the migration and seed commands again.
 
@@ -178,7 +183,7 @@ database. Browser checks are in [e2e](e2e/README.md).
 
 The blueprint creates `hearthline-api`, `hearthline-web` and `hearthline-db`. Enter the secrets it asks for; the API
 migrates and seeds the demo at start-up. Then point PayPal's webhooks at the API and put the printed id in
-`PAYPAL_WEBHOOK_ID`:
+`PAYPAL_WEBHOOK_ID`, and add `https://<web-host>/connect/paypal` as the app's Log in with PayPal return URL:
 
 ```bash
 cd backend

@@ -38,12 +38,40 @@ export class ApiError extends Error {
   }
 }
 
+// Free hosting puts the API to sleep after 15 idle minutes, and the first request then waits up to a minute. Requests
+// sent while it may be asleep are counted, so the app can say it's waking up instead of looking frozen.
+const SLEEPS_AFTER_MS = 14 * 60_000
+let lastAnswer = 0
+let waking = 0
+const wakingListeners = new Set<() => void>()
+const setWaking = (delta: number) => {
+  waking += delta
+  wakingListeners.forEach((fn) => fn())
+}
+export const serverWaking = {
+  subscribe: (fn: () => void) => {
+    wakingListeners.add(fn)
+    return () => {
+      wakingListeners.delete(fn)
+    }
+  },
+  get: () => waking > 0,
+}
+
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers)
   const token = tokenStore.get()
   if (token) headers.set('Authorization', `Bearer ${token}`)
   if (init.body && !(init.body instanceof FormData)) headers.set('Content-Type', 'application/json')
-  const res = await fetch(`${API_URL}${path}`, { ...init, headers })
+  const mayBeAsleep = Date.now() - lastAnswer > SLEEPS_AFTER_MS
+  if (mayBeAsleep) setWaking(1)
+  let res: Response
+  try {
+    res = await fetch(`${API_URL}${path}`, { ...init, headers })
+    lastAnswer = Date.now()
+  } finally {
+    if (mayBeAsleep) setWaking(-1)
+  }
   if (!res.ok) {
     const body = await res.json().catch(() => null)
     const detail = typeof body?.detail === 'string' ? body.detail : res.statusText
