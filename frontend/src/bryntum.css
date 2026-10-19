@@ -1,0 +1,12 @@
+/* Bryntum's thin packages share one core, so Gantt, Scheduler Pro, Calendar and TaskBoard can all load in one session.
+   Every structural sheet comes before the theme (Bryntum's required order), whichever page loads first. */
+@import '@bryntum/core-thin/fontawesome/css/fontawesome.css';
+@import '@bryntum/core-thin/fontawesome/css/solid.css';
+@import '@bryntum/core-thin/core.css';
+@import '@bryntum/grid-thin/grid.css';
+@import '@bryntum/scheduler-thin/scheduler.css';
+@import '@bryntum/schedulerpro-thin/schedulerpro.css';
+@import '@bryntum/gantt-thin/gantt.css';
+@import '@bryntum/calendar-thin/calendar.css';
+@import '@bryntum/taskboard-thin/taskboard.css';
+@import '@bryntum/core-thin/stockholm-light.css';

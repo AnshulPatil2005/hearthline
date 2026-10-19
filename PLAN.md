@@ -178,6 +178,8 @@ flowchart LR
 
 All four save to our Postgres database. FastAPI implements Bryntum's **CrudManager load/sync protocol**.
 
+They use Bryntum's **thin packages** (`@bryntum/*-thin`, trial builds aliased, all pinned to 7.3.7, one shared CSS file in `src/bryntum.css`). The regular packages each bundle their own copy of the core, so opening a second product in the same session crashed ("The Bryntum Grid bundle was loaded multiple times"). With thin packages a feature from another product must be imported explicitly (the Gantt imports Scheduler's `TimeRanges`). Bryntum gave no hackathon license (2026-10-19, they sent their setup prompt), so the trial watermark stays.
+
 ### Channel3
 | Endpoint | Use |
 |---|---|
@@ -328,7 +330,7 @@ hearthline/
   - [ ] Render
   - [ ] R2 bucket
   - [ ] APIMatic
-- [ ] **Ask on the PayPal Discord** about hackathon licenses for AG Grid Enterprise and Bryntum, and about APIMatic access
+- [x] **Ask on the PayPal Discord** about hackathon licenses for AG Grid Enterprise and Bryntum, and about APIMatic access (AG Grid: a 45-day key, set as `VITE_AG_GRID_LICENSE`; Bryntum: trial packages; APIMatic: claim form sent)
 - [ ] Install the APIMatic PayPal Context Plugin in Claude Code
 - [ ] Create the GitHub repo with an MIT `LICENSE` and the skeleton above. Deploy a hello-world through `render.yaml`.
 - [ ] **Test runs (each one decides a design choice):**
