@@ -298,7 +298,9 @@
       "no_price_gouging": "No price gouging"
     },
     "refused": "Refused {{retailer}}:",
-    "refusedWhy": "{{price}} is {{markup}}% above its price before the disaster ({{baseline}}). That's price gouging."
+    "refusedWhy": "{{price}} is {{markup}}% above its price before the disaster ({{baseline}}). That's price gouging.",
+    "local": "Local business",
+    "localDelivers": "{{store}} will contact you to arrange pickup or delivery"
   },
   "money": {
     "title": "Money",
@@ -1347,5 +1349,36 @@
     "amount": "Amount to pay (USD)",
     "note": "Note to the policyholder (optional)",
     "where": "The policyholder sees the amount, your name and your note. PayPal sandbox: no real money moves in this demo."
+  },
+  "localShop": {
+    "ordersTitle": "Orders from Hearthline's Shopper",
+    "ordersBody": "Families' gifts paid for these through PayPal; the money is in your PayPal account. Their home may be gone, so arrange pickup or delivery with the family, and check the name when you hand it over.",
+    "forFamily": "For {{family}}",
+    "contact": "Contact {{name}} to arrange pickup or delivery:",
+    "paidOn": "Paid {{date}}",
+    "markDelivered": "Mark delivered",
+    "delivered": "Delivered",
+    "catalogTitle": "Sell to families",
+    "catalogBody": "When a family's registry item is funded, Hearthline's Shopper checks local stores in town first and buys here if your price is within 15% of the best online offer.",
+    "notOpen": "The Shopper buys only from verified businesses that are open. Once you've reopened, your offers count.",
+    "item": "Item",
+    "itemPlaceholder": "What you sell, e.g. Twin mattress, 8-inch foam",
+    "categoryLabel": "Category",
+    "price": "Price",
+    "add": "Add",
+    "soldOut": "Mark sold out",
+    "inStock": "Back in stock",
+    "remove": "Remove",
+    "category": {
+      "bedding": "Bedding",
+      "furniture": "Furniture",
+      "clothing": "Clothing",
+      "kitchenware": "Kitchenware",
+      "electronics": "Electronics",
+      "appliance": "Appliances",
+      "tools": "Tools",
+      "toys": "Toys",
+      "other": "Other"
+    }
   }
 }

@@ -129,3 +129,15 @@ def balance(db: Session, code: str) -> Decimal:
 def household_available(db: Session, household_id: int) -> Decimal:
     """Money currently held for a household, as a positive number."""
     return -balance(db, household_fund(household_id))
+
+
+def household_spent(db: Session, household_id: int) -> Decimal:
+    """What the Shopper has bought for a household from its fund. Not "donated minus available": insurance advances,
+    escrow and cash aid move the fund too."""
+    total = db.scalar(
+        select(func.coalesce(func.sum(LedgerPosting.amount), 0))
+        .join(LedgerAccount)
+        .join(LedgerTransaction, LedgerPosting.transaction_id == LedgerTransaction.id)
+        .where(LedgerAccount.code == household_fund(household_id), LedgerTransaction.kind == "purchase")
+    )
+    return Decimal(total).quantize(Decimal("0.01"))

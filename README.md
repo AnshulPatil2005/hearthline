@@ -23,6 +23,7 @@ Open the app and pick a persona on the sign-in page (no password), or use a dire
 | `marcus.chen` | A donor | **My giving**: each gift's journey from paid to bought to delivered, and a note from the Funds agent |
 | `dana.okafor` | A licensed contractor | **Projects**: drag milestones in the Gantt, submit work photos for the Site agent's check |
 | `luis.moreno` | Owner of Moreno's Bakery, closed by the fire | **Reopen Fund**: ask for the next step's money, mark the bakery reopened, take a gift card by its QR code |
+| `rosa.delgado` | Owner of Sablewood Mercantile, open again after the fire | **Reopen Fund**: the orders Hearthline's Shopper placed with her store (already paid through PayPal) to hand over and mark delivered, and the catalog she sells to families |
 | `priya.nair`, `tom.becker` | Claim reviewers | **Review queue**: open the copycat registry case and reject it (two reviewers are needed) |
 | `grace.alvarez` | Review supervisor | Settles disagreements; approves cash-aid batches |
 | `sam.whitfield` | Relief organization admin | **Command Center** (2,000 households, "Ask the grid", batch cash aid with a PayPal balance check), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Books** (our ledger against PayPal's Transaction Search), **Price Watch** |
@@ -49,8 +50,10 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   National Weather Service alerts warn the household when a disaster nears.
 - **Respond.** A family's Rebuild Registry lists specific things they need. Donors pay with PayPal, Venmo or Pay
   Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
-  sellers who raise prices past California's 10% limit. A copycat registry is caught, two people reject it, and its
-  donors are refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
+  sellers who raise prices past California's 10% limit. It checks verified local stores that have reopened in the
+  family's town first, and buys there when the price is within 15% of the web store it would otherwise use, so gifts
+  also help the town's businesses recover. A copycat registry is caught, two people reject it, and its donors are
+  refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
 - **Claim.** From the inventory and the policy the Policy agent read, Hearthline builds the family's contents
   claim with the policy's sub-limits, limit and deductible applied. The insurer's adjuster reviews it on a private
   link and pays with PayPal; the money reaches the family's own PayPal account in minutes, not a mailed check.
@@ -71,7 +74,7 @@ supports it.
 |---|---|
 | **Orders v2** (via the APIMatic-generated Server SDK): create, capture, full and partial refunds | Registry gifts, Reopen gift cards, gifts prepared through the Public API, refunds when a scam registry is rejected or a business misses its date |
 | **JS SDK v6**: PayPal, **Venmo** and **Pay Later** buttons | Registry and Reopen checkout |
-| **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; contractor milestones released from escrow; Reopen steps; the Shopper paying the stand-in retailer |
+| **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; contractor milestones released from escrow; Reopen steps; the Shopper paying a local store's PayPal account, or the stand-in for a web retailer |
 | **Subscriptions** (catalog product, plan, subscription, transactions, cancel, sale refunds) | Reopen "regulars" who pay monthly toward a gift card |
 | **Shipment tracking** (Orders `track`) | When the Shopper's purchase ships, the tracking number appears on each donor's PayPal payment |
 | **Disputes**: list, details, message, evidence (multipart with a records PDF and tracking), accept claim | The payment disputes desk for gifts and gift cards |

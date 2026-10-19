@@ -298,7 +298,9 @@
       "no_price_gouging": "Walang price gouging"
     },
     "refused": "Tinanggihan ang {{retailer}}:",
-    "refusedWhy": "Ang {{price}} ay {{markup}}% na mas mataas sa presyo nito bago ang sakuna ({{baseline}}). Iyan ay price gouging."
+    "refusedWhy": "Ang {{price}} ay {{markup}}% na mas mataas sa presyo nito bago ang sakuna ({{baseline}}). Iyan ay price gouging.",
+    "local": "Lokal na negosyo",
+    "localDelivers": "Kokontakin kayo ng {{store}} para ayusin ang pickup o paghahatid"
   },
   "money": {
     "title": "Pera",
@@ -1347,5 +1349,36 @@
     "amount": "Halagang babayaran (USD)",
     "note": "Tala para sa policyholder (opsyonal)",
     "where": "Makikita ng policyholder ang halaga, ang inyong pangalan at tala. PayPal sandbox: walang totoong perang gumagalaw sa demo na ito."
+  },
+  "localShop": {
+    "ordersTitle": "Mga order mula sa Shopper ng Hearthline",
+    "ordersBody": "Binayaran ang mga ito sa PayPal mula sa mga regalo para sa mga pamilya; nasa PayPal account ninyo na ang pera. Maaaring wala na ang kanilang bahay, kaya makipag-ayos sa pamilya para sa pickup o paghahatid, at tingnan ang pangalan kapag iniabot ninyo ito.",
+    "forFamily": "Para sa {{family}}",
+    "contact": "Kontakin si {{name}} para ayusin ang pickup o paghahatid:",
+    "paidOn": "Nabayaran noong {{date}}",
+    "markDelivered": "Markahang naihatid",
+    "delivered": "Naihatid",
+    "catalogTitle": "Magbenta sa mga pamilya",
+    "catalogBody": "Kapag napondohan ang isang gamit sa registry ng pamilya, tinitingnan muna ng Shopper ng Hearthline ang mga lokal na tindahan sa bayan at dito bibili kung ang presyo ninyo ay hanggang 15% lang na mas mataas sa pinakamagandang alok online.",
+    "notOpen": "Bumibili lang ang Shopper sa mga verified na negosyong bukas. Kapag muli kayong nagbukas, isasama na ang inyong mga alok.",
+    "item": "Gamit",
+    "itemPlaceholder": "Ang ibinebenta ninyo, hal. Twin mattress, 8-inch foam",
+    "categoryLabel": "Kategorya",
+    "price": "Presyo",
+    "add": "Idagdag",
+    "soldOut": "Markahang ubos na",
+    "inStock": "May stock na ulit",
+    "remove": "Alisin",
+    "category": {
+      "bedding": "Higaan",
+      "furniture": "Muwebles",
+      "clothing": "Damit",
+      "kitchenware": "Gamit sa kusina",
+      "electronics": "Electronics",
+      "appliance": "Appliances",
+      "tools": "Kagamitan",
+      "toys": "Laruan",
+      "other": "Iba pa"
+    }
   }
 }

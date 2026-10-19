@@ -27,9 +27,11 @@ uv run --with playwright python ../e2e/registry_checkout.py
 | `demo_reset.py` | Reset the demo: after shared state was changed (a dispute answered, a registry closed), "Put it back to the start" on the sign-in page restores the seeded data for everyone; a second reset right away is refused |
 | `books.py` | Books and PayPal: the reconciliation of the ledger against PayPal's Transaction Search loads with the PayPal balance, the counts and the grid; the batch cash-aid preview says whether that balance covers the batch |
 | `insurance_claim.py` | Insurers pay claims through PayPal: Elena prepares her contents claim from the pre-disaster inventory and her policy; the adjuster opens the private link, sees each item's evidence and the policy math (sub-limits, contents limit, deductible), pays with PayPal in the popup (the sandbox buyer stands in for the insurer), and Hearthline passes the money on to Elena's PayPal account (uses one AI call if the policy isn't read yet) |
+| `local_first.py` | The Shopper buys local first: a donor finishes funding Pepper's dog crate with a real sandbox payment; the Shopper checks Sablewood Mercantile (reopened after the fire) before web stores and buys there, paying the store's PayPal account; Elena sees the local purchase; Rosa sees the order with the family's contact and marks it delivered (uses up to two AI calls; needs a freshly seeded database) |
 
 Scripts that sign in at PayPal use the sandbox buyer account from `backend/.env` (`PAYPAL_SANDBOX_BUYER_EMAIL`,
-`PAYPAL_SANDBOX_BUYER_PASSWORD`); `paypal_sandbox.py` holds the sign-in steps for PayPal's sandbox pages.
+`PAYPAL_SANDBOX_BUYER_PASSWORD`); `paypal_sandbox.py` holds the sign-in steps for PayPal's sandbox pages, and
+reopens PayPal's window through its "Click to Continue" overlay when headless Chromium loses the first one.
 
 To check another stack (for example the API on Postgres), point the scripts at it: `E2E_WEB` (web app, default
 `http://localhost:5173`), `E2E_API` (API, default `http://localhost:8000`) and `DATABASE_URL` (the API's database,

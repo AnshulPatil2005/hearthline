@@ -28,6 +28,11 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
         <div className="min-w-0">
           <div className="font-medium">{p.title}</div>
           <div className="text-sm text-ink-soft">
+            {p.local_business_id && (
+              <span className="mr-1.5 rounded-full bg-sage-soft px-2 py-0.5 text-xs font-medium text-sage">
+                {t('purchases.local')}
+              </span>
+            )}
             {p.retailer && `${p.retailer} · `}
             {p.quantity > 1 && `${p.quantity} × ${money(p.unit_price, { cents: true })} · `}
             <span className="font-medium text-ink">{money(p.total, { cents: true })}</span>
@@ -115,7 +120,10 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
             </button>
           </>
         )}
-        {(p.status === 'paid' || p.status === 'shipped') && (
+        {p.local_business_id && p.status === 'paid' && (
+          <span className="text-xs text-ink-faint">{t('purchases.localDelivers', { store: p.retailer })}</span>
+        )}
+        {!p.local_business_id && (p.status === 'paid' || p.status === 'shipped') && (
           <button
             onClick={() => act.mutate('simulate-shipping')}
             disabled={act.isPending}

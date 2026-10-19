@@ -294,7 +294,9 @@
       "no_price_gouging": "无哄抬物价"
     },
     "refused": "已拒绝 {{retailer}}：",
-    "refusedWhy": "{{price}} 比灾前价格（{{baseline}}）高出 {{markup}}%，属于哄抬物价。"
+    "refusedWhy": "{{price}} 比灾前价格（{{baseline}}）高出 {{markup}}%，属于哄抬物价。",
+    "local": "本地商家",
+    "localDelivers": "{{store}} 会联系您安排自取或送货"
   },
   "money": {
     "title": "资金",
@@ -1321,5 +1323,36 @@
     "amount": "支付金额（美元）",
     "note": "给投保人的备注（可选）",
     "where": "投保人会看到金额、您的姓名和备注。PayPal 沙盒：本演示不涉及真实资金。"
+  },
+  "localShop": {
+    "ordersTitle": "Hearthline 采购助手的订单",
+    "ordersBody": "这些订单已用家庭收到的捐款通过 PayPal 付款，钱已在您的 PayPal 账户中。他们的房子可能已经没有了，请与该家庭约定自取或送货，交付时核对姓名。",
+    "forFamily": "给 {{family}}",
+    "contact": "请联系 {{name}} 安排自取或送货：",
+    "paidOn": "付款于 {{date}}",
+    "markDelivered": "标记为已送达",
+    "delivered": "已送达",
+    "catalogTitle": "向受灾家庭出售",
+    "catalogBody": "当家庭愿望清单上的物品筹满后，Hearthline 采购助手会先查看本镇的本地商店；如果您的价格在最佳网上报价的 15% 以内，就在这里购买。",
+    "notOpen": "采购助手只向已核实且正在营业的商家购买。重新开业后，您的商品就会被考虑。",
+    "item": "商品",
+    "itemPlaceholder": "您出售的商品，例如：单人床垫，8 英寸泡沫",
+    "categoryLabel": "类别",
+    "price": "价格",
+    "add": "添加",
+    "soldOut": "标记售罄",
+    "inStock": "重新有货",
+    "remove": "删除",
+    "category": {
+      "bedding": "床上用品",
+      "furniture": "家具",
+      "clothing": "服装",
+      "kitchenware": "厨具",
+      "electronics": "电子产品",
+      "appliance": "家电",
+      "tools": "工具",
+      "toys": "玩具",
+      "other": "其他"
+    }
   }
 }

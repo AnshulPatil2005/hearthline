@@ -413,6 +413,8 @@ class Purchase(Base):
     ai_confidence: Mapped[float | None]
     candidates_considered: Mapped[int] = mapped_column(default=0)
     payment_rail: Mapped[str] = mapped_column(String(20), default="payouts")  # payouts | vault
+    # Bought from a local business that reopened after the disaster (paid to its PayPal account), not a web store.
+    local_business_id: Mapped[int | None] = mapped_column(ForeignKey("businesses.id", ondelete="SET NULL"))
     paypal_ref: Mapped[str | None] = mapped_column(String(80))
     carrier: Mapped[str | None] = mapped_column(String(40))
     tracking_number: Mapped[str | None] = mapped_column(String(60))
@@ -924,3 +926,19 @@ class InsuranceClaim(Base):
     paid_at: Mapped[datetime | None]
 
     household: Mapped[Household] = relationship()
+
+
+class LocalOffer(Base):
+    """Something a local business sells. The Shopper buys from businesses that are open again before web stores."""
+
+    __tablename__ = "local_offers"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    business_id: Mapped[int] = mapped_column(ForeignKey("businesses.id", ondelete="CASCADE"), index=True)
+    title: Mapped[str] = mapped_column(String(200))
+    category: Mapped[str] = mapped_column(String(60), default="other")
+    unit_price: Mapped[Decimal] = mapped_column(Money)
+    available: Mapped[bool] = mapped_column(default=True)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    business: Mapped[Business] = relationship()

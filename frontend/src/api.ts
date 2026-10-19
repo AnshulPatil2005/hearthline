@@ -131,8 +131,20 @@ export type Item = {
 }
 
 export const CATEGORIES = [
-  'furniture', 'electronics', 'appliance', 'lighting', 'bedding', 'decor', 'kitchenware',
-  'clothing', 'books', 'toys', 'tools', 'sports', 'musical', 'other',
+  'furniture',
+  'electronics',
+  'appliance',
+  'lighting',
+  'bedding',
+  'decor',
+  'kitchenware',
+  'clothing',
+  'books',
+  'toys',
+  'tools',
+  'sports',
+  'musical',
+  'other',
 ] as const
 
 export type RegistryItem = {
@@ -184,13 +196,15 @@ export type PolicyCheck = { rule: string; passed: boolean; detail: string }
 export type Purchase = {
   id: number
   registry_item_id: number | null
+  local_business_id?: number | null
   title: string
   retailer: string
   url: string | null
   unit_price: string
   quantity: number
   total: string
-  status: 'proposed' | 'awaiting_approval' | 'approved' | 'paid' | 'shipped' | 'delivered' | 'blocked' | 'rejected' | 'failed'
+  status:
+    'proposed' | 'awaiting_approval' | 'approved' | 'paid' | 'shipped' | 'delivered' | 'blocked' | 'rejected' | 'failed'
   policy_checks: PolicyCheck[]
   refused_offers: { title: string; retailer: string; price: string; baseline: string; markup_percent: number }[]
   ai_reasoning: string
@@ -240,7 +254,12 @@ export type QueueRow = {
   created_at: string
 }
 
-export type CaseFlag = { code: string; severity: 'low' | 'medium' | 'high'; message: string; evidence: Record<string, unknown> }
+export type CaseFlag = {
+  code: string
+  severity: 'low' | 'medium' | 'high'
+  message: string
+  evidence: Record<string, unknown>
+}
 
 export type CaseDetail = QueueRow & {
   note: string
@@ -339,7 +358,16 @@ export type Project = {
 
 export type MilestoneEvidence = Pick<
   Milestone,
-  'id' | 'seq' | 'title' | 'done_looks_like' | 'amount' | 'start_date' | 'end_date' | 'status' | 'site_check' | 'photo_urls'
+  | 'id'
+  | 'seq'
+  | 'title'
+  | 'done_looks_like'
+  | 'amount'
+  | 'start_date'
+  | 'end_date'
+  | 'status'
+  | 'site_check'
+  | 'photo_urls'
 > & { project_id: number; project_title: string; contractor_name: string; license_number: string }
 
 export type DamageLevel = 'destroyed' | 'major' | 'minor' | 'affected' | 'unknown'
@@ -369,7 +397,12 @@ export type CommandSummary = {
   unmet_need: string
 }
 
-export type FundsCheck = { available: string | null; as_of: string | null; covers: boolean | null; error: string | null }
+export type FundsCheck = {
+  available: string | null
+  as_of: string | null
+  covers: boolean | null
+  error: string | null
+}
 export type BatchPreview = {
   households: number
   total: string
@@ -503,7 +536,13 @@ export type PriceWatchRow = {
 }
 
 export type PriceWatchReport = {
-  event: { name: string; declared_at: string; protection_until: string; protection_active: boolean; limit_percent: number }
+  event: {
+    name: string
+    declared_at: string
+    protection_until: string
+    protection_active: boolean
+    limit_percent: number
+  }
   rows: PriceWatchRow[]
 }
 
@@ -531,8 +570,24 @@ export type Giving = {
   summary_by_ai: boolean
 }
 
-export type RegistrySummary = { slug: string; title: string; city: string; state: string; open_items: number; still_needed: string; url: string }
-export type ReopenFundSummary = { slug: string; business: string; city: string; goal_amount: string; raised: string; bonus_percent: number; url: string }
+export type RegistrySummary = {
+  slug: string
+  title: string
+  city: string
+  state: string
+  open_items: number
+  still_needed: string
+  url: string
+}
+export type ReopenFundSummary = {
+  slug: string
+  business: string
+  city: string
+  goal_amount: string
+  raised: string
+  bonus_percent: number
+  url: string
+}
 
 /** Download a file from an authenticated endpoint (a plain link can't send the login token). */
 export async function downloadFile(path: string, filename: string): Promise<void> {
@@ -609,7 +664,13 @@ export type DisputeDetail = DisputeRow & {
   decided_at: string | null
 }
 
-export type PayPalAgentStep = { tool: string; source: 'paypal' | 'hearthline'; args: Record<string, unknown>; ok: boolean; summary: string }
+export type PayPalAgentStep = {
+  tool: string
+  source: 'paypal' | 'hearthline'
+  args: Record<string, unknown>
+  ok: boolean
+  summary: string
+}
 export type PayPalAgentAnswer = { answer: string; steps: PayPalAgentStep[] }
 
 export type PayPalConnection = {
@@ -688,4 +749,20 @@ export type ClaimPacket = {
   approved_amount: string | null
   paid_at: string | null
   payout_status: 'sent' | 'held' | null
+}
+
+export type LocalShop = {
+  open: boolean
+  offers: { id: number; title: string; category: string; unit_price: string; available: boolean }[]
+}
+export type LocalOrder = {
+  id: number
+  title: string
+  quantity: number
+  total: string
+  status: 'paid' | 'shipped' | 'delivered'
+  paid_at: string | null
+  family: string
+  contact_name: string
+  contact_email: string
 }

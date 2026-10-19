@@ -40,6 +40,7 @@ SECTIONS = [
             ("Registry gifts total", "registry_gifts_total", "$"),
             ("Items bought by the Shopper", "items_bought", "n"),
             ("Items delivered", "items_delivered", "n"),
+            ("Bought from local businesses", "bought_locally_total", "$"),
         ],
     ),
     (

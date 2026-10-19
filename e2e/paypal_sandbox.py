@@ -5,7 +5,8 @@ import re
 from pathlib import Path
 
 from dotenv import dotenv_values
-from playwright.async_api import Page
+from playwright.async_api import Locator, Page
+from playwright.async_api import TimeoutError as PlaywrightTimeout
 
 ENV = dotenv_values(Path(__file__).parent.parent / "backend" / ".env")
 BUYER_EMAIL = ENV.get("PAYPAL_SANDBOX_BUYER_EMAIL")
@@ -41,3 +42,17 @@ async def confirm(page: Page, timeout: int = 90000) -> str:
     label = (await button.inner_text()).strip()
     await button.click()
     return label
+
+
+async def open_checkout(page: Page, button: Locator) -> Page:
+    """Click a PayPal button and return PayPal's popup. Headless Chromium sometimes loses the first window; PayPal then
+    shows "Click to Continue" over the page, which opens it again."""
+    try:
+        async with page.context.expect_page(timeout=15000) as popup:
+            await button.click()
+    except PlaywrightTimeout:
+        async with page.context.expect_page(timeout=20000) as popup:
+            await page.get_by_text("Click to Continue").click()
+    checkout = await popup.value
+    await checkout.wait_for_load_state("domcontentloaded")
+    return checkout

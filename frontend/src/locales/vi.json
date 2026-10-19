@@ -294,7 +294,9 @@
       "no_price_gouging": "Không hét giá"
     },
     "refused": "Đã từ chối {{retailer}}:",
-    "refusedWhy": "{{price}} cao hơn {{markup}}% so với giá trước thảm họa ({{baseline}}). Đó là hét giá."
+    "refusedWhy": "{{price}} cao hơn {{markup}}% so với giá trước thảm họa ({{baseline}}). Đó là hét giá.",
+    "local": "Doanh nghiệp địa phương",
+    "localDelivers": "{{store}} sẽ liên hệ với quý vị để hẹn nhận hàng hoặc giao hàng"
   },
   "money": {
     "title": "Tiền",
@@ -1321,5 +1323,36 @@
     "amount": "Số tiền thanh toán (USD)",
     "note": "Ghi chú cho người được bảo hiểm (tùy chọn)",
     "where": "Người được bảo hiểm thấy số tiền, tên và ghi chú của quý vị. Môi trường thử PayPal: bản demo này không chuyển tiền thật."
+  },
+  "localShop": {
+    "ordersTitle": "Đơn hàng từ Trợ lý mua sắm của Hearthline",
+    "ordersBody": "Các đơn này đã được thanh toán qua PayPal bằng quà tặng cho các gia đình; tiền đã vào tài khoản PayPal của quý vị. Nhà của họ có thể không còn, vì vậy hãy hẹn với gia đình để họ đến nhận hoặc giao hàng, và kiểm tra tên khi trao hàng.",
+    "forFamily": "Cho {{family}}",
+    "contact": "Liên hệ {{name}} để hẹn nhận hàng hoặc giao hàng:",
+    "paidOn": "Đã thanh toán ngày {{date}}",
+    "markDelivered": "Đánh dấu đã giao",
+    "delivered": "Đã giao",
+    "catalogTitle": "Bán cho các gia đình",
+    "catalogBody": "Khi một món trong danh sách của gia đình được gây đủ quỹ, Trợ lý mua sắm của Hearthline xem trước các cửa hàng địa phương trong thị trấn và mua ở đây nếu giá của quý vị không cao hơn quá 15% so với giá trực tuyến tốt nhất.",
+    "notOpen": "Trợ lý mua sắm chỉ mua của doanh nghiệp đã xác minh và đang mở cửa. Khi quý vị mở cửa lại, các mặt hàng sẽ được tính.",
+    "item": "Mặt hàng",
+    "itemPlaceholder": "Món quý vị bán, vd. Nệm đơn, mút 8 inch",
+    "categoryLabel": "Danh mục",
+    "price": "Giá",
+    "add": "Thêm",
+    "soldOut": "Đánh dấu hết hàng",
+    "inStock": "Có hàng trở lại",
+    "remove": "Xóa",
+    "category": {
+      "bedding": "Chăn nệm",
+      "furniture": "Nội thất",
+      "clothing": "Quần áo",
+      "kitchenware": "Đồ bếp",
+      "electronics": "Điện tử",
+      "appliance": "Thiết bị gia dụng",
+      "tools": "Dụng cụ",
+      "toys": "Đồ chơi",
+      "other": "Khác"
+    }
   }
 }

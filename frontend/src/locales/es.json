@@ -298,7 +298,9 @@
       "no_price_gouging": "Sin especulación de precios"
     },
     "refused": "Rechazado {{retailer}}:",
-    "refusedWhy": "{{price}} está {{markup}} % por encima de su precio antes del desastre ({{baseline}}). Es especulación de precios."
+    "refusedWhy": "{{price}} está {{markup}} % por encima de su precio antes del desastre ({{baseline}}). Es especulación de precios.",
+    "local": "Negocio local",
+    "localDelivers": "{{store}} se pondrá en contacto para acordar la recogida o la entrega"
   },
   "money": {
     "title": "Dinero",
@@ -1347,5 +1349,36 @@
     "amount": "Monto a pagar (USD)",
     "note": "Nota para el asegurado (opcional)",
     "where": "El asegurado ve el monto, su nombre y su nota. Entorno de pruebas de PayPal: en esta demostración no se mueve dinero real."
+  },
+  "localShop": {
+    "ordersTitle": "Pedidos del Comprador de Hearthline",
+    "ordersBody": "Las donaciones de las familias pagaron estos pedidos por PayPal; el dinero está en su cuenta de PayPal. Es posible que su casa ya no exista: acuerde la recogida o la entrega con la familia y verifique el nombre al entregarlo.",
+    "forFamily": "Para {{family}}",
+    "contact": "Comuníquese con {{name}} para acordar la recogida o la entrega:",
+    "paidOn": "Pagado el {{date}}",
+    "markDelivered": "Marcar como entregado",
+    "delivered": "Entregado",
+    "catalogTitle": "Vender a las familias",
+    "catalogBody": "Cuando se financia un artículo del registro de una familia, el Comprador de Hearthline revisa primero las tiendas locales y compra aquí si su precio está dentro del 15 % de la mejor oferta en línea.",
+    "notOpen": "El Comprador solo compra a negocios verificados que están abiertos. Cuando reabra, sus ofertas contarán.",
+    "item": "Artículo",
+    "itemPlaceholder": "Lo que vende, p. ej. Colchón individual de espuma",
+    "categoryLabel": "Categoría",
+    "price": "Precio",
+    "add": "Agregar",
+    "soldOut": "Marcar agotado",
+    "inStock": "Disponible otra vez",
+    "remove": "Quitar",
+    "category": {
+      "bedding": "Ropa de cama",
+      "furniture": "Muebles",
+      "clothing": "Ropa",
+      "kitchenware": "Cocina",
+      "electronics": "Electrónica",
+      "appliance": "Electrodomésticos",
+      "tools": "Herramientas",
+      "toys": "Juguetes",
+      "other": "Otro"
+    }
   }
 }

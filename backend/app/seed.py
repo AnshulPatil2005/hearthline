@@ -121,6 +121,13 @@ PERSONAS = [
         None,
         "Business owner · Moreno's Bakery, closed by the fire",
     ),
+    (
+        "rosa.delgado@demo.hearthline.app",
+        "Rosa Delgado",
+        Role.BUSINESS,
+        None,
+        "Business owner · Sablewood Mercantile, open again after the fire",
+    ),
 ]
 
 
@@ -568,6 +575,9 @@ def main() -> None:
         from app.seed_reopen import seed_reopen_demo
 
         seed_reopen_demo(db)
+        from app.seed_local import seed_local_store
+
+        seed_local_store(db)
         reopen.run_deadlines(db)  # Render's free plan has no cron: check Reopen deadlines at every start
         from app.seed_prices import seed_price_watch
 

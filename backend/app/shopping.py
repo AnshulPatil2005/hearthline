@@ -12,11 +12,11 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, geo, gouging, ledger, policy
+from app import audit, geo, gouging, ledger, local_first, policy
 from app.agents import shopper
 from app.config import get_settings
 from app.db import SessionLocal
-from app.models import Donation, Household, Purchase, RegistryItem, now
+from app.models import Business, Donation, Household, Purchase, RegistryItem, now
 from app.paypal import payouts, tracking
 from app.paypal.rest import PayPalError
 
@@ -54,6 +54,7 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
     home = item.rebuild_registry.household
     budget_per_unit = (item.funded_amount / item.quantity).quantize(Decimal("0.01"))
     query = f"{item.name} {item.note}".strip()
+    local = local_first.candidates(db, item, home, budget_per_unit)
     candidates = shopper.find_candidates(item.name, budget_per_unit)
     if not candidates:
         candidates = shopper.find_candidates(query, budget_per_unit)
@@ -68,7 +69,7 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
         total=Decimal(0),
     )
     db.add(purchase)
-    if not candidates:
+    if not candidates and not local:
         purchase.status, purchase.error = "failed", "No in-stock offers from approved retailers"
         db.commit()
         return purchase
@@ -101,27 +102,52 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
         ]
         candidates = [c for c in candidates if not verdicts[c.product_id].gouging]
         purchase.candidates_considered = len(candidates) + len(purchase.refused_offers)
-        if not candidates:
+        if not candidates and not local:
             purchase.status = "failed"
             purchase.error = "Every offer was more than 10% above its price before the disaster (price gouging)"
             db.commit()
             return purchase
+    purchase.candidates_considered += len(local)
 
-    choice = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, candidates)
-    purchase.ai_reasoning = choice.reasoning[:1000]
+    # Local first: the AI judges fit (local and online); code decides whether the local offer wins on price.
+    online = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, candidates) if candidates else None
+    online_pick = candidates[online.choice] if online and online.choice >= 0 else None
+    pick: local_first.LocalPick | None = None
+    local_note = ""
+    if local:
+        options = [c for c, _ in local.values()]
+        fit = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, options)
+        if fit.choice >= 0 and fit.confidence >= local_first.MIN_FIT:
+            chosen = options[fit.choice]
+            if local_first.prefer_local(chosen, online_pick):
+                pick = local_first.LocalPick(chosen, local[chosen.product_id][1], online_pick)
+            else:
+                more = (chosen.unit_price / online_pick.unit_price - 1) * 100
+                local_note = f" {chosen.retailer} was checked first, but its price was {more:.0f}% above online."
+
+    choice = fit if pick else online
+    if choice is None:
+        purchase.status, purchase.error = "failed", "No local or online offer fits this need"
+        db.commit()
+        return purchase
+    purchase.ai_reasoning = (choice.reasoning + (f" {local_first.note(pick)}" if pick else local_note))[:1000]
     purchase.ai_confidence = choice.confidence
-    if choice.choice < 0:
+    if pick is None and choice.choice < 0:
         purchase.status, purchase.error = "failed", "The Shopper found no offer that fits this need"
         db.commit()
         return purchase
 
-    picked = candidates[choice.choice]
-    purchase.channel3_product_id = picked.product_id
+    picked = pick.candidate if pick else candidates[choice.choice]
+    purchase.channel3_product_id = None if pick else picked.product_id
+    purchase.local_business_id = pick.business.id if pick else None
     purchase.title = picked.title[:300]
     purchase.retailer = picked.retailer
     purchase.url = picked.url[:600]
     purchase.unit_price = picked.unit_price
     purchase.total = picked.unit_price * item.quantity
+    # Comparable offers: for a local pick, the local offers and the online offer the Shopper would otherwise buy (web
+    # listings it judged not to fit, like a dog bed without the crate, would make the median meaninglessly low).
+    comparable = [c for c, _ in local.values()] + ([online_pick] if online_pick else []) if pick else candidates
 
     decision = policy.evaluate(
         policy.Proposal(
@@ -129,14 +155,14 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
             category=item.category,
             retailer=picked.retailer,
             unit_price=picked.unit_price,
-            comparable_median=Decimal(str(statistics.median(c.unit_price for c in candidates))),
+            comparable_median=Decimal(str(statistics.median(c.unit_price for c in comparable))),
             ai_confidence=choice.confidence,
         ),
         gouging=verdicts.get(picked.product_id),
         item_funded=item.funded_amount,
         available_funds=ledger.household_available(db, home.id),
         spent_today=spent_today(db, home.id),
-        allowed_retailers=shopper.APPROVED_RETAILERS,
+        allowed_retailers=shopper.APPROVED_RETAILERS | {b.name for _, b in local.values()},
         ship_to_verified=ships_to_verified_address(home),
     )
     purchase.policy_checks = decision.as_json()
@@ -169,11 +195,14 @@ def execute(db: Session, purchase: Purchase, approved_by: int | None = None) -> 
     if not all(c["passed"] for c in purchase.policy_checks):
         raise ShoppingError("Purchase failed a spending rule")
     item = purchase.registry_item
+    local = db.get(Business, purchase.local_business_id) if purchase.local_business_id else None
+    if local is not None and not local.payout_email:
+        raise ShoppingError(f"{local.name} hasn't connected a PayPal account yet")
     try:
         result = payouts.send_payouts(
             [
                 (
-                    retailer_payee(purchase.retailer),
+                    local.payout_email if local else retailer_payee(purchase.retailer),
                     purchase.total,
                     f"Hearthline order: {purchase.title}"[:200],
                     f"purchase-{purchase.id}",
@@ -195,7 +224,7 @@ def execute(db: Session, purchase: Purchase, approved_by: int | None = None) -> 
         household_id=purchase.household_id,
         amount=purchase.total,
         paypal_ref=result.batch_id,
-        description=f"Bought {purchase.title} from {purchase.retailer}",
+        description=f"Bought {purchase.title} from {purchase.retailer}{' (local business)' if local else ''}",
         meta={"purchase_id": purchase.id, "registry_item_id": item.id if item else None},
     )
     if item is not None:

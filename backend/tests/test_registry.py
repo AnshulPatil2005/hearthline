@@ -75,6 +75,20 @@ def test_donation_funds_item_and_posts_to_ledger(fake_paypal):
     fund = client.get("/households/me/fund", headers=login_as("Elena Rivera")).json()
     assert fund == {"available": "139.00", "donated": "139.00", "spent": "0.00"}
 
+    with SessionLocal() as db:  # an insurer's advance adds to what's available but isn't negative spending
+        ledger.post(
+            db,
+            kind="insurance_payment",
+            description="Dwelling coverage advance",
+            household_id=hid,
+            paypal_ref=None,
+            meta={},
+            lines={ledger.CASH: Decimal("500"), ledger.household_fund(hid): Decimal("-500")},
+        )
+        db.commit()
+    fund = client.get("/households/me/fund", headers=login_as("Elena Rivera")).json()
+    assert fund == {"available": "639.00", "donated": "139.00", "spent": "0.00"}
+
 
 def test_donation_limits(fake_paypal):
     reg = rivera_registry()

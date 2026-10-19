@@ -20,6 +20,7 @@ from app.api import (
     insurance,
     inventory,
     ledger,
+    local_shop,
     paypal_connect,
     price_watch,
     public,
@@ -86,6 +87,7 @@ app.include_router(disputes.paypal_router)
 app.include_router(paypal_connect.router)
 app.include_router(books.router)
 app.include_router(claims.router)
+app.include_router(local_shop.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

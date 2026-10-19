@@ -230,7 +230,7 @@ def my_fund(home: MyHousehold, db: DB) -> FundOut:
         Decimal(0),
     )
     available = ledger.household_available(db, home.id)
-    return FundOut(available=available, donated=donated, spent=donated - available)
+    return FundOut(available=available, donated=donated, spent=ledger.household_spent(db, home.id))
 
 
 # --- Public side -----------------------------------------------------------------------------
