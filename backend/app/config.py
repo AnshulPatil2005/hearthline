@@ -56,7 +56,11 @@ class Settings(BaseSettings):
 
     @property
     def web_url(self) -> str:
-        return f"https://{self.web_host}" if self.web_host else "http://localhost:5173"
+        if not self.web_host:
+            return "http://localhost:5173"
+        # A Blueprint's `fromService ... host` is the service's name on Render's private network ("hearthline-web");
+        # its public address is that name under onrender.com.
+        return f"https://{self.web_host if '.' in self.web_host else self.web_host + '.onrender.com'}"
 
     @property
     def api_url(self) -> str:

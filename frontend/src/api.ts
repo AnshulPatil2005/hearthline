@@ -1,8 +1,11 @@
-// On Render, VITE_API_HOST is the API service's hostname (set in render.yaml).
+// On Render, VITE_API_HOST is the API service's name on Render's private network (render.yaml, e.g. "hearthline-api");
+// its public address is that name under onrender.com.
 const host = import.meta.env.VITE_API_HOST as string | undefined
+const publicHost = host && (host.includes('.') ? host : `${host}.onrender.com`)
 
 export const API_URL: string =
-  (import.meta.env.VITE_API_URL as string | undefined) ?? (host ? `https://${host}` : 'http://localhost:8000')
+  (import.meta.env.VITE_API_URL as string | undefined) ??
+  (publicHost ? `https://${publicHost}` : 'http://localhost:8000')
 
 const TOKEN_KEY = 'hearthline.token'
 

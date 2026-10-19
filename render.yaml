@@ -45,7 +45,8 @@ services:
         sync: false
       - key: PAYPAL_ENVIRONMENT
         value: sandbox
-      # The web app's hostname, for links the API hands out (PayPal return pages for agents).
+      # The web app's service name (Render gives the private-network name, e.g. hearthline-web; the API adds
+      # .onrender.com), for links the API hands out: PayPal return pages, Log in with PayPal.
       - key: WEB_HOST
         fromService:
           type: web
@@ -63,6 +64,7 @@ services:
         source: /*
         destination: /index.html
     envVars:
+      # The API's service name; the web app adds .onrender.com (src/api.ts).
       - key: VITE_API_HOST
         fromService:
           type: web
