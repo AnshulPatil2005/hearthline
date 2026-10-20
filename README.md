@@ -181,17 +181,16 @@ database. Browser checks are in [e2e](e2e/README.md).
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/AnshulPatil2005/hearthline)
 
-The blueprint creates `hearthline-api`, `hearthline-web` and `hearthline-db`. Enter the secrets it asks for; the API
-migrates and seeds the demo at start-up. Then point PayPal's webhooks at the API and put the printed id in
-`PAYPAL_WEBHOOK_ID`, and add `https://<web-host>/connect/paypal` as the app's Log in with PayPal return URL:
+The blueprint creates `hearthline-api` and `hearthline-web`. Enter the secrets it asks for, including `DATABASE_URL`
+for a Postgres database (the live demo uses [Neon](https://neon.tech)'s free tier; Render's free Postgres is deleted
+after 30 days). Put the database in the same region as the services, since the demo seed makes a few thousand round
+trips. The API migrates and seeds the demo at start-up. Then point PayPal's webhooks at the API and put the printed id
+in `PAYPAL_WEBHOOK_ID`, and add `https://<web-host>/connect/paypal` as the app's Log in with PayPal return URL:
 
 ```bash
 cd backend
 uv run python -m scripts.paypal_webhook https://<your-api-host>
 ```
-
-Render deletes free Postgres databases 30 days after creation, so a deployment meant to last longer needs a paid
-database or another Postgres host.
 
 ## How we built it
 

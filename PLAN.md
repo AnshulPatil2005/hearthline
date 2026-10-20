@@ -67,7 +67,7 @@ Reminder: one project can win at most **2 prizes** (a Grand Prize or one Honorab
 |---|---|---|
 | Backend | **Python 3.12, FastAPI**, SQLAlchemy and Alembic, `uv`, `ruff`, `pytest` | You prefer Python. FastAPI generates an OpenAPI spec automatically, which APIMatic needs. |
 | Jobs | `arq` (an async Redis job queue) on Render Key Value | AI and PayPal jobs that take a while run in the background. On the free tier they run inside the API process; a separate worker is a plan change later. |
-| Database | Postgres (Render **free tier** for now) | Free Postgres is deleted 30 days after creation and judging runs until Dec 15, so create it late or upgrade before judging |
+| Database | Postgres on **Neon's free tier** (from 2026-10-20) | Render's free Postgres is deleted 30 days after creation and judging runs until Dec 15; Neon's free tier doesn't expire. `DATABASE_URL` is a dashboard secret in `render.yaml`. Keep it in the services' region: the seed makes ~3,000 round trips (178 s at 57 ms) |
 | Media | An S3-compatible bucket (Cloudflare R2 free tier) | Render's disks attach to only one service |
 | Frontend | **React + TypeScript + Vite**, TanStack Query, react-i18next, Tailwind | AG Grid and Bryntum are JavaScript components. The frontend stays thin and the logic lives in Python. |
 | AI | **Google Gemini free tier, then OpenRouter free models**, all through OpenAI-compatible APIs with the `openai` Python SDK. `AI_MODELS` is a `provider:model` fallback list | Free. Structured output uses a forced `submit` tool call, which works on any tool-capable model. |
@@ -209,7 +209,7 @@ They use Bryntum's **thin packages** (`@bryntum/*-thin`, trial builds aliased, a
 | `cron-sentinel` | Hourly: fraud sweep |
 | `cron-reminders` | Daily: claim-deadline reminders |
 | `cron-reconcile` | Nightly: check our ledger against PayPal Transaction Search |
-| `hearthline-db` | Postgres |
+| `hearthline-db` | Postgres (moved to Neon's free tier, which doesn't expire) |
 | `hearthline-kv` | Key Value store (job queue and cache) |
 
 The file also defines shared groups of environment variables for secrets, uses private networking, health checks and preview environments, and includes a **"Deploy to Render" button in the README** so judges can deploy everything with one click.
