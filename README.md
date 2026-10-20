@@ -165,7 +165,7 @@ npm run dev
 | `GEMINI_API_KEY` and/or `OPENROUTER_API_KEY` | The AI agents (free tiers work) |
 | `CHANNEL3_API_KEY` | Product prices and price history |
 | `PAYPAL_CLIENT_ID`, `PAYPAL_CLIENT_SECRET` | A PayPal sandbox app with Payouts, Subscriptions, Customer disputes, Transaction search and Log in with PayPal enabled (Email and Full name requested) |
-| `PAYPAL_CONNECT_RETURN_URL` | Log in with PayPal's return URL. PayPal saves only public https URLs, so locally register a placeholder such as `https://example.com/connect/paypal` and set it here; a deployment uses `https://<web-host>/connect/paypal` |
+| `PAYPAL_CONNECT_RETURN_URL` | The Log in with PayPal return URL registered with PayPal. PayPal saves only public https URLs, so a local setup uses the deployment's (`https://<web-host>/connect/paypal`) and the e2e check forwards PayPal's redirect to the local web app; a deployment leaves it empty and uses its own |
 | `PAYPAL_WEBHOOK_ID` | Only on a public deployment (see below) |
 | `DATABASE_URL` | Empty for SQLite; a Postgres URL otherwise |
 
