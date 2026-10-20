@@ -95,3 +95,17 @@ def test_unverified_webhook_is_stored_but_not_processed(monkeypatch):
     r = client.post("/webhooks/paypal", json=EVENT)  # no PAYPAL_WEBHOOK_ID / signature headers in tests
     assert r.json()["verified"] is False and calls == []
     assert client.post("/webhooks/paypal", json={"nope": 1}).status_code == 400
+
+
+def test_a_signed_redelivery_processes_an_event_first_stored_unverified(monkeypatch):
+    calls = []
+    monkeypatch.setitem(webhooks.HANDLERS, "PAYMENT.CAPTURE.COMPLETED", [lambda db, res: calls.append(res["id"])])
+    assert client.post("/webhooks/paypal", json=EVENT).json()["verified"] is False  # before the webhook id was set
+
+    async def ok(headers, event):
+        return True
+
+    monkeypatch.setattr(webhooks, "verify_signature", ok)
+    assert client.post("/webhooks/paypal", json=EVENT).json() == {"received": "WH-1", "verified": True}
+    client.post("/webhooks/paypal", json=EVENT)
+    assert calls == ["CAP-9"]

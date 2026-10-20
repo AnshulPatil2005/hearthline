@@ -59,6 +59,11 @@ def handle(db: Session, event: dict, verified: bool) -> WebhookEvent:
         )
         db.add(stored)
         db.commit()
+    elif verified and not stored.verified:
+        # An earlier delivery couldn't be verified (say, before PAYPAL_WEBHOOK_ID was set); PayPal's signed
+        # redelivery of the same event counts.
+        stored.verified = True
+        db.commit()
     if not stored.verified or stored.processed_at is not None:
         return stored
     try:
