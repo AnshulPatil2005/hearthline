@@ -11,6 +11,9 @@ from app.models import AuditEvent, Contractor, Household, PayPalLink, User
 from app.paypal import identity
 from tests.helpers import client, login_as
 
+# Log in with PayPal's user ids are 43 characters (the end of the user_id URL), longer than a 13-character payer id.
+ELENA_ID = "ElenaPayPalUserId_xxxxxxxxxxxxxxxxxxxxxxxxx"
+
 
 @pytest.fixture
 def paypal(monkeypatch):
@@ -20,7 +23,7 @@ def paypal(monkeypatch):
     monkeypatch.setattr(s, "paypal_client_secret", "SECRET")
     monkeypatch.setattr(s, "paypal_connect_return_url", None)  # the web app's own /connect/paypal
     people = {
-        "code-elena": identity.PayPalPerson("PAYER-ELENA", "elena.r@personal.example.com", "Elena Rivera", True),
+        "code-elena": identity.PayPalPerson(ELENA_ID, "elena.r@personal.example.com", "Elena Rivera", True),
         "code-unverified": identity.PayPalPerson("PAYER-X", "new.account@personal.example.com", "E. Rivera", False),
         "code-dana": identity.PayPalPerson("PAYER-DANA", "dana@okafor.example.com", "Dana Okafor", True),
     }
@@ -60,7 +63,7 @@ def test_connecting_makes_the_paypal_account_where_cash_aid_goes(paypal):
         home = db.query(User).filter_by(name="Elena Rivera").one().household
         assert home.payout_email == "elena.r@personal.example.com"
         event = db.query(AuditEvent).filter_by(action="paypal.connected").one()
-        assert event.data["payer_id"] == "PAYER-ELENA"
+        assert event.data["payer_id"] == ELENA_ID
         assert event.data["changed"][0]["to"] == "el•••••@personal.example.com"
         assert "elena.r@" not in str(event.data)  # addresses are masked in the log
 

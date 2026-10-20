@@ -3,15 +3,43 @@ TEST_DATABASE_URL (what Render runs; every table is dropped and recreated, so ne
 
 import os
 import tempfile
+from functools import cache
 from pathlib import Path
 
 _db = Path(tempfile.mkdtemp()) / "test.db"
 os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL") or f"sqlite:///{_db}"
 
 import pytest  # noqa: E402
+from sqlalchemy import String, event  # noqa: E402
+from sqlalchemy import inspect as sa_inspect  # noqa: E402
+from sqlalchemy.orm import Session  # noqa: E402
 
 import app.models  # noqa: E402,F401
 from app.db import Base, engine  # noqa: E402
+
+
+@cache
+def _string_columns(mapper) -> list[tuple[str, int]]:
+    return [
+        (prop.key, col.type.length)
+        for prop in mapper.column_attrs
+        for col in prop.columns
+        if isinstance(col.type, String) and col.type.length
+    ]
+
+
+@event.listens_for(Session, "before_flush")
+def _strings_fit_their_columns(session, flush_context, instances):
+    """SQLite ignores VARCHAR lengths; Postgres, which production runs, rejects a value that doesn't fit (a 43-character
+    PayPal account id once broke Log in with PayPal there). Fail the same way in tests."""
+    for obj in (*session.new, *session.dirty):
+        mapper = sa_inspect(obj).mapper
+        for key, length in _string_columns(mapper):
+            value = obj.__dict__.get(key)
+            if isinstance(value, str) and len(value) > length:
+                raise ValueError(
+                    f"{mapper.class_.__name__}.{key} is {len(value)} characters; the column holds {length}"
+                )
 
 
 @pytest.fixture(autouse=True)

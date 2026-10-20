@@ -14,7 +14,9 @@ BUYER_PASSWORD = ENV.get("PAYPAL_SANDBOX_BUYER_PASSWORD")
 RETURN_URL = ENV.get("PAYPAL_CONNECT_RETURN_URL")
 
 # The button that confirms on PayPal's review or consent page (wording differs by flow).
-CONFIRM = re.compile(r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Continue)$")
+CONFIRM = re.compile(
+    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Continue)$"
+)
 
 
 def have_buyer() -> bool:

@@ -885,7 +885,7 @@ class PayPalLink(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), unique=True)
-    payer_id: Mapped[str] = mapped_column(String(40), index=True)
+    payer_id: Mapped[str] = mapped_column(String(100), index=True)  # Log in with PayPal's user id: 43 characters
     email: Mapped[str] = mapped_column(String(255), index=True)
     name: Mapped[str] = mapped_column(String(160), default="")
     verified_account: Mapped[bool] = mapped_column(default=False)  # PayPal's own check of the account
