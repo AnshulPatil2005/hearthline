@@ -459,12 +459,13 @@ hearthline/
 
 | Risk | Plan |
 |---|---|
-| AG Grid Enterprise and Bryntum are commercial (Bryntum's trial lasts 45 days, but judging runs to Dec 15) | Ask on Discord in week 0. Trials show watermarks but still work, so development isn't blocked. |
+| AG Grid Enterprise and Bryntum are commercial (Bryntum's trial lasts 45 days, but judging runs to Dec 15) | **Resolved.** AG Grid gave a 45-day key (set on Render). Bryntum gave no license; its trial counts 45 days from each browser's first visit (a start time it stores in that browser), so judges' browsers aren't affected. The trial watermark stays. |
 | AI vision accuracy | Test run in week 0. A human confirms every item anyway. |
 | Agent-initiated payments or escrow are hard in the sandbox | Test runs in week 0. Fallback: Hearthline holds the funds itself and pays out with Payouts. |
 | Purchases are simulated in the sandbox | Say so plainly in the README and the Devpost write-up |
 | Too much scope for one person | Feature-complete core by Nov 1, follow the cut list, freeze on Nov 9 |
-| Render's free database is deleted after 30 days | Use the paid Postgres tier from the start |
+| Render's free database is deleted after 30 days | **Resolved.** The live database is Neon's free tier (no expiry) in AWS US West 2, next to the Render services. |
+| The free API sleeps after 15 idle minutes (first visit ~1 minute) | The app says it's waking up. No keep-alive pinger: Render's 750 free hours a month are shared with the account's other free services. |
 | Secrets leaking into the public repo | `.env` stays out of git; Render keeps secrets with `sync: false`; scan for secrets before every push |
 
 ---
