@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useNavigate, useSearchParams } from 'react-router'
 import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
+import { DemoTour } from '../components/DemoTour'
 import { Footer } from '../components/Footer'
 import { LanguageSelect, Logo } from '../components/Shell'
 import { homePathFor } from '../paths'
@@ -171,7 +172,9 @@ export default function Login() {
                   </div>
                 </div>
                 <p className="mt-3 flex-1 text-sm text-ink-soft first-letter:uppercase">
-                  {p.title?.split(' · ')[1] ?? p.title}
+                  {t(`login.persona.${p.email.split('@')[0].replace('.', '_')}`, {
+                    defaultValue: p.title?.split(' · ')[1] ?? p.title,
+                  })}
                 </p>
                 <span className="mt-4 text-sm font-medium text-ember">
                   {pending === p.id ? '…' : t('login.signIn', { name: p.name.split(' ')[0] })} →
@@ -181,6 +184,7 @@ export default function Login() {
           ))}
         </ul>
 
+        <DemoTour />
         <ResetDemo />
       </div>
       <div className="mt-10">

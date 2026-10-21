@@ -56,6 +56,17 @@
       "running": "Đang đặt lại bản demo… mất khoảng một phút.",
       "done": "Bản demo đã trở về trạng thái ban đầu.",
       "failed": "Việc đặt lại chưa xong. Vui lòng thử lại sau vài phút."
+    },
+    "persona": {
+      "elena_rivera": "nhà của gia đình cô bị cháy trong vụ cháy Sablewood",
+      "marcus_chen": "muốn tài trợ những món cụ thể mà các gia đình cần",
+      "dana_okafor": "Okafor Builders, nhà thầu chính có giấy phép",
+      "priya_nair": "Mạng lưới Cứu trợ Sablewood",
+      "tom_becker": "Mạng lưới Cứu trợ Sablewood (người duyệt thứ hai)",
+      "grace_alvarez": "giải quyết bất đồng giữa những người duyệt",
+      "sam_whitfield": "điều hành Trung tâm Chỉ huy",
+      "luis_moreno": "Tiệm bánh Moreno, đóng cửa vì vụ cháy",
+      "rosa_delgado": "Sablewood Mercantile, mở cửa lại sau vụ cháy"
     }
   },
   "home": {
@@ -1355,5 +1366,36 @@
       "toys": "Đồ chơi",
       "other": "Khác"
     }
+  },
+  "tour": {
+    "title": "Lần đầu đến đây? Năm phút đi qua bản demo",
+    "subtitle": "Mỗi bước mở đúng người và đúng trang. Thanh toán chạy trong môi trường thử nghiệm của PayPal.",
+    "open": "Mở",
+    "give": {
+      "title": "Ủng hộ gia đình Rivera",
+      "body": "Mở danh sách của họ, tài trợ chuồng chó cho Pepper và thanh toán bằng PayPal với tài khoản người mua thử nghiệm bên dưới."
+    },
+    "shopper": {
+      "title": "Xem Trợ lý mua sắm đã mua gì",
+      "body": "Với vai Elena: Trợ lý mua sắm xem trước các cửa hàng đã mở cửa lại trong thị trấn, làm theo quy tắc viết bằng mã và thanh toán qua PayPal Payouts."
+    },
+    "store": {
+      "title": "Trao hàng",
+      "body": "Với vai Rosa, chủ Sablewood Mercantile: đơn hàng đã được thanh toán. Đánh dấu là đã giao."
+    },
+    "review": {
+      "title": "Chặn kẻ giả mạo",
+      "body": "Với vai Priya, người duyệt: từ chối danh sách đã sao chép gia đình Rivera. Cần người duyệt thứ hai đồng ý, sau đó mọi nhà tài trợ đều được hoàn tiền."
+    },
+    "command": {
+      "title": "Điều hành cứu trợ",
+      "body": "Với vai Sam: 2.000 hộ gia đình trong AG Grid, \"Hỏi bảng\", tiền hỗ trợ theo đợt cần hai người duyệt và sổ sách được đối chiếu với PayPal."
+    },
+    "buyer": "Người mua thử nghiệm của PayPal (tài khoản thử)",
+    "buyerEmail": "Email",
+    "buyerPassword": "Mật khẩu",
+    "copyShort": "Sao chép",
+    "copied": "Đã sao chép",
+    "copy": "Sao chép {{what}}"
   }
 }

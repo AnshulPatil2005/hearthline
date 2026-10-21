@@ -56,6 +56,17 @@
       "running": "Restableciendo la demostración… tarda cerca de un minuto.",
       "done": "La demostración volvió al inicio.",
       "failed": "El restablecimiento no terminó. Inténtelo de nuevo en unos minutos."
+    },
+    "persona": {
+      "elena_rivera": "la casa de su familia se quemó en el incendio de Sablewood",
+      "marcus_chen": "quiere financiar cosas concretas que las familias necesitan",
+      "dana_okafor": "Okafor Builders, contratista general con licencia",
+      "priya_nair": "Red de Ayuda de Sablewood",
+      "tom_becker": "Red de Ayuda de Sablewood (segundo revisor)",
+      "grace_alvarez": "resuelve los desacuerdos entre revisores",
+      "sam_whitfield": "dirige el Centro de Mando",
+      "luis_moreno": "Panadería Moreno, cerrada por el incendio",
+      "rosa_delgado": "Sablewood Mercantile, abierta de nuevo después del incendio"
     }
   },
   "home": {
@@ -1381,5 +1392,36 @@
       "toys": "Juguetes",
       "other": "Otro"
     }
+  },
+  "tour": {
+    "title": "¿Es su primera vez? Un recorrido de cinco minutos por la demostración",
+    "subtitle": "Cada paso abre la persona y la página correctas. Los pagos se hacen en el entorno de pruebas de PayPal.",
+    "open": "Abrir",
+    "give": {
+      "title": "Done a los Rivera",
+      "body": "Abra su registro, financie la jaula para Pepper y pague con PayPal como el comprador de prueba de abajo."
+    },
+    "shopper": {
+      "title": "Vea lo que compró el Comprador",
+      "body": "Como Elena: el Comprador revisó primero las tiendas del pueblo que reabrieron, siguió reglas escritas en código y pagó con PayPal Payouts."
+    },
+    "store": {
+      "title": "Entréguelo",
+      "body": "Como Rosa, dueña de Sablewood Mercantile: el pedido ya está pagado. Márquelo como entregado."
+    },
+    "review": {
+      "title": "Detenga una copia",
+      "body": "Como Priya, revisora: rechace el registro que copió a los Rivera. Un segundo revisor debe estar de acuerdo y luego se reembolsa a cada donante."
+    },
+    "command": {
+      "title": "Dirija la respuesta",
+      "body": "Como Sam: 2,000 hogares en AG Grid, \"Pregúntele a la tabla\", ayuda en efectivo por lotes que necesita dos personas y las cuentas comparadas con PayPal."
+    },
+    "buyer": "Comprador de prueba de PayPal (cuenta de prueba)",
+    "buyerEmail": "Correo",
+    "buyerPassword": "Contraseña",
+    "copyShort": "Copiar",
+    "copied": "Copiado",
+    "copy": "Copiar {{what}}"
   }
 }

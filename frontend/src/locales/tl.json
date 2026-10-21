@@ -56,6 +56,17 @@
       "running": "Nire-reset ang demo… mga isang minuto ito.",
       "done": "Nakabalik na sa simula ang demo.",
       "failed": "Hindi natapos ang reset. Subukang muli pagkalipas ng ilang minuto."
+    },
+    "persona": {
+      "elena_rivera": "nasunog ang bahay ng kanyang pamilya sa Sablewood Fire",
+      "marcus_chen": "gustong pondohan ang mga partikular na bagay na kailangan ng mga pamilya",
+      "dana_okafor": "Okafor Builders, lisensyadong general contractor",
+      "priya_nair": "Sablewood Relief Network",
+      "tom_becker": "Sablewood Relief Network (pangalawang reviewer)",
+      "grace_alvarez": "nag-aayos ng hindi pagkakasundo ng mga reviewer",
+      "sam_whitfield": "namamahala sa Command Center",
+      "luis_moreno": "Moreno's Bakery, nagsara dahil sa sunog",
+      "rosa_delgado": "Sablewood Mercantile, bukas na ulit pagkatapos ng sunog"
     }
   },
   "home": {
@@ -1381,5 +1392,36 @@
       "toys": "Laruan",
       "other": "Iba pa"
     }
+  },
+  "tour": {
+    "title": "Bago ka rito? Limang minutong daan sa demo",
+    "subtitle": "Binubuksan ng bawat hakbang ang tamang tao at pahina. Sa PayPal sandbox tumatakbo ang mga bayad.",
+    "open": "Buksan",
+    "give": {
+      "title": "Magbigay sa mga Rivera",
+      "body": "Buksan ang kanilang registry, pondohan ang dog crate para kay Pepper, at magbayad sa PayPal bilang sandbox buyer sa ibaba."
+    },
+    "shopper": {
+      "title": "Tingnan ang binili ng Shopper",
+      "body": "Bilang si Elena: tiningnan muna ng Shopper ang mga muling nagbukas na tindahan sa bayan, sinunod ang mga panuntunang nakasulat sa code, at nagbayad sa PayPal Payouts."
+    },
+    "store": {
+      "title": "Iabot ito",
+      "body": "Bilang si Rosa, may-ari ng Sablewood Mercantile: bayad na ang order. Markahan itong naihatid."
+    },
+    "review": {
+      "title": "Pigilan ang gumaya",
+      "body": "Bilang si Priya, isang reviewer: tanggihan ang registry na kumopya sa mga Rivera. Kailangang sumang-ayon ang pangalawang reviewer, at ibabalik ang pera ng bawat donor."
+    },
+    "command": {
+      "title": "Patakbuhin ang pagtugon",
+      "body": "Bilang si Sam: 2,000 sambahayan sa AG Grid, \"Tanungin ang talahanayan\", maramihang cash aid na kailangan ng dalawang tao, at ang mga libro na sinuri laban sa PayPal."
+    },
+    "buyer": "PayPal sandbox buyer (test account)",
+    "buyerEmail": "Email",
+    "buyerPassword": "Password",
+    "copyShort": "Kopyahin",
+    "copied": "Nakopya",
+    "copy": "Kopyahin ang {{what}}"
   }
 }

@@ -16,7 +16,9 @@ AG Grid, Bryntum, Channel3, APIMatic and Render.
 ## Try it
 
 Open the app and pick a persona on the sign-in page (no password), or use a direct link such as
-[`/login?as=elena.rivera`](https://hearthline-web.onrender.com/login?as=elena.rivera). Each persona shows a different side of the same disaster.
+[`/login?as=elena.rivera`](https://hearthline-web.onrender.com/login?as=elena.rivera). Each persona shows a different
+side of the same disaster. Below the personas, a five-minute path links each step to the right person and page, with
+the sandbox buyer login to copy.
 
 | Persona | Who they are | Try this |
 |---|---|---|

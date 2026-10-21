@@ -56,6 +56,17 @@
       "running": "Resetting the demo… this takes about a minute.",
       "done": "The demo is back to the start.",
       "failed": "The reset didn't finish. Try again in a few minutes."
+    },
+    "persona": {
+      "elena_rivera": "her family's home burned in the Sablewood Fire",
+      "marcus_chen": "wants to fund specific things families need",
+      "dana_okafor": "Okafor Builders, licensed general contractor",
+      "priya_nair": "Sablewood Relief Network",
+      "tom_becker": "Sablewood Relief Network (second reviewer)",
+      "grace_alvarez": "settles disagreements between reviewers",
+      "sam_whitfield": "runs the Command Center",
+      "luis_moreno": "Moreno's Bakery, closed by the fire",
+      "rosa_delgado": "Sablewood Mercantile, open again after the fire"
     }
   },
   "home": {
@@ -1381,5 +1392,36 @@
       "toys": "Toys",
       "other": "Other"
     }
+  },
+  "tour": {
+    "title": "New here? A five-minute path through the demo",
+    "subtitle": "Each step opens the right person and page. Payments run in the PayPal sandbox.",
+    "open": "Open",
+    "give": {
+      "title": "Give to the Riveras",
+      "body": "Open their registry, fund the dog crate for Pepper, and pay with PayPal as the sandbox buyer below."
+    },
+    "shopper": {
+      "title": "See what the Shopper bought",
+      "body": "As Elena: the Shopper checked the town's reopened stores first, followed rules written in code, and paid with PayPal Payouts."
+    },
+    "store": {
+      "title": "Hand it over",
+      "body": "As Rosa, who owns Sablewood Mercantile: the order is already paid. Mark it delivered."
+    },
+    "review": {
+      "title": "Stop a copycat",
+      "body": "As Priya, a reviewer: reject the registry that copied the Riveras. A second reviewer must agree, then every donor is refunded."
+    },
+    "command": {
+      "title": "Run the response",
+      "body": "As Sam: 2,000 households in AG Grid, \"Ask the grid\", batch cash aid that needs two people, and the books checked against PayPal."
+    },
+    "buyer": "PayPal sandbox buyer (test account)",
+    "buyerEmail": "Email",
+    "buyerPassword": "Password",
+    "copyShort": "Copy",
+    "copied": "Copied",
+    "copy": "Copy the {{what}}"
   }
 }

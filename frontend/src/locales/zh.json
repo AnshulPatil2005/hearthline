@@ -56,6 +56,17 @@
       "running": "正在重置演示……大约需要一分钟。",
       "done": "演示已恢复到初始状态。",
       "failed": "重置未完成。请几分钟后再试。"
+    },
+    "persona": {
+      "elena_rivera": "她家的房子在 Sablewood 山火中被烧毁",
+      "marcus_chen": "想资助受灾家庭需要的具体物品",
+      "dana_okafor": "Okafor Builders，持证总承包商",
+      "priya_nair": "Sablewood 救援网络",
+      "tom_becker": "Sablewood 救援网络（第二位审核员）",
+      "grace_alvarez": "裁决审核员之间的分歧",
+      "sam_whitfield": "负责指挥中心",
+      "luis_moreno": "Moreno 面包店，因火灾关门",
+      "rosa_delgado": "Sablewood Mercantile，火灾后重新开业"
     }
   },
   "home": {
@@ -1355,5 +1366,36 @@
       "toys": "玩具",
       "other": "其他"
     }
+  },
+  "tour": {
+    "title": "第一次来？五分钟体验演示",
+    "subtitle": "每一步都会打开对应的人物和页面。付款在 PayPal 沙盒中进行。",
+    "open": "打开",
+    "give": {
+      "title": "捐助 Rivera 一家",
+      "body": "打开他们的愿望清单，资助 Pepper 的狗笼，并用下面的沙盒买家账户通过 PayPal 付款。"
+    },
+    "shopper": {
+      "title": "看看采购助手买了什么",
+      "body": "以 Elena 身份：采购助手先查看镇上重新开业的商店，遵守写在代码里的规则，并通过 PayPal Payouts 付款。"
+    },
+    "store": {
+      "title": "交付物品",
+      "body": "以 Sablewood Mercantile 店主 Rosa 的身份：订单已付款，把它标记为已送达。"
+    },
+    "review": {
+      "title": "拦截冒充者",
+      "body": "以审核员 Priya 的身份：拒绝冒充 Rivera 一家的愿望清单。需要第二位审核员同意，之后每位捐款人都会退款。"
+    },
+    "command": {
+      "title": "指挥救援",
+      "body": "以 Sam 的身份：AG Grid 中的 2,000 户家庭、“向表格提问”、需要两人批准的批量现金援助，以及与 PayPal 核对的账目。"
+    },
+    "buyer": "PayPal 沙盒买家（测试账户）",
+    "buyerEmail": "邮箱",
+    "buyerPassword": "密码",
+    "copyShort": "复制",
+    "copied": "已复制",
+    "copy": "复制{{what}}"
   }
 }
