@@ -15,6 +15,10 @@ export const LANGUAGES = [
   { code: 'vi', label: 'Tiếng Việt' },
 ] as const
 
+// <html lang> tells screen readers how to pronounce the page. Listen before init: the language found in storage is
+// applied during init, and that change would otherwise be missed.
+i18n.on('languageChanged', (lng) => document.documentElement.setAttribute('lang', lng))
+
 void i18n
   .use(LanguageDetector)
   .use(initReactI18next)
@@ -27,6 +31,6 @@ void i18n
     detection: { order: ['localStorage', 'navigator'], lookupLocalStorage: 'hearthline.lang', caches: ['localStorage'] },
   })
 
-i18n.on('languageChanged', (lng) => document.documentElement.setAttribute('lang', lng))
+if (i18n.resolvedLanguage) document.documentElement.setAttribute('lang', i18n.resolvedLanguage)
 
 export default i18n
