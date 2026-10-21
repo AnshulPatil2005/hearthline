@@ -91,7 +91,10 @@ async def main() -> None:
 
         # Contractor submits the next milestone with a photo; the Site agent (live AI) checks it.
         await page.goto(f"{WEB}/login?as=dana.okafor", wait_until="networkidle")
+        await page.wait_for_url("**/contractor", timeout=60000)
         work = page.locator("li", has_text="Foundation repair")
+        # Right after a payout the API (a small hosted instance) can be slow to answer; wait for the step's form.
+        await work.locator("input[type=file]").wait_for(state="attached", timeout=90000)
         await work.locator("input[type=file]").set_input_files(
             {"name": "slab.jpg", "mimeType": "image/jpeg", "buffer": slab_photo()}
         )

@@ -8,7 +8,7 @@ import asyncio
 import os
 from pathlib import Path
 
-from paypal_sandbox import confirm, have_buyer, sign_in
+from paypal_sandbox import confirm, have_buyer, open_checkout, sign_in
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
@@ -38,7 +38,8 @@ async def main() -> None:
         await adjuster.goto(link)
         await adjuster.wait_for_selector("text=Contents claim", timeout=20000)
         print("figures:", " | ".join(" ".join(x.split()) for x in await adjuster.locator("dl > div").all_inner_texts()))
-        print("rows:", await adjuster.locator(".ag-center-cols-container .ag-row").count())
+        await adjuster.locator(".ag-grid-scrolling-container .ag-row").first.wait_for(timeout=30000)
+        print("rows:", await adjuster.locator(".ag-grid-scrolling-container .ag-row").count())
         await adjuster.screenshot(path=OUT / "claim_adjuster.png", full_page=True)
 
         if not have_buyer():
@@ -48,10 +49,9 @@ async def main() -> None:
         await adjuster.get_by_label("Adjuster's name").fill("Dana Lee, Golden Poppy Claims")
         await adjuster.get_by_label("Note to the policyholder (optional)").fill("Contents claim approved in full.")
         amount = await adjuster.get_by_label("Amount to pay (USD)").input_value()
-        popup_wait = adjuster.context.wait_for_event("page", timeout=20000)
-        await adjuster.locator("paypal-button").click()
-        popup = await popup_wait
-        await popup.wait_for_load_state("domcontentloaded")
+        await adjuster.locator("paypal-button").wait_for(timeout=30000)
+        await adjuster.wait_for_timeout(2000)
+        popup = await open_checkout(adjuster, adjuster.locator("paypal-button"))
         await sign_in(popup)
         print("adjuster confirmed with:", await confirm(popup))
         await adjuster.wait_for_selector("text=/^Paid \\$/", timeout=120000)

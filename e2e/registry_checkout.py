@@ -6,7 +6,7 @@ import asyncio
 import os
 from pathlib import Path
 
-from paypal_sandbox import confirm, have_buyer, sign_in
+from paypal_sandbox import confirm, have_buyer, open_checkout, sign_in
 from playwright.async_api import async_playwright
 
 OUT = Path(__file__).parent / "screenshots"
@@ -40,11 +40,8 @@ async def main() -> None:
         )
         print("buttons (tag, present, hidden):", buttons)
 
-        popup_future = ctx.wait_for_event("page", timeout=15000)
-        await page.locator("paypal-button").click()
         try:
-            popup = await popup_future
-            await popup.wait_for_load_state("domcontentloaded")
+            popup = await open_checkout(page, page.locator("paypal-button"))
             await popup.wait_for_timeout(4000)
             print("popup opened:", popup.url[:90])
             await popup.screenshot(path=OUT / "registry_popup.png")

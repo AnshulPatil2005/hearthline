@@ -379,8 +379,8 @@ hearthline/
   - 3b: batch cash aid built on the server from the grid's filter; exclusions counted (not verified, no PayPal, shared PayPal, recent aid, already in a batch); the preparer can't approve; one Payouts call; returned payments go back to the relief fund; AG Grid master/detail for batches. The sandbox balance can't cover a real batch ($316,000), so the demo shows "Not sent" until the account is topped up.
   - 3c: Scheduler Pro crew dispatch with travel-time buffers, Sablewood time zone, "Not assigned yet" row, mark done. Found and fixed: Bryntum's React wrappers ignore a `features` object (each feature is a `<name>Feature` prop), which also fixed the Calendar, TaskBoard and Gantt.
   - 3d: "Ask the grid": `getStructuredSchema()` → model fills it (`ai.parse_json`) → server checks it against the query → `api.setState()`. The schema is relaxed first (AG Grid's strict schema made models add placeholder filters). Works with Gemini in about 2–3 seconds, in any of the five languages.
-- [ ] **Nov 1: record a rough version of the video.** This is the fallback if week 5 goes badly.
-- **Done when:** the whole household story works end to end on the Render deployment.
+- [x] **Nov 1: record a rough version of the video.** This is the fallback if week 5 goes badly. *(2026-10-21: `e2e/video_tour.py` records the §13 outline as captioned clips with real sandbox payments, cuts the waiting, splices in PayPal's window and writes a 3:04 `rough_cut.mp4` plus one mp4 per scene; no narration yet.)*
+- **Done when:** the whole household story works end to end on the Render deployment. *(2026-10-21: every e2e check passes against the live site on Neon, with real sandbox payments. The sweep found the API freezing on AI-calling uploads (fixed: no blocking work in async endpoints) and slow pages right after payouts on the free instance.)*
 
 ### Week 5: Nov 2 – Nov 8: additions, API and polish
 - [x] **Reopen Fund** (verification, tranches and refunds are staff-approved in the Command Center; regulars pay monthly through PayPal Subscriptions, live-verified up to the approval page):

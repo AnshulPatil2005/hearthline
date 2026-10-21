@@ -30,3 +30,4 @@ backend/hearthline.db
 
 # E2E screenshots
 e2e/screenshots/
+e2e/video/
