@@ -51,8 +51,8 @@ def _out(db: Session, policy: InsurancePolicy, home) -> PolicyOut:
 
 
 @router.post("/households/me/policy", response_model=PolicyOut, status_code=201)
-async def upload_policy(file: UploadFile, home: MyHousehold, user: CurrentUser, db: DB) -> PolicyOut:
-    data = await file.read()
+def upload_policy(file: UploadFile, home: MyHousehold, user: CurrentUser, db: DB) -> PolicyOut:
+    data = file.file.read()
     if len(data) > MAX_PDF_BYTES:
         raise HTTPException(413, "That PDF is over 15 MB")
     try:

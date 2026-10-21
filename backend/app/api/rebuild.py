@@ -196,7 +196,7 @@ def accept_plan(project_id: int, home: MyHousehold, user: CurrentUser, db: DB) -
 
 
 @router.post("/milestones/{milestone_id}/submit", response_model=MilestoneOut)
-async def submit_milestone(
+def submit_milestone(
     milestone_id: int, contractor: MyContractor, user: ContractorUser, db: DB, files: list[UploadFile] | None = None
 ) -> MilestoneOut:
     m = milestone_for(db, milestone_id, user)
@@ -205,7 +205,7 @@ async def submit_milestone(
     media = []
     for upload in (files or [])[:8]:
         try:
-            img = prepare_image(await upload.read())
+            img = prepare_image(upload.file.read())
         except InvalidImage as e:
             raise HTTPException(422, f"{upload.filename}: {e}") from None
         media.append(

@@ -139,7 +139,7 @@ def create_room(body: RoomIn, home: MyHousehold, db: DB) -> Room:
 
 
 @router.post("/households/me/rooms/{room_id}/scans", response_model=ScanOut, status_code=202)
-async def create_scan(
+def create_scan(
     room_id: int, files: list[UploadFile], home: MyHousehold, db: DB, background: BackgroundTasks
 ) -> ScanOut:
     """Upload photos (or video frames extracted in the browser) of one room. Items appear when
@@ -152,7 +152,7 @@ async def create_scan(
     db.flush()
     for upload in files:
         try:
-            img = prepare_image(await upload.read())
+            img = prepare_image(upload.file.read())
         except InvalidImage as e:
             raise HTTPException(422, f"{upload.filename}: {e}") from None
         db.add(
