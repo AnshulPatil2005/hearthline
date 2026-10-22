@@ -15,7 +15,7 @@ RETURN_URL = ENV.get("PAYPAL_CONNECT_RETURN_URL")
 
 # The button that confirms on PayPal's review or consent page (wording differs by flow).
 CONFIRM = re.compile(
-    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Continue)$"
+    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Continue)$"
 )
 
 
