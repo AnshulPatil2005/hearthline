@@ -32,7 +32,8 @@
     "giving": "Aking ibinigay",
     "insurance": "Insurance",
     "disputes": "Mga dispute",
-    "books": "Libro"
+    "books": "Libro",
+    "disasters": "Mga sakuna"
   },
   "roles": {
     "household": "Sambahayan",
@@ -1446,7 +1447,7 @@
     },
     "command": {
       "title": "Patakbuhin ang pagtugon",
-      "body": "Bilang si Sam: 2,000 sambahayan sa AG Grid, \"Tanungin ang talahanayan\", maramihang cash aid na kailangan ng dalawang tao, at ang mga libro na sinuri laban sa PayPal."
+      "body": "Bilang si Sam: i-simulate ang utos na lumikas at bayaran ang bawat naghandang sambahayan sa isang apruba, magbukas ng totoong sakuna ng FEMA sa pahinang Mga sakuna, at tingnan ang 2,000 sambahayan sa AG Grid na may batch cash aid na kailangan ng dalawang tao."
     },
     "buyer": "PayPal sandbox buyer (test account)",
     "buyerEmail": "Email",
@@ -1549,6 +1550,83 @@
     "paying": "Nagbabayad…",
     "dismiss": "Tanggihan",
     "dismissWhy": "Bakit (para sa rekord)",
-    "oneApproval": "Mga panuntunan ang naghanda ng batch na ito; ang inyong apruba ang magbabayad dito."
+    "oneApproval": "Mga panuntunan ang naghanda ng batch na ito; ang inyong apruba ang magbabayad dito.",
+    "disaster": "Sakuna",
+    "nobodyYet": "Wala pang sambahayan sa zone na ito ang naghanda, kaya walang mababayaran ngayon. Ang mga sambahayang magsa-sign up gamit ang address dito, magpapa-verify nito at mag-i-scan ng bahay ay makakatanggap ng tulong mula sa susunod na babala."
+  },
+  "disasters": {
+    "title": "Mga sakuna",
+    "subtitle": "Magbukas ng totoong sakuna sa Hearthline mula sa mga deklarasyon ng FEMA o sa mga babala ng National Weather Service. Ang mga county nito (o ang sariling balangkas ng babala) ang magiging zone: sasali ang mga sambahayang nasa loob ang address, at imumungkahi ang tulong sa unang 72 oras para sa mga naghanda. Mananatiling kathang-isip na Sablewood Fire ang demo.",
+    "inHearthline": "Bukas sa Hearthline",
+    "source": {
+      "demo": "Kathang-isip na demo",
+      "fema": "FEMA {{code}}",
+      "nws": "Babala sa panahon"
+    },
+    "kind": {
+      "wildfire": "Sunog sa gubat",
+      "flood": "Baha",
+      "hurricane": "Bagyo (hurricane)",
+      "earthquake": "Lindol",
+      "storm": "Unos",
+      "tornado": "Buhawi",
+      "winter_storm": "Bagyo ng taglamig",
+      "other": "Iba pa"
+    },
+    "households_one": "{{n}} sambahayan",
+    "households_other": "{{n}} sambahayan",
+    "openedBy": "binuksan ni {{name}}",
+    "closed": "Sarado",
+    "close": "Isara",
+    "zoneOf": "Balangkas ng zone ng {{name}}",
+    "find": "Maghanap ng totoong sakuna",
+    "femaNote": "Mga deklarasyon sa nakaraang apat na buwan (OpenFEMA). I-click ang isa para makita ang zone nito.",
+    "nwsNote": "Mga matindi at napakatinding babalang aktibo ngayon. Kwalipikado sa tulong sa unang 72 oras ang mga nangangahulugang lumikas na.",
+    "tab": {
+      "fema": "Mga deklarasyon ng FEMA",
+      "nws": "Mga babala sa panahon"
+    },
+    "searchFema": "Maghanap ng deklarasyon: estado, pamagat, code",
+    "searchNws": "Maghanap ng babala: pangyayari, lugar",
+    "col": {
+      "declared": "Idineklara",
+      "code": "Deklarasyon",
+      "state": "Estado",
+      "kind": "Uri",
+      "title": "Pamagat",
+      "counties": "Mga county",
+      "opened": "Bukas dito",
+      "aid": "Tulong 72 oras",
+      "event": "Babala",
+      "severity": "Tindi",
+      "area": "Lugar",
+      "sent": "Inilabas",
+      "zone": "Zone"
+    },
+    "yes": "Oo",
+    "no": "Hindi",
+    "qualifies": "Kwalipikado",
+    "polygon": "Sariling balangkas",
+    "countiesN_one": "{{count}} county",
+    "countiesN_other": "{{count}} county",
+    "pick": "Pumili ng deklarasyon o babala para makita ang zone nito bago buksan.",
+    "declared": "idineklara noong {{date}}",
+    "sent": "inilabas noong {{date}}",
+    "expires": "magtatapos sa {{date}}",
+    "loadingZone": "Iginuguhit ang zone mula sa mga county ng Census Bureau",
+    "inside_one": "{{n}} nakatalang sambahayan ang nasa loob ng zone na ito.",
+    "inside_other": "{{n}} nakatalang sambahayan ang nasa loob ng zone na ito.",
+    "areas_one": "Lugar: {{areas}}",
+    "areas_other": "{{count}} lugar: {{areas}}",
+    "unmapped": "Wala sa mapa (walang hugis ng county): {{areas}}",
+    "willPropose": "Kapag binuksan, imumungkahi ang tulong sa unang 72 oras para sa mga naghandang sambahayan sa loob; isang tao pa rin ang mag-aapruba ng bayad.",
+    "wontPropose": "Hindi nangangahulugang lumikas na ang babalang ito, kaya bubuksan ang zone nang walang mungkahing tulong sa unang 72 oras.",
+    "alreadyOpen": "Bukas na sa Hearthline.",
+    "open": "Buksan sa Hearthline",
+    "opening": "Binubuksan…",
+    "openedNote_one": "Bukas na ang {{name}}. {{n}} nakatalang sambahayan ang nasa loob.",
+    "openedNote_other": "Bukas na ang {{name}}. {{n}} nakatalang sambahayan ang nasa loob.",
+    "reviewAid": "Suriin ang tulong sa unang 72 oras sa Command Center",
+    "sources": "Pinagmulan: mga deklarasyon ng sakuna ng OpenFEMA ng FEMA, mga aktibong babala ng National Weather Service at mga hugis ng county ng TIGERweb ng Census Bureau. Lahat ay pampublikong datos."
   }
 }

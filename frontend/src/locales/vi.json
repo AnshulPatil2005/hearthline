@@ -32,7 +32,8 @@
     "giving": "Đóng góp của tôi",
     "insurance": "Bảo hiểm",
     "disputes": "Khiếu nại",
-    "books": "Sổ sách"
+    "books": "Sổ sách",
+    "disasters": "Thảm họa"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -1420,7 +1421,7 @@
     },
     "command": {
       "title": "Điều hành cứu trợ",
-      "body": "Với vai Sam: 2.000 hộ gia đình trong AG Grid, \"Hỏi bảng\", tiền hỗ trợ theo đợt cần hai người duyệt và sổ sách được đối chiếu với PayPal."
+      "body": "Với vai Sam: mô phỏng lệnh sơ tán và trả tiền cho mọi hộ đã chuẩn bị chỉ với một lần phê duyệt, mở một thảm họa thật của FEMA ở trang Thảm họa, và xem 2.000 hộ trong AG Grid cùng tiền hỗ trợ theo lô cần hai người duyệt."
     },
     "buyer": "Người mua thử nghiệm của PayPal (tài khoản thử)",
     "buyerEmail": "Email",
@@ -1519,6 +1520,78 @@
     "paying": "Đang trả…",
     "dismiss": "Bỏ qua",
     "dismissWhy": "Lý do (để lưu hồ sơ)",
-    "oneApproval": "Các quy tắc đã chuẩn bị lô này; phê duyệt của quý vị sẽ trả tiền."
+    "oneApproval": "Các quy tắc đã chuẩn bị lô này; phê duyệt của quý vị sẽ trả tiền.",
+    "disaster": "Thảm họa",
+    "nobodyYet": "Chưa có hộ nào trong khu vực này chuẩn bị, nên hiện chưa có ai để trả tiền. Các hộ đăng ký với địa chỉ ở đây, xác minh địa chỉ và quét nhà sẽ nhận hỗ trợ từ cảnh báo tiếp theo."
+  },
+  "disasters": {
+    "title": "Thảm họa",
+    "subtitle": "Mở một thảm họa thật trong Hearthline từ các tuyên bố của FEMA hoặc cảnh báo của Sở Khí tượng Quốc gia. Các quận của nó (hoặc đường viền riêng của cảnh báo) trở thành khu vực: các hộ có địa chỉ bên trong sẽ được gắn vào, và hỗ trợ trong 72 giờ đầu được đề xuất cho các hộ đã chuẩn bị. Bản demo vẫn là vụ cháy Sablewood hư cấu.",
+    "inHearthline": "Đang mở trong Hearthline",
+    "source": {
+      "demo": "Demo hư cấu",
+      "fema": "FEMA {{code}}",
+      "nws": "Cảnh báo thời tiết"
+    },
+    "kind": {
+      "wildfire": "Cháy rừng",
+      "flood": "Lũ lụt",
+      "hurricane": "Bão (hurricane)",
+      "earthquake": "Động đất",
+      "storm": "Giông bão",
+      "tornado": "Lốc xoáy",
+      "winter_storm": "Bão tuyết",
+      "other": "Khác"
+    },
+    "households_other": "{{n}} hộ",
+    "openedBy": "do {{name}} mở",
+    "closed": "Đã đóng",
+    "close": "Đóng",
+    "zoneOf": "Đường viền khu vực {{name}}",
+    "find": "Tìm một thảm họa thật",
+    "femaNote": "Các tuyên bố trong bốn tháng qua (OpenFEMA). Bấm vào một tuyên bố để xem khu vực.",
+    "nwsNote": "Các cảnh báo nghiêm trọng và cực kỳ nghiêm trọng đang có hiệu lực. Những cảnh báo yêu cầu rời đi ngay đủ điều kiện nhận hỗ trợ trong 72 giờ đầu.",
+    "tab": {
+      "fema": "Tuyên bố của FEMA",
+      "nws": "Cảnh báo thời tiết"
+    },
+    "searchFema": "Tìm tuyên bố: tiểu bang, tiêu đề, mã",
+    "searchNws": "Tìm cảnh báo: sự kiện, địa điểm",
+    "col": {
+      "declared": "Ngày tuyên bố",
+      "code": "Tuyên bố",
+      "state": "Tiểu bang",
+      "kind": "Loại",
+      "title": "Tiêu đề",
+      "counties": "Số quận",
+      "opened": "Đã mở",
+      "aid": "Hỗ trợ 72 giờ",
+      "event": "Cảnh báo",
+      "severity": "Mức độ",
+      "area": "Khu vực",
+      "sent": "Ban hành",
+      "zone": "Vùng"
+    },
+    "yes": "Có",
+    "no": "Không",
+    "qualifies": "Đủ điều kiện",
+    "polygon": "Đường viền riêng",
+    "countiesN_other": "{{count}} quận",
+    "pick": "Chọn một tuyên bố hoặc cảnh báo để xem khu vực trước khi mở.",
+    "declared": "tuyên bố ngày {{date}}",
+    "sent": "ban hành {{date}}",
+    "expires": "kết thúc {{date}}",
+    "loadingZone": "Đang vẽ khu vực từ ranh giới quận của Cục Điều tra Dân số",
+    "inside_other": "Có {{n}} hộ đã đăng ký nằm trong khu vực này.",
+    "areas_other": "{{count}} khu vực: {{areas}}",
+    "unmapped": "Không có trên bản đồ (không có ranh giới quận): {{areas}}",
+    "willPropose": "Khi mở sẽ đề xuất hỗ trợ trong 72 giờ đầu cho các hộ đã chuẩn bị bên trong; vẫn cần một người phê duyệt khoản chi.",
+    "wontPropose": "Cảnh báo này không yêu cầu rời đi ngay, nên mở khu vực mà không đề xuất hỗ trợ trong 72 giờ đầu.",
+    "alreadyOpen": "Đã mở trong Hearthline.",
+    "open": "Mở trong Hearthline",
+    "opening": "Đang mở…",
+    "openedNote_other": "{{name}} đã được mở. Có {{n}} hộ đã đăng ký nằm bên trong.",
+    "reviewAid": "Xem hỗ trợ trong 72 giờ đầu ở Trung tâm Chỉ huy",
+    "sources": "Nguồn: tuyên bố thảm họa OpenFEMA của FEMA, cảnh báo hiện hành của Sở Khí tượng Quốc gia và ranh giới quận TIGERweb của Cục Điều tra Dân số. Tất cả đều là dữ liệu công khai."
   }
 }

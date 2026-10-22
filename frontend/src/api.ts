@@ -892,3 +892,50 @@ export type BatchAid = {
   first_72_hours: boolean
   sent_at: string | null
 }
+
+export type GeoJsonGeometry = { type: string; coordinates: unknown }
+
+export type DisasterEvent = {
+  id: number
+  name: string
+  kind: string
+  source: 'demo' | 'fema' | 'nws'
+  external_id: string | null
+  is_fictional: boolean
+  status: 'active' | 'closed'
+  declared_at: string
+  households: number
+  opened_by: string | null
+  zone: GeoJsonGeometry
+}
+
+export type FemaDeclaration = {
+  number: number
+  code: string
+  state: string
+  declared_at: string
+  incident: string
+  kind: string
+  title: string
+  areas: string[]
+  counties: number
+  unmapped: string[]
+  opened_event_id: number | null
+}
+
+export type NwsWarning = {
+  id: string
+  event: string
+  kind: string
+  severity: string
+  headline: string
+  area: string
+  sent: string
+  expires: string | null
+  has_shape: boolean
+  counties: number
+  first_72_hours: boolean
+  opened_event_id: number | null
+}
+
+export type DisasterZone = { zone: GeoJsonGeometry; households: number }

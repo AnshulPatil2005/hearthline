@@ -115,22 +115,49 @@ def check_official(db: Session, event: DisasterEvent) -> list[RapidAidTrigger]:
     proposed = []
     for feature in features:
         props = feature.get("properties") or {}
-        if props.get("event") not in QUALIFYING or props.get("severity") not in ("Extreme", "Severe"):
+        if not qualifies(props):
             continue
         sent = props.get("sent") or props.get("effective")
-        trigger = _propose(
+        trigger = warned(
             db,
             event,
-            source="nws",
-            external_id=props["id"],
-            event=props["event"],
-            headline=(props.get("headline") or props["event"])[:500],
+            alert_id=props["id"],
+            event_name=props["event"],
+            headline=props.get("headline") or props["event"],
             severity=props["severity"],
-            issued_at=datetime.fromisoformat(sent) if sent else now(),
+            sent=datetime.fromisoformat(sent) if sent else now(),
         )
         if trigger:
             proposed.append(trigger)
     return proposed
+
+
+def qualifies(props: dict) -> bool:
+    """A severe or extreme NWS warning that means people may have to leave now."""
+    return props.get("event") in QUALIFYING and props.get("severity") in ("Extreme", "Severe") and bool(props.get("id"))
+
+
+def warned(
+    db: Session,
+    disaster: DisasterEvent,
+    *,
+    alert_id: str,
+    event_name: str,
+    headline: str,
+    severity: str,
+    sent: datetime,
+) -> RapidAidTrigger | None:
+    """A NWS warning covering the zone (once per alert)."""
+    return _propose(
+        db,
+        disaster,
+        source="nws",
+        external_id=alert_id,
+        event=event_name[:120],
+        headline=headline[:500],
+        severity=severity,
+        issued_at=sent,
+    )
 
 
 def simulate(db: Session, event: DisasterEvent) -> RapidAidTrigger:
@@ -151,16 +178,24 @@ def simulate(db: Session, event: DisasterEvent) -> RapidAidTrigger:
     return trigger
 
 
-def declared(db: Session, event: DisasterEvent, number: str, title: str) -> RapidAidTrigger | None:
-    """A disaster declaration (e.g. FEMA's) covering the zone."""
+DECLARATION_TYPES = {
+    "DR": "Major Disaster Declaration",
+    "EM": "Emergency Declaration",
+    "FM": "Fire Management Assistance Declaration",
+}
+
+
+def declared(db: Session, event: DisasterEvent, code: str, title: str) -> RapidAidTrigger | None:
+    """A FEMA disaster declaration (e.g. DR-4949-WI) covering the zone."""
     return _propose(
         db,
         event,
         source="declaration",
-        external_id=f"declaration-{number}",
-        event=title[:120],
-        headline=f"{title} declared for the {event.name} area"[:500],
+        external_id=f"declaration-{code}",
+        event=DECLARATION_TYPES.get(code[:2], "Disaster Declaration"),
+        headline=f"FEMA {code}: {title}"[:500],
         severity="Extreme",
+        issued_at=event.declared_at,
     )
 
 
@@ -197,6 +232,8 @@ def approve(db: Session, trigger: RapidAidTrigger, staff: User) -> RapidAidTrigg
     """One person approves the trigger: the rules prepare the batch, and the person's approval pays it."""
     if trigger.status != "proposed":
         raise RapidAidError(f"This trigger is already {trigger.status}")
+    if trigger.disaster.status != "active":
+        raise RapidAidError(f"{trigger.disaster.name} is closed")
     paid, held, left_out = plan(db, trigger)
     if not paid:
         raise RapidAidError("No prepared household in the zone can be paid right now")

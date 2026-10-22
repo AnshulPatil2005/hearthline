@@ -10,6 +10,7 @@ const Books = lazy(() => import('./pages/Books'))
 const BusinessesReview = lazy(() => import('./pages/BusinessesReview'))
 const ClaimView = lazy(() => import('./pages/ClaimView'))
 const ConnectPayPalReturn = lazy(() => import('./pages/ConnectPayPalReturn'))
+const Disasters = lazy(() => import('./pages/Disasters'))
 const Disputes = lazy(() => import('./pages/Disputes'))
 const Legal = lazy(() => import('./pages/Legal'))
 const BusinessHome = lazy(() => import('./pages/BusinessHome'))
@@ -89,6 +90,14 @@ export default function App() {
             element={
               <RequireAuth role={['org_admin', 'supervisor']} wide>
                 <Books />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/command/disasters"
+            element={
+              <RequireAuth role={['org_admin', 'supervisor']} wide>
+                <Disasters />
               </RequireAuth>
             }
           />

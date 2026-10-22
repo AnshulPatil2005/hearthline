@@ -29,7 +29,7 @@ the sandbox buyer login to copy.
 | `rosa.delgado` | Owner of Sablewood Mercantile, open again after the fire | **Reopen Fund**: the orders Hearthline's Shopper placed with her store (already paid through PayPal) to hand over and mark delivered, and the catalog she sells to families |
 | `priya.nair`, `tom.becker` | Claim reviewers | **Review queue**: open the copycat registry case and reject it (two reviewers are needed) |
 | `grace.alvarez` | Review supervisor | Settles disagreements; approves cash-aid batches |
-| `sam.whitfield` | Relief organization admin | **Command Center** (first-72-hours aid: check official warnings or simulate an evacuation order, then one approval pays every prepared household; 2,000 households, "Ask the grid", batch cash aid with a PayPal balance check), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Books** (our ledger against PayPal's Transaction Search), **Price Watch** |
+| `sam.whitfield` | Relief organization admin | **Command Center** (first-72-hours aid: check official warnings or simulate an evacuation order, then one approval pays every prepared household; 2,000 households, "Ask the grid", batch cash aid with a PayPal balance check), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Books** (our ledger against PayPal's Transaction Search), **Price Watch**, **Disasters** (open a real FEMA declaration or weather warning, its zone drawn from the Census Bureau's county shapes) |
 
 Someone else changed the demo? **Put it back to the start** at the bottom of the sign-in page resets every
 persona's data for everyone (at most once every ten minutes).
@@ -75,6 +75,10 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   are refunded automatically from what's left.
 - **Run the response.** The Command Center shows 2,000 households, sends cash-aid batches that need a second person's
   approval, dispatches crews, verifies businesses, answers PayPal disputes and writes the grant report.
+- **Real disasters.** Staff can open any disaster FEMA declared in the last four months (OpenFEMA) or any severe
+  National Weather Service warning. Its counties, drawn from the Census Bureau's shapes (or the warning's own
+  outline), become the zone; households whose address is inside join it, and first-72-hours aid is proposed for the
+  ones that prepared. The demo itself stays the fictional Sablewood Fire.
 
 Everything works in **English, Spanish, Chinese, Tagalog and Vietnamese**, with voice input where the browser
 supports it.
@@ -235,10 +239,11 @@ flowchart LR
   api -- "Orders, Payouts, Subscriptions, Disputes, Tracking, Log in" --> paypal["PayPal sandbox"]
   paypal -- "signed webhooks" --> api
   api -- "Agent Toolkit tools" --> mcp["PayPal MCP server"]
-  api -- "Transaction Search (APIMatic SDK)" --> paypal
+  api -- "Transaction Search, Vault (APIMatic SDK)" --> paypal
   api --> ai["Gemini / OpenRouter"]
   api --> c3["Channel3"]
   api --> nws["National Weather Service"]
+  api --> fema["OpenFEMA, Census TIGERweb"]
 ```
 
 ```

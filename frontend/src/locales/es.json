@@ -32,7 +32,8 @@
     "giving": "Mis donaciones",
     "insurance": "Seguro",
     "disputes": "Disputas",
-    "books": "Contabilidad"
+    "books": "Contabilidad",
+    "disasters": "Desastres"
   },
   "roles": {
     "household": "Hogar",
@@ -1446,7 +1447,7 @@
     },
     "command": {
       "title": "Dirija la respuesta",
-      "body": "Como Sam: 2,000 hogares en AG Grid, \"Pregúntele a la tabla\", ayuda en efectivo por lotes que necesita dos personas y las cuentas comparadas con PayPal."
+      "body": "Como Sam: simula una orden de evacuación y paga a todos los hogares preparados con una sola aprobación, abre un desastre real de FEMA en la página Desastres y ve 2,000 hogares en AG Grid con ayuda en efectivo por lotes que necesita dos personas."
     },
     "buyer": "Comprador de prueba de PayPal (cuenta de prueba)",
     "buyerEmail": "Correo",
@@ -1549,6 +1550,83 @@
     "paying": "Pagando…",
     "dismiss": "Descartar",
     "dismissWhy": "Por qué (para el registro)",
-    "oneApproval": "Las reglas prepararon este lote; su aprobación lo paga."
+    "oneApproval": "Las reglas prepararon este lote; su aprobación lo paga.",
+    "disaster": "Desastre",
+    "nobodyYet": "Ningún hogar de esta zona se ha preparado todavía, así que no hay a quién pagar ahora. Los hogares que se registren con una dirección aquí, la verifiquen y escaneen su casa recibirán ayuda desde la próxima alerta."
+  },
+  "disasters": {
+    "title": "Desastres",
+    "subtitle": "Abre un desastre real en Hearthline a partir de las declaraciones de FEMA o las alertas del Servicio Meteorológico Nacional. Sus condados (o el contorno propio de la alerta) se convierten en la zona: los hogares cuya dirección está dentro se suman, y se propone la ayuda de las primeras 72 horas para los que se prepararon. La demo sigue siendo el incendio ficticio de Sablewood.",
+    "inHearthline": "Abiertos en Hearthline",
+    "source": {
+      "demo": "Demo ficticia",
+      "fema": "FEMA {{code}}",
+      "nws": "Alerta meteorológica"
+    },
+    "kind": {
+      "wildfire": "Incendio forestal",
+      "flood": "Inundación",
+      "hurricane": "Huracán",
+      "earthquake": "Terremoto",
+      "storm": "Tormenta",
+      "tornado": "Tornado",
+      "winter_storm": "Tormenta invernal",
+      "other": "Otro"
+    },
+    "households_one": "{{n}} hogar",
+    "households_other": "{{n}} hogares",
+    "openedBy": "abierto por {{name}}",
+    "closed": "Cerrado",
+    "close": "Cerrar",
+    "zoneOf": "Contorno de la zona de {{name}}",
+    "find": "Buscar un desastre real",
+    "femaNote": "Declaraciones de los últimos cuatro meses (OpenFEMA). Haz clic en una para ver su zona.",
+    "nwsNote": "Alertas severas y extremas activas ahora. Las que implican salir ya califican para la ayuda de las primeras 72 horas.",
+    "tab": {
+      "fema": "Declaraciones de FEMA",
+      "nws": "Alertas meteorológicas"
+    },
+    "searchFema": "Buscar declaraciones: estado, título, código",
+    "searchNws": "Buscar alertas: evento, lugar",
+    "col": {
+      "declared": "Declarado",
+      "code": "Declaración",
+      "state": "Estado",
+      "kind": "Tipo",
+      "title": "Título",
+      "counties": "Condados",
+      "opened": "Abierto aquí",
+      "aid": "Ayuda 72 h",
+      "event": "Alerta",
+      "severity": "Gravedad",
+      "area": "Área",
+      "sent": "Emitida",
+      "zone": "Zona"
+    },
+    "yes": "Sí",
+    "no": "No",
+    "qualifies": "Califica",
+    "polygon": "Contorno propio",
+    "countiesN_one": "{{count}} condado",
+    "countiesN_other": "{{count}} condados",
+    "pick": "Elige una declaración o una alerta para ver su zona antes de abrirla.",
+    "declared": "declarado el {{date}}",
+    "sent": "emitida el {{date}}",
+    "expires": "termina el {{date}}",
+    "loadingZone": "Dibujando la zona con los condados de la Oficina del Censo",
+    "inside_one": "{{n}} hogar registrado está dentro de esta zona.",
+    "inside_other": "{{n}} hogares registrados están dentro de esta zona.",
+    "areas_one": "Área: {{areas}}",
+    "areas_other": "{{count}} áreas: {{areas}}",
+    "unmapped": "Fuera del mapa (sin forma de condado): {{areas}}",
+    "willPropose": "Al abrirlo se propone la ayuda de las primeras 72 horas para los hogares preparados dentro; una persona aún aprueba el pago.",
+    "wontPropose": "Esta alerta no implica salir ya, así que abre la zona sin proponer la ayuda de las primeras 72 horas.",
+    "alreadyOpen": "Ya está abierto en Hearthline.",
+    "open": "Abrir en Hearthline",
+    "opening": "Abriendo…",
+    "openedNote_one": "{{name}} está abierto. {{n}} hogar registrado está dentro.",
+    "openedNote_other": "{{name}} está abierto. {{n}} hogares registrados están dentro.",
+    "reviewAid": "Revisar la ayuda de las primeras 72 horas en el Centro de Mando",
+    "sources": "Fuentes: declaraciones de desastre de OpenFEMA, alertas activas del Servicio Meteorológico Nacional y los condados TIGERweb de la Oficina del Censo. Todos son datos públicos."
   }
 }

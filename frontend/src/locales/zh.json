@@ -32,7 +32,8 @@
     "giving": "我的捐赠",
     "insurance": "保险",
     "disputes": "争议",
-    "books": "账目"
+    "books": "账目",
+    "disasters": "灾害"
   },
   "roles": {
     "household": "住户",
@@ -1420,7 +1421,7 @@
     },
     "command": {
       "title": "指挥救援",
-      "body": "以 Sam 的身份：AG Grid 中的 2,000 户家庭、“向表格提问”、需要两人批准的批量现金援助，以及与 PayPal 核对的账目。"
+      "body": "以 Sam 的身份：模拟一次疏散令，一次批准即向所有已做准备的家庭付款；在“灾害”页面开启一个真实的 FEMA 灾害；并在 AG Grid 中查看 2,000 户家庭以及需要两人批准的批量现金援助。"
     },
     "buyer": "PayPal 沙盒买家（测试账户）",
     "buyerEmail": "邮箱",
@@ -1519,6 +1520,78 @@
     "paying": "正在支付…",
     "dismiss": "驳回",
     "dismissWhy": "原因（存档）",
-    "oneApproval": "此批次由规则准备，您的批准将完成付款。"
+    "oneApproval": "此批次由规则准备，您的批准将完成付款。",
+    "disaster": "灾害",
+    "nobodyYet": "此灾区内还没有家庭做好准备，因此目前无人可付款。用此处地址登记、完成核实并扫描房屋的家庭，将从下一次警报起获得援助。"
+  },
+  "disasters": {
+    "title": "灾害",
+    "subtitle": "根据 FEMA 的灾害声明或美国国家气象局的警报，在 Hearthline 中开启真实灾害。其所在县（或警报自带的范围轮廓）即为灾区：地址位于其中的家庭会加入，并为提前做好准备的家庭提议最初 72 小时援助。演示仍为虚构的 Sablewood 山火。",
+    "inHearthline": "已在 Hearthline 开启",
+    "source": {
+      "demo": "虚构演示",
+      "fema": "FEMA {{code}}",
+      "nws": "天气警报"
+    },
+    "kind": {
+      "wildfire": "山火",
+      "flood": "洪水",
+      "hurricane": "飓风",
+      "earthquake": "地震",
+      "storm": "风暴",
+      "tornado": "龙卷风",
+      "winter_storm": "冬季风暴",
+      "other": "其他"
+    },
+    "households_other": "{{n}} 户家庭",
+    "openedBy": "由 {{name}} 开启",
+    "closed": "已关闭",
+    "close": "关闭",
+    "zoneOf": "{{name}} 灾区轮廓",
+    "find": "查找真实灾害",
+    "femaNote": "最近四个月的灾害声明（OpenFEMA）。点击即可查看其灾区。",
+    "nwsNote": "当前生效的严重和极端警报。意味着需要立即撤离的警报符合最初 72 小时援助条件。",
+    "tab": {
+      "fema": "FEMA 灾害声明",
+      "nws": "天气警报"
+    },
+    "searchFema": "搜索声明：州、标题、编号",
+    "searchNws": "搜索警报：事件、地点",
+    "col": {
+      "declared": "声明日期",
+      "code": "声明编号",
+      "state": "州",
+      "kind": "类型",
+      "title": "标题",
+      "counties": "县数",
+      "opened": "已开启",
+      "aid": "72 小时援助",
+      "event": "警报",
+      "severity": "严重程度",
+      "area": "区域",
+      "sent": "发布时间",
+      "zone": "灾区"
+    },
+    "yes": "是",
+    "no": "否",
+    "qualifies": "符合",
+    "polygon": "自带轮廓",
+    "countiesN_other": "{{count}} 个县",
+    "pick": "选择一项声明或警报，在开启前查看其灾区。",
+    "declared": "{{date}} 声明",
+    "sent": "{{date}} 发布",
+    "expires": "{{date}} 结束",
+    "loadingZone": "正在根据人口普查局的县界绘制灾区",
+    "inside_other": "此灾区内有 {{n}} 户已登记家庭。",
+    "areas_other": "{{count}} 个区域：{{areas}}",
+    "unmapped": "未在地图上（无县界）：{{areas}}",
+    "willPropose": "开启后会为灾区内已做准备的家庭提议最初 72 小时援助；付款仍需一人批准。",
+    "wontPropose": "此警报并不意味着需要立即撤离，因此开启灾区时不会提议最初 72 小时援助。",
+    "alreadyOpen": "已在 Hearthline 开启。",
+    "open": "在 Hearthline 开启",
+    "opening": "正在开启…",
+    "openedNote_other": "{{name}} 已开启。区内有 {{n}} 户已登记家庭。",
+    "reviewAid": "在指挥中心审核最初 72 小时援助",
+    "sources": "数据来源：FEMA 的 OpenFEMA 灾害声明、美国国家气象局的当前警报，以及人口普查局 TIGERweb 的县界。均为公开数据。"
   }
 }

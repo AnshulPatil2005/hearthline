@@ -32,6 +32,10 @@ class DisasterKind(StrEnum):
     FLOOD = "flood"
     HURRICANE = "hurricane"
     EARTHQUAKE = "earthquake"
+    STORM = "storm"
+    TORNADO = "tornado"
+    WINTER_STORM = "winter_storm"
+    OTHER = "other"
 
 
 class ScanStatus(StrEnum):
@@ -78,6 +82,11 @@ class DisasterEvent(Base):
     # GeoJSON Polygon or MultiPolygon geometry of the affected area.
     zone: Mapped[dict] = mapped_column(JSON)
     is_fictional: Mapped[bool] = mapped_column(default=False)
+    # Where it came from: demo (the fictional scenario), fema (a disaster declaration from OpenFEMA) or nws (a National
+    # Weather Service warning); external_id is the FEMA declaration code (e.g. DR-4949-WI) or the alert's id.
+    source: Mapped[str] = mapped_column(String(20), default="demo", server_default="demo")
+    external_id: Mapped[str | None] = mapped_column(String(200), unique=True)
+    opened_by: Mapped[str | None] = mapped_column(String(120))  # who opened a real one (the audit log has their id)
     # California Penal Code 396: for 30 days after a declaration, prices of essentials may rise at most 10%.
     # Local governments often extend it; this is the date the protection ends.
     price_protection_until: Mapped[datetime | None]

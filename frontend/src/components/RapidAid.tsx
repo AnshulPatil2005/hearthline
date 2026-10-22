@@ -38,7 +38,7 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
             <span className={`mr-2 rounded-full px-2 py-0.5 font-medium ${SOURCE_TONE[tr.source]}`}>
               {t(`rapid.source.${tr.source}`)}
             </span>
-            {tr.event} · {when(tr.issued_at)}
+            {tr.disaster} · {tr.event} · {when(tr.issued_at)}
           </p>
         </div>
         <span className="rounded-full bg-sunken px-2.5 py-0.5 text-xs font-medium">
@@ -48,7 +48,9 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
 
       {tr.status === 'proposed' && (
         <p className="text-sm">
-          {t('rapid.wouldPay', { count: tr.households, total: money(tr.total), n: tr.households.toLocaleString() })}
+          {tr.households === 0
+            ? t('rapid.nobodyYet')
+            : t('rapid.wouldPay', { count: tr.households, total: money(tr.total), n: tr.households.toLocaleString() })}
         </p>
       )}
       {tr.batch && (
@@ -93,13 +95,15 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
 
       {tr.status === 'proposed' && (
         <div className="flex flex-wrap items-center gap-2">
-          <button
-            onClick={() => approve.mutate()}
-            disabled={approve.isPending || tr.households === 0}
-            className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember disabled:opacity-40"
-          >
-            {approve.isPending ? t('rapid.paying') : t('rapid.approve', { total: money(tr.total) })}
-          </button>
+          {tr.households > 0 && (
+            <button
+              onClick={() => approve.mutate()}
+              disabled={approve.isPending}
+              className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember disabled:opacity-40"
+            >
+              {approve.isPending ? t('rapid.paying') : t('rapid.approve', { total: money(tr.total) })}
+            </button>
+          )}
           {dismissing ? (
             <span className="flex flex-wrap items-center gap-2">
               <input
@@ -123,7 +127,7 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
               {t('rapid.dismiss')}
             </button>
           )}
-          <span className="text-xs text-ink-faint">{t('rapid.oneApproval')}</span>
+          {tr.households > 0 && <span className="text-xs text-ink-faint">{t('rapid.oneApproval')}</span>}
         </div>
       )}
       {error && <p className="text-sm text-danger">{errorText(error, t('errors.generic'))}</p>}
@@ -140,7 +144,8 @@ export function RapidAid({ onPaid }: { onPaid: () => void }) {
     queryClient.setQueryData(['rapid-aid'], b)
     onPaid()
   }
-  const disaster = board.data?.disasters[0]
+  const [chosen, setChosen] = useState<number | null>(null)
+  const disaster = board.data?.disasters.find((d) => d.id === chosen) ?? board.data?.disasters[0]
   const check = useMutation({
     mutationFn: (kind: 'check' | 'simulate') =>
       api<RapidAidBoard>(`/command/rapid-aid/${kind}`, {
@@ -167,7 +172,21 @@ export function RapidAid({ onPaid }: { onPaid: () => void }) {
             })}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          {b.disasters.length > 1 && (
+            <select
+              value={disaster.id}
+              onChange={(e) => setChosen(Number(e.target.value))}
+              aria-label={t('rapid.disaster')}
+              className="max-w-xs rounded-lg border border-line bg-surface px-2 py-1.5 text-sm"
+            >
+              {b.disasters.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
+              ))}
+            </select>
+          )}
           <button
             onClick={() => check.mutate('check')}
             disabled={check.isPending}

@@ -133,6 +133,9 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
                   <NavLink to="/command" end className={navClass}>
                     {t('nav.command')}
                   </NavLink>
+                  <NavLink to="/command/disasters" className={navClass}>
+                    {t('nav.disasters')}
+                  </NavLink>
                   <NavLink to="/command/crews" className={navClass}>
                     {t('nav.crews')}
                   </NavLink>

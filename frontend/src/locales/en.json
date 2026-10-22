@@ -32,7 +32,8 @@
     "giving": "My giving",
     "insurance": "Insurance",
     "disputes": "Disputes",
-    "books": "Books"
+    "books": "Books",
+    "disasters": "Disasters"
   },
   "roles": {
     "household": "Household",
@@ -1446,7 +1447,7 @@
     },
     "command": {
       "title": "Run the response",
-      "body": "As Sam: 2,000 households in AG Grid, \"Ask the grid\", batch cash aid that needs two people, and the books checked against PayPal."
+      "body": "As Sam: simulate an evacuation order and pay every prepared household with one approval, open a real FEMA disaster on the Disasters page, and see 2,000 households in AG Grid with batch cash aid that needs two people."
     },
     "buyer": "PayPal sandbox buyer (test account)",
     "buyerEmail": "Email",
@@ -1549,6 +1550,83 @@
     "paying": "Paying…",
     "dismiss": "Dismiss",
     "dismissWhy": "Why (for the record)",
-    "oneApproval": "Rules prepared this batch; your approval pays it."
+    "oneApproval": "Rules prepared this batch; your approval pays it.",
+    "disaster": "Disaster",
+    "nobodyYet": "No household in this zone has prepared yet, so there is nobody to pay now. Households that sign up with an address here, verify it and scan their home will get aid from the next warning."
+  },
+  "disasters": {
+    "title": "Disasters",
+    "subtitle": "Open a real disaster in Hearthline from FEMA's declarations or the National Weather Service's warnings. Its counties (or the warning's own outline) become the zone: households whose address is inside join it, and first-72-hours aid is proposed for the ones that prepared. The demo stays the fictional Sablewood Fire.",
+    "inHearthline": "Open in Hearthline",
+    "source": {
+      "demo": "Fictional demo",
+      "fema": "FEMA {{code}}",
+      "nws": "Weather warning"
+    },
+    "kind": {
+      "wildfire": "Wildfire",
+      "flood": "Flood",
+      "hurricane": "Hurricane",
+      "earthquake": "Earthquake",
+      "storm": "Storm",
+      "tornado": "Tornado",
+      "winter_storm": "Winter storm",
+      "other": "Other"
+    },
+    "households_one": "{{n}} household",
+    "households_other": "{{n}} households",
+    "openedBy": "opened by {{name}}",
+    "closed": "Closed",
+    "close": "Close",
+    "zoneOf": "Outline of the {{name}} zone",
+    "find": "Find a real disaster",
+    "femaNote": "Declarations from the last four months (OpenFEMA). Click one to see its zone.",
+    "nwsNote": "Severe and extreme warnings active now. The ones that mean leaving now qualify for first-72-hours aid.",
+    "tab": {
+      "fema": "FEMA declarations",
+      "nws": "Weather warnings"
+    },
+    "searchFema": "Search declarations: state, title, code",
+    "searchNws": "Search warnings: event, place",
+    "col": {
+      "declared": "Declared",
+      "code": "Declaration",
+      "state": "State",
+      "kind": "Kind",
+      "title": "Title",
+      "counties": "Counties",
+      "opened": "Open here",
+      "aid": "72-hour aid",
+      "event": "Warning",
+      "severity": "Severity",
+      "area": "Area",
+      "sent": "Issued",
+      "zone": "Zone"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "qualifies": "Qualifies",
+    "polygon": "Its own outline",
+    "countiesN_one": "{{count}} county",
+    "countiesN_other": "{{count}} counties",
+    "pick": "Choose a declaration or a warning to see its zone before opening it.",
+    "declared": "declared {{date}}",
+    "sent": "issued {{date}}",
+    "expires": "ends {{date}}",
+    "loadingZone": "Drawing the zone from the Census Bureau's county shapes",
+    "inside_one": "{{n}} household on file is inside this zone.",
+    "inside_other": "{{n}} households on file are inside this zone.",
+    "areas_one": "Area: {{areas}}",
+    "areas_other": "{{count}} areas: {{areas}}",
+    "unmapped": "Not on the map (no county shape): {{areas}}",
+    "willPropose": "Opening it proposes first-72-hours aid for prepared households inside; a person still approves the payment.",
+    "wontPropose": "This warning doesn't mean leaving now, so it opens the zone without proposing first-72-hours aid.",
+    "alreadyOpen": "Already open in Hearthline.",
+    "open": "Open in Hearthline",
+    "opening": "Opening…",
+    "openedNote_one": "{{name}} is open. {{n}} household on file is inside it.",
+    "openedNote_other": "{{name}} is open. {{n}} households on file are inside it.",
+    "reviewAid": "Review first-72-hours aid in the Command Center",
+    "sources": "Sources: FEMA's OpenFEMA disaster declarations, the National Weather Service's active alerts and the Census Bureau's TIGERweb county shapes. All are public data."
   }
 }
