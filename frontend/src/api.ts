@@ -797,3 +797,40 @@ export type LocalOrder = {
   contact_name: string
   contact_email: string
 }
+
+export type MandateGift = {
+  id: number
+  item: string
+  family: string
+  registry_slug: string
+  amount: string
+  reason: string
+  by_ai: boolean
+  status: 'claimed' | 'given' | 'failed' | 'checking'
+  error: string | null
+  created_at: string
+  given_at: string | null
+}
+
+export type GivingMandate = {
+  id: number
+  status: 'pending' | 'saving' | 'active' | 'paused' | 'revoked'
+  states: string[]
+  categories: string[]
+  per_gift_max: string
+  monthly_max: string
+  note: string
+  paypal_email: string | null
+  error: string | null
+  given_this_month: string
+  left_this_month: string
+  created_at: string
+  activated_at: string | null
+  revoked_at: string | null
+  last_run_at: string | null
+  gifts: MandateGift[]
+}
+
+export type MandateOptions = { states: string[]; categories: string[]; max_per_gift: string; max_monthly: string }
+
+export type MandateRound = { mandate: GivingMandate; summary: string; by_ai: boolean; given: number }

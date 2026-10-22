@@ -1364,7 +1364,12 @@
       "appliance": "Thiết bị gia dụng",
       "tools": "Dụng cụ",
       "toys": "Đồ chơi",
-      "other": "Khác"
+      "other": "Khác",
+      "books": "Sách",
+      "decor": "Đồ trang trí",
+      "lighting": "Đèn",
+      "musical": "Nhạc cụ",
+      "sports": "Đồ thể thao"
     }
   },
   "tour": {
@@ -1387,6 +1392,10 @@
       "title": "Chặn kẻ giả mạo",
       "body": "Với vai Priya, người duyệt: từ chối danh sách đã sao chép gia đình Rivera. Cần người duyệt thứ hai đồng ý, sau đó mọi nhà tài trợ đều được hoàn tiền."
     },
+    "mandate": {
+      "title": "Để trợ lý ủng hộ thay quý vị",
+      "body": "Với vai Marcus, nhà tài trợ: lưu tài khoản PayPal của người mua thử nghiệm một lần và đặt giới hạn; trợ lý ủng hộ sẽ ủng hộ các nhu cầu đã xác minh mà không cần thanh toán lại và giải thích từng khoản."
+    },
     "command": {
       "title": "Điều hành cứu trợ",
       "body": "Với vai Sam: 2.000 hộ gia đình trong AG Grid, \"Hỏi bảng\", tiền hỗ trợ theo đợt cần hai người duyệt và sổ sách được đối chiếu với PayPal."
@@ -1397,5 +1406,60 @@
     "copyShort": "Sao chép",
     "copied": "Đã sao chép",
     "copy": "Sao chép {{what}}"
+  },
+  "mandate": {
+    "title": "Tự động ủng hộ sau thảm họa",
+    "intro": "Lưu tài khoản PayPal của quý vị một lần và đặt giới hạn. Khi thảm họa xảy ra, trợ lý ủng hộ của Hearthline sẽ thay quý vị ủng hộ những nhu cầu của các gia đình đã xác minh, không cần thanh toán lại. Trợ lý giải thích từng khoản, và quý vị có thể tạm dừng hoặc dừng bất cứ lúc nào.",
+    "activeIntro": "Trợ lý ủng hộ của Hearthline thay quý vị ủng hộ trong các giới hạn này khi các gia đình đã xác minh cần giúp đỡ. Trợ lý chỉ chọn trong những nhu cầu phù hợp và giải thích từng khoản.",
+    "perGift": "Tối đa mỗi khoản ($)",
+    "monthly": "Tối đa mỗi tháng ($)",
+    "where": "Ở đâu",
+    "whereAnywhere": "Bất cứ nơi nào ở Mỹ. Thêm tiểu bang để giới hạn.",
+    "whereSome": "Chỉ các gia đình ở những tiểu bang này.",
+    "addState": "Thêm tiểu bang",
+    "removeState": "Bỏ {{state}}",
+    "what": "Cho gì",
+    "whatAny": "Bất kỳ nhu cầu nào các gia đình liệt kê. Chọn loại để giới hạn.",
+    "whatSome": "Chỉ những loại nhu cầu này.",
+    "note": "Bằng lời của quý vị (không bắt buộc)",
+    "notePlaceholder": "Ví dụ: gia đình có con nhỏ, và thú cưng",
+    "save": "Lưu tài khoản PayPal của tôi và bắt đầu",
+    "opening": "Đang mở PayPal…",
+    "saveHint": "PayPal sẽ yêu cầu quý vị xác nhận. Chưa trừ tiền cho đến khi có khoản ủng hộ.",
+    "from": "Từ",
+    "limits": "Giới hạn",
+    "limitsValue": "tối đa {{gift}} mỗi khoản, {{month}} mỗi tháng",
+    "anywhere": "Bất cứ nơi nào ở Mỹ",
+    "anyNeed": "Bất kỳ nhu cầu nào",
+    "yourWords": "Lời của quý vị",
+    "thisMonth": "Đã ủng hộ tháng này",
+    "giveNow": "Ủng hộ ngay",
+    "giving": "Đang ủng hộ…",
+    "pause": "Tạm dừng",
+    "resume": "Tiếp tục",
+    "revoke": "Dừng và xóa tài khoản PayPal đã lưu",
+    "revokeConfirm": "Thao tác này dừng mọi khoản ủng hộ và xóa tài khoản đã lưu của quý vị tại PayPal. Các khoản đã ủng hộ vẫn giữ nguyên.",
+    "revokeYes": "Dừng ủng hộ",
+    "cancel": "Hủy",
+    "gifts": "Các khoản đã ủng hộ thay quý vị",
+    "status": {
+      "pending": "Đang chờ PayPal",
+      "saving": "Đang lưu tài khoản",
+      "active": "Đang hoạt động",
+      "paused": "Đã tạm dừng",
+      "revoked": "Đã dừng"
+    },
+    "giftStatus": {
+      "claimed": "Đang bắt đầu",
+      "checking": "Đang kiểm tra với PayPal",
+      "given": "Đã ủng hộ",
+      "failed": "Không thành công"
+    },
+    "returnSaving": "Đang lưu tài khoản PayPal của quý vị…",
+    "returnCancelled": "Quý vị chưa lưu tài khoản PayPal nên không có gì thay đổi.",
+    "returnActive": "Việc ủng hộ của quý vị đã được thiết lập.",
+    "returnFrom": "Các khoản ủng hộ sẽ trích từ tài khoản PayPal {{email}}.",
+    "returnGave_other": "Trợ lý ủng hộ vừa thực hiện {{count}} khoản, tổng cộng {{amount}}.",
+    "back": "Quay lại trang ủng hộ của tôi"
   }
 }

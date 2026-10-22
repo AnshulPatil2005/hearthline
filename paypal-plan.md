@@ -185,6 +185,8 @@ Out of scope: card vaulting, Venmo vaulting, `list_customer_payment_tokens`.
   pay_pal_request_id: str | None = None, request_options=None) -> PaymentTokenResponse`
 - Body: `payment_source` **required** (`PaymentTokenRequestPaymentSource`) with `token` (`VaultTokenRequest`):
   `id` (str, required) and `type_`, wire alias **`type`**, = `"SETUP_TOKEN"` (`VaultTokenRequestType`, its only member).
+  In the `...Dict` companion the key is the member name **`type_`** (mypy rejects `type`); the model sets
+  `validate_by_name=True`, so pydantic accepts either at runtime (`paypal/core/models.py`).
 - Returns `PaymentTokenResponse`: `id` (the vault id), `customer.id` (`CustomerResponse`), `payment_source.paypal`
   (`PayPalPaymentToken`): `email_address`, `payer_id`. All `Optional[...]`: assert `id`.
 - Error: `CreatePaymentTokenErrorBody` = `Error` [400, 403, 404, 422, 500] | `RawError`.
@@ -231,9 +233,9 @@ Out of scope: card vaulting, Venmo vaulting, `list_customer_payment_tokens`.
 
 | Write | Where the claim is stored | What rejects the second one | Where that rejection is caught | Where in the code |
 | --- | --- | --- | --- | --- |
-| A gift from a mandate to one registry item (`create_order`) | a `mandate_gifts` row, inserted before the call, unique on (`mandate_id`, `registry_item_id`) and on `paypal_request_id` | the database's unique constraint (`IntegrityError` on flush) | `except IntegrityError` in the claim | TBD |
-| Turning an approved setup token into a payment token (`create_payment_token`); the return page can load twice | `giving_mandates.status`, moved `pending` → `saving` by one conditional `UPDATE ... WHERE status = 'pending'` | the conditional update matching no row (`rowcount == 0`) | the `rowcount` check in the claim | TBD |
-| Revoking (`delete_payment_token`) | `giving_mandates.status`, moved to `revoked` by a conditional update | the conditional update matching no row | the `rowcount` check in the claim | TBD |
+| A gift from a mandate to one registry item (`create_order`) | a `mandate_gifts` row, inserted before the call, unique on (`mandate_id`, `registry_item_id`) and on `paypal_request_id` | the database's unique constraint (`IntegrityError` on flush) | `except IntegrityError` in the claim | `app/mandates.py: _give` (claim: commits the `MandateGift` row) → `app/paypal/vault.py: give` |
+| Turning an approved setup token into a payment token (`create_payment_token`); the return page can load twice | `giving_mandates.status`, moved `pending` → `saving` by one conditional `UPDATE ... WHERE status = 'pending'` | the conditional update matching no row (`rowcount == 0`) | the `rowcount` check in the claim | `app/mandates.py: finish` → `_move(pending→saving)` → `app/paypal/vault.py: finish_saving` |
+| Revoking (`delete_payment_token`) | `giving_mandates.status`, moved to `revoked` by a conditional update | the conditional update matching no row | the `rowcount` check in the claim | `app/mandates.py: revoke` → `_move(→revoked)` → `app/paypal/vault.py: revoke` |
 
 `create_setup_token` has no row: an unused setup token is harmless and expires on its own.
 

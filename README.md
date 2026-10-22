@@ -57,6 +57,10 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   family's town first, and buys there when the price is within 15% of the web store it would otherwise use, so gifts
   also help the town's businesses recover. A copycat registry is caught, two people reject it, and its donors are
   refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
+- **Give automatically.** A donor saves their PayPal account once (PayPal Vault) and leaves a standing instruction:
+  where, how much per gift and per month, and what kinds of needs. When verified families need help, the giving
+  agent gives within those limits with no checkout and explains each gift; the donor can pause or stop, which
+  deletes the saved account at PayPal.
 - **Claim.** From the inventory and the policy the Policy agent read, Hearthline builds the family's contents
   claim with the policy's sub-limits, limit and deductible applied. The insurer's adjuster reviews it on a private
   link and pays with PayPal; the money reaches the family's own PayPal account in minutes, not a mailed check.
@@ -84,6 +88,7 @@ supports it.
 | **Webhooks** with signature verification | Captures, payouts, subscriptions and disputes; each event is stored once, so retries are safe |
 | **Orders v2** for insurers | Insurers pay contents claims: the adjuster reviews the claim built from the pre-disaster inventory, pays with PayPal, and Hearthline passes the money straight on to the family's PayPal account |
 | **Log in with PayPal** (OpenID Connect) | Families, contractors and businesses connect the PayPal account their money goes to |
+| **Vault** (setup tokens, payment tokens) and merchant-initiated **Orders**, through APIMatic's PayPal Python SDK | Giving mandates: a donor saves their PayPal account once and the giving agent gives from it within their limits, with no checkout; each gift's `PayPal-Request-Id` makes a resend safe |
 | **PayPal MCP server** (Agent Toolkit tools) | "Ask PayPal": the Funds agent reads PayPal with PayPal's own tools, read-only |
 | **Transaction Search** (balances and transactions, through APIMatic's PayPal Python SDK) | **Books and PayPal**: every payout traced to a decision people approved, every payment received found in the ledger; the batch cash-aid preview warns when PayPal's balance can't cover it |
 
@@ -100,6 +105,7 @@ stand-in "retailer" sandbox account through Payouts. In production it would chec
 | **Sentinel** | Flags warning signs (copied photos, shared payout accounts, addresses outside the disaster zone, photos taken after the disaster) and explains them | Never decides. It only sets how many people must review a case |
 | **Site** | Checks a contractor's milestone photos against the work described | A mismatch makes the case high risk, which needs two reviewers |
 | **Policy** | Reads an insurance policy PDF: limits, sub-limits, deadlines; answers questions with a quote | Read-only, and not legal advice; code does the math against the inventory |
+| **Giving** | Gives on a donor's behalf under their giving mandate: chooses among eligible needs and explains each gift | Code lists the only needs it may choose (verified families in an active disaster, the donor's places and kinds) and enforces the per-gift and monthly limits; each gift is claimed before PayPal is called, so it can't be paid twice |
 | **Funds** | Writes donors' impact notes, the grant-report narrative and replies to payment disputes; answers "Ask PayPal" | Can't move money. Rules in code recommend the dispute answer; staff edit and send it |
 | **Ask the grid** | Turns a question into AG Grid state through the AG Grid AI Toolkit | The server checks the answer before the grid applies it |
 

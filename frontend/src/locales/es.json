@@ -1390,7 +1390,12 @@
       "appliance": "Electrodomésticos",
       "tools": "Herramientas",
       "toys": "Juguetes",
-      "other": "Otro"
+      "other": "Otro",
+      "books": "Libros",
+      "decor": "Decoración",
+      "lighting": "Iluminación",
+      "musical": "Instrumentos musicales",
+      "sports": "Deportes"
     }
   },
   "tour": {
@@ -1413,6 +1418,10 @@
       "title": "Detenga una copia",
       "body": "Como Priya, revisora: rechace el registro que copió a los Rivera. Un segundo revisor debe estar de acuerdo y luego se reembolsa a cada donante."
     },
+    "mandate": {
+      "title": "Deje que un agente done por usted",
+      "body": "Como Marcus, donante: guarde una vez la cuenta de PayPal del comprador de prueba y fije límites; el agente de donaciones dona a necesidades verificadas sin pasar por el pago y explica cada donación."
+    },
     "command": {
       "title": "Dirija la respuesta",
       "body": "Como Sam: 2,000 hogares en AG Grid, \"Pregúntele a la tabla\", ayuda en efectivo por lotes que necesita dos personas y las cuentas comparadas con PayPal."
@@ -1423,5 +1432,61 @@
     "copyShort": "Copiar",
     "copied": "Copiado",
     "copy": "Copiar {{what}}"
+  },
+  "mandate": {
+    "title": "Dar automáticamente después de desastres",
+    "intro": "Guarde su cuenta de PayPal una vez y fije sus límites. Cuando ocurra un desastre, el agente de donaciones de Hearthline dona por usted a las necesidades de familias verificadas, sin pasar por el pago. Explica cada donación, y usted puede pausar o detener en cualquier momento.",
+    "activeIntro": "El agente de donaciones de Hearthline dona por usted dentro de estos límites cuando familias verificadas necesitan ayuda. Solo elige entre necesidades que cumplen sus límites y explica cada donación.",
+    "perGift": "Máximo por donación ($)",
+    "monthly": "Máximo al mes ($)",
+    "where": "Dónde",
+    "whereAnywhere": "En cualquier parte de EE. UU. Agregue estados para limitarlo.",
+    "whereSome": "Solo familias en estos estados.",
+    "addState": "Agregar un estado",
+    "removeState": "Quitar {{state}}",
+    "what": "Qué",
+    "whatAny": "Cualquier necesidad que las familias publiquen. Elija tipos para limitarlo.",
+    "whatSome": "Solo estos tipos de necesidades.",
+    "note": "En sus propias palabras (opcional)",
+    "notePlaceholder": "Por ejemplo: familias con niños pequeños, y mascotas",
+    "save": "Guardar mi cuenta de PayPal y empezar",
+    "opening": "Abriendo PayPal…",
+    "saveHint": "PayPal le pide confirmar. No se cobra nada hasta que se haga una donación.",
+    "from": "Desde",
+    "limits": "Límites",
+    "limitsValue": "hasta {{gift}} por donación, {{month}} al mes",
+    "anywhere": "En cualquier parte de EE. UU.",
+    "anyNeed": "Cualquier necesidad",
+    "yourWords": "Sus palabras",
+    "thisMonth": "Donado este mes",
+    "giveNow": "Donar ahora",
+    "giving": "Donando…",
+    "pause": "Pausar",
+    "resume": "Reanudar",
+    "revoke": "Detener y quitar mi cuenta de PayPal guardada",
+    "revokeConfirm": "Esto detiene todas las donaciones y elimina su cuenta guardada en PayPal. Las donaciones ya hechas se mantienen.",
+    "revokeYes": "Dejar de donar",
+    "cancel": "Cancelar",
+    "gifts": "Donaciones hechas por usted",
+    "status": {
+      "pending": "Esperando a PayPal",
+      "saving": "Guardando su cuenta",
+      "active": "Activa",
+      "paused": "En pausa",
+      "revoked": "Detenida"
+    },
+    "giftStatus": {
+      "claimed": "Iniciando",
+      "checking": "Verificando con PayPal",
+      "given": "Donada",
+      "failed": "No se completó"
+    },
+    "returnSaving": "Guardando su cuenta de PayPal…",
+    "returnCancelled": "No guardó su cuenta de PayPal, así que nada cambió.",
+    "returnActive": "Sus donaciones están configuradas.",
+    "returnFrom": "Las donaciones salen de su cuenta de PayPal {{email}}.",
+    "returnGave_one": "El agente de donaciones acaba de hacer {{count}} donación, {{amount}} en total.",
+    "returnGave_other": "El agente de donaciones acaba de hacer {{count}} donaciones, {{amount}} en total.",
+    "back": "Volver a mis donaciones"
   }
 }

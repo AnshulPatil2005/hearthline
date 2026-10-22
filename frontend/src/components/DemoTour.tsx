@@ -10,6 +10,7 @@ const STEPS = [
   { key: 'shopper', to: '/login?as=elena.rivera&next=/registry' },
   { key: 'store', to: '/login?as=rosa.delgado&next=/business' },
   { key: 'review', to: '/login?as=priya.nair&next=/review' },
+  { key: 'mandate', to: '/login?as=marcus.chen&next=/giving' },
   { key: 'command', to: '/login?as=sam.whitfield&next=/command' },
 ] as const
 

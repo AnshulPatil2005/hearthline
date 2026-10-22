@@ -1390,7 +1390,12 @@
       "appliance": "Appliances",
       "tools": "Kagamitan",
       "toys": "Laruan",
-      "other": "Iba pa"
+      "other": "Iba pa",
+      "books": "Mga aklat",
+      "decor": "Dekorasyon",
+      "lighting": "Ilaw",
+      "musical": "Instrumentong pangmusika",
+      "sports": "Pang-isports"
     }
   },
   "tour": {
@@ -1413,6 +1418,10 @@
       "title": "Pigilan ang gumaya",
       "body": "Bilang si Priya, isang reviewer: tanggihan ang registry na kumopya sa mga Rivera. Kailangang sumang-ayon ang pangalawang reviewer, at ibabalik ang pera ng bawat donor."
     },
+    "mandate": {
+      "title": "Hayaang magbigay ang isang agent para sa inyo",
+      "body": "Bilang si Marcus, isang donor: i-save nang isang beses ang PayPal account ng sandbox buyer at magtakda ng mga limitasyon; magbibigay ang giving agent sa mga verified na pangangailangan nang walang checkout at ipapaliwanag ang bawat regalo."
+    },
     "command": {
       "title": "Patakbuhin ang pagtugon",
       "body": "Bilang si Sam: 2,000 sambahayan sa AG Grid, \"Tanungin ang talahanayan\", maramihang cash aid na kailangan ng dalawang tao, at ang mga libro na sinuri laban sa PayPal."
@@ -1423,5 +1432,61 @@
     "copyShort": "Kopyahin",
     "copied": "Nakopya",
     "copy": "Kopyahin ang {{what}}"
+  },
+  "mandate": {
+    "title": "Awtomatikong magbigay pagkatapos ng sakuna",
+    "intro": "I-save nang isang beses ang inyong PayPal account at itakda ang inyong mga limitasyon. Kapag may sakuna, magbibigay para sa inyo ang giving agent ng Hearthline sa mga pangangailangan ng mga verified na pamilya, nang walang checkout. Ipinapaliwanag nito ang bawat regalo, at maaari ninyong i-pause o itigil anumang oras.",
+    "activeIntro": "Nagbibigay para sa inyo ang giving agent ng Hearthline sa loob ng mga limitasyong ito kapag nangangailangan ng tulong ang mga verified na pamilya. Pumipili lang ito sa mga pangangailangang pasok dito, at ipinapaliwanag ang bawat regalo.",
+    "perGift": "Pinakamalaki sa isang regalo ($)",
+    "monthly": "Pinakamalaki sa isang buwan ($)",
+    "where": "Saan",
+    "whereAnywhere": "Kahit saan sa US. Magdagdag ng mga estado para limitahan ito.",
+    "whereSome": "Mga pamilya lang sa mga estadong ito.",
+    "addState": "Magdagdag ng estado",
+    "removeState": "Alisin ang {{state}}",
+    "what": "Ano",
+    "whatAny": "Anumang pangangailangang inilista ng mga pamilya. Pumili ng mga uri para limitahan ito.",
+    "whatSome": "Ang mga uring ito lang ng pangangailangan.",
+    "note": "Sa sarili ninyong salita (opsyonal)",
+    "notePlaceholder": "Halimbawa: mga pamilyang may maliliit na anak, at mga alagang hayop",
+    "save": "I-save ang aking PayPal account at magsimula",
+    "opening": "Binubuksan ang PayPal…",
+    "saveHint": "Hihilingin ng PayPal na kumpirmahin ninyo. Walang sisingilin hanggang may regalong maibigay.",
+    "from": "Mula sa",
+    "limits": "Mga limitasyon",
+    "limitsValue": "hanggang {{gift}} bawat regalo, {{month}} bawat buwan",
+    "anywhere": "Kahit saan sa US",
+    "anyNeed": "Anumang pangangailangan",
+    "yourWords": "Inyong mga salita",
+    "thisMonth": "Naibigay ngayong buwan",
+    "giveNow": "Magbigay ngayon",
+    "giving": "Nagbibigay…",
+    "pause": "I-pause",
+    "resume": "Ituloy",
+    "revoke": "Itigil at alisin ang aking naka-save na PayPal account",
+    "revokeConfirm": "Ititigil nito ang lahat ng pagbibigay at buburahin ang inyong naka-save na account sa PayPal. Mananatili ang mga naibigay na.",
+    "revokeYes": "Itigil ang pagbibigay",
+    "cancel": "Kanselahin",
+    "gifts": "Mga regalong ibinigay para sa inyo",
+    "status": {
+      "pending": "Naghihintay sa PayPal",
+      "saving": "Sine-save ang inyong account",
+      "active": "Aktibo",
+      "paused": "Naka-pause",
+      "revoked": "Itinigil"
+    },
+    "giftStatus": {
+      "claimed": "Sinisimulan",
+      "checking": "Sinusuri sa PayPal",
+      "given": "Naibigay",
+      "failed": "Hindi natuloy"
+    },
+    "returnSaving": "Sine-save ang inyong PayPal account…",
+    "returnCancelled": "Hindi ninyo na-save ang inyong PayPal account, kaya walang nagbago.",
+    "returnActive": "Naka-set up na ang inyong pagbibigay.",
+    "returnFrom": "Manggagaling ang mga regalo sa inyong PayPal account na {{email}}.",
+    "returnGave_one": "Kakagawa lang ng giving agent ng {{count}} regalo, {{amount}} lahat.",
+    "returnGave_other": "Kakagawa lang ng giving agent ng {{count}} regalo, {{amount}} lahat.",
+    "back": "Bumalik sa aking pagbibigay"
   }
 }

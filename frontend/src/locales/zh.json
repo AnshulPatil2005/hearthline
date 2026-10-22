@@ -1364,7 +1364,12 @@
       "appliance": "家电",
       "tools": "工具",
       "toys": "玩具",
-      "other": "其他"
+      "other": "其他",
+      "books": "书籍",
+      "decor": "装饰品",
+      "lighting": "照明",
+      "musical": "乐器",
+      "sports": "运动用品"
     }
   },
   "tour": {
@@ -1387,6 +1392,10 @@
       "title": "拦截冒充者",
       "body": "以审核员 Priya 的身份：拒绝冒充 Rivera 一家的愿望清单。需要第二位审核员同意，之后每位捐款人都会退款。"
     },
+    "mandate": {
+      "title": "让助手替您捐助",
+      "body": "以捐款人 Marcus 的身份：保存一次沙盒买家的 PayPal 账户并设定限额；捐助助手无需结账即可向经过核实的需求捐款，并解释每一笔捐款。"
+    },
     "command": {
       "title": "指挥救援",
       "body": "以 Sam 的身份：AG Grid 中的 2,000 户家庭、“向表格提问”、需要两人批准的批量现金援助，以及与 PayPal 核对的账目。"
@@ -1397,5 +1406,60 @@
     "copyShort": "复制",
     "copied": "已复制",
     "copy": "复制{{what}}"
+  },
+  "mandate": {
+    "title": "灾后自动捐助",
+    "intro": "只需保存一次您的 PayPal 账户并设定限额。灾害发生时，Hearthline 的捐助助手会代您向经过核实的家庭的需求捐款，无需结账。它会解释每一笔捐款，您可以随时暂停或停止。",
+    "activeIntro": "当经过核实的家庭需要帮助时，Hearthline 的捐助助手会在这些限额内代您捐款。它只在符合限额的需求中选择，并解释每一笔捐款。",
+    "perGift": "单笔最多（美元）",
+    "monthly": "每月最多（美元）",
+    "where": "地区",
+    "whereAnywhere": "美国任何地方。添加州以限定范围。",
+    "whereSome": "仅限这些州的家庭。",
+    "addState": "添加州",
+    "removeState": "移除 {{state}}",
+    "what": "类别",
+    "whatAny": "家庭列出的任何需求。选择类别以限定范围。",
+    "whatSome": "仅限这些类别的需求。",
+    "note": "用您自己的话说（可选）",
+    "notePlaceholder": "例如：有小孩的家庭，以及宠物",
+    "save": "保存我的 PayPal 账户并开始",
+    "opening": "正在打开 PayPal…",
+    "saveHint": "PayPal 会请您确认。在捐款发生之前不会扣款。",
+    "from": "付款账户",
+    "limits": "限额",
+    "limitsValue": "单笔最多 {{gift}}，每月最多 {{month}}",
+    "anywhere": "美国任何地方",
+    "anyNeed": "任何需求",
+    "yourWords": "您的原话",
+    "thisMonth": "本月已捐",
+    "giveNow": "立即捐助",
+    "giving": "正在捐助…",
+    "pause": "暂停",
+    "resume": "继续",
+    "revoke": "停止并删除我保存的 PayPal 账户",
+    "revokeConfirm": "这会停止所有捐助，并在 PayPal 删除您保存的账户。已完成的捐款保持不变。",
+    "revokeYes": "停止捐助",
+    "cancel": "取消",
+    "gifts": "代您完成的捐款",
+    "status": {
+      "pending": "等待 PayPal",
+      "saving": "正在保存账户",
+      "active": "进行中",
+      "paused": "已暂停",
+      "revoked": "已停止"
+    },
+    "giftStatus": {
+      "claimed": "开始中",
+      "checking": "正在与 PayPal 核实",
+      "given": "已捐出",
+      "failed": "未成功"
+    },
+    "returnSaving": "正在保存您的 PayPal 账户…",
+    "returnCancelled": "您没有保存 PayPal 账户，因此没有任何更改。",
+    "returnActive": "您的自动捐助已设置好。",
+    "returnFrom": "捐款将从您的 PayPal 账户 {{email}} 支出。",
+    "returnGave_other": "捐助助手刚刚完成了 {{count}} 笔捐款，共 {{amount}}。",
+    "back": "返回我的捐助"
   }
 }

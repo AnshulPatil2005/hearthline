@@ -18,6 +18,7 @@ const ComingSoon = lazy(() => import('./pages/ComingSoon'))
 const ContractorPortal = lazy(() => import('./pages/ContractorPortal'))
 const GiftCardView = lazy(() => import('./pages/GiftCardView'))
 const Giving = lazy(() => import('./pages/Giving'))
+const GivingMandateReturn = lazy(() => import('./pages/GivingMandateReturn'))
 const HouseholdHome = lazy(() => import('./pages/HouseholdHome'))
 const Insurance = lazy(() => import('./pages/Insurance'))
 const Inventory = lazy(() => import('./pages/Inventory'))
@@ -64,6 +65,14 @@ export default function App() {
             element={
               <RequireAuth role="donor" wide>
                 <Giving />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/giving/mandate"
+            element={
+              <RequireAuth role="donor">
+                <GivingMandateReturn />
               </RequireAuth>
             }
           />

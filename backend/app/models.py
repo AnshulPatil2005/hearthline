@@ -942,3 +942,57 @@ class LocalOffer(Base):
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     business: Mapped[Business] = relationship()
+
+
+class GivingMandate(Base):
+    """A donor's standing instruction: give from their saved PayPal account (PayPal Vault), within these limits, to
+    verified families' needs in a disaster. The giving agent chooses among needs that pass the limits; code enforces
+    them. Revoking deletes the saved account at PayPal."""
+
+    __tablename__ = "giving_mandates"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    donor_user_id: Mapped[int] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"), index=True)
+    status: Mapped[str] = mapped_column(String(20), default="pending")  # pending | saving | active | paused | revoked
+    states: Mapped[list] = mapped_column(JSON, default=list)  # US state codes; empty means anywhere
+    categories: Mapped[list] = mapped_column(JSON, default=list)  # registry item categories; empty means any
+    per_gift_max: Mapped[Decimal] = mapped_column(Money)
+    monthly_max: Mapped[Decimal] = mapped_column(Money)
+    note: Mapped[str] = mapped_column(String(280), default="")  # in the donor's words, e.g. "families with kids"
+    paypal_setup_token_id: Mapped[str | None] = mapped_column(String(64), unique=True)
+    paypal_payment_token_id: Mapped[str | None] = mapped_column(String(64))
+    paypal_customer_id: Mapped[str | None] = mapped_column(String(64))
+    paypal_email: Mapped[str | None] = mapped_column(String(255))
+    error: Mapped[str | None] = mapped_column(String(300))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    activated_at: Mapped[datetime | None]
+    revoked_at: Mapped[datetime | None]
+    last_run_at: Mapped[datetime | None]
+
+    donor: Mapped[User] = relationship()
+    gifts: Mapped[list["MandateGift"]] = relationship(back_populates="mandate", order_by="MandateGift.id.desc()")
+
+
+class MandateGift(Base):
+    """One gift a mandate gave (or tried to). The row is the claim: it is written before PayPal is called, and the
+    unique constraints stop the same gift being made twice. `paypal_request_id` is PayPal's dedup key for the order."""
+
+    __tablename__ = "mandate_gifts"
+    __table_args__ = (UniqueConstraint("mandate_id", "registry_item_id"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    mandate_id: Mapped[int] = mapped_column(ForeignKey("giving_mandates.id", ondelete="CASCADE"), index=True)
+    registry_item_id: Mapped[int] = mapped_column(ForeignKey("registry_items.id", ondelete="CASCADE"))
+    donation_id: Mapped[int | None] = mapped_column(ForeignKey("donations.id", ondelete="SET NULL"))
+    amount: Mapped[Decimal] = mapped_column(Money)
+    reason: Mapped[str] = mapped_column(String(500), default="")  # the giving agent's explanation, for the donor
+    by_ai: Mapped[bool] = mapped_column(default=False)
+    status: Mapped[str] = mapped_column(String(20), default="claimed")  # claimed | given | failed | checking
+    paypal_request_id: Mapped[str] = mapped_column(String(100), unique=True)
+    error: Mapped[str | None] = mapped_column(String(300))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    given_at: Mapped[datetime | None]
+
+    mandate: Mapped[GivingMandate] = relationship(back_populates="gifts")
+    item: Mapped["RegistryItem"] = relationship()
+    donation: Mapped[Donation | None] = relationship()

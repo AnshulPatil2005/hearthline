@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { api, type Gift, type Giving as GivingData, type RegistrySummary, type ReopenFundSummary } from '../api'
+import { GivingMandates } from '../components/GivingMandates'
 import { Stat } from '../components/Milestones'
 import { money } from '../format'
 
@@ -45,7 +46,10 @@ export default function Giving() {
     enabled: !!giving.data?.gifts.length,
     staleTime: 5 * 60_000,
   })
-  const registries = useQuery({ queryKey: ['v1-registries'], queryFn: () => api<RegistrySummary[]>('/v1/registries?limit=3') })
+  const registries = useQuery({
+    queryKey: ['v1-registries'],
+    queryFn: () => api<RegistrySummary[]>('/v1/registries?limit=3'),
+  })
   const funds = useQuery({ queryKey: ['v1-reopen'], queryFn: () => api<ReopenFundSummary[]>('/v1/reopen-funds') })
   const g = giving.data
 
@@ -55,12 +59,16 @@ export default function Giving() {
         <h1 className="text-3xl font-semibold tracking-tight">{t('giving.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('giving.subtitle')}</p>
       </div>
+      <GivingMandates />
       {g && (
         <>
           <div className="grid gap-3 sm:grid-cols-4">
             <Stat label={t('giving.stat.given')} value={money(g.total_given)} />
             <Stat label={t('giving.stat.families')} value={g.families_helped.toLocaleString(i18n.resolvedLanguage)} />
-            <Stat label={t('giving.stat.businesses')} value={g.businesses_helped.toLocaleString(i18n.resolvedLanguage)} />
+            <Stat
+              label={t('giving.stat.businesses')}
+              value={g.businesses_helped.toLocaleString(i18n.resolvedLanguage)}
+            />
             <Stat label={t('giving.stat.delivered')} value={g.items_delivered.toLocaleString(i18n.resolvedLanguage)} />
           </div>
           <p className="rounded-xl border border-line bg-surface p-5 leading-relaxed shadow-sm" aria-live="polite">
@@ -95,7 +103,11 @@ export default function Giving() {
                 {f.business}
               </Link>
               <p className="mt-1 text-sm text-ink-soft">
-                {t('giving.reopenRaised', { raised: money(f.raised), goal: money(f.goal_amount), bonus: f.bonus_percent })}
+                {t('giving.reopenRaised', {
+                  raised: money(f.raised),
+                  goal: money(f.goal_amount),
+                  bonus: f.bonus_percent,
+                })}
               </p>
             </li>
           ))}

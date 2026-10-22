@@ -1390,7 +1390,12 @@
       "appliance": "Appliances",
       "tools": "Tools",
       "toys": "Toys",
-      "other": "Other"
+      "other": "Other",
+      "books": "Books",
+      "decor": "Decor",
+      "lighting": "Lighting",
+      "musical": "Musical instruments",
+      "sports": "Sports"
     }
   },
   "tour": {
@@ -1413,6 +1418,10 @@
       "title": "Stop a copycat",
       "body": "As Priya, a reviewer: reject the registry that copied the Riveras. A second reviewer must agree, then every donor is refunded."
     },
+    "mandate": {
+      "title": "Let an agent give for you",
+      "body": "As Marcus, a donor: save the sandbox buyer's PayPal account once and set limits; the giving agent gives to verified needs with no checkout and explains each gift."
+    },
     "command": {
       "title": "Run the response",
       "body": "As Sam: 2,000 households in AG Grid, \"Ask the grid\", batch cash aid that needs two people, and the books checked against PayPal."
@@ -1423,5 +1432,61 @@
     "copyShort": "Copy",
     "copied": "Copied",
     "copy": "Copy the {{what}}"
+  },
+  "mandate": {
+    "title": "Give automatically after disasters",
+    "intro": "Save your PayPal account once and set your limits. When a disaster hits, Hearthline's giving agent gives to verified families' needs for you, with no checkout. It explains every gift, and you can pause or stop at any time.",
+    "activeIntro": "Hearthline's giving agent gives for you within these limits when verified families need help. It only chooses among needs that fit them, and explains each gift.",
+    "perGift": "Most for one gift ($)",
+    "monthly": "Most in a month ($)",
+    "where": "Where",
+    "whereAnywhere": "Anywhere in the US. Add states to limit it.",
+    "whereSome": "Only families in these states.",
+    "addState": "Add a state",
+    "removeState": "Remove {{state}}",
+    "what": "What",
+    "whatAny": "Any need families list. Pick kinds to limit it.",
+    "whatSome": "Only these kinds of needs.",
+    "note": "In your own words (optional)",
+    "notePlaceholder": "For example: families with young kids, and pets",
+    "save": "Save my PayPal account and start",
+    "opening": "Opening PayPal…",
+    "saveHint": "PayPal asks you to confirm. Nothing is charged until a gift is made.",
+    "from": "From",
+    "limits": "Limits",
+    "limitsValue": "up to {{gift}} a gift, {{month}} a month",
+    "anywhere": "Anywhere in the US",
+    "anyNeed": "Any need",
+    "yourWords": "Your words",
+    "thisMonth": "Given this month",
+    "giveNow": "Give now",
+    "giving": "Giving…",
+    "pause": "Pause",
+    "resume": "Resume",
+    "revoke": "Stop and remove my saved PayPal account",
+    "revokeConfirm": "This stops all giving and deletes your saved account at PayPal. Gifts already made stay.",
+    "revokeYes": "Stop giving",
+    "cancel": "Cancel",
+    "gifts": "Gifts made for you",
+    "status": {
+      "pending": "Waiting for PayPal",
+      "saving": "Saving your account",
+      "active": "Active",
+      "paused": "Paused",
+      "revoked": "Stopped"
+    },
+    "giftStatus": {
+      "claimed": "Starting",
+      "checking": "Checking with PayPal",
+      "given": "Given",
+      "failed": "Didn't go through"
+    },
+    "returnSaving": "Saving your PayPal account…",
+    "returnCancelled": "You didn't save your PayPal account, so nothing changed.",
+    "returnActive": "Your giving is set up.",
+    "returnFrom": "Gifts come from your PayPal account {{email}}.",
+    "returnGave_one": "The giving agent just made {{count}} gift, {{amount}} in all.",
+    "returnGave_other": "The giving agent just made {{count}} gifts, {{amount}} in all.",
+    "back": "Back to my giving"
   }
 }
