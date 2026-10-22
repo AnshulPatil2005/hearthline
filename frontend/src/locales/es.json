@@ -312,7 +312,9 @@
     "refused": "Rechazado {{retailer}}:",
     "refusedWhy": "{{price}} está {{markup}} % por encima de su precio antes del desastre ({{baseline}}). Es especulación de precios.",
     "local": "Negocio local",
-    "localDelivers": "{{store}} se pondrá en contacto para acordar la recogida o la entrega"
+    "localDelivers": "{{store}} se pondrá en contacto para acordar la recogida o la entrega",
+    "negotiation": "Cómo el Comprador y las tiendas locales acordaron el precio",
+    "shopperName": "Comprador de Hearthline"
   },
   "money": {
     "title": "Dinero",
@@ -1371,7 +1373,7 @@
     "markDelivered": "Marcar como entregado",
     "delivered": "Entregado",
     "catalogTitle": "Vender a las familias",
-    "catalogBody": "Cuando se financia un artículo del registro de una familia, el Comprador de Hearthline revisa primero las tiendas locales y compra aquí si su precio está dentro del 15 % de la mejor oferta en línea.",
+    "catalogBody": "Cuando se financia un artículo del registro de una familia, el Comprador de Hearthline pide cotizaciones a las tiendas abiertas del pueblo antes que a las tiendas en línea. Su agente de precios responde según sus reglas, y el Comprador compra el mejor precio dentro de su límite.",
     "notOpen": "El Comprador solo compra a negocios verificados que están abiertos. Cuando reabra, sus ofertas contarán.",
     "item": "Artículo",
     "itemPlaceholder": "Lo que vende, p. ej. Colchón individual de espuma",
@@ -1396,7 +1398,15 @@
       "lighting": "Iluminación",
       "musical": "Instrumentos musicales",
       "sports": "Deportes"
-    }
+    },
+    "lowest": "Mínimo",
+    "stock": "En existencia",
+    "agentNote": "Instrucciones para su agente de precios",
+    "agentNoteHint": "Su agente cotiza entre el precio mínimo de cada artículo y su precio, siguiendo sus palabras. Nunca baja del precio mínimo.",
+    "agentNotePlaceholder": "Por ejemplo: las familias del incendio reciben nuestro mejor precio",
+    "saveNote": "Guardar",
+    "negotiated": "Acordado por debajo de su precio ({{list}}) tras la contraoferta del Comprador",
+    "discounted": "Su agente cotizó por debajo de su precio ({{list}})"
   },
   "tour": {
     "title": "¿Es su primera vez? Un recorrido de cinco minutos por la demostración",

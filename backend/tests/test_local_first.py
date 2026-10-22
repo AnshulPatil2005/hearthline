@@ -58,7 +58,7 @@ def test_a_reopened_local_store_wins_within_15_percent(fakes):  # noqa: F811
         business_id,
         D("139.00"),
     )
-    assert "Bought locally" in p.ai_reasoning and "7% more than homedepot.com ($129.99)" in p.ai_reasoning
+    assert "Bought locally" in p.ai_reasoning and "Sablewood Mercantile quoted $139.00 each" in p.ai_reasoning
     assert next(c for c in p.policy_checks if c["rule"] == "known_retailer")["passed"]
     payments, _ = fakes[-1]
     assert payments[0][:2] == ("rosa.delgado@business.example.com", D("139.00"))  # paid to the store's PayPal
@@ -71,7 +71,10 @@ def test_online_wins_when_the_local_price_is_too_high(fakes):  # noqa: F811
     fund("Steel-toe work boots")
     p = purchase_for("Steel-toe work boots")
     assert p.local_business_id is None and p.retailer == "homedepot.com"
-    assert "Sablewood Mercantile was checked first, but its price was 22% above online" in p.ai_reasoning
+    assert (
+        "Local stores were asked first, but none could meet $139.00 each (Sablewood Mercantile offered $159.00)"
+        in p.ai_reasoning
+    )
 
 
 def test_compared_with_what_the_shopper_would_buy_not_the_cheapest_listing(fakes):  # noqa: F811
@@ -79,7 +82,7 @@ def test_compared_with_what_the_shopper_would_buy_not_the_cheapest_listing(fakes
     fund("Steel-toe work boots")
     p = purchase_for("Steel-toe work boots")
     assert p.retailer == "Sablewood Mercantile"
-    assert "no more than the best online match ($129.99 at homedepot.com)" in p.ai_reasoning
+    assert "Sablewood Mercantile quoted $120.00 each" in p.ai_reasoning
 
 
 @pytest.mark.parametrize(

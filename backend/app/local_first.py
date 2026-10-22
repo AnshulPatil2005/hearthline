@@ -1,9 +1,9 @@
 """Local first: aid money spent at the town's own businesses helps the town recover twice.
 
 Before buying from a web store, the Shopper looks at what verified local businesses that are open again sell in the
-family's town. The AI judges whether a local offer fits the need and which online offer it would otherwise buy; code
-decides: buy locally when the fit is good and the price is at most 15% above that online offer. The usual spending
-rules still apply.
+family's town. The AI judges which local offer fits the need at each store and which online offer it would otherwise
+buy. The Shopper then asks those stores' pricing agents for quotes (`app.marketplace`); code sets the limit: what
+donors gave for the item, and no more than 15% above that online offer. The usual spending rules still apply.
 """
 
 from dataclasses import dataclass
@@ -21,9 +21,10 @@ MIN_FIT = 0.6  # the AI's confidence that a local offer is what the family needs
 
 @dataclass
 class LocalPick:
-    candidate: Candidate
+    candidate: Candidate  # at the price the store's agent agreed to
     business: Business
     online_best: Candidate | None  # the online offer the Shopper would otherwise have bought
+    summary: str = ""  # how the negotiation went
 
 
 def open_now(business: Business) -> bool:
@@ -42,7 +43,12 @@ def candidates(
     offers = db.scalars(
         select(LocalOffer)
         .join(Business)
-        .where(LocalOffer.available, LocalOffer.category == item.category, Business.city == home.city)
+        .where(
+            LocalOffer.available,
+            LocalOffer.stock >= item.quantity,
+            LocalOffer.category == item.category,
+            Business.city == home.city,
+        )
         .order_by(LocalOffer.unit_price)
     )
     for offer in offers:
@@ -56,14 +62,34 @@ def candidates(
     return found
 
 
+def limit(budget_per_unit: Decimal, online_pick: Candidate | None) -> tuple[Decimal, str]:
+    """The most the Shopper pays a local store per unit, and why: what donors gave for the item, and no more than
+    PRICE_MARGIN times the online offer it would otherwise buy."""
+    if online_pick is None:
+        return budget_per_unit, "that's what donors gave for this item"
+    capped = online_pick.unit_price * PRICE_MARGIN
+    if capped < budget_per_unit:
+        return capped, f"we buy local up to 15% above the best online price (${online_pick.unit_price:,.2f})"
+    return budget_per_unit, "that's what donors gave for this item"
+
+
 def prefer_local(local: Candidate, online_pick: Candidate | None) -> bool:
     """Code's rule: local wins when it costs at most PRICE_MARGIN times the online offer the Shopper would otherwise
     buy (the AI's best fit online, not merely the cheapest listing), or when nothing online fits."""
     return online_pick is None or local.unit_price <= online_pick.unit_price * PRICE_MARGIN
 
 
+def _who(business: Business) -> str:
+    """A store that reopened with its Reopen Fund, or one that stayed open."""
+    if business.campaigns and business.campaigns[-1].status == "reopened":
+        return "open again after the fire"
+    return "a verified local business in town"
+
+
 def note(pick: LocalPick) -> str:
     """Why the Shopper bought locally, in the family's words."""
+    if pick.summary:
+        return f"Bought locally: {pick.business.name} is {_who(pick.business)}. {pick.summary}"
     if pick.online_best is None:
         return f"{pick.business.name} is a verified local business open again after the fire."
     more = (pick.candidate.unit_price / pick.online_best.unit_price - 1) * 100

@@ -312,7 +312,9 @@
     "refused": "Refused {{retailer}}:",
     "refusedWhy": "{{price}} is {{markup}}% above its price before the disaster ({{baseline}}). That's price gouging.",
     "local": "Local business",
-    "localDelivers": "{{store}} will contact you to arrange pickup or delivery"
+    "localDelivers": "{{store}} will contact you to arrange pickup or delivery",
+    "negotiation": "How the Shopper and local stores agreed on a price",
+    "shopperName": "Hearthline's Shopper"
   },
   "money": {
     "title": "Money",
@@ -1371,7 +1373,7 @@
     "markDelivered": "Mark delivered",
     "delivered": "Delivered",
     "catalogTitle": "Sell to families",
-    "catalogBody": "When a family's registry item is funded, Hearthline's Shopper checks local stores in town first and buys here if your price is within 15% of the best online offer.",
+    "catalogBody": "When a family's registry item is funded, Hearthline's Shopper asks the town's open stores for quotes before web stores. Your pricing agent answers within your rules, and the Shopper buys the best price within its limit.",
     "notOpen": "The Shopper buys only from verified businesses that are open. Once you've reopened, your offers count.",
     "item": "Item",
     "itemPlaceholder": "What you sell, e.g. Twin mattress, 8-inch foam",
@@ -1396,7 +1398,15 @@
       "lighting": "Lighting",
       "musical": "Musical instruments",
       "sports": "Sports"
-    }
+    },
+    "lowest": "Lowest",
+    "stock": "In stock",
+    "agentNote": "Instructions for your pricing agent",
+    "agentNoteHint": "Your agent quotes between each item's lowest price and its price, following your words. It never goes below the lowest price.",
+    "agentNotePlaceholder": "For example: families from the fire get our best price",
+    "saveNote": "Save",
+    "negotiated": "Agreed below your price ({{list}}) after the Shopper's counter-offer",
+    "discounted": "Your agent quoted below your price ({{list}})"
   },
   "tour": {
     "title": "New here? A five-minute path through the demo",

@@ -54,6 +54,32 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
         </p>
       )}
 
+      {p.negotiation && p.negotiation.length > 0 && (
+        <details className="mt-3 text-sm">
+          <summary className="cursor-pointer text-ink-soft">{t('purchases.negotiation')}</summary>
+          <ol className="mt-2 space-y-2">
+            {p.negotiation.map((m, i) => {
+              const shopper = m.from === "Hearthline's Shopper"
+              return (
+                <li key={i} className={`flex ${shopper ? 'justify-start' : 'justify-end'}`}>
+                  <div
+                    className={`max-w-[85%] rounded-lg px-3 py-2 ${shopper ? 'bg-sunken' : 'border border-line bg-surface'}`}
+                  >
+                    <p className="text-xs font-medium text-ink-faint">
+                      {shopper ? t('purchases.shopperName') : m.from}
+                      {m.unit_price && (
+                        <span className="ml-2 tabular-nums">{money(m.unit_price, { cents: true })}</span>
+                      )}
+                    </p>
+                    <p>{m.text}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ol>
+        </details>
+      )}
+
       {p.refused_offers.length > 0 && (
         <ul className="mt-3 space-y-1 rounded-lg border border-danger/30 bg-danger-soft p-3 text-sm">
           {p.refused_offers.map((r) => (

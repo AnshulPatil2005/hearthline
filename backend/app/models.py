@@ -409,6 +409,8 @@ class Purchase(Base):
     policy_checks: Mapped[list] = mapped_column(JSON, default=list)
     # Offers the Shopper refused because they were priced more than the gouging limit above their pre-disaster price.
     refused_offers: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
+    # The Shopper's talk with local stores' pricing agents: quotes, a counter-offer, the answer (shown to the family)
+    negotiation: Mapped[list] = mapped_column(JSON, default=list, server_default="[]")
     ai_reasoning: Mapped[str] = mapped_column(String(1000), default="")
     ai_confidence: Mapped[float | None]
     candidates_considered: Mapped[int] = mapped_column(default=0)
@@ -663,6 +665,8 @@ class Business(Base):
     verification: Mapped[str] = mapped_column(String(20), default="pending")
     verified_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
     verification_note: Mapped[str | None] = mapped_column(String(500))
+    # The owner's instructions to the store's pricing agent, in their own words (it never goes below an item's floor).
+    agent_note: Mapped[str] = mapped_column(String(280), default="", server_default="")
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     owner: Mapped[User] = relationship(foreign_keys=[owner_user_id])
@@ -938,10 +942,16 @@ class LocalOffer(Base):
     title: Mapped[str] = mapped_column(String(200))
     category: Mapped[str] = mapped_column(String(60), default="other")
     unit_price: Mapped[Decimal] = mapped_column(Money)
+    floor_price: Mapped[Decimal | None] = mapped_column(Money)  # the lowest the store's agent may agree to
+    stock: Mapped[int] = mapped_column(default=3, server_default="3")
     available: Mapped[bool] = mapped_column(default=True)
     created_at: Mapped[datetime] = mapped_column(default=now)
 
     business: Mapped[Business] = relationship()
+
+    @property
+    def floor(self) -> Decimal:
+        return min(self.floor_price, self.unit_price) if self.floor_price is not None else self.unit_price
 
 
 class GivingMandate(Base):
@@ -996,3 +1006,30 @@ class MandateGift(Base):
     mandate: Mapped[GivingMandate] = relationship(back_populates="gifts")
     item: Mapped["RegistryItem"] = relationship()
     donation: Mapped[Donation | None] = relationship()
+
+
+class MarketQuote(Base):
+    """A local store's pricing agent's quote to the Shopper for one need, and how it ended. The store's agent sets the
+    price within its owner's rules (never below the offer's floor); the Shopper may counter once."""
+
+    __tablename__ = "market_quotes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    business_id: Mapped[int] = mapped_column(ForeignKey("businesses.id", ondelete="CASCADE"), index=True)
+    offer_id: Mapped[int] = mapped_column(ForeignKey("local_offers.id", ondelete="CASCADE"))
+    registry_item_id: Mapped[int | None] = mapped_column(ForeignKey("registry_items.id", ondelete="SET NULL"))
+    purchase_id: Mapped[int | None] = mapped_column(ForeignKey("purchases.id", ondelete="SET NULL"), index=True)
+    quantity: Mapped[int] = mapped_column(default=1)
+    list_price: Mapped[Decimal] = mapped_column(Money)  # per unit
+    unit_price: Mapped[Decimal] = mapped_column(Money)  # the price on the table now
+    delivery_days: Mapped[int] = mapped_column(default=1)
+    status: Mapped[str] = mapped_column(
+        String(20), default="quoted"
+    )  # quoted | countered | final | accepted | declined
+    messages: Mapped[list] = mapped_column(JSON, default=list)  # [{from, text, unit_price}]
+    by_ai: Mapped[bool] = mapped_column(default=False)
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    decided_at: Mapped[datetime | None]
+
+    business: Mapped[Business] = relationship()
+    offer: Mapped[LocalOffer] = relationship()

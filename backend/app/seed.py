@@ -575,9 +575,10 @@ def main() -> None:
         from app.seed_reopen import seed_reopen_demo
 
         seed_reopen_demo(db)
-        from app.seed_local import seed_local_store
+        from app.seed_local import seed_hardware_store, seed_local_store
 
         seed_local_store(db)
+        seed_hardware_store(db)
         reopen.run_deadlines(db)  # Render's free plan has no cron: check Reopen deadlines at every start
         from app.seed_prices import seed_price_watch
 

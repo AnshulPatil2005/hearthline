@@ -5,7 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app import ai, mcp_server
+from app import ai, mcp_server, store_mcp
 from app.api import (
     alerts,
     auth,
@@ -39,11 +39,15 @@ from app.paypal import reporting
 
 settings = get_settings()
 mcp_app = mcp_server.http_app()
+stores_mcp_app = store_mcp.http_app()  # local stores' pricing agents, for the Shopper
 
 
 @asynccontextmanager
 async def lifespan(_app: FastAPI):
-    async with mcp_app.router.lifespan_context(mcp_app):  # the MCP session manager runs with the API
+    async with (
+        mcp_app.router.lifespan_context(mcp_app),  # the MCP session managers run with the API
+        stores_mcp_app.router.lifespan_context(stores_mcp_app),
+    ):
         yield
     reporting.close()  # the PayPal SDK client's connection pool
 
@@ -117,5 +121,7 @@ def health() -> dict:
     }
 
 
+# The store agents answer at /stores/mcp (Hearthline's Shopper only).
+app.mount("/stores", stores_mcp_app)
 # Last, so every API route above matches first: the MCP server answers at /mcp.
 app.mount("/", mcp_app)

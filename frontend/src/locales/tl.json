@@ -312,7 +312,9 @@
     "refused": "Tinanggihan ang {{retailer}}:",
     "refusedWhy": "Ang {{price}} ay {{markup}}% na mas mataas sa presyo nito bago ang sakuna ({{baseline}}). Iyan ay price gouging.",
     "local": "Lokal na negosyo",
-    "localDelivers": "Kokontakin kayo ng {{store}} para ayusin ang pickup o paghahatid"
+    "localDelivers": "Kokontakin kayo ng {{store}} para ayusin ang pickup o paghahatid",
+    "negotiation": "Paano nagkasundo sa presyo ang Shopper at mga lokal na tindahan",
+    "shopperName": "Shopper ng Hearthline"
   },
   "money": {
     "title": "Pera",
@@ -1371,7 +1373,7 @@
     "markDelivered": "Markahang naihatid",
     "delivered": "Naihatid",
     "catalogTitle": "Magbenta sa mga pamilya",
-    "catalogBody": "Kapag napondohan ang isang gamit sa registry ng pamilya, tinitingnan muna ng Shopper ng Hearthline ang mga lokal na tindahan sa bayan at dito bibili kung ang presyo ninyo ay hanggang 15% lang na mas mataas sa pinakamagandang alok online.",
+    "catalogBody": "Kapag napondohan ang isang gamit sa registry ng pamilya, humihingi muna ng presyo ang Shopper ng Hearthline sa mga bukas na tindahan sa bayan bago sa mga online na tindahan. Sumasagot ang inyong pricing agent ayon sa inyong mga panuntunan, at binibili ng Shopper ang pinakamagandang presyo sa loob ng limitasyon nito.",
     "notOpen": "Bumibili lang ang Shopper sa mga verified na negosyong bukas. Kapag muli kayong nagbukas, isasama na ang inyong mga alok.",
     "item": "Gamit",
     "itemPlaceholder": "Ang ibinebenta ninyo, hal. Twin mattress, 8-inch foam",
@@ -1396,7 +1398,15 @@
       "lighting": "Ilaw",
       "musical": "Instrumentong pangmusika",
       "sports": "Pang-isports"
-    }
+    },
+    "lowest": "Pinakamababa",
+    "stock": "May stock",
+    "agentNote": "Mga tagubilin para sa inyong pricing agent",
+    "agentNoteHint": "Nagbibigay ng presyo ang inyong agent sa pagitan ng pinakamababang presyo ng bawat gamit at ng presyo nito, ayon sa inyong mga salita. Hindi ito bababa sa pinakamababang presyo.",
+    "agentNotePlaceholder": "Halimbawa: ang mga pamilyang nasunugan ay nakakakuha ng pinakamagandang presyo namin",
+    "saveNote": "I-save",
+    "negotiated": "Nagkasundo nang mas mababa sa inyong presyo ({{list}}) matapos ang counter-offer ng Shopper",
+    "discounted": "Nagbigay ang inyong agent ng presyong mas mababa sa inyong presyo ({{list}})"
   },
   "tour": {
     "title": "Bago ka rito? Limang minutong daan sa demo",

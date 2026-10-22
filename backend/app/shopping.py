@@ -12,7 +12,7 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, geo, gouging, ledger, local_first, policy
+from app import audit, geo, gouging, ledger, local_first, marketplace, policy
 from app.agents import shopper
 from app.config import get_settings
 from app.db import SessionLocal
@@ -109,21 +109,53 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
             return purchase
     purchase.candidates_considered += len(local)
 
-    # Local first: the AI judges fit (local and online); code decides whether the local offer wins on price.
+    # Local first: the AI judges fit at each local store and online; the stores' pricing agents quote over MCP; code
+    # sets the most the Shopper will pay and decides.
     online = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, candidates) if candidates else None
     online_pick = candidates[online.choice] if online and online.choice >= 0 else None
     pick: local_first.LocalPick | None = None
     local_note = ""
+    fit = None
     if local:
-        options = [c for c, _ in local.values()]
-        fit = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, options)
-        if fit.choice >= 0 and fit.confidence >= local_first.MIN_FIT:
-            chosen = options[fit.choice]
-            if local_first.prefer_local(chosen, online_pick):
-                pick = local_first.LocalPick(chosen, local[chosen.product_id][1], online_pick)
+        by_store: dict[str, list[tuple[shopper.Candidate, Business]]] = {}
+        for candidate, business in local.values():
+            by_store.setdefault(business.slug, []).append((candidate, business))
+        asks, fits = [], {}
+        for slug, offers in by_store.items():
+            choice = shopper.choose(item.name, item.note, item.quantity, budget_per_unit, [c for c, _ in offers])
+            if choice.choice >= 0 and choice.confidence >= local_first.MIN_FIT:
+                chosen, business = offers[choice.choice]
+                offer_id = int(chosen.product_id.removeprefix("local-"))
+                asks.append(marketplace.Ask(slug, business.name, offer_id, chosen.title))
+                fits[slug] = (choice, chosen, business.id)
+        if asks:
+            most, reason = local_first.limit(budget_per_unit, online_pick)
+            note = item.note.strip().rstrip(".")
+            need = item.name[:1].lower() + item.name[1:] + (f" ({note[:1].lower() + note[1:]})" if note else "")
+            db.flush()
+            quantity, item_id, purchase_id = item.quantity, item.id, purchase.id
+            # The stores' agents record their quotes against this purchase on their own connection: commit, and touch
+            # nothing in this session until they've answered (on SQLite a read here would block their writes).
+            db.commit()
+            outcome = marketplace.negotiate(
+                asks,
+                quantity=quantity,
+                limit=most,
+                need=need,
+                competing=online_pick.unit_price if online_pick else None,
+                reason=reason,
+                registry_item_id=item_id,
+                purchase_id=purchase_id,
+            )
+            purchase.negotiation = outcome.transcript
+            if outcome.deal is not None:
+                fit, chosen, business_id = fits[outcome.deal.store_slug]
+                agreed = shopper.Candidate(
+                    chosen.product_id, chosen.title, chosen.retailer, outcome.deal.unit_price, chosen.url
+                )
+                pick = local_first.LocalPick(agreed, db.get(Business, business_id), online_pick, outcome.summary)
             else:
-                more = (chosen.unit_price / online_pick.unit_price - 1) * 100
-                local_note = f" {chosen.retailer} was checked first, but its price was {more:.0f}% above online."
+                local_note = f" {outcome.summary}"
 
     choice = fit if pick else online
     if choice is None:

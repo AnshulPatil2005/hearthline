@@ -53,10 +53,11 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   National Weather Service alerts warn the household when a disaster nears.
 - **Respond.** A family's Rebuild Registry lists specific things they need. Donors pay with PayPal, Venmo or Pay
   Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
-  sellers who raise prices past California's 10% limit. It checks verified local stores that have reopened in the
-  family's town first, and buys there when the price is within 15% of the web store it would otherwise use, so gifts
-  also help the town's businesses recover. A copycat registry is caught, two people reject it, and its donors are
-  refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
+  sellers who raise prices past California's 10% limit. Before web stores it asks the town's open stores for
+  quotes: each store sells through a pricing agent that follows its owner's rules (a lowest price per item, stock,
+  the owner's own instructions), the two agents talk over MCP, the Shopper may counter once, and it buys the best
+  price within its limit. The family can read the whole exchange. A copycat registry is caught, two people reject it,
+  and its donors are refunded. Cash aid is paid through PayPal Payouts, but only after a person approves it.
 - **Give automatically.** A donor saves their PayPal account once (PayPal Vault) and leaves a standing instruction:
   where, how much per gift and per month, and what kinds of needs. When verified families need help, the giving
   agent gives within those limits with no checkout and explains each gift; the donor can pause or stop, which
@@ -102,6 +103,7 @@ stand-in "retailer" sandbox account through Payouts. In production it would chec
 | **Inventory** | Turns room photos into items: name, room, quantity, condition | The household confirms or edits every item |
 | **Valuation** | Prices each item from Channel3 offers | Outliers need more proof |
 | **Shopper** | Buys funded registry items | Nine rules in code: money held for the family, within what was given for the item, per-item and daily limits, allowed categories, known retailers, ships only to the verified address, price sanity, no price gouging. Purchases over $300 wait for the household's OK |
+| **Store pricing agents** | One per open local store: quotes the Shopper over MCP and answers its counter-offer | The owner's lowest price per item and stock are enforced in code; the AI chooses within them and writes the store's words |
 | **Sentinel** | Flags warning signs (copied photos, shared payout accounts, addresses outside the disaster zone, photos taken after the disaster) and explains them | Never decides. It only sets how many people must review a case |
 | **Site** | Checks a contractor's milestone photos against the work described | A mismatch makes the case high risk, which needs two reviewers |
 | **Policy** | Reads an insurance policy PDF: limits, sub-limits, deadlines; answers questions with a quote | Read-only, and not legal advice; code does the math against the inventory |

@@ -43,6 +43,24 @@ def _strings_fit_their_columns(session, flush_context, instances):
 
 
 @pytest.fixture(autouse=True)
+def store_agents_in_process(monkeypatch):
+    """The Shopper reaches the local stores' agents' MCP server in-process (the real protocol, no HTTP), and the
+    agents price without the AI (at list price, with template replies) unless a test sets them up."""
+    from types import SimpleNamespace
+
+    from mcp import Client
+
+    from app import ai, marketplace, store_mcp
+    from app.agents import store
+
+    def no_ai(*args, **kwargs):
+        raise ai.AIError("no AI in tests")
+
+    monkeypatch.setattr(marketplace, "connect", lambda: Client(store_mcp.server))
+    monkeypatch.setattr(store, "ai", SimpleNamespace(parse=no_ai, text_part=ai.text_part, AIError=ai.AIError))
+
+
+@pytest.fixture(autouse=True)
 def no_background_shopping(monkeypatch):
     """Funding an item normally starts the Shopper in a background thread with real Channel3 and AI
     calls. Tests must never do that; test_shopping opts back in with an inline, faked Shopper."""

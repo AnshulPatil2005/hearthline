@@ -308,7 +308,9 @@
     "refused": "已拒绝 {{retailer}}：",
     "refusedWhy": "{{price}} 比灾前价格（{{baseline}}）高出 {{markup}}%，属于哄抬物价。",
     "local": "本地商家",
-    "localDelivers": "{{store}} 会联系您安排自取或送货"
+    "localDelivers": "{{store}} 会联系您安排自取或送货",
+    "negotiation": "采购助手与本地商店如何议定价格",
+    "shopperName": "Hearthline 采购助手"
   },
   "money": {
     "title": "资金",
@@ -1345,7 +1347,7 @@
     "markDelivered": "标记为已送达",
     "delivered": "已送达",
     "catalogTitle": "向受灾家庭出售",
-    "catalogBody": "当家庭愿望清单上的物品筹满后，Hearthline 采购助手会先查看本镇的本地商店；如果您的价格在最佳网上报价的 15% 以内，就在这里购买。",
+    "catalogBody": "当家庭愿望清单上的物品筹满后，Hearthline 采购助手会先向镇上正在营业的商店询价，再考虑网店。您的定价助手按您的规则报价，采购助手在限额内选择最佳价格购买。",
     "notOpen": "采购助手只向已核实且正在营业的商家购买。重新开业后，您的商品就会被考虑。",
     "item": "商品",
     "itemPlaceholder": "您出售的商品，例如：单人床垫，8 英寸泡沫",
@@ -1370,7 +1372,15 @@
       "lighting": "照明",
       "musical": "乐器",
       "sports": "运动用品"
-    }
+    },
+    "lowest": "最低价",
+    "stock": "库存",
+    "agentNote": "给您的定价助手的说明",
+    "agentNoteHint": "您的定价助手会按照您的说明，在每件商品的最低价和标价之间报价，绝不低于最低价。",
+    "agentNotePlaceholder": "例如：受火灾影响的家庭享受我们的最优价格",
+    "saveNote": "保存",
+    "negotiated": "采购助手还价后，以低于您标价（{{list}}）的价格成交",
+    "discounted": "您的定价助手报价低于您的标价（{{list}}）"
   },
   "tour": {
     "title": "第一次来？五分钟体验演示",

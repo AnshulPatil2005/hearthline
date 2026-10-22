@@ -308,7 +308,9 @@
     "refused": "Đã từ chối {{retailer}}:",
     "refusedWhy": "{{price}} cao hơn {{markup}}% so với giá trước thảm họa ({{baseline}}). Đó là hét giá.",
     "local": "Doanh nghiệp địa phương",
-    "localDelivers": "{{store}} sẽ liên hệ với quý vị để hẹn nhận hàng hoặc giao hàng"
+    "localDelivers": "{{store}} sẽ liên hệ với quý vị để hẹn nhận hàng hoặc giao hàng",
+    "negotiation": "Cách Trợ lý mua sắm và các cửa hàng địa phương thống nhất giá",
+    "shopperName": "Trợ lý mua sắm của Hearthline"
   },
   "money": {
     "title": "Tiền",
@@ -1345,7 +1347,7 @@
     "markDelivered": "Đánh dấu đã giao",
     "delivered": "Đã giao",
     "catalogTitle": "Bán cho các gia đình",
-    "catalogBody": "Khi một món trong danh sách của gia đình được gây đủ quỹ, Trợ lý mua sắm của Hearthline xem trước các cửa hàng địa phương trong thị trấn và mua ở đây nếu giá của quý vị không cao hơn quá 15% so với giá trực tuyến tốt nhất.",
+    "catalogBody": "Khi một món trong danh sách của gia đình được gây đủ quỹ, Trợ lý mua sắm của Hearthline hỏi giá các cửa hàng đang mở cửa trong thị trấn trước các cửa hàng trực tuyến. Trợ lý định giá của quý vị trả lời theo quy tắc của quý vị, và Trợ lý mua sắm mua giá tốt nhất trong giới hạn của mình.",
     "notOpen": "Trợ lý mua sắm chỉ mua của doanh nghiệp đã xác minh và đang mở cửa. Khi quý vị mở cửa lại, các mặt hàng sẽ được tính.",
     "item": "Mặt hàng",
     "itemPlaceholder": "Món quý vị bán, vd. Nệm đơn, mút 8 inch",
@@ -1370,7 +1372,15 @@
       "lighting": "Đèn",
       "musical": "Nhạc cụ",
       "sports": "Đồ thể thao"
-    }
+    },
+    "lowest": "Thấp nhất",
+    "stock": "Còn hàng",
+    "agentNote": "Hướng dẫn cho trợ lý định giá của quý vị",
+    "agentNoteHint": "Trợ lý báo giá trong khoảng giữa giá thấp nhất và giá niêm yết của từng món, theo lời của quý vị. Không bao giờ thấp hơn giá thấp nhất.",
+    "agentNotePlaceholder": "Ví dụ: các gia đình bị cháy nhà được giá tốt nhất của chúng tôi",
+    "saveNote": "Lưu",
+    "negotiated": "Đã thống nhất thấp hơn giá của quý vị ({{list}}) sau khi Trợ lý mua sắm trả giá",
+    "discounted": "Trợ lý của quý vị báo giá thấp hơn giá niêm yết ({{list}})"
   },
   "tour": {
     "title": "Lần đầu đến đây? Năm phút đi qua bản demo",

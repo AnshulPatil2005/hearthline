@@ -1,5 +1,6 @@
-"""A local business's side of "local first": what it sells to families through Hearthline's Shopper, the orders the
-Shopper placed (already paid through PayPal), and marking them delivered."""
+"""A local business's side of "local first": what it sells to families through Hearthline's Shopper, the rules its
+pricing agent follows when the Shopper asks for quotes (a floor under each price, stock, the owner's note), the orders
+the Shopper placed (already paid through PayPal), and marking them delivered."""
 
 from datetime import datetime
 from decimal import Decimal
@@ -13,7 +14,7 @@ from sqlalchemy.orm import Session
 from app import audit, local_first
 from app.api.reopen import MyBusiness, Owner
 from app.db import get_db
-from app.models import Household, LocalOffer, Purchase
+from app.models import Household, LocalOffer, MarketQuote, Purchase
 from app.schemas import Money
 
 router = APIRouter(prefix="/businesses/me", tags=["local-shop"])
@@ -24,6 +25,8 @@ class OfferIn(BaseModel):
     title: str = Field(min_length=2, max_length=200)
     category: str = Field(min_length=2, max_length=60)
     unit_price: Decimal = Field(gt=0, le=5000)
+    floor_price: Decimal | None = Field(default=None, gt=0, le=5000)  # the lowest the store's agent may agree to
+    stock: int = Field(default=3, ge=0, le=10000)
 
 
 class OfferOut(BaseModel):
@@ -31,17 +34,24 @@ class OfferOut(BaseModel):
     title: str
     category: str
     unit_price: Money
+    floor_price: Money | None
+    stock: int
     available: bool
 
 
 class Shop(BaseModel):
     open: bool  # the Shopper only buys from verified businesses that are open
+    agent_note: str  # the owner's instructions to the store's pricing agent
     offers: list[OfferOut]
 
 
 def _shop(db: Session, b) -> Shop:
     offers = db.scalars(select(LocalOffer).where(LocalOffer.business_id == b.id).order_by(LocalOffer.id))
-    return Shop(open=local_first.open_now(b), offers=[OfferOut.model_validate(o, from_attributes=True) for o in offers])
+    return Shop(
+        open=local_first.open_now(b),
+        agent_note=b.agent_note,
+        offers=[OfferOut.model_validate(o, from_attributes=True) for o in offers],
+    )
 
 
 @router.get("/offers", response_model=Shop)
@@ -51,13 +61,30 @@ def my_offers(b: MyBusiness, db: DB) -> Shop:
 
 @router.post("/offers", response_model=Shop, status_code=201)
 def add_offer(body: OfferIn, b: MyBusiness, db: DB) -> Shop:
-    db.add(LocalOffer(business_id=b.id, title=body.title.strip(), category=body.category, unit_price=body.unit_price))
+    if body.floor_price is not None and body.floor_price > body.unit_price:
+        raise HTTPException(422, "The lowest price can't be above the price")
+    db.add(
+        LocalOffer(
+            business_id=b.id,
+            title=body.title.strip(),
+            category=body.category,
+            unit_price=body.unit_price,
+            floor_price=body.floor_price,
+            stock=body.stock,
+        )
+    )
     db.commit()
     return _shop(db, b)
 
 
-class AvailableIn(BaseModel):
-    available: bool
+class OfferPatch(BaseModel):
+    available: bool | None = None
+    stock: int | None = Field(default=None, ge=0, le=10000)
+    floor_price: Decimal | None = Field(default=None, gt=0, le=5000)
+
+
+class AgentNoteIn(BaseModel):
+    note: str = Field(default="", max_length=280)
 
 
 def _offer(db: Session, b, offer_id: int) -> LocalOffer:
@@ -68,8 +95,20 @@ def _offer(db: Session, b, offer_id: int) -> LocalOffer:
 
 
 @router.patch("/offers/{offer_id}", response_model=Shop)
-def set_available(offer_id: int, body: AvailableIn, b: MyBusiness, db: DB) -> Shop:
-    _offer(db, b, offer_id).available = body.available
+def update_offer(offer_id: int, body: OfferPatch, b: MyBusiness, db: DB) -> Shop:
+    offer = _offer(db, b, offer_id)
+    if body.floor_price is not None and body.floor_price > offer.unit_price:
+        raise HTTPException(422, "The lowest price can't be above the price")
+    for field in body.model_fields_set:
+        setattr(offer, field, getattr(body, field))
+    db.commit()
+    return _shop(db, b)
+
+
+@router.put("/agent", response_model=Shop)
+def set_agent_note(body: AgentNoteIn, b: MyBusiness, db: DB) -> Shop:
+    """The owner's instructions to the store's pricing agent. It never goes below an item's lowest price."""
+    b.agent_note = body.note.strip()
     db.commit()
     return _shop(db, b)
 
@@ -89,6 +128,8 @@ class OrderOut(BaseModel):
     status: str
     paid_at: datetime | None
     family: str
+    list_price: Money | None  # when the store's agent agreed to less than the list price
+    negotiated: bool  # the Shopper countered and the store's agent accepted
     # Who to hand it to. The verified address is often the damaged home, so the store arranges pickup or delivery
     # with the family's contact and checks their name when handing it over.
     contact_name: str
@@ -103,7 +144,17 @@ def my_orders(b: MyBusiness, db: DB) -> list[OrderOut]:
         .join(Household, Purchase.household_id == Household.id)
         .where(Purchase.local_business_id == b.id, Purchase.status.in_(("paid", "shipped", "delivered")))
         .order_by(Purchase.id.desc())
-    )
+    ).all()
+    quotes = {
+        q.purchase_id: q
+        for q in db.scalars(
+            select(MarketQuote).where(
+                MarketQuote.purchase_id.in_([p.id for p, _ in rows]),
+                MarketQuote.business_id == b.id,
+                MarketQuote.status == "accepted",
+            )
+        )
+    }
     return [
         OrderOut(
             id=p.id,
@@ -113,6 +164,8 @@ def my_orders(b: MyBusiness, db: DB) -> list[OrderOut]:
             status=p.status,
             paid_at=p.paid_at,
             family=h.name,
+            list_price=q.list_price if (q := quotes.get(p.id)) and q.unit_price < q.list_price else None,
+            negotiated=bool(q and any(m["from"] == "Hearthline's Shopper" and m.get("unit_price") for m in q.messages)),
             contact_name=contact.name if contact else h.name,
             contact_email=contact.email if contact else "",
         )

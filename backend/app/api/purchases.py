@@ -41,6 +41,7 @@ class PurchaseOut(ORM):
     candidates_considered: int
     payment_rail: str
     local_business_id: int | None = None  # bought from a local business (it delivers)
+    negotiation: list[dict] = []  # the Shopper's talk with local stores' pricing agents
     paypal_ref: str | None
     carrier: str | None
     tracking_number: str | None

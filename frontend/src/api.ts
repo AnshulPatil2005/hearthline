@@ -228,6 +228,7 @@ export type Purchase = {
   id: number
   registry_item_id: number | null
   local_business_id?: number | null
+  negotiation?: NegotiationLine[]
   title: string
   retailer: string
   url: string | null
@@ -782,9 +783,20 @@ export type ClaimPacket = {
   payout_status: 'sent' | 'held' | null
 }
 
+export type NegotiationLine = { from: string; to?: string; text: string; unit_price: string | null }
+
 export type LocalShop = {
   open: boolean
-  offers: { id: number; title: string; category: string; unit_price: string; available: boolean }[]
+  agent_note: string
+  offers: {
+    id: number
+    title: string
+    category: string
+    unit_price: string
+    floor_price: string | null
+    stock: number
+    available: boolean
+  }[]
 }
 export type LocalOrder = {
   id: number
@@ -794,6 +806,8 @@ export type LocalOrder = {
   status: 'paid' | 'shipped' | 'delivered'
   paid_at: string | null
   family: string
+  list_price: string | null
+  negotiated: boolean
   contact_name: string
   contact_email: string
 }
