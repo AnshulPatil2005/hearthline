@@ -131,8 +131,8 @@ The models are Google Gemini through its OpenAI-compatible API, falling back to 
   [How we built it](#how-we-built-it)). Hearthline's
   own Public API is described by a validated OpenAPI 3.1 file ([docs/api](docs/api)) that is kept in sync by a test;
   _APIMatic-generated SDKs and the API portal are added before submission._
-- **Render.** [`render.yaml`](render.yaml) deploys the API, the web app and Postgres on free plans (see
-  [Deploy](#deploy-on-render)).
+- **Render.** [`render.yaml`](render.yaml) deploys the API and the web app on free plans; the database is Neon's
+  free Postgres in the same region (see [Deploy](#deploy-on-render)).
 
 ## Public API and MCP server
 
