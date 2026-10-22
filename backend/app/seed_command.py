@@ -18,7 +18,9 @@ from app.models import (
     Crew,
     CrewJob,
     DisasterEvent,
+    EvidenceLevel,
     Household,
+    Item,
     LedgerAccount,
     LedgerPosting,
     LedgerTransaction,
@@ -319,4 +321,57 @@ def seed_crews(db: Session) -> None:
             )
         )
     db.add_all(jobs)
+    db.commit()
+
+
+PREPARED_ITEMS = [
+    ("Sofa", "furniture", "899.00"),
+    ("Refrigerator", "appliance", "1399.00"),
+    ("Beds and bedding", "bedding", "1150.00"),
+]
+
+
+def seed_prepared(db: Session, count: int = 20) -> None:
+    """Some households scanned their homes before the fire: a small inventory on file makes them verification level
+    3, which first-72-hours aid pays without waiting. Verified households in the zone with PayPal, lowest ids first."""
+    if db.scalar(select(func.count(Household.id)).where(Household.verification_level >= 3)) > count:
+        return
+    homes = db.scalars(
+        select(Household)
+        .where(Household.verification_level == 2, Household.payout_email.is_not(None))
+        .order_by(Household.id)
+        .limit(count)
+    ).all()
+    scanned = datetime.now(UTC) - timedelta(days=120)
+    for home in homes:
+        for name, category, price in PREPARED_ITEMS:
+            db.add(
+                Item(
+                    household_id=home.id,
+                    name=name,
+                    category=category,
+                    unit_price=Decimal(price),
+                    price_source="channel3",
+                    evidence_level=EvidenceLevel.PRE_DISASTER_SCAN,
+                    confirmed=True,
+                    created_at=scanned,
+                )
+            )
+        db.flush()
+        trust.refresh_level(db, home)
+    if homes:  # one inventory with a price no market supports: Sentinel holds this household back for a person
+        db.add(
+            Item(
+                household_id=homes[-1].id,
+                name="65-inch television",
+                category="electronics",
+                unit_price=Decimal("8900.00"),
+                price_low=Decimal("650.00"),
+                price_high=Decimal("1200.00"),
+                price_source="user",
+                evidence_level=EvidenceLevel.PRE_DISASTER_SCAN,
+                confirmed=True,
+                created_at=scanned,
+            )
+        )
     db.commit()

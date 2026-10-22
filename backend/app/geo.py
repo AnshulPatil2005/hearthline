@@ -28,6 +28,12 @@ def in_zone(zone: dict, lat: float, lng: float) -> bool:
     return _geometry(json.dumps(zone, sort_keys=True)).covers(Point(lng, lat))
 
 
+def center(zone: dict) -> tuple[float, float]:
+    """A point inside the zone (lat, lng), for asking a service what covers it."""
+    point = _geometry(json.dumps(zone, sort_keys=True)).representative_point()
+    return point.y, point.x
+
+
 def event_for_point(db: Session, lat: float, lng: float) -> DisasterEvent | None:
     events = db.scalars(select(DisasterEvent).where(DisasterEvent.status == "active"))
     return next((e for e in events if in_zone(e.zone, lat, lng)), None)

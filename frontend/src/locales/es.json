@@ -488,12 +488,12 @@
       "0": "Crear un perfil",
       "1": "Recibir artículos",
       "2": "Recibir ayuda en efectivo",
-      "3": "Insignia de inventario verificado"
+      "3": "Insignia de inventario verificado y ayuda en efectivo de las primeras 72 horas"
     },
     "next": {
       "address_outside_zone": "Tu dirección aún no está dentro de un área de desastre activa. Si es un error, actualiza tu dirección.",
       "confirm_residence": "Para recibir ayuda en efectivo, sube un comprobante de domicilio (una factura o contrato) o pide a un trabajador social que responda por ti. ¿Perdiste tus papeles en el incendio? Un trabajador social puede responder por ti.",
-      "scan_before_disaster": "Escanea tus habitaciones antes de un desastre para obtener la insignia de inventario verificado y agilizar los reclamos."
+      "scan_before_disaster": "Escanea tus habitaciones antes de un desastre para obtener la insignia de inventario verificado, recibir ayuda en efectivo a las pocas horas de una alerta oficial y agilizar los reclamos."
     },
     "requestTitle": "Solicitar ayuda en efectivo",
     "requestBody": "Dinos cuánto necesitas y para qué. Un revisor lo comprueba y luego PayPal envía el dinero a tu cuenta.",
@@ -518,7 +518,19 @@
     },
     "videoNeeded": "Esta solicitud necesita una breve videollamada. Un revisor acordará una hora contigo.",
     "replyPlaceholder": "Tu respuesta",
-    "sendReply": "Enviar respuesta"
+    "sendReply": "Enviar respuesta",
+    "batchAid": {
+      "title": "Ayuda en efectivo enviada a tu cuenta de PayPal",
+      "rapid": "Ayuda de las primeras 72 horas: te preparaste antes del desastre, así que se envió cuando llegó la alerta oficial.",
+      "to": "A {{email}}",
+      "status": {
+        "PENDING": "En camino",
+        "SUCCESS": "En tu cuenta de PayPal",
+        "UNCLAIMED": "Te espera en PayPal: inicia sesión con {{email}} para reclamarla",
+        "RETURNED": "Regresó al fondo de ayuda",
+        "other": "Estado en PayPal: {{status}}"
+      }
+    }
   },
   "rebuild": {
     "title": "Reconstruir",
@@ -1498,5 +1510,45 @@
     "returnGave_one": "El agente de donaciones acaba de hacer {{count}} donación, {{amount}} en total.",
     "returnGave_other": "El agente de donaciones acaba de hacer {{count}} donaciones, {{amount}} en total.",
     "back": "Volver a mis donaciones"
+  },
+  "rapid": {
+    "title": "Ayuda de las primeras 72 horas",
+    "intro": "Cuando una alerta oficial o una declaración cubre la zona de {{disaster}}, los hogares que se prepararon (verificados, con un inventario de antes del desastre y una cuenta de PayPal) reciben {{base}} más {{perPerson}} por cada otra persona, hasta {{cap}}, en cuestión de horas. Una persona aprueba; Sentinel retiene a quien tenga señales de alerta para que una persona lo revise.",
+    "check": "Revisar alertas oficiales",
+    "simulate": "Simular una orden de evacuación (demo)",
+    "noWarnings": "El Servicio Meteorológico Nacional no tiene ninguna alerta activa para la zona de {{disaster}} ahora.",
+    "source": {
+      "nws": "Servicio Meteorológico Nacional",
+      "declaration": "Declaración de desastre",
+      "simulated": "Simulada"
+    },
+    "status": {
+      "proposed": "Esperando aprobación",
+      "approved": "Aprobada",
+      "dismissed": "Descartada"
+    },
+    "wouldPay_one": "Pagaría {{total}} a {{n}} hogar preparado por PayPal Payouts.",
+    "wouldPay_other": "Pagaría {{total}} a {{n}} hogares preparados por PayPal Payouts.",
+    "paid_one": "Se pagaron {{total}} a {{n}} hogar por PayPal Payouts.",
+    "paid_other": "Se pagaron {{total}} a {{n}} hogares por PayPal Payouts.",
+    "notSent": "No enviado: {{error}}",
+    "paypalBatch": "Lote de PayPal {{id}}",
+    "decided": "Decidido por {{name}}, {{when}}",
+    "held_one": "Sentinel retiene {{count}} hogar para que una persona lo revise",
+    "held_other": "Sentinel retiene {{count}} hogares para que una persona los revise",
+    "leftOut": "No elegibles ahora:",
+    "reason": {
+      "not_prepared": "verificados, sin inventario previo al desastre",
+      "not_verified": "no verificados",
+      "no_paypal": "sin cuenta de PayPal",
+      "shared_paypal": "PayPal compartido con otro hogar",
+      "recent_aid": "ayuda en los últimos 14 días",
+      "in_open_batch": "ya en un lote"
+    },
+    "approve": "Aprobar y pagar {{total}}",
+    "paying": "Pagando…",
+    "dismiss": "Descartar",
+    "dismissWhy": "Por qué (para el registro)",
+    "oneApproval": "Las reglas prepararon este lote; su aprobación lo paga."
   }
 }

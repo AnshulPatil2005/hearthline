@@ -22,14 +22,14 @@ the sandbox buyer login to copy.
 
 | Persona | Who they are | Try this |
 |---|---|---|
-| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf), ask about it, and send the insurer a claim they can pay with PayPal), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
+| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account; see first-72-hours aid once Sam approves it), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf), ask about it, and send the insurer a claim they can pay with PayPal), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
 | `marcus.chen` | A donor | **My giving**: each gift's journey from paid to bought to delivered, and a note from the Funds agent |
 | `dana.okafor` | A licensed contractor | **Projects**: drag milestones in the Gantt, submit work photos for the Site agent's check |
 | `luis.moreno` | Owner of Moreno's Bakery, closed by the fire | **Reopen Fund**: ask for the next step's money, mark the bakery reopened, take a gift card by its QR code |
 | `rosa.delgado` | Owner of Sablewood Mercantile, open again after the fire | **Reopen Fund**: the orders Hearthline's Shopper placed with her store (already paid through PayPal) to hand over and mark delivered, and the catalog she sells to families |
 | `priya.nair`, `tom.becker` | Claim reviewers | **Review queue**: open the copycat registry case and reject it (two reviewers are needed) |
 | `grace.alvarez` | Review supervisor | Settles disagreements; approves cash-aid batches |
-| `sam.whitfield` | Relief organization admin | **Command Center** (2,000 households, "Ask the grid", batch cash aid with a PayPal balance check), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Books** (our ledger against PayPal's Transaction Search), **Price Watch** |
+| `sam.whitfield` | Relief organization admin | **Command Center** (first-72-hours aid: check official warnings or simulate an evacuation order, then one approval pays every prepared household; 2,000 households, "Ask the grid", batch cash aid with a PayPal balance check), **Crews**, **Businesses**, **Disputes** ("Ask PayPal"), **Books** (our ledger against PayPal's Transaction Search), **Price Watch** |
 
 Someone else changed the demo? **Put it back to the start** at the bottom of the sign-in page resets every
 persona's data for everyone (at most once every ten minutes).
@@ -50,7 +50,10 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
 
 - **Prepare.** Photograph each room. The Inventory agent lists what it sees, and the Valuation agent prices each
   item with Channel3. The result is a dated, priced inventory in AG Grid that exports to Excel for an insurance claim.
-  National Weather Service alerts warn the household when a disaster nears.
+  National Weather Service alerts warn the household when a disaster nears. Households that prepared get
+  first-72-hours aid: when an official warning covers their zone, the relief organization approves once and
+  PayPal Payouts sends each of them $250 plus $50 for each other person (up to $500) within hours; Sentinel
+  holds back anyone with warning signs for a person to check.
 - **Respond.** A family's Rebuild Registry lists specific things they need. Donors pay with PayPal, Venmo or Pay
   Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
   sellers who raise prices past California's 10% limit. Before web stores it asks the town's open stores for
@@ -82,7 +85,7 @@ supports it.
 |---|---|
 | **Orders v2** (via the APIMatic-generated Server SDK): create, capture, full and partial refunds | Registry gifts, Reopen gift cards, gifts prepared through the Public API, refunds when a scam registry is rejected or a business misses its date |
 | **JS SDK v6**: PayPal, **Venmo** and **Pay Later** buttons | Registry and Reopen checkout |
-| **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; contractor milestones released from escrow; Reopen steps; the Shopper paying a local store's PayPal account, or the stand-in for a web retailer |
+| **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; first-72-hours aid after an official warning (rules prepare the batch, one person approves it); contractor milestones released from escrow; Reopen steps; the Shopper paying a local store's PayPal account, or the stand-in for a web retailer |
 | **Subscriptions** (catalog product, plan, subscription, transactions, cancel, sale refunds) | Reopen "regulars" who pay monthly toward a gift card |
 | **Shipment tracking** (Orders `track`) | When the Shopper's purchase ships, the tracking number appears on each donor's PayPal payment |
 | **Disputes**: list, details, message, evidence (multipart with a records PDF and tracking), accept claim | The payment disputes desk for gifts and gift cards |
@@ -113,7 +116,7 @@ stand-in "retailer" sandbox account through Payouts. In production it would chec
 
 **People approve money.** Review depth scales with risk: one reviewer for low-risk cases; a video call for medium;
 two independent reviewers (and a supervisor if they disagree) for high-risk or large amounts. 5% of cases are
-re-checked at random. Batch payouts need a second person. Every decision goes into a tamper-evident audit log, and
+re-checked at random. Batch payouts need a second person; first-72-hours aid is prepared by fixed rules, and one person approves it. Every decision goes into a tamper-evident audit log, and
 every money movement into a double-entry ledger.
 
 The models are Google Gemini through its OpenAI-compatible API, falling back to free OpenRouter models

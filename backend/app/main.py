@@ -26,6 +26,7 @@ from app.api import (
     price_watch,
     public,
     purchases,
+    rapid_aid,
     rebuild,
     registry,
     reopen,
@@ -94,6 +95,7 @@ app.include_router(books.router)
 app.include_router(claims.router)
 app.include_router(local_shop.router)
 app.include_router(mandates.router)
+app.include_router(rapid_aid.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

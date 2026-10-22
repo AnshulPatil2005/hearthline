@@ -17,6 +17,7 @@ import { AidBatchPanel } from '../components/AidBatchPanel'
 import { AidBatches } from '../components/AidBatches'
 import { AskGrid } from '../components/AskGrid'
 import { Stat } from '../components/Milestones'
+import { RapidAid } from '../components/RapidAid'
 import { money } from '../format'
 import { gridTheme } from '../grid'
 
@@ -251,6 +252,7 @@ export default function CommandCenter() {
         <Stat label={t('command.stat.help')} value={s ? money(s.help_received) : '…'} />
         <Stat label={t('command.stat.unmet')} value={s ? money(s.unmet_need) : '…'} />
       </div>
+      <RapidAid onPaid={refresh} />
       {batching && (
         <AidBatchPanel
           filterModel={() => gridApi.current?.getFilterModel() ?? {}}

@@ -567,9 +567,10 @@ def main() -> None:
 
         seed_rivera_inventory(db)
         seed_rebuild_demo(db)
-        from app.seed_command import seed_command_center, seed_crews  # imports this module's constants
+        from app.seed_command import seed_command_center, seed_crews, seed_prepared  # this module's constants
 
         seed_command_center(db)
+        seed_prepared(db)
         seed_crews(db)
         from app import reopen
         from app.seed_reopen import seed_reopen_demo

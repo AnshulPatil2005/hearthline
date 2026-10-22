@@ -488,12 +488,12 @@
       "0": "Create a profile",
       "1": "Receive items",
       "2": "Receive cash aid",
-      "3": "Verified inventory badge"
+      "3": "Verified inventory badge, and first-72-hours cash aid"
     },
     "next": {
       "address_outside_zone": "Your address isn't inside an active disaster area yet. If that's wrong, update your address.",
       "confirm_residence": "To unlock cash aid, upload proof of residence (a bill or lease) or ask a caseworker to vouch for you. Lost your papers in the fire? A caseworker can vouch instead.",
-      "scan_before_disaster": "Scan your rooms before a disaster to earn the verified inventory badge and speed up claims."
+      "scan_before_disaster": "Scan your rooms before a disaster to earn the verified inventory badge, get cash aid within hours of an official warning, and speed up claims."
     },
     "requestTitle": "Request cash aid",
     "requestBody": "Tell us how much you need and what it's for. A reviewer checks it, then PayPal sends the money to your account.",
@@ -518,7 +518,19 @@
     },
     "videoNeeded": "This request needs a short video call. A reviewer will book a time with you.",
     "replyPlaceholder": "Your answer",
-    "sendReply": "Send reply"
+    "sendReply": "Send reply",
+    "batchAid": {
+      "title": "Cash aid sent to your PayPal account",
+      "rapid": "First-72-hours aid: you prepared before the disaster, so it was sent when the official warning came.",
+      "to": "To {{email}}",
+      "status": {
+        "PENDING": "On its way",
+        "SUCCESS": "In your PayPal account",
+        "UNCLAIMED": "Waiting for you at PayPal: sign in with {{email}} to claim it",
+        "RETURNED": "Came back to the relief fund",
+        "other": "PayPal status: {{status}}"
+      }
+    }
   },
   "rebuild": {
     "title": "Rebuild",
@@ -1498,5 +1510,45 @@
     "returnGave_one": "The giving agent just made {{count}} gift, {{amount}} in all.",
     "returnGave_other": "The giving agent just made {{count}} gifts, {{amount}} in all.",
     "back": "Back to my giving"
+  },
+  "rapid": {
+    "title": "First-72-hours aid",
+    "intro": "When an official warning or declaration covers the {{disaster}} zone, households that prepared (verified, an inventory from before the disaster, a PayPal account) get {{base}} plus {{perPerson}} for each other person, up to {{cap}}, within hours. One person approves; Sentinel holds back anyone with warning signs for a person to check.",
+    "check": "Check official warnings",
+    "simulate": "Simulate an evacuation order (demo)",
+    "noWarnings": "The National Weather Service has no active warning for the {{disaster}} zone right now.",
+    "source": {
+      "nws": "National Weather Service",
+      "declaration": "Disaster declaration",
+      "simulated": "Simulated"
+    },
+    "status": {
+      "proposed": "Waiting for approval",
+      "approved": "Approved",
+      "dismissed": "Dismissed"
+    },
+    "wouldPay_one": "Would pay {{n}} prepared household {{total}} through PayPal Payouts.",
+    "wouldPay_other": "Would pay {{n}} prepared households {{total}} through PayPal Payouts.",
+    "paid_one": "Paid {{n}} household {{total}} through PayPal Payouts.",
+    "paid_other": "Paid {{n}} households {{total}} through PayPal Payouts.",
+    "notSent": "Not sent: {{error}}",
+    "paypalBatch": "PayPal batch {{id}}",
+    "decided": "Decided by {{name}}, {{when}}",
+    "held_one": "Sentinel is holding {{count}} household for a person to check",
+    "held_other": "Sentinel is holding {{count}} households for a person to check",
+    "leftOut": "Not eligible now:",
+    "reason": {
+      "not_prepared": "verified, no inventory before the disaster",
+      "not_verified": "not verified",
+      "no_paypal": "no PayPal account",
+      "shared_paypal": "PayPal shared with another household",
+      "recent_aid": "aid in the last 14 days",
+      "in_open_batch": "already in a batch"
+    },
+    "approve": "Approve and pay {{total}}",
+    "paying": "Paying…",
+    "dismiss": "Dismiss",
+    "dismissWhy": "Why (for the record)",
+    "oneApproval": "Rules prepared this batch; your approval pays it."
   }
 }

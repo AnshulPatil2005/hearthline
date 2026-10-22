@@ -488,12 +488,12 @@
       "0": "Gumawa ng profile",
       "1": "Tumanggap ng mga gamit",
       "2": "Tumanggap ng cash aid",
-      "3": "Badge ng beripikadong imbentaryo"
+      "3": "Badge ng beripikadong imbentaryo, at cash aid sa unang 72 oras"
     },
     "next": {
       "address_outside_zone": "Wala pa ang address mo sa loob ng aktibong lugar ng sakuna. Kung mali ito, i-update ang address mo.",
       "confirm_residence": "Para makatanggap ng cash aid, mag-upload ng patunay ng tirahan (bill o kontrata sa upa) o hilingin sa isang caseworker na managot para sa iyo. Nawala ang mga papeles mo sa sunog? Puwedeng managot ang caseworker.",
-      "scan_before_disaster": "I-scan ang mga kuwarto mo bago ang sakuna para makuha ang badge ng beripikadong imbentaryo at mapabilis ang mga claim."
+      "scan_before_disaster": "I-scan ang mga kuwarto mo bago ang sakuna para makuha ang badge ng beripikadong imbentaryo, makatanggap ng cash aid ilang oras matapos ang opisyal na babala, at mapabilis ang mga claim."
     },
     "requestTitle": "Humingi ng cash aid",
     "requestBody": "Sabihin sa amin kung magkano ang kailangan mo at para saan. Susuriin ito ng tagasuri, saka ipapadala ng PayPal ang pera sa account mo.",
@@ -518,7 +518,19 @@
     },
     "videoNeeded": "Kailangan ng maikling video call para sa hiling na ito. Magtatakda ng oras ang tagasuri kasama ka.",
     "replyPlaceholder": "Ang sagot mo",
-    "sendReply": "Ipadala ang sagot"
+    "sendReply": "Ipadala ang sagot",
+    "batchAid": {
+      "title": "Cash aid na ipinadala sa PayPal account mo",
+      "rapid": "Tulong sa unang 72 oras: naghanda ka bago ang sakuna, kaya ipinadala ito nang dumating ang opisyal na babala.",
+      "to": "Para kay {{email}}",
+      "status": {
+        "PENDING": "Papunta na",
+        "SUCCESS": "Nasa PayPal account mo na",
+        "UNCLAIMED": "Naghihintay sa PayPal: mag-sign in gamit ang {{email}} para kunin ito",
+        "RETURNED": "Bumalik sa relief fund",
+        "other": "Status sa PayPal: {{status}}"
+      }
+    }
   },
   "rebuild": {
     "title": "Muling Pagtatayo",
@@ -1498,5 +1510,45 @@
     "returnGave_one": "Kakagawa lang ng giving agent ng {{count}} regalo, {{amount}} lahat.",
     "returnGave_other": "Kakagawa lang ng giving agent ng {{count}} regalo, {{amount}} lahat.",
     "back": "Bumalik sa aking pagbibigay"
+  },
+  "rapid": {
+    "title": "Tulong sa unang 72 oras",
+    "intro": "Kapag may opisyal na babala o deklarasyon na sumasaklaw sa zone ng {{disaster}}, ang mga sambahayang naghanda (verified, may imbentaryo bago ang sakuna, may PayPal account) ay makakatanggap ng {{base}} at {{perPerson}} para sa bawat iba pang tao, hanggang {{cap}}, sa loob ng ilang oras. Isang tao ang nag-aapruba; pinipigil ng Sentinel ang sinumang may babalang palatandaan para masuri ng isang tao.",
+    "check": "Tingnan ang mga opisyal na babala",
+    "simulate": "I-simulate ang utos na lumikas (demo)",
+    "noWarnings": "Walang aktibong babala ang National Weather Service para sa zone ng {{disaster}} ngayon.",
+    "source": {
+      "nws": "National Weather Service",
+      "declaration": "Deklarasyon ng sakuna",
+      "simulated": "Simulated"
+    },
+    "status": {
+      "proposed": "Naghihintay ng apruba",
+      "approved": "Inaprubahan",
+      "dismissed": "Tinanggihan"
+    },
+    "wouldPay_one": "Magbabayad ng {{total}} sa {{n}} sambahayang naghanda sa PayPal Payouts.",
+    "wouldPay_other": "Magbabayad ng {{total}} sa {{n}} sambahayang naghanda sa PayPal Payouts.",
+    "paid_one": "Nagbayad ng {{total}} sa {{n}} sambahayan sa PayPal Payouts.",
+    "paid_other": "Nagbayad ng {{total}} sa {{n}} sambahayan sa PayPal Payouts.",
+    "notSent": "Hindi naipadala: {{error}}",
+    "paypalBatch": "PayPal batch {{id}}",
+    "decided": "Pinagpasyahan ni {{name}}, {{when}}",
+    "held_one": "Pinipigil ng Sentinel ang {{count}} sambahayan para masuri ng isang tao",
+    "held_other": "Pinipigil ng Sentinel ang {{count}} sambahayan para masuri ng isang tao",
+    "leftOut": "Hindi kwalipikado ngayon:",
+    "reason": {
+      "not_prepared": "verified, walang imbentaryo bago ang sakuna",
+      "not_verified": "hindi verified",
+      "no_paypal": "walang PayPal account",
+      "shared_paypal": "PayPal na kahati ng ibang sambahayan",
+      "recent_aid": "may tulong sa nakaraang 14 na araw",
+      "in_open_batch": "nasa isang batch na"
+    },
+    "approve": "Aprubahan at bayaran ang {{total}}",
+    "paying": "Nagbabayad…",
+    "dismiss": "Tanggihan",
+    "dismissWhy": "Bakit (para sa rekord)",
+    "oneApproval": "Mga panuntunan ang naghanda ng batch na ito; ang inyong apruba ang magbabayad dito."
   }
 }

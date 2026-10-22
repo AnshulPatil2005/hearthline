@@ -482,12 +482,12 @@
       "0": "Tạo hồ sơ",
       "1": "Nhận đồ dùng",
       "2": "Nhận hỗ trợ tiền mặt",
-      "3": "Huy hiệu danh mục đã xác minh"
+      "3": "Huy hiệu danh mục đã xác minh, và tiền hỗ trợ trong 72 giờ đầu"
     },
     "next": {
       "address_outside_zone": "Địa chỉ của bạn chưa nằm trong vùng thảm họa đang diễn ra. Nếu sai, hãy cập nhật địa chỉ.",
       "confirm_residence": "Để nhận hỗ trợ tiền mặt, hãy tải lên giấy tờ chứng minh nơi ở (hóa đơn hoặc hợp đồng thuê) hoặc nhờ nhân viên xã hội bảo lãnh. Mất giấy tờ trong vụ cháy? Nhân viên xã hội có thể bảo lãnh thay.",
-      "scan_before_disaster": "Quét các phòng trước khi có thảm họa để nhận huy hiệu danh mục đã xác minh và đẩy nhanh việc bồi thường."
+      "scan_before_disaster": "Quét các phòng trước khi có thảm họa để nhận huy hiệu danh mục đã xác minh, nhận tiền hỗ trợ trong vài giờ sau cảnh báo chính thức, và đẩy nhanh việc bồi thường."
     },
     "requestTitle": "Yêu cầu hỗ trợ tiền mặt",
     "requestBody": "Cho chúng tôi biết bạn cần bao nhiêu và để làm gì. Người xét duyệt sẽ kiểm tra, sau đó PayPal chuyển tiền vào tài khoản của bạn.",
@@ -512,7 +512,19 @@
     },
     "videoNeeded": "Yêu cầu này cần một cuộc gọi video ngắn. Người xét duyệt sẽ hẹn giờ với bạn.",
     "replyPlaceholder": "Câu trả lời của bạn",
-    "sendReply": "Gửi trả lời"
+    "sendReply": "Gửi trả lời",
+    "batchAid": {
+      "title": "Tiền hỗ trợ đã gửi vào tài khoản PayPal của quý vị",
+      "rapid": "Hỗ trợ trong 72 giờ đầu: quý vị đã chuẩn bị trước thảm họa, nên tiền được gửi ngay khi có cảnh báo chính thức.",
+      "to": "Gửi đến {{email}}",
+      "status": {
+        "PENDING": "Đang gửi",
+        "SUCCESS": "Đã vào tài khoản PayPal",
+        "UNCLAIMED": "Đang chờ tại PayPal: đăng nhập bằng {{email}} để nhận",
+        "RETURNED": "Đã trả về quỹ cứu trợ",
+        "other": "Trạng thái PayPal: {{status}}"
+      }
+    }
   },
   "rebuild": {
     "title": "Xây lại",
@@ -1471,5 +1483,42 @@
     "returnFrom": "Các khoản ủng hộ sẽ trích từ tài khoản PayPal {{email}}.",
     "returnGave_other": "Trợ lý ủng hộ vừa thực hiện {{count}} khoản, tổng cộng {{amount}}.",
     "back": "Quay lại trang ủng hộ của tôi"
+  },
+  "rapid": {
+    "title": "Hỗ trợ trong 72 giờ đầu",
+    "intro": "Khi một cảnh báo chính thức hoặc tuyên bố thảm họa bao phủ khu vực {{disaster}}, các hộ đã chuẩn bị (đã xác minh, có danh sách đồ đạc trước thảm họa, có tài khoản PayPal) sẽ nhận {{base}} cộng {{perPerson}} cho mỗi người khác, tối đa {{cap}}, trong vòng vài giờ. Một người phê duyệt; Sentinel giữ lại những hộ có dấu hiệu đáng ngờ để người kiểm tra.",
+    "check": "Kiểm tra cảnh báo chính thức",
+    "simulate": "Mô phỏng lệnh sơ tán (demo)",
+    "noWarnings": "Hiện Sở Khí tượng Quốc gia không có cảnh báo nào cho khu vực {{disaster}}.",
+    "source": {
+      "nws": "Sở Khí tượng Quốc gia",
+      "declaration": "Tuyên bố thảm họa",
+      "simulated": "Mô phỏng"
+    },
+    "status": {
+      "proposed": "Chờ phê duyệt",
+      "approved": "Đã phê duyệt",
+      "dismissed": "Đã bỏ qua"
+    },
+    "wouldPay_other": "Sẽ trả {{total}} cho {{n}} hộ đã chuẩn bị qua PayPal Payouts.",
+    "paid_other": "Đã trả {{total}} cho {{n}} hộ qua PayPal Payouts.",
+    "notSent": "Chưa gửi: {{error}}",
+    "paypalBatch": "Lô PayPal {{id}}",
+    "decided": "Do {{name}} quyết định, {{when}}",
+    "held_other": "Sentinel đang giữ lại {{count}} hộ để người kiểm tra",
+    "leftOut": "Chưa đủ điều kiện:",
+    "reason": {
+      "not_prepared": "đã xác minh, chưa có danh sách đồ đạc trước thảm họa",
+      "not_verified": "chưa xác minh",
+      "no_paypal": "không có tài khoản PayPal",
+      "shared_paypal": "dùng chung PayPal với hộ khác",
+      "recent_aid": "đã nhận hỗ trợ trong 14 ngày qua",
+      "in_open_batch": "đã có trong một lô"
+    },
+    "approve": "Phê duyệt và trả {{total}}",
+    "paying": "Đang trả…",
+    "dismiss": "Bỏ qua",
+    "dismissWhy": "Lý do (để lưu hồ sơ)",
+    "oneApproval": "Các quy tắc đã chuẩn bị lô này; phê duyệt của quý vị sẽ trả tiền."
   }
 }

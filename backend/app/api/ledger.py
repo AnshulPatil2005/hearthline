@@ -12,7 +12,7 @@ from sqlalchemy.orm import Session
 from app import ledger
 from app.api.households import MyHousehold
 from app.db import get_db
-from app.models import LedgerAccount, LedgerPosting, LedgerTransaction
+from app.models import AidBatch, AidBatchItem, LedgerAccount, LedgerPosting, LedgerTransaction
 from app.schemas import Money
 
 router = APIRouter(tags=["ledger"])
@@ -64,3 +64,36 @@ def household_ledger(home: MyHousehold, db: DB) -> list[LedgerRowOut]:
             )
         )
     return list(reversed(rows))  # newest first
+
+
+class BatchAidOut(BaseModel):
+    id: int
+    title: str
+    amount: Money
+    status: str  # PayPal's payout status: PENDING, SUCCESS, UNCLAIMED, ... (or failed if the batch wasn't sent)
+    receiver: str
+    first_72_hours: bool
+    sent_at: datetime | None
+
+
+@router.get("/households/me/batch-aid", response_model=list[BatchAidOut])
+def household_batch_aid(home: MyHousehold, db: DB) -> list[BatchAidOut]:
+    """Cash aid paid straight to the household's PayPal account in a batch (it never passes through the fund)."""
+    items = db.scalars(
+        select(AidBatchItem)
+        .join(AidBatch)
+        .where(AidBatchItem.household_id == home.id, AidBatchItem.status.not_in(("queued", "skipped")))
+        .order_by(AidBatchItem.id.desc())
+    )
+    return [
+        BatchAidOut(
+            id=i.id,
+            title=i.batch.title,
+            amount=i.amount,
+            status=i.status,
+            receiver=i.receiver,
+            first_72_hours="rapid_aid_trigger" in (i.batch.rule or {}),
+            sent_at=i.batch.decided_at,
+        )
+        for i in items
+    ]

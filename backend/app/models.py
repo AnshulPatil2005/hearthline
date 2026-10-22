@@ -1033,3 +1033,30 @@ class MarketQuote(Base):
 
     business: Mapped[Business] = relationship()
     offer: Mapped[LocalOffer] = relationship()
+
+
+class RapidAidTrigger(Base):
+    """An official warning or disaster declaration covering a disaster's zone: the start of first-72-hours aid.
+    Households that prepared (verified, with an inventory from before the disaster, a PayPal account) get emergency
+    cash in one PayPal Payouts batch once one person approves; Sentinel holds back the risky ones for review."""
+
+    __tablename__ = "rapid_aid_triggers"
+    __table_args__ = (UniqueConstraint("disaster_event_id", "external_id"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    disaster_event_id: Mapped[int] = mapped_column(ForeignKey("disaster_events.id", ondelete="CASCADE"), index=True)
+    source: Mapped[str] = mapped_column(String(20))  # nws | declaration | simulated
+    external_id: Mapped[str] = mapped_column(String(200))  # the NWS alert id or declaration number
+    event: Mapped[str] = mapped_column(String(120))  # e.g. "Evacuation Order", "Fire Management Assistance"
+    headline: Mapped[str] = mapped_column(String(500))
+    severity: Mapped[str] = mapped_column(String(20), default="Severe")
+    issued_at: Mapped[datetime] = mapped_column(default=now)
+    status: Mapped[str] = mapped_column(String(20), default="proposed")  # proposed | approved | dismissed
+    aid_batch_id: Mapped[int | None] = mapped_column(ForeignKey("aid_batches.id", ondelete="SET NULL"))
+    decided_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decided_at: Mapped[datetime | None]
+    note: Mapped[str | None] = mapped_column(String(500))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    disaster: Mapped[DisasterEvent] = relationship()
+    batch: Mapped[AidBatch | None] = relationship()

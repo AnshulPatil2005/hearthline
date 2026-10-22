@@ -5,6 +5,7 @@ import { api, ApiError, type HouseholdCase, type Verification } from '../api'
 import type { Call } from '../components/VideoCalls'
 import { VoiceButton } from '../components/VoiceButton'
 import { money } from '../format'
+import { BatchAidList } from '../components/BatchAidList'
 import { ConnectPayPal } from '../components/ConnectPayPal'
 
 const STATUS_TONE: Record<HouseholdCase['status'], string> = {
@@ -185,6 +186,7 @@ export default function Aid() {
           })}
         </p>
       )}
+      <BatchAidList />
       <ConnectPayPal />
       <RequestCashAid onDone={refresh} />
       <section>

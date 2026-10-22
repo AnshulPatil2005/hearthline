@@ -61,6 +61,14 @@ def store_agents_in_process(monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def no_background_mandates(monkeypatch):
+    """Approving first-72-hours aid starts donors' giving mandates in a background thread; tests never do."""
+    from app import rapid_aid
+
+    monkeypatch.setattr(rapid_aid, "start_mandate_round", lambda: None)
+
+
+@pytest.fixture(autouse=True)
 def no_background_shopping(monkeypatch):
     """Funding an item normally starts the Shopper in a background thread with real Channel3 and AI
     calls. Tests must never do that; test_shopping opts back in with an inline, faked Shopper."""

@@ -482,12 +482,12 @@
       "0": "创建档案",
       "1": "接收物品",
       "2": "接收现金援助",
-      "3": "已核实物品清单徽章"
+      "3": "已核实物品清单徽章，以及最初 72 小时现金援助"
     },
     "next": {
       "address_outside_zone": "您的地址目前不在受灾区域内。如有误，请更新地址。",
       "confirm_residence": "如需现金援助，请上传住址证明（账单或租约），或请社工为您担保。证件在火灾中遗失？社工可以为您担保。",
-      "scan_before_disaster": "在灾害发生前扫描房间，即可获得已核实物品清单徽章，加快理赔。"
+      "scan_before_disaster": "在灾害发生前扫描房间，即可获得已核实物品清单徽章，在官方警报发布后数小时内获得现金援助，并加快理赔。"
     },
     "requestTitle": "申请现金援助",
     "requestBody": "告诉我们您需要多少钱以及用途。审核员核实后，PayPal 会将款项转入您的账户。",
@@ -512,7 +512,19 @@
     },
     "videoNeeded": "此申请需要进行简短的视频通话。审核员会与您约定时间。",
     "replyPlaceholder": "您的回答",
-    "sendReply": "发送回复"
+    "sendReply": "发送回复",
+    "batchAid": {
+      "title": "已发送到您 PayPal 账户的现金援助",
+      "rapid": "最初 72 小时援助：您在灾前做好了准备，因此官方警报一发布就发送给您。",
+      "to": "发送至 {{email}}",
+      "status": {
+        "PENDING": "正在发送",
+        "SUCCESS": "已到您的 PayPal 账户",
+        "UNCLAIMED": "在 PayPal 等您领取：请用 {{email}} 登录领取",
+        "RETURNED": "已退回救助基金",
+        "other": "PayPal 状态：{{status}}"
+      }
+    }
   },
   "rebuild": {
     "title": "重建",
@@ -1471,5 +1483,42 @@
     "returnFrom": "捐款将从您的 PayPal 账户 {{email}} 支出。",
     "returnGave_other": "捐助助手刚刚完成了 {{count}} 笔捐款，共 {{amount}}。",
     "back": "返回我的捐助"
+  },
+  "rapid": {
+    "title": "最初 72 小时援助",
+    "intro": "当官方警报或灾害声明覆盖 {{disaster}} 区域时，提前做好准备的家庭（已核实、灾前已有物品清单、有 PayPal 账户）可在数小时内获得 {{base}}，每多一人另加 {{perPerson}}，最多 {{cap}}。由一人批准；Sentinel 会将有可疑迹象的家庭暂缓，交由人工核查。",
+    "check": "查看官方警报",
+    "simulate": "模拟疏散令（演示）",
+    "noWarnings": "美国国家气象局目前没有针对 {{disaster}} 区域的有效警报。",
+    "source": {
+      "nws": "美国国家气象局",
+      "declaration": "灾害声明",
+      "simulated": "模拟"
+    },
+    "status": {
+      "proposed": "等待批准",
+      "approved": "已批准",
+      "dismissed": "已驳回"
+    },
+    "wouldPay_other": "将通过 PayPal Payouts 向 {{n}} 户已做准备的家庭支付 {{total}}。",
+    "paid_other": "已通过 PayPal Payouts 向 {{n}} 户家庭支付 {{total}}。",
+    "notSent": "未发送：{{error}}",
+    "paypalBatch": "PayPal 批次 {{id}}",
+    "decided": "由 {{name}} 决定，{{when}}",
+    "held_other": "Sentinel 暂缓了 {{count}} 户家庭，等待人工核查",
+    "leftOut": "目前不符合条件：",
+    "reason": {
+      "not_prepared": "已核实，但没有灾前物品清单",
+      "not_verified": "未核实",
+      "no_paypal": "没有 PayPal 账户",
+      "shared_paypal": "与其他家庭共用 PayPal",
+      "recent_aid": "过去 14 天内已获援助",
+      "in_open_batch": "已在某个批次中"
+    },
+    "approve": "批准并支付 {{total}}",
+    "paying": "正在支付…",
+    "dismiss": "驳回",
+    "dismissWhy": "原因（存档）",
+    "oneApproval": "此批次由规则准备，您的批准将完成付款。"
   }
 }

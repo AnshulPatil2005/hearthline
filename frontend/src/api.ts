@@ -848,3 +848,47 @@ export type GivingMandate = {
 export type MandateOptions = { states: string[]; categories: string[]; max_per_gift: string; max_monthly: string }
 
 export type MandateRound = { mandate: GivingMandate; summary: string; by_ai: boolean; given: number }
+
+export type RapidAidTrigger = {
+  id: number
+  disaster: string
+  source: 'nws' | 'declaration' | 'simulated'
+  event: string
+  headline: string
+  severity: string
+  issued_at: string
+  status: 'proposed' | 'approved' | 'dismissed'
+  decided_by: string | null
+  decided_at: string | null
+  note: string | null
+  households: number
+  total: string
+  held: { household_id: number; name: string; reason: string }[]
+  left_out: Record<string, number>
+  batch: {
+    id: number
+    status: string
+    households: number
+    total: string
+    paypal_batch_id: string | null
+    error: string | null
+  } | null
+}
+
+export type RapidAidBoard = {
+  disasters: { id: number; name: string }[]
+  triggers: RapidAidTrigger[]
+  base: string
+  per_person: string
+  cap: string
+}
+
+export type BatchAid = {
+  id: number
+  title: string
+  amount: string
+  status: string
+  receiver: string
+  first_72_hours: boolean
+  sent_at: string | null
+}
