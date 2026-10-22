@@ -32,7 +32,8 @@ DB = os.environ.get("DATABASE_URL") or f"sqlite:///{Path(__file__).parent.parent
 OUT = Path(__file__).parent / "video"
 RAW = OUT / "raw"
 SIZE = {"width": 1280, "height": 720}
-PACE = 0.93  # scales every caption's hold; the outline's target is under 3:00
+PACE = 0.9  # scales every caption's hold; the outline's target is under 3:00
+TERRITORIES = {"AS", "GU", "MP", "PR", "VI", "FM", "MH", "PW"}
 
 # A caption bar and a cursor dot, added to every page the tour opens (headless video shows no mouse pointer).
 OVERLAY = """
@@ -213,11 +214,6 @@ async def prepare(scene: Scene) -> None:
     await caption(page, "Elena Rivera photographed her home before the fire. The Inventory agent listed what it saw")
     await show(page, page.locator("section", has_text="Coverage check").first)
     await caption(page, "Channel3 priced every item, and the total is checked against her policy's limit", 3)
-    simulate = page.get_by_role("button", name="Simulate an evacuation warning (demo)")
-    if await simulate.count():
-        await click(page, simulate, 1.5)
-        await page.evaluate("() => window.scrollTo({ top: 0, behavior: 'smooth' })")
-        await caption(page, "National Weather Service alerts warn her when a fire nears (simulated here)", 3)
     await click(page, page.get_by_role("link", name="Inventory").first)
     await page.wait_for_selector(".ag-row", timeout=30000)
     await caption(page, "A dated, priced inventory in AG Grid, grouped by room, ready to export for a claim", 3.5)
@@ -228,7 +224,7 @@ async def respond(scene: Scene) -> None:
     async with scene.clip.cut():
         await page.goto(f"{WEB}/r/rivera-family", wait_until="networkidle")
     await caption(page, "Instead of cash, the family lists exactly what they need on a Rebuild Registry")
-    item = page.locator("li", has_text="Dog crate and bed for Pepper")
+    item = page.locator("li", has_text="Twin bed frames")
     await click(page, item.get_by_role("button", name="Fund this"))
     async with scene.clip.cut():
         await page.wait_for_selector("paypal-button", timeout=30000)
@@ -237,27 +233,55 @@ async def respond(scene: Scene) -> None:
     await pay_in_popup(scene, page.locator("paypal-button"))
     async with scene.clip.cut():
         await page.wait_for_selector("text=Thank you! You gave", timeout=90000)
-    await caption(page, "The item is fully funded, so Hearthline's Shopper agent goes to work", 3)
+    await caption(page, "The item is fully funded, so Hearthline's Shopper agent goes to work", 2.5)
 
     await sign_in_as(scene, "elena.rivera", "/registry", "text=What the Shopper bought")
-    bought = page.locator("li", has_text="Local business").first
+    talk = "How the Shopper and local stores agreed on a price"
+    bought = page.locator("li", has_text=talk).first
     async with scene.clip.cut():
-        for _ in range(24):  # the Shopper runs in the background: Channel3, the AI's pick, the rules, Payouts
+        for _ in range(30):  # the Shopper runs in the background: Channel3, the stores' agents, the rules, Payouts
             if await bought.count():
                 break
             await page.wait_for_timeout(5000)
             await page.reload(wait_until="networkidle")
     await show(page, bought, 0.5)
-    await caption(page, "It checked the town's reopened stores first and bought from Sablewood Mercantile", 3.5)
+    await caption(page, "Before any web store, it asked the town's two reopened stores for a price", 2.5)
+    await click(page, bought.get_by_text(talk), 0.8)
+    await caption(page, "Each store's pricing agent quotes within its owner's limits. The agents negotiate over MCP", 4)
     await click(page, bought.get_by_text("Spending rules"), 0.8)
-    rules = "Code, not the AI, enforces the rules: the budget, approved stores, the family's address, fair prices"
-    await caption(page, rules, 4)
+    rules = "Code, not the AI, enforces the rules: the budget, the store, the family's address, fair prices"
+    await caption(page, rules, 3)
 
-    await sign_in_as(scene, "rosa.delgado", "/business", "text=Orders from Hearthline's Shopper")
-    orders = page.locator("section", has_text="Orders from Hearthline's Shopper")
-    await show(page, orders, 0.5)
-    await caption(page, "The store was paid through PayPal Payouts. Rosa hands the crate to the family", 3)
-    await click(page, orders.get_by_role("button", name="Mark delivered").first, 1.5)
+
+async def mandate(scene: Scene) -> None:
+    page = scene.page
+    await sign_in_as(scene, "marcus.chen", "/giving", "text=Give automatically after disasters")
+    panel = page.locator("section", has_text="Give automatically after disasters")
+    stop = panel.get_by_role("button", name="Stop and remove my saved PayPal account")
+    async with scene.clip.cut():
+        if await stop.count():  # a mandate from an earlier run
+            await stop.click()
+            await panel.get_by_role("button", name="Stop giving").click()
+            await panel.get_by_role("button", name="Save my PayPal account and start").wait_for(timeout=30000)
+    await caption(page, "Marcus wants to keep giving after disasters, without a checkout each time", 2.5)
+    await panel.get_by_label("Most for one gift ($)").fill("40")
+    await panel.get_by_label("Most in a month ($)").fill("100")
+    await panel.get_by_label("Add a state").select_option("CA")
+    await panel.get_by_label("In your own words (optional)").fill("Families with young kids, and pets")
+    await caption(page, "He sets his limits once: where, how much per gift and per month, and for what", 3)
+    await click(page, panel.get_by_role("button", name="Save my PayPal account and start"))
+    async with scene.clip.cut():
+        await page.wait_for_url("**paypal.com/**", timeout=60000)
+        await sign_in(page)
+    await caption(page, "and saves his PayPal account with PayPal Vault", 2)
+    await confirm(page)
+    async with scene.clip.cut():
+        await page.wait_for_url("**/giving/mandate?**", timeout=90000)
+        await page.get_by_text("Your giving is set up.").wait_for(timeout=180000)
+        await page.get_by_role("link", name="Back to my giving").click()
+        await panel.get_by_text("Gifts made for you").wait_for(timeout=60000)
+    await show(page, panel.get_by_text("Gifts made for you"), 0.5)
+    await caption(page, "The giving agent gave to verified needs within his limits, with no checkout, and says why", 4)
 
 
 async def scam(scene: Scene) -> None:
@@ -268,20 +292,20 @@ async def scam(scene: Scene) -> None:
     ):
         await sign_in_as(scene, persona, "/review", ".ag-row")
         if persona == "priya.nair":
-            await caption(page, "Someone copied the Riveras' story to raise money for themselves", 3)
+            await caption(page, "Someone copied the Riveras' story to raise money for themselves", 2.5)
         await click(page, page.locator(".ag-row", has_text="Rivera family fund").first)
         async with scene.clip.cut():
             await page.wait_for_selector("text=Sentinel's summary", timeout=30000)
         if persona == "priya.nair":
             await show(page, page.locator("section", has_text="Sentinel's summary").first, 0.5)
-            await caption(page, "The Sentinel agent flags the copied photos and the address. People decide", 4)
+            await caption(page, "The Sentinel agent flags the copied photos and the address. People decide", 3.5)
         else:
-            await caption(page, "A second reviewer, picked at random, has to agree", 2.5)
+            await caption(page, "A second reviewer, picked at random, has to agree", 2)
         await page.get_by_placeholder("Your reason").fill(reason)
         await click(page, page.get_by_role("button", name="Reject"), 1.5)
     async with scene.clip.cut():
         await page.goto(f"{WEB}/r/riveras-rebuild-fund", wait_until="networkidle")
-    await caption(page, "The copycat registry closes and every donor is refunded through PayPal", 3.5)
+    await caption(page, "The copycat registry closes and every donor is refunded through PayPal", 3)
 
 
 async def review(scene: Scene) -> None:
@@ -332,12 +356,12 @@ async def reopen(scene: Scene) -> None:
     async with scene.clip.cut():
         await page.goto(f"{WEB}/reopen/morenos-bakery", wait_until="networkidle")
         await page.wait_for_selector(".b-gantt-task", timeout=30000)
-    await caption(page, "Moreno's Bakery burned too. Regulars buy gift cards now, to spend when it reopens", 3.5)
+    await caption(page, "Moreno's Bakery burned too. Regulars buy gift cards now, to spend when it reopens", 3)
     await show(page, page.get_by_text("What your money pays for").first, 0.5)
     escrow = (
         "The money waits in escrow and is released step by step; if the bakery misses its date, buyers are refunded"
     )
-    await caption(page, escrow, 4)
+    await caption(page, escrow, 3.5)
     await sign_in_as(scene, "luis.moreno", "/business", "text=We're open again")
     await caption(page, "Luis reopens", 1.5)
     await click(page, page.get_by_role("button", name="We're open again"))
@@ -352,7 +376,7 @@ async def reopen(scene: Scene) -> None:
     await page.get_by_label("Card code").fill(code)
     await click(page, page.get_by_role("button", name="Check card"))
     await page.get_by_label("Purchase amount").fill("12.50")
-    await click(page, page.get_by_role("button", name="Take from card"), 2.5)
+    await click(page, page.get_by_role("button", name="Take from card"), 1.5)
 
 
 async def claim(scene: Scene) -> None:
@@ -366,41 +390,61 @@ async def claim(scene: Scene) -> None:
             await page.get_by_label("Policy PDF").set_input_files(sample)
             await page.get_by_role("button", name="Read my policy").click()
             await page.get_by_role("button", name="Prepare my claim").wait_for(timeout=180000)
-    await caption(page, "The Policy agent read her policy. Hearthline builds the contents claim from her inventory", 3)
+    read = "The Policy agent read her policy. Hearthline builds the contents claim from her inventory"
+    await caption(page, read, 2.5)
     await click(page, page.get_by_role("button", name="Prepare my claim"))
     link_box = page.get_by_label("Send this private link to your adjuster")
     async with scene.clip.cut():
         await link_box.wait_for(timeout=60000)
     link = await link_box.input_value()
-    await caption(page, "She sends her insurer a private link", 2)
+    await caption(page, "She sends her insurer a private link", 1.5)
     async with scene.clip.cut():
         await page.goto(link)
         await page.wait_for_selector(".ag-row", timeout=60000)
-    await caption(page, "The adjuster sees every item with its photo and date, and the policy's limits applied", 4)
+    await caption(page, "The adjuster sees every item with its photo and date, and the policy's limits applied", 3.5)
     await page.get_by_label("Adjuster's name").fill("Dana Lee, Golden Poppy Claims")
     await caption(page, "and pays the claim with PayPal", 1.5)
     await pay_in_popup(scene, page.locator("paypal-button"))
     async with scene.clip.cut():
         await page.wait_for_selector("text=/^Paid \\$/", timeout=120000)
-    await caption(page, "Hearthline passes it straight on to Elena's PayPal account: minutes, not a mailed check", 4)
+    await caption(page, "Hearthline passes it straight on to Elena's PayPal account: minutes, not a mailed check", 3)
+
+
+async def first72(scene: Scene) -> None:
+    page = scene.page
+    await sign_in_as(scene, "sam.whitfield", "/command", "#rapid-title")
+    rapid = page.locator("section[aria-labelledby='rapid-title']")
+    await show(page, rapid, 0.3)
+    await caption(page, "When an evacuation order covers the fire zone, families who prepared get cash within hours", 3)
+    await click(page, rapid.get_by_role("button", name="Simulate an evacuation order (demo)"))
+    proposal = rapid.locator("li", has_text="simulated for this demo").first
+    async with scene.clip.cut():
+        await proposal.wait_for(timeout=30000)
+    await caption(page, "Rules chose every prepared household. Sentinel holds back one with an inflated claim", 3.5)
+    await click(page, proposal.get_by_role("button", name="Approve and pay"))
+    async with scene.clip.cut():
+        await proposal.get_by_text("Decided by").wait_for(timeout=90000)
+    await caption(page, "One person's approval, one PayPal Payouts batch: every prepared family is paid", 3)
+    await click(page, page.get_by_role("link", name="Disasters").first)
+    async with scene.clip.cut():
+        await page.wait_for_selector(".ag-row [col-id='code']", timeout=60000)
+    rows = page.locator(".ag-grid-scrolling-container .ag-row")
+    pick = rows.first
+    for i in range(await rows.count()):  # a state's declaration (territories have no county shapes)
+        if await rows.nth(i).locator("[col-id='state']").inner_text() not in TERRITORIES:
+            pick = rows.nth(i)
+            break
+    await click(page, pick)
+    async with scene.clip.cut():
+        await page.locator("section[aria-labelledby='preview-title'] svg[role='img']").wait_for(timeout=60000)
+    await caption(page, "It works for real disasters too: any FEMA declaration, its counties drawn from the Census", 4)
 
 
 async def command(scene: Scene) -> None:
     page = scene.page
     await sign_in_as(scene, "sam.whitfield", "/command", ".ag-row[row-index='0']")
-    await caption(page, "The relief organization's Command Center: 2,000 households, AG Grid's server-side rows", 3.5)
-    src = await page.locator(".ag-header-cell", has_text="Damage").first.bounding_box()
-    dst = await page.get_by_text("Drag here to set row groups").first.bounding_box()
-    if src and dst:
-        await page.mouse.move(src["x"] + 30, src["y"] + src["height"] / 2, steps=15)
-        await page.mouse.down()
-        await page.mouse.move(dst["x"] + 20, dst["y"] + dst["height"] / 2, steps=25)
-        await page.mouse.up()
-        await page.wait_for_selector(".ag-row-group", timeout=20000)
-        await caption(page, "Grouped on the server, with totals of what each group still needs", 3)
-        await page.locator(".ag-column-drop-rowgroup .ag-column-drop-cell").first.focus()
-        await page.keyboard.press("Delete")
-        await page.wait_for_timeout(1500)
+    await show(page, page.locator(".ag-root").first, 0.3)
+    await caption(page, "The Command Center: 2,000 households in AG Grid's server-side row model", 3)
     await page.get_by_label("Ask the grid").fill("destroyed homes on Juniper Lane that have no PayPal account yet")
     await caption(page, "Or ask in plain words, in any of five languages", 1.5)
     await click(page, page.get_by_role("button", name="Ask", exact=True))
@@ -419,8 +463,9 @@ async def close(scene: Scene) -> None:
         scene,
         "BUILT ON THE PAYPAL SANDBOX",
         "Help that reaches the family, not a scammer",
-        "PayPal Orders, Payouts, Subscriptions, Disputes, Transaction Search and Log in with PayPal · AI agents with "
-        "people in charge of the money · AG Grid · Bryntum · Channel3 · APIMatic · Render",
+        "PayPal Orders, Payouts, Vault, Subscriptions, Disputes, Transaction Search and Log in with PayPal · AI "
+        "agents that negotiate and give, with people in charge of the money · AG Grid · Bryntum · Channel3 · APIMatic "
+        "· Render",
         6,
     )
 
@@ -428,15 +473,17 @@ async def close(scene: Scene) -> None:
 SCENES = [
     ("01-hook", hook),
     ("02-prepare", prepare),
-    ("03-respond", respond),
-    ("04-scam", scam),
-    ("05-review", review),
-    ("06-rebuild", rebuild),
-    ("07-reopen", reopen),
-    ("08-claim", claim),
-    ("09-command", command),
-    ("10-close", close),
+    ("03-first72", first72),
+    ("04-respond", respond),
+    ("05-mandate", mandate),
+    ("06-scam", scam),
+    ("07-rebuild", rebuild),
+    ("08-reopen", reopen),
+    ("09-claim", claim),
+    ("10-command", command),
+    ("11-close", close),
 ]
+# review (a household's cash-aid request and its reviewer) is kept for a longer cut; first72 shows a person approving
 
 
 # Cutting -------------------------------------------------------------------------------------------------------
@@ -585,4 +632,5 @@ async def main(only: list[str]) -> None:
         sys.exit(f"Scenes that failed: {', '.join(failed)}")
 
 
-asyncio.run(main(sys.argv[1:]))
+if __name__ == "__main__":
+    asyncio.run(main(sys.argv[1:]))

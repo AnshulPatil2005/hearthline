@@ -445,19 +445,23 @@ hearthline/
 
 ---
 
-## 13. Video outline (draft, under 3:00)
+## 13. Video outline (under 3:00)
+
+Recorded by `e2e/video_tour.py` (one clip per scene, then `rough_cut.mp4`); the narration is in the Devpost draft.
 
 | Time | Scene |
 |---|---|
-| 0:00–0:15 | Hook: the problem, and the family we'll follow |
-| 0:15–0:40 | **Prepare**: scan the home → priced inventory in AG Grid → "underinsured by $62k" → wildfire alert arrives |
-| 0:40–1:10 | **Respond**: Registry → donor pays with Venmo → Shopper buys within its rules and refuses a gouging seller → tracking appears |
-| 1:10–1:30 | **Scam attempt**: cloned registry caught → reviewer rejects → donors refunded |
-| 1:30–1:55 | **Human review**: AI evidence packet → reviewer approves → PayPal payout arrives |
-| 1:55–2:15 | **Rebuild**: Gantt → contractor's photo passes the AI check → milestone paid |
-| 2:15–2:35 | **Reopen**: the corner bakery's gift cards sell out, and the bakery reopens |
-| 2:35–2:55 | **Zoom out**: Command Center, 2,000 households, batch cash aid, "Ask the grid" |
-| 2:55–3:00 | Close |
+| 0:00–0:05 | **Hook** |
+| 0:05–0:16 | **Prepare** |
+| 0:16–0:34 | **First 72 hours** |
+| 0:34–1:07 | **Respond** |
+| 1:07–1:21 | **Giving mandate** |
+| 1:21–1:38 | **Scam attempt** |
+| 1:38–1:49 | **Rebuild** |
+| 1:49–2:04 | **Reopen** |
+| 2:04–2:32 | **Insurance claim** |
+| 2:32–2:46 | **Command Center** |
+| 2:46–2:52 | **Close** |
 
 ---
 
