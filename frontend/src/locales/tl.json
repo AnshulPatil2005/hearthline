@@ -1682,5 +1682,99 @@
     "returnSoon": "Kukunin ng PayPal ang iyong unang bigay sa loob ng ilang minuto; lalabas ito rito pagdating.",
     "returnPending": "Hindi pa nakukumpirma ng PayPal ang iyong buwanang bigay. Tingnan ulit pagkalipas ng isang minuto.",
     "back": "Bumalik sa aking pagbibigay"
+  },
+  "navigator": {
+    "title": "Ang mga susunod mong hakbang",
+    "count_one": "{{count}} bukas",
+    "count_other": "{{count}} bukas",
+    "explain": "Ipaliwanag ang plano ko",
+    "explaining": "Ipinapaliwanag…",
+    "explainHint": "Maipapaliwanag ng navigator kung ano ang uunahin, sa wika mo.",
+    "byAi": "Ipinaliwanag ng navigator ng Hearthline (AI) mula sa mga hakbang sa ibaba. Galing sa Hearthline at sa polisiya mo ang mga petsa.",
+    "listen": "Pakinggan",
+    "overdue": "Lampas na mula {{date}}",
+    "today": "Ngayon",
+    "inDays_one": "Bukas, {{date}}",
+    "inDays_other": "Sa loob ng {{count}} araw, {{date}}",
+    "markDone": "Markahang tapos: {{what}}",
+    "allDone": "Walang naghihintay sa iyo sa ngayon.",
+    "doneCount_one": "{{count}} tapos",
+    "doneCount_other": "{{count}} tapos",
+    "ask": "Magtanong",
+    "asking": "Nag-iisip…",
+    "askPlaceholder": "Magtanong tungkol sa pagbangon mo, hal. Ano ang uunahin ko?",
+    "notAdvice": "Mula lang sa mga hakbang mo. Hindi ito legal o pinansyal na payo; makakatulong ang caseworker.",
+    "step": {
+      "verify_address": {
+        "title": "Kumpirmahin ang address mo",
+        "detail": "Tinitingnan ito ng Hearthline laban sa lugar ng sakuna bago makarating ang tulong.",
+        "go": "Tingnan"
+      },
+      "confirm_residence": {
+        "title": "Patunayan na doon ka nakatira",
+        "detail": "Mag-upload ng bill o kontrata sa upa, o humingi sa caseworker na tumiyak para sa iyo kung nasunog ang mga papeles mo.",
+        "go": "Mag-upload"
+      },
+      "connect_paypal": {
+        "title": "Ikonekta ang PayPal account mo",
+        "detail": "Direktang pumapasok dito ang cash aid at mga bayad ng insurance.",
+        "go": "Ikonekta"
+      },
+      "case_needs_info": {
+        "title": "May kailangan sa iyo ang isang reviewer",
+        "detail": "Tungkol sa: {{title}}",
+        "go": "Sumagot"
+      },
+      "approve_purchase": {
+        "title": "Aprubahan ang isang pagbili",
+        "detail": "Gustong bilhin ng Shopper ang {{title}} sa halagang {{total}}. Hinihintay nito ang OK mo.",
+        "go": "Suriin"
+      },
+      "approve_milestone": {
+        "title": "Aprubahan ang isang hakbang sa pagpapatayo",
+        "detail": "{{title}} ({{amount}}): tingnan ang mga larawan ng kontratista, saka aprubahan o humingi ng pagbabago.",
+        "go": "Suriin"
+      },
+      "fema_apply": {
+        "title": "Mag-apply para sa tulong ng FEMA",
+        "detail": "Kung nagdeklara ang FEMA ng malaking sakuna sa county mo, mag-apply sa loob ng 60 araw mula sa deklarasyon sa DisasterAssistance.gov. Makakatulong ang imbentaryo at polisiya mo sa Hearthline.",
+        "go": "Buksan ang DisasterAssistance.gov"
+      },
+      "upload_policy": {
+        "title": "I-upload ang polisiya ng insurance mo",
+        "detail": "Binabasa ng Hearthline ang mga limitasyon at deadline nito para walang makaligtaan.",
+        "go": "Mag-upload"
+      },
+      "policy_deadline": {
+        "title": "Deadline sa insurance: {{what}}",
+        "detail": "Sabi ng polisiya mo: “{{text}}”",
+        "go": "Tingnan ang polisiya"
+      },
+      "prepare_claim": {
+        "title": "Ipadala ang claim para sa mga gamit mo",
+        "detail": "Ginawa mula sa imbentaryo mo, kasama ang mga limitasyon ng polisiya. Puwede itong bayaran ng adjuster mo gamit ang PayPal.",
+        "go": "Ihanda"
+      },
+      "ca_advance": {
+        "title": "Humingi ng advance na hinihingi ng California",
+        "detail": "Matapos ang total loss sa isang idineklarang emergency, inaatasan ng California ang mga insurer na mag-alok ng advance para sa gastusin sa pamumuhay at mga gamit. Tanungin ang adjuster mo.",
+        "go": "Tingnan ang claim"
+      },
+      "list_needs": {
+        "title": "Ilista ang kailangan ng pamilya mo",
+        "detail": "Pinopondohan ng mga donor ang mga partikular na bagay sa Rebuild Registry mo.",
+        "go": "Buksan ang registry"
+      },
+      "crew_visit": {
+        "title": "Pagbisita ng crew: {{title}}",
+        "detail": "May relief crew na pupunta sa address mo.",
+        "go": "Detalye"
+      },
+      "video_call": {
+        "title": "Video call kasama ang isang reviewer",
+        "detail": "Tungkol sa kaso mo. Ihanda ang ID mo.",
+        "go": "Detalye"
+      }
+    }
   }
 }

@@ -23,6 +23,7 @@ from app.api import (
     ledger,
     local_shop,
     mandates,
+    navigator,
     paypal_connect,
     price_watch,
     public,
@@ -97,6 +98,7 @@ app.include_router(books.router)
 app.include_router(claims.router)
 app.include_router(local_shop.router)
 app.include_router(mandates.router)
+app.include_router(navigator.router)
 app.include_router(rapid_aid.router)
 app.include_router(readiness.router)
 app.include_router(disasters.router)

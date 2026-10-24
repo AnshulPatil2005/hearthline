@@ -5,6 +5,7 @@ import { Link } from 'react-router'
 import { api, type Household, type InventorySummary } from '../api'
 import { useAuth } from '../auth'
 import AlertBanner, { SimulateAlertButton } from '../components/AlertBanner'
+import { RecoveryNavigator } from '../components/RecoveryNavigator'
 import type { Call } from '../components/VideoCalls'
 import { money } from '../format'
 
@@ -156,6 +157,7 @@ export default function HouseholdHome() {
         </p>
       )}
       <DisasterBanner home={home.data} />
+      <RecoveryNavigator />
       <div className="grid gap-6 lg:grid-cols-2">
         <Coverage summary={summary.data} />
         <Rooms summary={summary.data} />

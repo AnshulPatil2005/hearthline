@@ -1116,3 +1116,28 @@ class ReadinessPlan(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     monthly: Mapped[Decimal] = mapped_column(Money, unique=True)
     paypal_plan_id: Mapped[str] = mapped_column(String(64))
+
+
+class NavigatorCheck(Base):
+    """A step only the family can see done (applying to FEMA, an insurance deadline), marked done by them."""
+
+    __tablename__ = "navigator_checks"
+    __table_args__ = (UniqueConstraint("household_id", "step_id"),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    step_id: Mapped[str] = mapped_column(String(160))
+    done_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class NavigatorNote(Base):
+    """The navigator's explanation of a family's steps, in one language, for one set of facts (asked once)."""
+
+    __tablename__ = "navigator_notes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    household_id: Mapped[int] = mapped_column(ForeignKey("households.id", ondelete="CASCADE"), index=True)
+    lang: Mapped[str] = mapped_column(String(5))
+    facts_hash: Mapped[str] = mapped_column(String(32))
+    text: Mapped[str] = mapped_column(String(2000))
+    created_at: Mapped[datetime] = mapped_column(default=now)

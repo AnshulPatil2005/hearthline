@@ -979,3 +979,17 @@ export type ReadinessGiver = {
 
 export type ReadinessMine = { pool: ReadinessPool; mine: ReadinessGiver | null }
 export type ReadinessStart = { giver: ReadinessGiver; approval_url: string | null }
+
+export type NavigatorStep = {
+  id: string
+  key: string
+  params: Record<string, string>
+  due: string | null
+  link: string
+  kind: 'task' | 'event'
+  manual: boolean
+  done: boolean
+}
+export type NavigatorNote = { text: string; lang: string; created_at: string }
+export type NavigatorPlan = { steps: NavigatorStep[]; note: NavigatorNote | null }
+export type NavigatorAnswer = { answer: string; steps: string[] }

@@ -22,7 +22,7 @@ the sandbox buyer login to copy.
 
 | Persona | Who they are | Try this |
 |---|---|---|
-| `elena.rivera` | A mother whose home burned | **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account; see first-72-hours aid once Sam approves it), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf), ask about it, and send the insurer a claim they can pay with PayPal), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
+| `elena.rivera` | A mother whose home burned | **Home** (her next steps with dates, explained by the recovery navigator in her language; ask it by voice), **Inventory** (photos turned into a priced list, Excel export), **Registry**, **Aid** (ask for cash aid; connect her PayPal account; see first-72-hours aid once Sam approves it), **Insurance** (upload the [sample policy](frontend/public/samples/golden-poppy-homeowners-policy.pdf), ask about it, and send the insurer a claim they can pay with PayPal), **Rebuild** (the Gantt plan, approve a milestone), **Money** (her ledger) |
 | `marcus.chen` | A donor | **My giving**: the readiness fund (give monthly with PayPal Subscriptions), a giving mandate, each gift's journey from paid to bought to delivered, and a note from the Funds agent |
 | `dana.okafor` | A licensed contractor | **Projects**: drag milestones in the Gantt, submit work photos for the Site agent's check |
 | `luis.moreno` | Owner of Moreno's Bakery, closed by the fire | **Reopen Fund**: ask for the next step's money, mark the bakery reopened, take a gift card by its QR code |
@@ -69,6 +69,9 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
 - **Claim.** From the inventory and the policy the Policy agent read, Hearthline builds the family's contents
   claim with the policy's sub-limits, limit and deductible applied. The insurer's adjuster reviews it on a private
   link and pays with PayPal; the money reaches the family's own PayPal account in minutes, not a mailed check.
+- **Know what's next.** Each family's home page lists their open steps, soonest first: approvals waiting on them,
+  FEMA's 60-day application window, the insurance policy's own deadlines, crew visits. The recovery navigator explains
+  the list in their language, reads it aloud and answers questions about it; code computes every date.
 - **Rebuild.** A contractor's plan sits in escrow under California's deposit cap. Each milestone is paid only after
   the Site agent checks the work photos and the homeowner approves.
 - **Reopen.** A closed local business sells gift cards, or monthly "regular" plans through PayPal Subscriptions.
@@ -118,6 +121,7 @@ stand-in "retailer" sandbox account through Payouts. In production it would chec
 | **Site** | Checks a contractor's milestone photos against the work described | A mismatch makes the case high risk, which needs two reviewers |
 | **Policy** | Reads an insurance policy PDF: limits, sub-limits, deadlines; answers questions with a quote | Read-only, and not legal advice; code does the math against the inventory |
 | **Giving** | Gives on a donor's behalf under their giving mandate: chooses among eligible needs and explains each gift | Code lists the only needs it may choose (verified families in an active disaster, the donor's places and kinds) and enforces the per-gift and monthly limits; each gift is claimed before PayPal is called, so it can't be paid twice |
+| **Navigator** | Explains each family's next steps in their language (and reads them aloud), and answers questions about them | Code computes the steps and every date (FEMA's 60 days, the policy's deadlines, approvals waiting); the AI only explains them and can't add a step, date or rule |
 | **Funds** | Writes donors' impact notes, the grant-report narrative and replies to payment disputes; answers "Ask PayPal" | Can't move money. Rules in code recommend the dispute answer; staff edit and send it |
 | **Ask the grid** | Turns a question into AG Grid state through the AG Grid AI Toolkit | The server checks the answer before the grid applies it |
 

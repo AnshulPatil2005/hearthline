@@ -1682,5 +1682,99 @@
     "returnSoon": "PayPal takes your first gift in a few minutes; it shows here when it arrives.",
     "returnPending": "PayPal hasn't confirmed your monthly gift yet. Check back in a minute.",
     "back": "Back to my giving"
+  },
+  "navigator": {
+    "title": "Your next steps",
+    "count_one": "{{count}} open",
+    "count_other": "{{count}} open",
+    "explain": "Explain my plan",
+    "explaining": "Explaining…",
+    "explainHint": "The navigator can explain what to do first, in your language.",
+    "byAi": "Explained by Hearthline's navigator (AI) from the steps below. Dates come from Hearthline and your policy.",
+    "listen": "Listen",
+    "overdue": "Overdue since {{date}}",
+    "today": "Today",
+    "inDays_one": "Tomorrow, {{date}}",
+    "inDays_other": "In {{count}} days, {{date}}",
+    "markDone": "Mark done: {{what}}",
+    "allDone": "Nothing is waiting on you right now.",
+    "doneCount_one": "{{count}} done",
+    "doneCount_other": "{{count}} done",
+    "ask": "Ask",
+    "asking": "Thinking…",
+    "askPlaceholder": "Ask about your recovery, e.g. What should I do first?",
+    "notAdvice": "From your steps only. Not legal or financial advice; a caseworker can help.",
+    "step": {
+      "verify_address": {
+        "title": "Confirm your home address",
+        "detail": "Hearthline checks it against the disaster area before aid can reach you.",
+        "go": "Check it"
+      },
+      "confirm_residence": {
+        "title": "Show you live there",
+        "detail": "Upload a bill or lease, or ask a caseworker to vouch for you if your papers burned.",
+        "go": "Upload"
+      },
+      "connect_paypal": {
+        "title": "Connect your PayPal account",
+        "detail": "Cash aid and insurance payments go straight to it.",
+        "go": "Connect"
+      },
+      "case_needs_info": {
+        "title": "A reviewer needs something from you",
+        "detail": "About: {{title}}",
+        "go": "Answer"
+      },
+      "approve_purchase": {
+        "title": "Approve a purchase",
+        "detail": "The Shopper wants to buy {{title}} for {{total}}. It waits for your OK.",
+        "go": "Review"
+      },
+      "approve_milestone": {
+        "title": "Approve a rebuild step",
+        "detail": "{{title}} ({{amount}}): look at the contractor's photos, then approve or ask for changes.",
+        "go": "Review"
+      },
+      "fema_apply": {
+        "title": "Apply for FEMA disaster assistance",
+        "detail": "If FEMA declared a major disaster for your county, apply within 60 days of the declaration at DisasterAssistance.gov. Your Hearthline inventory and policy help.",
+        "go": "Open DisasterAssistance.gov"
+      },
+      "upload_policy": {
+        "title": "Upload your insurance policy",
+        "detail": "Hearthline reads its limits and deadlines, so nothing is missed.",
+        "go": "Upload"
+      },
+      "policy_deadline": {
+        "title": "Insurance deadline: {{what}}",
+        "detail": "Your policy says: “{{text}}”",
+        "go": "See your policy"
+      },
+      "prepare_claim": {
+        "title": "Send your contents claim",
+        "detail": "Built from your inventory, with your policy's limits applied. Your adjuster can pay it with PayPal.",
+        "go": "Prepare it"
+      },
+      "ca_advance": {
+        "title": "Ask for California's advance payments",
+        "detail": "After a total loss in a declared emergency, California requires insurers to offer advance payments for living expenses and belongings. Ask your adjuster.",
+        "go": "See your claim"
+      },
+      "list_needs": {
+        "title": "List what your family needs",
+        "detail": "Donors fund specific things on your Rebuild Registry.",
+        "go": "Open registry"
+      },
+      "crew_visit": {
+        "title": "Crew visit: {{title}}",
+        "detail": "A relief crew is coming to your address.",
+        "go": "Details"
+      },
+      "video_call": {
+        "title": "Video call with a reviewer",
+        "detail": "About your case. Have your ID nearby.",
+        "go": "Details"
+      }
+    }
   }
 }

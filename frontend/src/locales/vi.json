@@ -1646,5 +1646,96 @@
     "returnSoon": "PayPal sẽ thu khoản đầu tiên trong vài phút; khoản này sẽ hiện ở đây khi đến.",
     "returnPending": "PayPal chưa xác nhận khoản đóng góp hằng tháng. Vui lòng xem lại sau một phút.",
     "back": "Quay lại phần đóng góp của tôi"
+  },
+  "navigator": {
+    "title": "Các bước tiếp theo",
+    "count_other": "{{count}} việc cần làm",
+    "explain": "Giải thích kế hoạch của tôi",
+    "explaining": "Đang giải thích…",
+    "explainHint": "Trợ lý điều hướng có thể giải thích việc nên làm trước, bằng ngôn ngữ của quý vị.",
+    "byAi": "Do trợ lý điều hướng của Hearthline (AI) giải thích từ các bước bên dưới. Ngày tháng lấy từ Hearthline và hợp đồng bảo hiểm.",
+    "listen": "Nghe",
+    "overdue": "Quá hạn từ {{date}}",
+    "today": "Hôm nay",
+    "inDays_other": "Còn {{count}} ngày, {{date}}",
+    "markDone": "Đánh dấu đã xong: {{what}}",
+    "allDone": "Hiện không có việc gì đang chờ quý vị.",
+    "doneCount_other": "Đã xong {{count}} việc",
+    "ask": "Hỏi",
+    "asking": "Đang suy nghĩ…",
+    "askPlaceholder": "Hỏi về việc phục hồi, ví dụ: Tôi nên làm gì trước?",
+    "notAdvice": "Chỉ dựa trên các bước của quý vị. Không phải tư vấn pháp lý hay tài chính; nhân viên xã hội có thể giúp.",
+    "step": {
+      "verify_address": {
+        "title": "Xác nhận địa chỉ nhà",
+        "detail": "Hearthline đối chiếu với khu vực thảm họa trước khi hỗ trợ đến tay quý vị.",
+        "go": "Kiểm tra"
+      },
+      "confirm_residence": {
+        "title": "Chứng minh quý vị sống ở đó",
+        "detail": "Tải lên hóa đơn hoặc hợp đồng thuê nhà, hoặc nhờ nhân viên xã hội xác nhận nếu giấy tờ đã bị cháy.",
+        "go": "Tải lên"
+      },
+      "connect_paypal": {
+        "title": "Kết nối tài khoản PayPal",
+        "detail": "Tiền hỗ trợ và tiền bảo hiểm sẽ chuyển thẳng vào đó.",
+        "go": "Kết nối"
+      },
+      "case_needs_info": {
+        "title": "Người xét duyệt cần thông tin từ quý vị",
+        "detail": "Về: {{title}}",
+        "go": "Trả lời"
+      },
+      "approve_purchase": {
+        "title": "Duyệt một khoản mua",
+        "detail": "Shopper muốn mua {{title}} với giá {{total}}. Đang chờ quý vị đồng ý.",
+        "go": "Xem"
+      },
+      "approve_milestone": {
+        "title": "Duyệt một bước xây lại",
+        "detail": "{{title}} ({{amount}}): xem ảnh của nhà thầu, rồi duyệt hoặc yêu cầu sửa.",
+        "go": "Xem"
+      },
+      "fema_apply": {
+        "title": "Nộp đơn xin hỗ trợ thảm họa của FEMA",
+        "detail": "Nếu FEMA đã tuyên bố thảm họa lớn cho quận của quý vị, hãy nộp đơn trong vòng 60 ngày kể từ ngày tuyên bố tại DisasterAssistance.gov. Danh sách đồ đạc và hợp đồng bảo hiểm trên Hearthline sẽ giúp ích.",
+        "go": "Mở DisasterAssistance.gov"
+      },
+      "upload_policy": {
+        "title": "Tải lên hợp đồng bảo hiểm",
+        "detail": "Hearthline đọc các hạn mức và thời hạn để không bỏ sót điều gì.",
+        "go": "Tải lên"
+      },
+      "policy_deadline": {
+        "title": "Thời hạn bảo hiểm: {{what}}",
+        "detail": "Hợp đồng ghi: “{{text}}”",
+        "go": "Xem hợp đồng"
+      },
+      "prepare_claim": {
+        "title": "Gửi yêu cầu bồi thường đồ đạc",
+        "detail": "Lập từ danh sách đồ đạc của quý vị, đã áp dụng hạn mức của hợp đồng. Chuyên viên bồi thường có thể trả bằng PayPal.",
+        "go": "Chuẩn bị"
+      },
+      "ca_advance": {
+        "title": "Yêu cầu khoản ứng trước theo luật California",
+        "detail": "Sau khi mất trắng nhà trong tình trạng khẩn cấp được tuyên bố, California buộc công ty bảo hiểm phải đề nghị ứng trước chi phí sinh hoạt và đồ đạc. Hãy hỏi chuyên viên bồi thường.",
+        "go": "Xem yêu cầu bồi thường"
+      },
+      "list_needs": {
+        "title": "Liệt kê những gì gia đình cần",
+        "detail": "Nhà hảo tâm tài trợ những món cụ thể trong danh sách xây lại của quý vị.",
+        "go": "Mở danh sách"
+      },
+      "crew_visit": {
+        "title": "Đội hỗ trợ đến: {{title}}",
+        "detail": "Một đội cứu trợ sẽ đến địa chỉ của quý vị.",
+        "go": "Chi tiết"
+      },
+      "video_call": {
+        "title": "Gọi video với người xét duyệt",
+        "detail": "Về hồ sơ của quý vị. Hãy chuẩn bị giấy tờ tùy thân.",
+        "go": "Chi tiết"
+      }
+    }
   }
 }

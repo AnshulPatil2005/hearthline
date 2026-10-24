@@ -1682,5 +1682,99 @@
     "returnSoon": "PayPal cobra tu primera donación en unos minutos; aparecerá aquí cuando llegue.",
     "returnPending": "PayPal aún no confirma tu donación mensual. Vuelve a revisar en un minuto.",
     "back": "Volver a mis donaciones"
+  },
+  "navigator": {
+    "title": "Tus próximos pasos",
+    "count_one": "{{count}} pendiente",
+    "count_other": "{{count}} pendientes",
+    "explain": "Explícame mi plan",
+    "explaining": "Explicando…",
+    "explainHint": "El navegador puede explicarte qué hacer primero, en tu idioma.",
+    "byAi": "Explicado por el navegador de Hearthline (IA) a partir de los pasos de abajo. Las fechas vienen de Hearthline y de tu póliza.",
+    "listen": "Escuchar",
+    "overdue": "Vencido desde el {{date}}",
+    "today": "Hoy",
+    "inDays_one": "Mañana, {{date}}",
+    "inDays_other": "En {{count}} días, {{date}}",
+    "markDone": "Marcar como hecho: {{what}}",
+    "allDone": "Nada espera por ti ahora mismo.",
+    "doneCount_one": "{{count}} hecho",
+    "doneCount_other": "{{count}} hechos",
+    "ask": "Preguntar",
+    "asking": "Pensando…",
+    "askPlaceholder": "Pregunta sobre tu recuperación, p. ej. ¿Qué hago primero?",
+    "notAdvice": "Solo a partir de tus pasos. No es asesoría legal ni financiera; un trabajador social puede ayudarte.",
+    "step": {
+      "verify_address": {
+        "title": "Confirma tu dirección",
+        "detail": "Hearthline la compara con la zona del desastre antes de que llegue la ayuda.",
+        "go": "Revisar"
+      },
+      "confirm_residence": {
+        "title": "Demuestra que vives ahí",
+        "detail": "Sube una factura o contrato de alquiler, o pide a un trabajador social que responda por ti si tus papeles se quemaron.",
+        "go": "Subir"
+      },
+      "connect_paypal": {
+        "title": "Conecta tu cuenta de PayPal",
+        "detail": "La ayuda en efectivo y los pagos del seguro llegan directo a ella.",
+        "go": "Conectar"
+      },
+      "case_needs_info": {
+        "title": "Un revisor necesita algo de ti",
+        "detail": "Sobre: {{title}}",
+        "go": "Responder"
+      },
+      "approve_purchase": {
+        "title": "Aprueba una compra",
+        "detail": "El Shopper quiere comprar {{title}} por {{total}}. Espera tu aprobación.",
+        "go": "Revisar"
+      },
+      "approve_milestone": {
+        "title": "Aprueba un paso de la reconstrucción",
+        "detail": "{{title}} ({{amount}}): mira las fotos del contratista y luego aprueba o pide cambios.",
+        "go": "Revisar"
+      },
+      "fema_apply": {
+        "title": "Solicita la asistencia de FEMA",
+        "detail": "Si FEMA declaró un desastre mayor en tu condado, solicita dentro de los 60 días de la declaración en DisasterAssistance.gov. Tu inventario y tu póliza en Hearthline ayudan.",
+        "go": "Abrir DisasterAssistance.gov"
+      },
+      "upload_policy": {
+        "title": "Sube tu póliza de seguro",
+        "detail": "Hearthline lee sus límites y plazos para que no se te pase nada.",
+        "go": "Subir"
+      },
+      "policy_deadline": {
+        "title": "Plazo del seguro: {{what}}",
+        "detail": "Tu póliza dice: “{{text}}”",
+        "go": "Ver tu póliza"
+      },
+      "prepare_claim": {
+        "title": "Envía tu reclamo de pertenencias",
+        "detail": "Hecho con tu inventario y con los límites de tu póliza. Tu ajustador puede pagarlo con PayPal.",
+        "go": "Prepararlo"
+      },
+      "ca_advance": {
+        "title": "Pide los anticipos que exige California",
+        "detail": "Tras una pérdida total en una emergencia declarada, California exige que las aseguradoras ofrezcan anticipos para gastos de vida y pertenencias. Pregúntale a tu ajustador.",
+        "go": "Ver tu reclamo"
+      },
+      "list_needs": {
+        "title": "Haz la lista de lo que necesita tu familia",
+        "detail": "Los donantes financian cosas concretas en tu registro de reconstrucción.",
+        "go": "Abrir registro"
+      },
+      "crew_visit": {
+        "title": "Visita de cuadrilla: {{title}}",
+        "detail": "Una cuadrilla de ayuda va a tu dirección.",
+        "go": "Detalles"
+      },
+      "video_call": {
+        "title": "Videollamada con un revisor",
+        "detail": "Sobre tu caso. Ten tu identificación a mano.",
+        "go": "Detalles"
+      }
+    }
   }
 }

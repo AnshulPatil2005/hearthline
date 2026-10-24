@@ -1646,5 +1646,96 @@
     "returnSoon": "PayPal 会在几分钟内收取您的首笔捐款，到账后会显示在这里。",
     "returnPending": "PayPal 尚未确认您的每月捐款。请稍后再查看。",
     "back": "返回我的捐赠"
+  },
+  "navigator": {
+    "title": "您的下一步",
+    "count_other": "{{count}} 项待办",
+    "explain": "讲解我的计划",
+    "explaining": "正在讲解…",
+    "explainHint": "导航助手可以用您的语言说明先做什么。",
+    "byAi": "由 Hearthline 导航助手（AI）根据下列步骤讲解。日期来自 Hearthline 和您的保单。",
+    "listen": "朗读",
+    "overdue": "自 {{date}} 起已逾期",
+    "today": "今天",
+    "inDays_other": "{{count}} 天后，{{date}}",
+    "markDone": "标记为完成：{{what}}",
+    "allDone": "目前没有需要您处理的事项。",
+    "doneCount_other": "已完成 {{count}} 项",
+    "ask": "提问",
+    "asking": "正在思考…",
+    "askPlaceholder": "询问关于恢复的问题，例如：我应该先做什么？",
+    "notAdvice": "仅根据您的步骤回答。不构成法律或财务建议；社工可以帮助您。",
+    "step": {
+      "verify_address": {
+        "title": "确认您的住址",
+        "detail": "Hearthline 会将其与灾区核对，然后援助才能送达。",
+        "go": "核对"
+      },
+      "confirm_residence": {
+        "title": "证明您住在那里",
+        "detail": "上传账单或租约；如果证件已烧毁，可请社工为您担保。",
+        "go": "上传"
+      },
+      "connect_paypal": {
+        "title": "连接您的 PayPal 账户",
+        "detail": "现金援助和保险赔款会直接汇入。",
+        "go": "连接"
+      },
+      "case_needs_info": {
+        "title": "审核员需要您提供资料",
+        "detail": "关于：{{title}}",
+        "go": "回复"
+      },
+      "approve_purchase": {
+        "title": "批准一笔购买",
+        "detail": "Shopper 想以 {{total}} 购买 {{title}}，正在等您确认。",
+        "go": "查看"
+      },
+      "approve_milestone": {
+        "title": "批准一个重建步骤",
+        "detail": "{{title}}（{{amount}}）：查看承包商的照片，然后批准或要求修改。",
+        "go": "查看"
+      },
+      "fema_apply": {
+        "title": "申请 FEMA 灾害援助",
+        "detail": "如果 FEMA 已宣布您所在县为重大灾区，请在宣布后 60 天内到 DisasterAssistance.gov 申请。您在 Hearthline 的物品清单和保单会有帮助。",
+        "go": "打开 DisasterAssistance.gov"
+      },
+      "upload_policy": {
+        "title": "上传您的保险单",
+        "detail": "Hearthline 会读取其中的限额和期限，避免遗漏。",
+        "go": "上传"
+      },
+      "policy_deadline": {
+        "title": "保险期限：{{what}}",
+        "detail": "您的保单写道：“{{text}}”",
+        "go": "查看保单"
+      },
+      "prepare_claim": {
+        "title": "提交您的财物理赔",
+        "detail": "根据您的物品清单生成，并已按保单限额计算。理赔员可用 PayPal 支付。",
+        "go": "准备理赔"
+      },
+      "ca_advance": {
+        "title": "要求加州规定的预付款",
+        "detail": "在已宣布的紧急状态中房屋全损后，加州要求保险公司提供生活费和财物的预付款。请询问您的理赔员。",
+        "go": "查看理赔"
+      },
+      "list_needs": {
+        "title": "列出您家需要的物品",
+        "detail": "捐赠者会资助您重建清单上的具体物品。",
+        "go": "打开清单"
+      },
+      "crew_visit": {
+        "title": "工作队上门：{{title}}",
+        "detail": "救援工作队将前往您的住址。",
+        "go": "详情"
+      },
+      "video_call": {
+        "title": "与审核员视频通话",
+        "detail": "关于您的案件。请备好身份证件。",
+        "go": "详情"
+      }
+    }
   }
 }
