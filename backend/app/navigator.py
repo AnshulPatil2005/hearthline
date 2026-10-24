@@ -339,8 +339,10 @@ def ask(db: Session, home: Household, lang: str, question: str) -> Answer:
     return answer
 
 
-def step_dict(s: Step) -> dict:
+def step_dict(s: Step, today: date | None = None) -> dict:
+    today = today or date.today()
     data = asdict(s)
     data["id"] = s.id
     data["due"] = s.due.isoformat() if s.due else None
+    data["days_left"] = (s.due - today).days if s.due else None
     return data

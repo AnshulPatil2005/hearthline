@@ -31,11 +31,9 @@ function Listen({ text }: { text: string }) {
 
 function Due({ step }: { step: NavigatorStep }) {
   const { t, i18n } = useTranslation()
-  if (!step.due) return null
+  if (!step.due || step.days_left === null) return null
   const due = new Date(`${step.due}T12:00:00`)
-  const today = new Date()
-  today.setHours(12, 0, 0, 0)
-  const days = Math.round((due.getTime() - today.getTime()) / 86_400_000)
+  const days = step.days_left
   const date = due.toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' })
   const tone =
     step.done || step.kind === 'event'

@@ -985,6 +985,7 @@ export type NavigatorStep = {
   key: string
   params: Record<string, string>
   due: string | null
+  days_left: number | null
   link: string
   kind: 'task' | 'event'
   manual: boolean

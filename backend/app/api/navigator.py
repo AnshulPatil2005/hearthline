@@ -20,6 +20,7 @@ class StepOut(BaseModel):
     key: str
     params: dict
     due: str | None
+    days_left: int | None  # counted on the server's calendar
     link: str
     kind: str
     manual: bool
