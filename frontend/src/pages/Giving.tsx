@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
 import { api, type Gift, type Giving as GivingData, type RegistrySummary, type ReopenFundSummary } from '../api'
 import { GivingMandates } from '../components/GivingMandates'
+import { ReadinessFund } from '../components/ReadinessFund'
 import { Stat } from '../components/Milestones'
 import { money } from '../format'
 
@@ -59,6 +60,7 @@ export default function Giving() {
         <h1 className="text-3xl font-semibold tracking-tight">{t('giving.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('giving.subtitle')}</p>
       </div>
+      <ReadinessFund />
       <GivingMandates />
       {g && (
         <>

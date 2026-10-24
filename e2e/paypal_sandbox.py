@@ -15,7 +15,7 @@ RETURN_URL = ENV.get("PAYPAL_CONNECT_RETURN_URL")
 
 # The button that confirms on PayPal's review or consent page (wording differs by flow).
 CONFIRM = re.compile(
-    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Continue)$"
+    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Agree & Subscribe|Agree and Subscribe|Subscribe|Continue)$"
 )
 # The sandbox's page for a bad moment on its side (the apostrophe is a curly one)
 TROUBLE = re.compile(r"Things don.t appear to be working")

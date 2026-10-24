@@ -863,6 +863,7 @@ export type RapidAidTrigger = {
   note: string | null
   households: number
   total: string
+  readiness_covers: string
   held: { household_id: number; name: string; reason: string }[]
   left_out: Record<string, number>
   batch: {
@@ -878,6 +879,7 @@ export type RapidAidTrigger = {
 export type RapidAidBoard = {
   disasters: { id: number; name: string }[]
   triggers: RapidAidTrigger[]
+  readiness: { balance: string; givers: number; monthly: string }
   base: string
   per_person: string
   cap: string
@@ -955,3 +957,25 @@ export type CommandMapData = {
   }[]
   zones: { id: number; name: string; is_fictional: boolean; zone: GeoJsonGeometry }[]
 }
+
+export type ReadinessPool = {
+  balance: string
+  givers: number
+  monthly: string
+  released: string
+  batches: number
+  tiers: string[]
+}
+
+export type ReadinessGiver = {
+  id: number
+  monthly: string
+  status: 'pending' | 'active' | 'cancelled' | 'suspended' | 'expired'
+  created_at: string
+  activated_at: string | null
+  given: string
+  payments: number
+}
+
+export type ReadinessMine = { pool: ReadinessPool; mine: ReadinessGiver | null }
+export type ReadinessStart = { giver: ReadinessGiver; approval_url: string | null }

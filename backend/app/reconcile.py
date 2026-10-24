@@ -30,6 +30,7 @@ from app.models import (
     InsuranceClaim,
     Milestone,
     Purchase,
+    ReadinessPayment,
     ReopenTranche,
     now,
 )
@@ -114,6 +115,10 @@ def expected(db: Session, start: datetime) -> list[Expected]:
     for p in db.scalars(select(GiftCardPayment)):
         if _real(p.paypal_sale_id) and since(p.created_at):
             out.append(Expected(p.paypal_sale_id, "in", p.amount, _aware(p.created_at), f"Regular's payment #{p.id}"))
+    for r in db.scalars(select(ReadinessPayment)):
+        if _real(r.paypal_sale_id) and since(r.paid_at):
+            what = f"Monthly gift #{r.id} to the readiness fund"
+            out.append(Expected(r.paypal_sale_id, "in", r.amount, _aware(r.paid_at), what))
 
     for claim in db.scalars(select(InsuranceClaim).where(InsuranceClaim.paypal_capture_id.is_not(None))):
         if _real(claim.paypal_capture_id) and since(claim.paid_at):

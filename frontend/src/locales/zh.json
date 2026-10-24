@@ -1522,7 +1522,12 @@
     "dismissWhy": "原因（存档）",
     "oneApproval": "此批次由规则准备，您的批准将完成付款。",
     "disaster": "灾害",
-    "nobodyYet": "此灾区内还没有家庭做好准备，因此目前无人可付款。用此处地址登记、完成核实并扫描房屋的家庭，将从下一次警报起获得援助。"
+    "nobodyYet": "此灾区内还没有家庭做好准备，因此目前无人可付款。用此处地址登记、完成核实并扫描房屋的家庭，将从下一次警报起获得援助。",
+    "fund": "备灾基金：现有 {{balance}}，来自 {{givers}} 位每月捐款人（每月 {{monthly}}）。",
+    "fundAll": "备灾基金可全额支付。",
+    "fundPart": "备灾基金支付 {{covers}}；其余 {{rest}} 由一般现金援助支付。",
+    "fundEmpty": "备灾基金已用完，因此全部由一般现金援助支付。",
+    "fundPaid": "其中 {{amount}} 来自备灾基金。"
   },
   "disasters": {
     "title": "灾害",
@@ -1617,5 +1622,29 @@
       "stores": "本地商家"
     },
     "hint": "地图与表格的筛选条件同步。点击标记查看详情。"
+  },
+  "readiness": {
+    "title": "在下一次灾害前做好准备",
+    "intro": "每月向 Hearthline 的备灾基金捐款。当官方疏散令或灾害声明发布时，基金会在数小时内向提前做好准备的家庭付款，无需等任何人发起筹款。",
+    "ready": "现在可付给家庭的金额",
+    "givers": "每月捐款人",
+    "perMonth": "每月共捐 {{amount}}",
+    "released": "迄今已付给家庭",
+    "choose": "每月捐款：",
+    "tier": "每月 {{amount}}",
+    "give": "用 PayPal 每月捐款",
+    "opening": "正在打开 PayPal…",
+    "how": "PayPal 订阅。可随时停止。",
+    "mineActive": "您每月向备灾基金捐 {{amount}}",
+    "minePending": "您的每月 {{amount}} 正在等待 PayPal 确认",
+    "mineSince": "自 {{date}} 起 · 迄今已捐 {{given}}",
+    "stop": "停止每月捐款",
+    "returnCancelled": "未进行任何设置。您可以随时开始每月捐款。",
+    "returnSaving": "正在设置您的每月捐款…",
+    "returnActive": "谢谢。您每月向备灾基金捐 {{amount}}。",
+    "returnFirst": "PayPal 已收取您的首笔 {{amount}}，已进入基金。",
+    "returnSoon": "PayPal 会在几分钟内收取您的首笔捐款，到账后会显示在这里。",
+    "returnPending": "PayPal 尚未确认您的每月捐款。请稍后再查看。",
+    "back": "返回我的捐赠"
   }
 }

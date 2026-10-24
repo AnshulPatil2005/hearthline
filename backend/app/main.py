@@ -28,6 +28,7 @@ from app.api import (
     public,
     purchases,
     rapid_aid,
+    readiness,
     rebuild,
     registry,
     reopen,
@@ -97,6 +98,7 @@ app.include_router(claims.router)
 app.include_router(local_shop.router)
 app.include_router(mandates.router)
 app.include_router(rapid_aid.router)
+app.include_router(readiness.router)
 app.include_router(disasters.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)

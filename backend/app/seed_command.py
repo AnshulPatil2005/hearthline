@@ -24,6 +24,7 @@ from app.models import (
     LedgerAccount,
     LedgerPosting,
     LedgerTransaction,
+    ReadinessGiver,
     now,
 )
 from app.seed import FIRE_SLUG
@@ -374,4 +375,37 @@ def seed_prepared(db: Session, count: int = 20) -> None:
                 created_at=scanned,
             )
         )
+    db.commit()
+
+
+READINESS_GIVERS = {Decimal("10"): 214, Decimal("25"): 138, Decimal("50"): 34}  # 386 people, $7,290 a month
+READINESS_MONTHS = 2  # gifts the fund collected before the fire
+
+
+def seed_readiness(db: Session) -> None:
+    """Monthly givers to the readiness fund from before the fire (fictional, so no PayPal subscription behind them)
+    and the gifts it already collected, so first-72-hours aid has money waiting when the warning comes."""
+    from app import readiness
+
+    if db.scalar(select(func.count(ReadinessGiver.id))):
+        return
+    rng = random.Random(386)
+    started = datetime.now(UTC) - timedelta(days=30 * READINESS_MONTHS + 5)
+    for monthly, count in READINESS_GIVERS.items():
+        for _ in range(count):
+            name = f"{rng.choice(FIRST)} {rng.choice(LAST)[0]}."
+            giver = ReadinessGiver(name=name, monthly=monthly, status="active")
+            giver.created_at = giver.activated_at = started
+            db.add(giver)
+    people = sum(READINESS_GIVERS.values())
+    each_month = sum((m * n for m, n in READINESS_GIVERS.items()), Decimal(0))
+    for month in range(READINESS_MONTHS):
+        txn = ledger.post(
+            db,
+            kind="readiness_gift",
+            description=f"Readiness fund: {people} monthly gifts (month {month + 1}, demo data)",
+            meta={"seeded": True},
+            lines={ledger.CASH: each_month, readiness.FUND: -each_month},
+        )
+        txn.created_at = started + timedelta(days=30 * month + 1)
     db.commit()

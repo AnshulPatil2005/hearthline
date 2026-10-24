@@ -10,7 +10,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import rapid_aid
+from app import rapid_aid, readiness
 from app.auth import require_role
 from app.db import get_db
 from app.models import DisasterEvent, RapidAidTrigger, Role, User
@@ -50,6 +50,7 @@ class TriggerOut(BaseModel):
     note: str | None
     households: int  # who would be paid now (proposed) or was paid (approved)
     total: Money
+    readiness_covers: Money  # what the readiness fund would pay (proposed) or paid (approved)
     held: list[HeldOut]
     left_out: dict[str, int]
     batch: BatchOut | None
@@ -60,9 +61,16 @@ class DisasterOut(BaseModel):
     name: str
 
 
+class ReadinessOut(BaseModel):
+    balance: Money
+    givers: int
+    monthly: Money
+
+
 class Board(BaseModel):
     disasters: list[DisasterOut]
     triggers: list[TriggerOut]
+    readiness: ReadinessOut
     base: Money
     per_person: Money
     cap: Money
@@ -101,6 +109,10 @@ def _trigger(db: Session, t: RapidAidTrigger) -> TriggerOut:
         held = [HeldOut(**h) for h in t.batch.rule.get("held_for_review", [])]
     else:
         households, total = 0, Decimal(0)
+    if t.status == "proposed":
+        covers = readiness.covers(db, total)
+    else:
+        covers = Decimal(t.batch.rule.get("readiness_covered", "0")) if t.batch else Decimal(0)
     return TriggerOut(
         id=t.id,
         disaster=t.disaster.name,
@@ -115,6 +127,7 @@ def _trigger(db: Session, t: RapidAidTrigger) -> TriggerOut:
         note=t.note,
         households=households,
         total=total,
+        readiness_covers=covers,
         held=held,
         left_out=left_out,
         batch=batch,
@@ -126,9 +139,11 @@ def _board(db: Session) -> Board:
         db.scalars(select(DisasterEvent).where(DisasterEvent.status == "active").order_by(DisasterEvent.id))
     )
     triggers = db.scalars(select(RapidAidTrigger).order_by(RapidAidTrigger.id.desc()).limit(20))
+    pool = readiness.pool(db)
     return Board(
         disasters=[DisasterOut(id=d.id, name=d.name) for d in disasters],
         triggers=[_trigger(db, t) for t in triggers],
+        readiness=ReadinessOut(balance=pool.balance, givers=pool.givers, monthly=pool.monthly),
         base=rapid_aid.BASE,
         per_person=rapid_aid.PER_PERSON,
         cap=rapid_aid.CAP,

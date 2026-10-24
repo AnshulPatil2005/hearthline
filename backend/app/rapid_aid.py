@@ -20,7 +20,7 @@ from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
-from app import aid_batches, audit, geo, mandates, trust
+from app import aid_batches, audit, geo, mandates, readiness, trust
 from app.alerts import HEADERS, NWS_ALERTS
 from app.db import SessionLocal
 from app.models import AidBatch, AidBatchItem, DisasterEvent, Household, RapidAidTrigger, Role, User, now
@@ -263,6 +263,7 @@ def approve(db: Session, trigger: RapidAidTrigger, staff: User) -> RapidAidTrigg
     )
     db.commit()
     aid_batches.approve(db, batch, staff)  # re-checks each household, one Payouts call, the ledger
+    readiness.release(db, batch, staff)  # the part the readiness fund covers
     db.refresh(trigger)
     start_mandate_round()
     return trigger

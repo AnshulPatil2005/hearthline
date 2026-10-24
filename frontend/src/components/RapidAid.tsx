@@ -28,6 +28,12 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
   const when = (s: string) =>
     parseTime(s).toLocaleString(i18n.resolvedLanguage, { dateStyle: 'medium', timeStyle: 'short' })
   const leftOut = Object.entries(tr.left_out)
+  const fundText = (x: RapidAidTrigger) => {
+    const covers = Number(x.readiness_covers)
+    if (covers <= 0) return t('rapid.fundEmpty')
+    if (covers >= Number(x.total)) return t('rapid.fundAll')
+    return t('rapid.fundPart', { covers: money(x.readiness_covers), rest: money(Number(x.total) - covers) })
+  }
   const error = approve.error ?? dismiss.error
   return (
     <li className="space-y-3 py-4">
@@ -51,6 +57,7 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
           {tr.households === 0
             ? t('rapid.nobodyYet')
             : t('rapid.wouldPay', { count: tr.households, total: money(tr.total), n: tr.households.toLocaleString() })}
+          {tr.households > 0 && <span className="ml-1 text-ink-soft">{fundText(tr)}</span>}
         </p>
       )}
       {tr.batch && (
@@ -58,6 +65,9 @@ function TriggerCard({ tr, onBoard }: { tr: RapidAidTrigger; onBoard: (b: RapidA
           {tr.batch.status === 'sent'
             ? t('rapid.paid', { count: tr.batch.households, total: money(tr.batch.total), n: tr.batch.households })
             : t('rapid.notSent', { error: tr.batch.error ?? '' })}
+          {tr.batch.status === 'sent' && Number(tr.readiness_covers) > 0 && (
+            <span className="ml-1 text-ink-soft">{t('rapid.fundPaid', { amount: money(tr.readiness_covers) })}</span>
+          )}
           {tr.batch.paypal_batch_id && (
             <span className="ml-2 text-xs text-ink-faint">
               {t('rapid.paypalBatch', { id: tr.batch.paypal_batch_id })}
@@ -169,6 +179,13 @@ export function RapidAid({ onPaid }: { onPaid: () => void }) {
               base: money(b.base),
               perPerson: money(b.per_person),
               cap: money(b.cap),
+            })}
+          </p>
+          <p className="mt-1 text-sm">
+            {t('rapid.fund', {
+              balance: money(b.readiness.balance),
+              givers: b.readiness.givers.toLocaleString(),
+              monthly: money(b.readiness.monthly),
             })}
           </p>
         </div>

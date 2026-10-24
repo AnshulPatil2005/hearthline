@@ -1552,7 +1552,12 @@
     "dismissWhy": "Bakit (para sa rekord)",
     "oneApproval": "Mga panuntunan ang naghanda ng batch na ito; ang inyong apruba ang magbabayad dito.",
     "disaster": "Sakuna",
-    "nobodyYet": "Wala pang sambahayan sa zone na ito ang naghanda, kaya walang mababayaran ngayon. Ang mga sambahayang magsa-sign up gamit ang address dito, magpapa-verify nito at mag-i-scan ng bahay ay makakatanggap ng tulong mula sa susunod na babala."
+    "nobodyYet": "Wala pang sambahayan sa zone na ito ang naghanda, kaya walang mababayaran ngayon. Ang mga sambahayang magsa-sign up gamit ang address dito, magpapa-verify nito at mag-i-scan ng bahay ay makakatanggap ng tulong mula sa susunod na babala.",
+    "fund": "Readiness fund: {{balance}} ang handa, mula sa {{givers}} buwanang nagbibigay ({{monthly}} bawat buwan).",
+    "fundAll": "Sagot ng readiness fund ang lahat.",
+    "fundPart": "Sagot ng readiness fund ang {{covers}}; ang natitirang {{rest}} ay mula sa pangkalahatang cash aid.",
+    "fundEmpty": "Ubos na ang readiness fund, kaya pangkalahatang cash aid ang magbabayad ng lahat.",
+    "fundPaid": "{{amount}} nito ay mula sa readiness fund."
   },
   "disasters": {
     "title": "Mga sakuna",
@@ -1653,5 +1658,29 @@
       "stores": "Lokal na negosyo"
     },
     "hint": "Sinusunod ng mapa ang mga filter ng talahanayan. I-click ang isang pin para sa detalye."
+  },
+  "readiness": {
+    "title": "Maging handa bago ang susunod na sakuna",
+    "intro": "Magbigay buwan-buwan sa readiness fund ng Hearthline. Kapag dumating ang opisyal na utos na lumikas o deklarasyon ng sakuna, binabayaran nito sa loob ng ilang oras ang mga pamilyang naghanda, bago pa may magsimula ng fundraiser.",
+    "ready": "Handang ibayad sa mga pamilya ngayon",
+    "givers": "Buwanang nagbibigay",
+    "perMonth": "nagbibigay ng {{amount}} bawat buwan",
+    "released": "Naibayad na sa mga pamilya",
+    "choose": "Magbigay buwan-buwan:",
+    "tier": "{{amount}} bawat buwan",
+    "give": "Magbigay buwan-buwan gamit ang PayPal",
+    "opening": "Binubuksan ang PayPal…",
+    "how": "PayPal Subscriptions. Puwedeng ihinto anumang oras.",
+    "mineActive": "Nagbibigay ka ng {{amount}} bawat buwan sa readiness fund",
+    "minePending": "Ang iyong {{amount}} bawat buwan ay naghihintay sa PayPal",
+    "mineSince": "Mula {{date}} · {{given}} na ang naibigay",
+    "stop": "Ihinto ang aking buwanang bigay",
+    "returnCancelled": "Walang na-set up. Puwede kang magsimula ng buwanang bigay anumang oras.",
+    "returnSaving": "Sine-set up ang iyong buwanang bigay…",
+    "returnActive": "Salamat. Nagbibigay ka ng {{amount}} bawat buwan sa readiness fund.",
+    "returnFirst": "Kinuha na ng PayPal ang iyong unang {{amount}}; nasa fund na ito.",
+    "returnSoon": "Kukunin ng PayPal ang iyong unang bigay sa loob ng ilang minuto; lalabas ito rito pagdating.",
+    "returnPending": "Hindi pa nakukumpirma ng PayPal ang iyong buwanang bigay. Tingnan ulit pagkalipas ng isang minuto.",
+    "back": "Bumalik sa aking pagbibigay"
   }
 }

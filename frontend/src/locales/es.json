@@ -1552,7 +1552,12 @@
     "dismissWhy": "Por qué (para el registro)",
     "oneApproval": "Las reglas prepararon este lote; su aprobación lo paga.",
     "disaster": "Desastre",
-    "nobodyYet": "Ningún hogar de esta zona se ha preparado todavía, así que no hay a quién pagar ahora. Los hogares que se registren con una dirección aquí, la verifiquen y escaneen su casa recibirán ayuda desde la próxima alerta."
+    "nobodyYet": "Ningún hogar de esta zona se ha preparado todavía, así que no hay a quién pagar ahora. Los hogares que se registren con una dirección aquí, la verifiquen y escaneen su casa recibirán ayuda desde la próxima alerta.",
+    "fund": "Fondo de preparación: {{balance}} listos, de {{givers}} donantes mensuales ({{monthly}} al mes).",
+    "fundAll": "El fondo de preparación lo cubre todo.",
+    "fundPart": "El fondo de preparación cubre {{covers}}; los otros {{rest}} salen de la ayuda en efectivo general.",
+    "fundEmpty": "El fondo de preparación está vacío, así que la ayuda en efectivo general lo paga todo.",
+    "fundPaid": "{{amount}} salieron del fondo de preparación."
   },
   "disasters": {
     "title": "Desastres",
@@ -1653,5 +1658,29 @@
       "stores": "Negocio local"
     },
     "hint": "El mapa sigue los filtros de la tabla. Haz clic en un punto para ver los detalles."
+  },
+  "readiness": {
+    "title": "Prepárate antes del próximo desastre",
+    "intro": "Dona cada mes al fondo de preparación de Hearthline. Cuando llega una orden oficial de evacuación o una declaración de desastre, paga en cuestión de horas a las familias que se prepararon, antes de que alguien tenga que empezar una colecta.",
+    "ready": "Listo para pagar a familias ahora",
+    "givers": "Donantes mensuales",
+    "perMonth": "que dan {{amount}} al mes",
+    "released": "Pagado a familias hasta ahora",
+    "choose": "Dona cada mes:",
+    "tier": "{{amount}} al mes",
+    "give": "Donar cada mes con PayPal",
+    "opening": "Abriendo PayPal…",
+    "how": "Suscripciones de PayPal. Puedes parar cuando quieras.",
+    "mineActive": "Das {{amount}} al mes al fondo de preparación",
+    "minePending": "Tus {{amount}} al mes esperan a PayPal",
+    "mineSince": "Desde el {{date}} · {{given}} donados hasta ahora",
+    "stop": "Detener mi donación mensual",
+    "returnCancelled": "No se configuró nada. Puedes empezar una donación mensual cuando quieras.",
+    "returnSaving": "Configurando tu donación mensual…",
+    "returnActive": "Gracias. Das {{amount}} al mes al fondo de preparación.",
+    "returnFirst": "PayPal cobró tus primeros {{amount}}; ya están en el fondo.",
+    "returnSoon": "PayPal cobra tu primera donación en unos minutos; aparecerá aquí cuando llegue.",
+    "returnPending": "PayPal aún no confirma tu donación mensual. Vuelve a revisar en un minuto.",
+    "back": "Volver a mis donaciones"
   }
 }

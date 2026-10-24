@@ -1069,3 +1069,50 @@ class RapidAidTrigger(Base):
 
     disaster: Mapped[DisasterEvent] = relationship()
     batch: Mapped[AidBatch | None] = relationship()
+
+
+class ReadinessGiver(Base):
+    """A monthly gift to the readiness fund through PayPal Subscriptions: money that is there before the next disaster,
+    so first-72-hours aid can be paid the hour a warning comes. Seeded givers have no PayPal subscription."""
+
+    __tablename__ = "readiness_givers"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"), index=True)
+    name: Mapped[str] = mapped_column(String(120))
+    monthly: Mapped[Decimal] = mapped_column(Money)
+    paypal_subscription_id: Mapped[str | None] = mapped_column(String(64), unique=True)
+    # pending (waiting for the person at PayPal) | active | cancelled | suspended | expired
+    status: Mapped[str] = mapped_column(String(20), default="pending")
+    created_at: Mapped[datetime] = mapped_column(default=now)
+    activated_at: Mapped[datetime | None]
+    ended_at: Mapped[datetime | None]
+
+    payments: Mapped[list["ReadinessPayment"]] = relationship(
+        back_populates="giver", cascade="all, delete-orphan", order_by="ReadinessPayment.id"
+    )
+
+
+class ReadinessPayment(Base):
+    """One monthly payment PayPal collected for the readiness fund (a subscription sale)."""
+
+    __tablename__ = "readiness_payments"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    giver_id: Mapped[int] = mapped_column(ForeignKey("readiness_givers.id", ondelete="CASCADE"), index=True)
+    paypal_sale_id: Mapped[str] = mapped_column(String(64), unique=True)
+    amount: Mapped[Decimal] = mapped_column(Money)
+    fee: Mapped[Decimal] = mapped_column(Money, default=Decimal(0))
+    paid_at: Mapped[datetime] = mapped_column(default=now)
+
+    giver: Mapped[ReadinessGiver] = relationship(back_populates="payments")
+
+
+class ReadinessPlan(Base):
+    """The PayPal billing plan for one monthly amount (made once, then reused)."""
+
+    __tablename__ = "readiness_plans"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    monthly: Mapped[Decimal] = mapped_column(Money, unique=True)
+    paypal_plan_id: Mapped[str] = mapped_column(String(64))

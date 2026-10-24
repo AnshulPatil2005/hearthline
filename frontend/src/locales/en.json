@@ -1552,7 +1552,12 @@
     "dismissWhy": "Why (for the record)",
     "oneApproval": "Rules prepared this batch; your approval pays it.",
     "disaster": "Disaster",
-    "nobodyYet": "No household in this zone has prepared yet, so there is nobody to pay now. Households that sign up with an address here, verify it and scan their home will get aid from the next warning."
+    "nobodyYet": "No household in this zone has prepared yet, so there is nobody to pay now. Households that sign up with an address here, verify it and scan their home will get aid from the next warning.",
+    "fund": "Readiness fund: {{balance}} ready, from {{givers}} monthly givers ({{monthly}} a month).",
+    "fundAll": "The readiness fund covers all of it.",
+    "fundPart": "The readiness fund covers {{covers}}; the other {{rest}} comes from general cash aid.",
+    "fundEmpty": "The readiness fund is empty, so general cash aid pays all of it.",
+    "fundPaid": "{{amount}} of it came from the readiness fund."
   },
   "disasters": {
     "title": "Disasters",
@@ -1653,5 +1658,29 @@
       "stores": "Local business"
     },
     "hint": "The map follows the grid's filters. Click a pin for details."
+  },
+  "readiness": {
+    "title": "Be ready before the next disaster",
+    "intro": "Give monthly to Hearthline's readiness fund. When an official evacuation order or disaster declaration comes, it pays families who prepared within hours, before anyone has to start a fundraiser.",
+    "ready": "Ready to pay families now",
+    "givers": "Monthly givers",
+    "perMonth": "giving {{amount}} a month",
+    "released": "Paid to families so far",
+    "choose": "Give monthly:",
+    "tier": "{{amount}} a month",
+    "give": "Give monthly with PayPal",
+    "opening": "Opening PayPal…",
+    "how": "PayPal Subscriptions. Stop any time.",
+    "mineActive": "You give {{amount}} a month to the readiness fund",
+    "minePending": "Your {{amount}} a month is waiting for PayPal",
+    "mineSince": "Since {{date}} · {{given}} given so far",
+    "stop": "Stop my monthly gift",
+    "returnCancelled": "Nothing was set up. You can start a monthly gift any time.",
+    "returnSaving": "Setting up your monthly gift…",
+    "returnActive": "Thank you. You give {{amount}} a month to the readiness fund.",
+    "returnFirst": "PayPal took your first {{amount}}; it's in the fund now.",
+    "returnSoon": "PayPal takes your first gift in a few minutes; it shows here when it arrives.",
+    "returnPending": "PayPal hasn't confirmed your monthly gift yet. Check back in a minute.",
+    "back": "Back to my giving"
   }
 }

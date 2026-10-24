@@ -1522,7 +1522,12 @@
     "dismissWhy": "Lý do (để lưu hồ sơ)",
     "oneApproval": "Các quy tắc đã chuẩn bị lô này; phê duyệt của quý vị sẽ trả tiền.",
     "disaster": "Thảm họa",
-    "nobodyYet": "Chưa có hộ nào trong khu vực này chuẩn bị, nên hiện chưa có ai để trả tiền. Các hộ đăng ký với địa chỉ ở đây, xác minh địa chỉ và quét nhà sẽ nhận hỗ trợ từ cảnh báo tiếp theo."
+    "nobodyYet": "Chưa có hộ nào trong khu vực này chuẩn bị, nên hiện chưa có ai để trả tiền. Các hộ đăng ký với địa chỉ ở đây, xác minh địa chỉ và quét nhà sẽ nhận hỗ trợ từ cảnh báo tiếp theo.",
+    "fund": "Quỹ sẵn sàng: có sẵn {{balance}}, từ {{givers}} người đóng góp hằng tháng ({{monthly}} mỗi tháng).",
+    "fundAll": "Quỹ sẵn sàng chi trả toàn bộ.",
+    "fundPart": "Quỹ sẵn sàng chi trả {{covers}}; {{rest}} còn lại lấy từ tiền hỗ trợ chung.",
+    "fundEmpty": "Quỹ sẵn sàng đã hết, nên tiền hỗ trợ chung chi trả toàn bộ.",
+    "fundPaid": "Trong đó {{amount}} lấy từ quỹ sẵn sàng."
   },
   "disasters": {
     "title": "Thảm họa",
@@ -1617,5 +1622,29 @@
       "stores": "Cửa hàng địa phương"
     },
     "hint": "Bản đồ theo các bộ lọc của bảng. Bấm vào một điểm để xem chi tiết."
+  },
+  "readiness": {
+    "title": "Sẵn sàng trước thảm họa tiếp theo",
+    "intro": "Đóng góp hằng tháng cho quỹ sẵn sàng của Hearthline. Khi có lệnh sơ tán chính thức hoặc tuyên bố thảm họa, quỹ trả tiền trong vài giờ cho các gia đình đã chuẩn bị, trước khi ai đó phải mở đợt gây quỹ.",
+    "ready": "Sẵn sàng trả cho các gia đình ngay",
+    "givers": "Người đóng góp hằng tháng",
+    "perMonth": "đóng góp {{amount}} mỗi tháng",
+    "released": "Đã trả cho các gia đình",
+    "choose": "Đóng góp hằng tháng:",
+    "tier": "{{amount}} mỗi tháng",
+    "give": "Đóng góp hằng tháng bằng PayPal",
+    "opening": "Đang mở PayPal…",
+    "how": "PayPal Subscriptions. Dừng bất cứ lúc nào.",
+    "mineActive": "Quý vị đóng góp {{amount}} mỗi tháng cho quỹ sẵn sàng",
+    "minePending": "Khoản {{amount}} mỗi tháng của quý vị đang chờ PayPal",
+    "mineSince": "Từ {{date}} · đã đóng góp {{given}}",
+    "stop": "Dừng đóng góp hằng tháng",
+    "returnCancelled": "Chưa thiết lập gì. Quý vị có thể bắt đầu đóng góp hằng tháng bất cứ lúc nào.",
+    "returnSaving": "Đang thiết lập khoản đóng góp hằng tháng…",
+    "returnActive": "Cảm ơn quý vị. Quý vị đóng góp {{amount}} mỗi tháng cho quỹ sẵn sàng.",
+    "returnFirst": "PayPal đã thu khoản đầu tiên {{amount}}; tiền đã vào quỹ.",
+    "returnSoon": "PayPal sẽ thu khoản đầu tiên trong vài phút; khoản này sẽ hiện ở đây khi đến.",
+    "returnPending": "PayPal chưa xác nhận khoản đóng góp hằng tháng. Vui lòng xem lại sau một phút.",
+    "back": "Quay lại phần đóng góp của tôi"
   }
 }
