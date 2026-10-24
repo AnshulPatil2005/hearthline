@@ -17,6 +17,8 @@ RETURN_URL = ENV.get("PAYPAL_CONNECT_RETURN_URL")
 CONFIRM = re.compile(
     r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Continue)$"
 )
+# The sandbox's page for a bad moment on its side (the apostrophe is a curly one)
+TROUBLE = re.compile(r"Things don.t appear to be working")
 
 
 def have_buyer() -> bool:
@@ -36,9 +38,21 @@ async def sign_in(page: Page) -> None:
     await page.locator("button:visible", has_text="Log In").first.click()
 
 
-async def confirm(page: Page, timeout: int = 90000) -> str:
-    """Press the review page's confirm button; returns its label."""
+async def confirm(page: Page, timeout: int = 90000, retries: int = 2) -> str:
+    """Press the review page's confirm button; returns its label. The sandbox sometimes shows "Things don't appear to
+    be working at the moment" instead: press its "Try again" (signing in again if it asks)."""
     button = page.get_by_role("button", name=CONFIRM).first
+    trouble = page.get_by_text(TROUBLE)
+    email = page.locator("#email:visible, input[type=email]:visible").first
+    for _ in range(retries):
+        await button.or_(trouble).first.wait_for(timeout=timeout)
+        if await button.is_visible():
+            break
+        await page.get_by_role("button", name="Try again").click()
+        await page.wait_for_load_state("domcontentloaded")
+        await page.wait_for_timeout(2000)
+        if await email.is_visible():  # it may ask to sign in again
+            await sign_in(page)
     await button.wait_for(timeout=timeout)
     await page.wait_for_timeout(1500)  # the page settles its funding choice first
     label = (await button.inner_text()).strip()
