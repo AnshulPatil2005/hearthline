@@ -270,7 +270,9 @@
     "notePlaceholder": "给捐助者的简短说明（可选）",
     "add": "加入清单",
     "fundThis": "资助此项",
-    "shopNow": "立即购买"
+    "shopNow": "立即购买",
+    "giveIn": "捐赠币种",
+    "fxEstimate": "{{given}} 约合给这家人的 {{usd}}。付款时按 PayPal 汇率换算；这家人收到的是美元。"
   },
   "purchases": {
     "title": "采购助手买了什么",

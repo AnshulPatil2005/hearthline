@@ -13,9 +13,15 @@ BUYER_EMAIL = ENV.get("PAYPAL_SANDBOX_BUYER_EMAIL")
 BUYER_PASSWORD = ENV.get("PAYPAL_SANDBOX_BUYER_PASSWORD")
 RETURN_URL = ENV.get("PAYPAL_CONNECT_RETURN_URL")
 
+# PayPal shows its pages in the buyer's language: a giver abroad (es-MX) sees them in Spanish
+NEXT = re.compile(r"^(Next|Siguiente)$", re.IGNORECASE)
+LOG_IN = re.compile(r"^(Log In|Inicie sesión|Iniciar sesión)$", re.IGNORECASE)
+SPANISH = r"|Pagar|Pagar ahora|Completar compra|Continuar|Aceptar y pagar"
 # The button that confirms on PayPal's review or consent page (wording differs by flow).
 CONFIRM = re.compile(
-    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Agree & Subscribe|Agree and Subscribe|Subscribe|Continue)$"
+    r"^(Pay|Pay Now|Complete Purchase|Agree & Pay|Agree and Continue|Agree & Continue|Agree and Connect|Save and Continue|Agree & Subscribe|Agree and Subscribe|Subscribe|Continue"
+    + SPANISH
+    + ")$"
 )
 # The sandbox's page for a bad moment on its side (the apostrophe is a curly one)
 TROUBLE = re.compile(r"Things don.t appear to be working")
@@ -30,12 +36,12 @@ async def sign_in(page: Page) -> None:
     email = page.locator("#email:visible, input[type=email]:visible").first
     await email.wait_for(timeout=60000)
     await email.fill(BUYER_EMAIL)
-    await page.locator("button:visible", has_text="Next").first.click()
+    await page.locator("button:visible", has_text=NEXT).first.click()
     password = page.locator("input[type=password]:visible").first
     await password.wait_for(timeout=60000)
     await password.click()
     await password.press_sequentially(BUYER_PASSWORD, delay=40)
-    await page.locator("button:visible", has_text="Log In").first.click()
+    await page.locator("button:visible", has_text=LOG_IN).first.click()
 
 
 async def confirm(page: Page, timeout: int = 90000, retries: int = 2) -> str:

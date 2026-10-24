@@ -56,7 +56,8 @@ Venmo and Pay Later buttons appear in the sandbox for US buyers.
   holds back anyone with warning signs for a person to check. The money is already there: donors give monthly
   to a readiness fund through PayPal Subscriptions, and each batch draws on it before general cash aid.
 - **Respond.** A family's Rebuild Registry lists specific things they need. Donors pay with PayPal, Venmo or Pay
-  Later. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
+  Later; family and friends abroad give in their own currency (Mexican or Philippine pesos, euros, Canadian dollars,
+  pounds) and PayPal converts it, so the family receives dollars. Once an item is funded, the Shopper agent buys it within code-enforced rules, which include refusing
   sellers who raise prices past California's 10% limit. Before web stores it asks the town's open stores for
   quotes: each store sells through a pricing agent that follows its owner's rules (a lowest price per item, stock,
   the owner's own instructions), the two agents talk over MCP, the Shopper may counter once, and it buys the best
@@ -93,7 +94,7 @@ supports it.
 
 | PayPal feature | Where Hearthline uses it |
 |---|---|
-| **Orders v2** (via the APIMatic-generated Server SDK): create, capture, full and partial refunds | Registry gifts, Reopen gift cards, gifts prepared through the Public API, refunds when a scam registry is rejected or a business misses its date |
+| **Orders v2** (via the APIMatic-generated Server SDK): create, capture, full and partial refunds, in other currencies | Registry gifts (from abroad in MXN, PHP, EUR, CAD or GBP, recorded at PayPal's own exchange rate from the capture), Reopen gift cards, gifts prepared through the Public API, refunds when a scam registry is rejected or a business misses its date |
 | **JS SDK v6**: PayPal, **Venmo** and **Pay Later** buttons | Registry and Reopen checkout |
 | **Payouts** (single and batch), with payout-item webhooks | Cash aid after human approval; two-person-approved batch aid; first-72-hours aid after an official warning (rules prepare the batch, one person approves it); contractor milestones released from escrow; Reopen steps; the Shopper paying a local store's PayPal account, or the stand-in for a web retailer |
 | **Subscriptions** (catalog product, plan, subscription, transactions, cancel, sale refunds) | Reopen "regulars" who pay monthly toward a gift card; monthly gifts to the readiness fund, which pays first-72-hours aid |
@@ -252,6 +253,7 @@ flowchart LR
   api --> c3["Channel3"]
   api --> nws["National Weather Service"]
   api --> fema["OpenFEMA, Census TIGERweb"]
+  api --> fx["ECB reference rates (Frankfurter)"]
 ```
 
 ```

@@ -12,7 +12,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, ledger, registry, review
+from app import audit, fx, ledger, registry, review
 from app.api.households import MyHousehold
 from app.auth import CurrentUser, OptionalUser
 from app.config import get_settings
@@ -93,6 +93,7 @@ class DonationIn(BaseModel):
     donor_name: str | None = Field(default=None, max_length=80)
     message: str = Field(default="", max_length=280)
     payment_method: Literal["paypal", "venmo", "paylater"] = "paypal"
+    currency: Literal["USD", "MXN", "PHP", "EUR", "CAD", "GBP"] = "USD"  # `amount` is in this currency
 
 
 class DonationCreated(BaseModel):
@@ -262,6 +263,7 @@ def start_donation(slug: str, body: DonationIn, donor: OptionalUser, db: DB) -> 
             message=body.message,
             payment_method=body.payment_method,
             donor=donor,
+            currency=body.currency,
         )
     except registry.DonationError as e:
         raise HTTPException(e.status, str(e)) from None
@@ -269,6 +271,7 @@ def start_donation(slug: str, body: DonationIn, donor: OptionalUser, db: DB) -> 
     try:
         donation.paypal_order_id = orders.create_order(
             amount=body.amount,
+            currency=body.currency,
             description=f"Hearthline: {item.name if item else 'household fund'} for the {reg.household.name}",
             custom_id=f"{registry.CUSTOM_ID_PREFIX}{donation.id}",
             reference_id=f"registry-{reg.id}",
@@ -297,3 +300,18 @@ def capture_donation(donation_id: int, db: DB) -> RegistryItem | DonationOut:
         if capture.status != "COMPLETED":
             raise HTTPException(402, f"Payment is {capture.status.lower()}; it will update when PayPal confirms it")
     return donation.item if donation.item else DonationOut.model_validate(donation)
+
+
+class FxOut(BaseModel):
+    per_usd: dict[str, Decimal]  # units of each currency for one dollar (the reference rate)
+    spread: Decimal  # PayPal's conversion runs about this much from the reference rate
+    as_of: str
+    source: str  # ecb | fallback
+    names: dict[str, str]
+
+
+@router.get("/fx", response_model=FxOut)
+def exchange_rates() -> FxOut:
+    """Public. Reference rates for showing needs in a giver's own currency (estimates; PayPal's rate applies)."""
+    r = fx.rates()
+    return FxOut(per_usd=r.per_usd, spread=fx.PAYPAL_SPREAD, as_of=r.as_of, source=r.source, names=fx.CURRENCIES)

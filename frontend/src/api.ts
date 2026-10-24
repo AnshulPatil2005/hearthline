@@ -723,6 +723,7 @@ export type BooksLine = {
   paypal_id: string | null
   hearthline: string | null
   note: string
+  currency: string
 }
 export type BooksReport = {
   start: string
@@ -994,3 +995,11 @@ export type NavigatorStep = {
 export type NavigatorNote = { text: string; lang: string; created_at: string }
 export type NavigatorPlan = { steps: NavigatorStep[]; note: NavigatorNote | null }
 export type NavigatorAnswer = { answer: string; steps: string[] }
+
+export type FxRates = {
+  per_usd: Record<string, string>
+  spread: string
+  as_of: string
+  source: 'ecb' | 'fallback'
+  names: Record<string, string>
+}

@@ -274,7 +274,9 @@
     "notePlaceholder": "Maikling paliwanag para sa mga donor (opsyonal)",
     "add": "Idagdag sa registry",
     "fundThis": "Pondohan",
-    "shopNow": "Bilhin na ngayon"
+    "shopNow": "Bilhin na ngayon",
+    "giveIn": "Magbigay sa",
+    "fxEstimate": "Ang {{given}} ay mga {{usd}} para sa pamilya. Ang exchange rate ng PayPal ang gagamitin sa pagbabayad; dolyar ang matatanggap ng pamilya."
   },
   "purchases": {
     "title": "Ang binili ng Shopper",

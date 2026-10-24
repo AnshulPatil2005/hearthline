@@ -270,7 +270,9 @@
     "notePlaceholder": "Ghi chú ngắn cho nhà tài trợ (không bắt buộc)",
     "add": "Thêm vào danh sách",
     "fundThis": "Tài trợ",
-    "shopNow": "Mua ngay"
+    "shopNow": "Mua ngay",
+    "giveIn": "Đóng góp bằng",
+    "fxEstimate": "{{given}} tương đương khoảng {{usd}} cho gia đình. Khi thanh toán sẽ áp dụng tỷ giá của PayPal; gia đình nhận bằng đô la."
   },
   "purchases": {
     "title": "Những gì trợ lý mua sắm đã mua",

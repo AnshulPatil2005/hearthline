@@ -274,7 +274,9 @@
     "notePlaceholder": "Una nota breve para los donantes (opcional)",
     "add": "Agregar a la lista",
     "fundThis": "Financiar",
-    "shopNow": "Comprar ahora"
+    "shopNow": "Comprar ahora",
+    "giveIn": "Donar en",
+    "fxEstimate": "{{given}} son unos {{usd}} para la familia. Al pagar se aplica el tipo de cambio de PayPal; la familia recibe dólares."
   },
   "purchases": {
     "title": "Lo que compró el Comprador",

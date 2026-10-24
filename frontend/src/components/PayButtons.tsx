@@ -5,11 +5,17 @@ type Props = {
   disabled: boolean
   type?: 'pay' | 'donate' | 'buynow' | 'checkout'
   onPay: (method: Method) => void
+  only?: Method[] // e.g. a gift in another currency: PayPal only (Venmo and Pay Later take dollars)
 }
 
 /** The PayPal, Venmo and Pay Later buttons that are eligible for this buyer, plus any error. */
-export function PayButtons({ checkout, disabled, type = 'pay', onPay }: Props) {
-  const { eligible, error, paying, payLaterButton } = checkout
+export function PayButtons({ checkout, disabled, type = 'pay', onPay, only }: Props) {
+  const { error, paying, payLaterButton } = checkout
+  const eligible = checkout.eligible && {
+    paypal: checkout.eligible.paypal && (!only || only.includes('paypal')),
+    venmo: checkout.eligible.venmo && (!only || only.includes('venmo')),
+    paylater: checkout.eligible.paylater && (!only || only.includes('paylater')),
+  }
   return (
     <>
       <div className={`mt-5 grid gap-2 ${!disabled && !paying ? '' : 'pointer-events-none opacity-50'}`}>

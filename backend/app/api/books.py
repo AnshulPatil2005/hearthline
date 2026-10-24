@@ -44,6 +44,7 @@ class LineOut(BaseModel):
     paypal_id: str | None
     hearthline: str | None
     note: str
+    currency: str  # USD, or a gift from abroad in the giver's currency
 
 
 class ReportOut(BaseModel):
@@ -64,7 +65,9 @@ def reconcile_books(staff: OrgStaff, db: DB) -> ReportOut:
     except reporting.ReportingError as e:
         raise HTTPException(e.status_code, str(e)) from e
     statuses = ("matched", "amount_differs", "not_in_books", "missing_at_paypal", "waiting", "info")
-    money_lines = [line for line in report.lines if line.paypal_id and line.direction != "other"]
+    money_lines = [  # the totals count dollar lines; a gift from abroad is listed in its own currency
+        line for line in report.lines if line.paypal_id and line.direction != "other" and line.currency == "USD"
+    ]
     return ReportOut(
         start=report.start,
         end=report.end,

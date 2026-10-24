@@ -50,6 +50,7 @@ class Expected:
     amount: Decimal
     at: datetime | None
     what: str  # a person-readable description
+    currency: str = "USD"
 
 
 @dataclass
@@ -61,6 +62,7 @@ class Line:
     paypal_id: str | None
     hearthline: str | None
     note: str
+    currency: str = "USD"
 
 
 @dataclass
@@ -106,6 +108,11 @@ def expected(db: Session, start: datetime) -> list[Expected]:
 
     for d in db.scalars(select(Donation).where(Donation.paypal_capture_id.is_not(None))):
         if _real(d.paypal_capture_id) and since(d.captured_at):
+            if d.currency != "USD" and d.currency_amount is not None:  # PayPal reports it in the giver's currency
+                what = f"Gift #{d.id} to a registry, from abroad (${d.amount} for the family)"
+                at = _aware(d.captured_at)
+                out.append(Expected(d.paypal_capture_id, "in", d.currency_amount, at, what, d.currency))
+                continue
             out.append(
                 Expected(d.paypal_capture_id, "in", d.amount, _aware(d.captured_at), f"Gift #{d.id} to a registry")
             )
@@ -179,6 +186,8 @@ def _other(code: str) -> str:
         return "Money added to or taken from the account outside Hearthline (a top-up or correction)"
     if code.startswith("T12"):
         return "A chargeback or dispute adjustment; see the Disputes desk"
+    if code.startswith("T02"):
+        return "PayPal converted a payment from abroad into dollars"
     return f"PayPal transaction type {code}"
 
 
@@ -244,11 +253,12 @@ def build(db: Session, end: datetime | None = None) -> Report:
                         t.id,
                         None,
                         f"Money received that isn't in Hearthline's books ({t.custom or 'no reference'})",
+                        t.currency,
                     )
                 )
                 continue
             seen.add(exp.key)
-            same = t.amount == exp.amount
+            same = t.amount == exp.amount and t.currency == exp.currency
             report.lines.append(
                 Line(
                     "matched" if same else "amount_differs",
@@ -257,11 +267,12 @@ def build(db: Session, end: datetime | None = None) -> Report:
                     t.at,
                     t.id,
                     exp.what,
-                    "" if same else f"Hearthline recorded {exp.amount}",
+                    "" if same else f"Hearthline recorded {exp.amount} {exp.currency}",
+                    t.currency,
                 )
             )
         else:
-            report.lines.append(Line("info", "other", t.amount, t.at, t.id, None, _other(t.event_code)))
+            report.lines.append(Line("info", "other", t.amount, t.at, t.id, None, _other(t.event_code), t.currency))
 
     for exp in books:
         if exp.key in seen:
@@ -278,6 +289,7 @@ def build(db: Session, end: datetime | None = None) -> Report:
                 "Newer than PayPal's latest report (it can take up to 3 hours)"
                 if recent
                 else "In Hearthline's books but not in PayPal's report",
+                exp.currency,
             )
         )
     report.lines.sort(key=lambda line: line.at or start, reverse=True)

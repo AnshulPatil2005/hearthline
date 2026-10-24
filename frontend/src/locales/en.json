@@ -274,7 +274,9 @@
     "notePlaceholder": "A short note for donors (optional)",
     "add": "Add to registry",
     "fundThis": "Fund this",
-    "shopNow": "Buy it now"
+    "shopNow": "Buy it now",
+    "giveIn": "Give in",
+    "fxEstimate": "{{given}} is about {{usd}} for the family. PayPal's exchange rate applies at checkout; the family receives dollars."
   },
   "purchases": {
     "title": "What the Shopper bought",

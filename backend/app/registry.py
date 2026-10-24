@@ -5,9 +5,9 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, ledger, shopping
+from app import audit, fx, ledger, shopping
 from app.models import Donation, Registry, RegistryItem, User, now
-from app.paypal.orders import Capture
+from app.paypal.orders import Capture, in_dollars
 from app.paypal.webhooks import on
 
 CUSTOM_ID_PREFIX = "donation:"
@@ -29,10 +29,19 @@ def new_donation(
     message: str,
     payment_method: str,
     donor: User | None,
+    currency: str = "USD",
 ) -> Donation:
-    """Check a gift against the registry and item, then record it (the PayPal order is created next)."""
+    """Check a gift against the registry and item, then record it (the PayPal order is created next). `amount`
+    is in `currency`; a gift from abroad is checked by its estimated dollars and recorded exactly at capture."""
     if reg.status != "active":
         raise DonationError("This registry isn't accepting donations right now")
+    given = amount
+    if currency != "USD":
+        if currency not in fx.CURRENCIES:
+            raise DonationError(f"Gifts in {currency} aren't supported", 422)
+        if payment_method != "paypal":
+            raise DonationError("Venmo and Pay Later take US dollars only; choose PayPal", 422)
+        amount = fx.family_gets(given, currency)
     item = None
     if item_id is not None:
         item = db.get(RegistryItem, item_id)
@@ -40,7 +49,8 @@ def new_donation(
             raise DonationError("Item not found on this registry", 404)
         if item.status != "open" or item.remaining <= 0:
             raise DonationError("This item is already fully funded")
-        if amount > item.remaining:
+        slack = Decimal("1.02") if currency != "USD" else Decimal(1)  # an estimate can be a little over
+        if amount > item.remaining * slack:
             raise DonationError(f"This item only needs ${item.remaining:.2f} more", 422)
     donation = Donation(
         registry_id=reg.id,
@@ -50,6 +60,8 @@ def new_donation(
         message=message.strip(),
         amount=amount,
         payment_method=payment_method,
+        currency=currency,
+        currency_amount=given if currency != "USD" else None,
     )
     db.add(donation)
     db.flush()
@@ -63,6 +75,8 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
     donation.status = "captured"
     donation.paypal_capture_id = capture.capture_id
     donation.fee = capture.fee
+    if capture.currency != "USD":  # the dollars PayPal's conversion gave, not our estimate
+        donation.amount, donation.exchange_rate = capture.amount, capture.exchange_rate
     donation.captured_at = now()
     if capture.payment_method == "venmo":
         donation.payment_method = "venmo"
@@ -113,13 +127,17 @@ def on_capture_completed(db: Session, resource: dict) -> None:
     if donation is None:
         return
     order_id = resource.get("supplementary_data", {}).get("related_ids", {}).get("order_id", donation.paypal_order_id)
+    gross, fee, currency, original, rate = in_dollars(resource)
     capture = Capture(
         order_id=order_id,
         capture_id=resource["id"],
         status=resource["status"],
-        amount=Decimal(resource["amount"]["value"]),
-        fee=Decimal(resource.get("seller_receivable_breakdown", {}).get("paypal_fee", {}).get("value", "0")),
+        amount=gross,
+        fee=fee,
         payment_method=donation.payment_method,
+        currency=currency,
+        original_amount=original,
+        exchange_rate=rate,
     )
     apply_capture(db, donation, capture)
 

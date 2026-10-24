@@ -23,15 +23,36 @@ from paypalserversdk.paypal_serversdk_client import PaypalServersdkClient
 
 from app.config import get_settings
 
+CENT = Decimal("0.01")
+
 
 @dataclass
 class Capture:
     order_id: str
     capture_id: str
     status: str  # COMPLETED | PENDING | DECLINED ...
-    amount: Decimal
-    fee: Decimal
+    amount: Decimal  # US dollars (a payment in another currency is converted at PayPal's rate)
+    fee: Decimal  # US dollars
     payment_method: str  # paypal | venmo | ...
+    currency: str = "USD"  # what the buyer paid in
+    original_amount: Decimal | None = None  # in that currency
+    exchange_rate: Decimal | None = None  # PayPal's, to US dollars
+
+
+def in_dollars(capture: dict) -> tuple[Decimal, Decimal, str, Decimal | None, Decimal | None]:
+    """(gross, fee, currency, amount in that currency, rate) from a capture or a capture webhook's resource. In
+    another currency PayPal converts what's left after its fee: the dollars received are its `receivable_amount`,
+    the gross is the paid amount at PayPal's rate, and the fee is the difference, so the books match PayPal."""
+    amount = Decimal(capture["amount"]["value"])
+    currency = capture["amount"].get("currency_code", "USD")
+    breakdown = capture.get("seller_receivable_breakdown", {})
+    fee = Decimal(breakdown.get("paypal_fee", {}).get("value", "0"))
+    if currency == "USD" or "exchange_rate" not in breakdown:
+        return amount, fee, currency, None, None
+    rate = Decimal(breakdown["exchange_rate"]["value"])
+    received = Decimal(breakdown["receivable_amount"]["value"])
+    gross = (amount * rate).quantize(CENT)
+    return gross, gross - received, currency, amount, rate
 
 
 @lru_cache
@@ -45,10 +66,10 @@ def client() -> PaypalServersdkClient:
     )
 
 
-def create_order(*, amount: Decimal, description: str, custom_id: str, reference_id: str) -> str:
+def create_order(*, amount: Decimal, description: str, custom_id: str, reference_id: str, currency: str = "USD") -> str:
     """Create a CAPTURE order the buyer approves in the browser (PayPal, Venmo or Pay Later button)."""
     return create_order_with_link(
-        amount=amount, description=description, custom_id=custom_id, reference_id=reference_id
+        amount=amount, description=description, custom_id=custom_id, reference_id=reference_id, currency=currency
     )[0]
 
 
@@ -60,6 +81,7 @@ def create_order_with_link(
     reference_id: str,
     return_url: str | None = None,
     cancel_url: str | None = None,
+    currency: str = "USD",
 ) -> tuple[str, str | None]:
     """Create a CAPTURE order. With `return_url`, PayPal also gives a link a person can open to approve it
     (used by the public API and agents); afterwards PayPal sends them to `return_url` to finish."""
@@ -80,7 +102,7 @@ def create_order_with_link(
         intent=CheckoutPaymentIntent.CAPTURE,
         purchase_units=[
             PurchaseUnitRequest(
-                amount=AmountWithBreakdown(currency_code="USD", value=f"{amount:.2f}"),
+                amount=AmountWithBreakdown(currency_code=currency, value=f"{amount:.2f}"),
                 description=description[:127],
                 custom_id=custom_id,
                 reference_id=reference_id,
@@ -103,14 +125,17 @@ def capture_order(order_id: str) -> Capture:
 
 def parse_capture(order: dict) -> Capture:
     capture = order["purchase_units"][0]["payments"]["captures"][0]
-    breakdown = capture.get("seller_receivable_breakdown", {})
+    gross, fee, currency, original, rate = in_dollars(capture)
     return Capture(
         order_id=order["id"],
         capture_id=capture["id"],
         status=capture["status"],
-        amount=Decimal(capture["amount"]["value"]),
-        fee=Decimal(breakdown.get("paypal_fee", {}).get("value", "0")),
+        amount=gross,
+        fee=fee,
         payment_method=next(iter(order.get("payment_source", {"paypal": None})), "paypal"),
+        currency=currency,
+        original_amount=original,
+        exchange_rate=rate,
     )
 
 

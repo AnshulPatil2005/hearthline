@@ -74,7 +74,10 @@ export default function Books() {
         field: 'amount',
         headerName: t('books.col.amount'),
         type: 'rightAligned',
-        valueFormatter: (p) => (p.value == null ? '' : `${p.value > 0 ? '+' : ''}${money(p.value, { cents: true })}`),
+        valueFormatter: (p) =>
+          p.value == null
+            ? ''
+            : `${p.value > 0 ? '+' : ''}${money(p.value, { cents: true, currency: p.data?.currency ?? 'USD' })}`,
         cellClassRules: { 'text-sage': (p) => p.value > 0, 'text-danger': (p) => p.value < 0 },
         width: 130,
       },

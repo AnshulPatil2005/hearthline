@@ -385,9 +385,13 @@ class Donation(Base):
     donor_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id", ondelete="SET NULL"))
     donor_name: Mapped[str | None] = mapped_column(String(80))  # None = anonymous
     message: Mapped[str] = mapped_column(String(280), default="")
-    amount: Mapped[Decimal] = mapped_column(Money)
+    amount: Mapped[Decimal] = mapped_column(Money)  # US dollars (for another currency: PayPal's conversion)
     fee: Mapped[Decimal | None] = mapped_column(Money)
     payment_method: Mapped[str] = mapped_column(String(20), default="paypal")  # paypal | venmo | paylater
+    # A gift from abroad: what the giver paid, in their currency, and PayPal's rate to dollars (set at capture)
+    currency: Mapped[str] = mapped_column(String(3), default="USD", server_default="USD")
+    currency_amount: Mapped[Decimal | None] = mapped_column(Money)
+    exchange_rate: Mapped[Decimal | None] = mapped_column(Numeric(20, 12))
     paypal_order_id: Mapped[str | None] = mapped_column(String(40), unique=True)
     paypal_capture_id: Mapped[str | None] = mapped_column(String(40), unique=True)
     status: Mapped[str] = mapped_column(String(20), default="created")  # created | captured | refunded | failed
