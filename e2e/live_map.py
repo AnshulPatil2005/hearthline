@@ -32,16 +32,19 @@ async def main() -> None:
         print("map:", await shown(section))
         print("stores on the map:", await section.locator(".map-store").count() - 1)  # minus the legend's swatch
 
+        await section.locator(".leaflet-container").scroll_into_view_if_needed()  # clicks only land on screen
         box = await section.locator(".leaflet-container").bounding_box()
-        for dx in (0, 6, -6, 12, -12, 18):  # the zone is dense with pins: one of these lands on a household
-            await page.mouse.click(box["x"] + box["width"] / 2 + dx, box["y"] + box["height"] / 2 + dx)
-            popup = section.locator(".leaflet-popup-content").last
+        popup = section.locator(".leaflet-popup-content").last
+        spots = [(dx, dy) for dy in (0, -24, 24, -48, 48) for dx in (0, -24, 24, -48, 48)]
+        for dx, dy in spots:  # the zone is dense with pins: a click near its middle lands on one
+            await page.mouse.click(box["x"] + box["width"] / 2 + dx, box["y"] + box["height"] / 2 + dy)
             try:
-                await popup.get_by_text("household").first.wait_for(timeout=4000)
+                await popup.wait_for(timeout=1500)
                 break
-            except Exception:  # noqa: BLE001 - missed the pin, try a few pixels over
+            except Exception:  # noqa: BLE001 - missed the pins, try a little further over
                 continue
-        print("clicked a pin:", " | ".join((await popup.inner_text()).split("\n")[:3]))
+        await popup.get_by_text("household").first.wait_for(timeout=20000)
+        print("clicked a pin:", " | ".join((await popup.inner_text()).splitlines()[:3]))
         await page.keyboard.press("Escape")
 
         await page.get_by_label("Ask the grid").fill("destroyed homes")
@@ -53,8 +56,16 @@ async def main() -> None:
         await section.get_by_text(re.compile(r"^2,0\d\d households shown")).wait_for(timeout=30000)
 
         rapid = page.locator("section[aria-labelledby='rapid-title']")
+        simulated = rapid.locator("li", has_text="simulated for this demo")
+        before = await simulated.count()
         await rapid.get_by_role("button", name="Simulate an evacuation order (demo)").click()
-        proposal = rapid.locator("li", has_text="simulated for this demo").first
+        await page.wait_for_function(  # the new proposal is on screen (newest first) before anything is clicked
+            "n => [...document.querySelectorAll('section[aria-labelledby=rapid-title] li')]"
+            ".filter(li => li.innerText.includes('simulated for this demo')).length > n",
+            arg=before,
+            timeout=30000,
+        )
+        proposal = simulated.first
         await proposal.get_by_role("button", name="Approve and pay").click()
         await proposal.get_by_text("Decided by").wait_for(timeout=90000)
         await section.get_by_text(re.compile(r"· [1-9]\d* paid in the first 72 hours")).wait_for(timeout=30000)
