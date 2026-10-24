@@ -25,14 +25,12 @@ from pathlib import Path
 
 from paypal_sandbox import confirm, have_buyer, open_checkout, sign_in
 from playwright.async_api import Browser, BrowserContext, Page, async_playwright
-from sqlalchemy import create_engine, text
 
 WEB = os.environ.get("E2E_WEB", "http://localhost:5173")
-DB = os.environ.get("DATABASE_URL") or f"sqlite:///{Path(__file__).parent.parent / 'backend' / 'hearthline.db'}"
 OUT = Path(__file__).parent / "video"
 RAW = OUT / "raw"
 SIZE = {"width": 1280, "height": 720}
-PACE = 0.9  # scales every caption's hold; the outline's target is under 3:00
+PACE = 0.86  # scales every caption's hold; the outline's target is under 3:00
 TERRITORIES = {"AS", "GU", "MP", "PR", "VI", "FM", "MH", "PW"}
 
 # A caption bar and a cursor dot, added to every page the tour opens (headless video shows no mouse pointer).
@@ -229,11 +227,15 @@ async def respond(scene: Scene) -> None:
     async with scene.clip.cut():
         await page.wait_for_selector("paypal-button", timeout=30000)
         await page.wait_for_timeout(2500)
-    await caption(page, "A donor gives with PayPal, Venmo or Pay Later", 2.5)
+    await page.locator("select[name=currency]").select_option("MXN")
+    async with scene.clip.cut():
+        await page.wait_for_timeout(1500)
+    pesos = "Donors give with PayPal, Venmo or Pay Later; family abroad gives in pesos, and the family gets dollars"
+    await caption(page, pesos, 3.5)
     await pay_in_popup(scene, page.locator("paypal-button"))
     async with scene.clip.cut():
         await page.wait_for_selector("text=Thank you! You gave", timeout=90000)
-    await caption(page, "The item is fully funded, so Hearthline's Shopper agent goes to work", 2.5)
+    await caption(page, "The item is fully funded, so Hearthline's Shopper agent goes to work", 2)
 
     await sign_in_as(scene, "elena.rivera", "/registry", "text=What the Shopper bought")
     talk = "How the Shopper and local stores agreed on a price"
@@ -247,10 +249,11 @@ async def respond(scene: Scene) -> None:
     await show(page, bought, 0.5)
     await caption(page, "Before any web store, it asked the town's two reopened stores for a price", 2.5)
     await click(page, bought.get_by_text(talk), 0.8)
-    await caption(page, "Each store's pricing agent quotes within its owner's limits. The agents negotiate over MCP", 4)
+    talks = "Each store's pricing agent quotes within its owner's limits. The agents negotiate over MCP"
+    await caption(page, talks, 3.5)
     await click(page, bought.get_by_text("Spending rules"), 0.8)
     rules = "Code, not the AI, enforces the rules: the budget, the store, the family's address, fair prices"
-    await caption(page, rules, 3)
+    await caption(page, rules, 2.5)
 
 
 async def mandate(scene: Scene) -> None:
@@ -368,15 +371,7 @@ async def reopen(scene: Scene) -> None:
     await click(page, page.get_by_role("button", name="Yes, we're open"))
     async with scene.clip.cut():
         await page.wait_for_selector("text=You're open again", timeout=30000)
-    with create_engine(DB.replace("postgresql://", "postgresql+psycopg://", 1)).connect() as conn:
-        code = conn.execute(
-            text("select code from gift_cards where campaign_id = 1 and status = 'active' order by id limit 1")
-        ).scalar_one()
-    await caption(page, "The first regular is back; Luis takes $12.50 from their card", 1.5)
-    await page.get_by_label("Card code").fill(code)
-    await click(page, page.get_by_role("button", name="Check card"))
-    await page.get_by_label("Purchase amount").fill("12.50")
-    await click(page, page.get_by_role("button", name="Take from card"), 1.5)
+    await caption(page, "Its regulars' cards work again, at the shop", 2)
 
 
 async def claim(scene: Scene) -> None:
@@ -401,13 +396,28 @@ async def claim(scene: Scene) -> None:
     async with scene.clip.cut():
         await page.goto(link)
         await page.wait_for_selector(".ag-row", timeout=60000)
-    await caption(page, "The adjuster sees every item with its photo and date, and the policy's limits applied", 3.5)
+    await caption(page, "The adjuster sees every item with its photo and date, and the policy's limits applied", 3)
     await page.get_by_label("Adjuster's name").fill("Dana Lee, Golden Poppy Claims")
     await caption(page, "and pays the claim with PayPal", 1.5)
     await pay_in_popup(scene, page.locator("paypal-button"))
     async with scene.clip.cut():
         await page.wait_for_selector("text=/^Paid \\$/", timeout=120000)
-    await caption(page, "Hearthline passes it straight on to Elena's PayPal account: minutes, not a mailed check", 3)
+    await caption(page, "Hearthline passes it straight on to Elena's PayPal account: minutes, not a mailed check", 2.5)
+
+
+async def navigator(scene: Scene) -> None:
+    page = scene.page
+    await scene.ctx.add_init_script("localStorage.setItem('hearthline.lang', 'es')")  # Elena reads Spanish
+    await sign_in_as(scene, "elena.rivera", "/home", "#navigator-title")
+    nav = page.locator("section[aria-labelledby='navigator-title']")
+    await show(page, nav, 0.3)
+    steps = "Elena's next steps, soonest first, with real dates: FEMA's deadline, approvals waiting on her"
+    await caption(page, steps, 3)
+    await click(page, nav.get_by_role("button", name="Explícame mi plan"))
+    async with scene.clip.cut():
+        await nav.get_by_text("Explicado por el navegador").wait_for(timeout=120000)
+    explains = "The recovery navigator explains them in her language, reads them aloud and answers by voice"
+    await caption(page, explains, 3.5)
 
 
 async def first72(scene: Scene) -> None:
@@ -420,11 +430,15 @@ async def first72(scene: Scene) -> None:
     proposal = rapid.locator("li", has_text="simulated for this demo").first
     async with scene.clip.cut():
         await proposal.wait_for(timeout=30000)
-    await caption(page, "Rules chose every prepared household. Sentinel holds back one with an inflated claim", 3.5)
+    await caption(page, "Rules chose every prepared household. Sentinel holds back one with an inflated claim", 3)
+    await show(page, rapid.get_by_text("Readiness fund:"), 0.2)
+    await caption(page, "A readiness fund, from 386 monthly givers on PayPal Subscriptions, already covers it", 2.5)
     await click(page, proposal.get_by_role("button", name="Approve and pay"))
     async with scene.clip.cut():
         await proposal.get_by_text("Decided by").wait_for(timeout=90000)
-    await caption(page, "One person's approval, one PayPal Payouts batch: every prepared family is paid", 3)
+    await show(page, page.locator("section[aria-labelledby='map-title']"), 0.3)
+    lands = "One approval, one PayPal Payouts batch: every prepared family's payment lands on the live map"
+    await caption(page, lands, 3)
     await click(page, page.get_by_role("link", name="Disasters").first)
     async with scene.clip.cut():
         await page.wait_for_selector(".ag-row [col-id='code']", timeout=60000)
@@ -437,7 +451,7 @@ async def first72(scene: Scene) -> None:
     await click(page, pick)
     async with scene.clip.cut():
         await page.locator("section[aria-labelledby='preview-title'] svg[role='img']").wait_for(timeout=60000)
-    await caption(page, "It works for real disasters too: any FEMA declaration, its counties drawn from the Census", 4)
+    await caption(page, "It works for real disasters too: any FEMA declaration, its counties drawn from the Census", 3)
 
 
 async def command(scene: Scene) -> None:
@@ -476,12 +490,13 @@ SCENES = [
     ("03-first72", first72),
     ("04-respond", respond),
     ("05-mandate", mandate),
-    ("06-scam", scam),
-    ("07-rebuild", rebuild),
-    ("08-reopen", reopen),
-    ("09-claim", claim),
-    ("10-command", command),
-    ("11-close", close),
+    ("06-navigator", navigator),
+    ("07-scam", scam),
+    ("08-rebuild", rebuild),
+    ("09-reopen", reopen),
+    ("10-claim", claim),
+    ("11-command", command),
+    ("12-close", close),
 ]
 # review (a household's cash-aid request and its reviewer) is kept for a longer cut; first72 shows a person approving
 

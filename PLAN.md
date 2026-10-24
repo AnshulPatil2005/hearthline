@@ -458,16 +458,17 @@ Recorded by `e2e/video_tour.py` (one clip per scene, then `rough_cut.mp4`); the 
 | Time | Scene |
 |---|---|
 | 0:00–0:05 | **Hook** |
-| 0:05–0:16 | **Prepare** |
-| 0:16–0:34 | **First 72 hours** |
-| 0:34–1:07 | **Respond** |
+| 0:05–0:17 | **Prepare** |
+| 0:17–0:35 | **First 72 hours** |
+| 0:35–1:07 | **Respond** |
 | 1:07–1:21 | **Giving mandate** |
-| 1:21–1:38 | **Scam attempt** |
-| 1:38–1:49 | **Rebuild** |
-| 1:49–2:04 | **Reopen** |
-| 2:04–2:32 | **Insurance claim** |
-| 2:32–2:46 | **Command Center** |
-| 2:46–2:52 | **Close** |
+| 1:21–1:31 | **Recovery navigator** |
+| 1:31–1:48 | **Scam attempt** |
+| 1:48–1:59 | **Rebuild** |
+| 1:59–2:11 | **Reopen** |
+| 2:11–2:37 | **Insurance claim** |
+| 2:37–2:51 | **Command Center** |
+| 2:51–2:57 | **Close** |
 
 ---
 
