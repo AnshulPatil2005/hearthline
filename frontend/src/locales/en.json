@@ -1628,5 +1628,30 @@
     "openedNote_other": "{{name}} is open. {{n}} households on file are inside it.",
     "reviewAid": "Review first-72-hours aid in the Command Center",
     "sources": "Sources: FEMA's OpenFEMA disaster declarations, the National Weather Service's active alerts and the Census Bureau's TIGERweb county shapes. All are public data."
+  },
+  "map": {
+    "title": "Live map",
+    "summary_one": "{{n}} household shown · {{paid}} paid in the first 72 hours · {{jobs}} crew visits scheduled",
+    "summary_other": "{{n}} households shown · {{paid}} paid in the first 72 hours · {{jobs}} crew visits scheduled",
+    "label": "Map of the households in the disaster area",
+    "layer": {
+      "households": "Households",
+      "paid": "First-72-hours aid",
+      "jobs": "Crew visits",
+      "stores": "Local businesses",
+      "zones": "Disaster zones"
+    },
+    "loading": "Loading…",
+    "unassigned": "no crew yet",
+    "store": {
+      "open": "open",
+      "raising": "closed, raising its Reopen Fund",
+      "closed": "didn't reopen"
+    },
+    "legend": {
+      "paid": "Paid first-72-hours aid",
+      "stores": "Local business"
+    },
+    "hint": "The map follows the grid's filters. Click a pin for details."
   }
 }

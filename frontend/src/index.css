@@ -92,3 +92,59 @@ body {
   background-color: var(--ember) !important;
   color: var(--on-ember) !important;
 }
+
+/* The Command Center's live map (Leaflet) */
+.leaflet-container {
+  background: var(--sunken);
+  font: inherit;
+}
+/* Tailwind's reset sizes every img, which opens seams between Leaflet's tiles */
+.leaflet-container img {
+  max-width: none;
+  height: auto;
+}
+.leaflet-container .leaflet-tile {
+  max-width: none;
+  max-height: none;
+}
+.leaflet-popup-content-wrapper,
+.leaflet-popup-tip,
+.leaflet-tooltip,
+.leaflet-control-layers {
+  background: var(--surface);
+  color: var(--ink);
+}
+.leaflet-container a {
+  color: var(--ember);
+}
+@media (prefers-color-scheme: dark) {
+  .map-tiles {
+    filter: invert(1) hue-rotate(180deg) brightness(0.85) contrast(0.9) saturate(0.6);
+  }
+}
+.map-store {
+  border-radius: 3px;
+  border: 2px solid var(--surface);
+  background: var(--sage);
+  box-shadow: 0 0 0 1px var(--ink-soft);
+}
+.map-store-raising {
+  background: var(--amber);
+}
+.map-store-closed {
+  background: var(--ink-faint);
+}
+@keyframes map-paid-pulse {
+  50% {
+    stroke-width: 10;
+    stroke-opacity: 0.3;
+  }
+}
+.map-paid-new {
+  animation: map-paid-pulse 1.1s ease-in-out 4;
+}
+@media (prefers-reduced-motion: reduce) {
+  .map-paid-new {
+    animation: none;
+  }
+}

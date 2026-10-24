@@ -1593,5 +1593,29 @@
     "openedNote_other": "{{name}} 已开启。区内有 {{n}} 户已登记家庭。",
     "reviewAid": "在指挥中心审核最初 72 小时援助",
     "sources": "数据来源：FEMA 的 OpenFEMA 灾害声明、美国国家气象局的当前警报，以及人口普查局 TIGERweb 的县界。均为公开数据。"
+  },
+  "map": {
+    "title": "实时地图",
+    "summary_other": "显示 {{n}} 户家庭 · {{paid}} 户已获最初 72 小时援助 · 已安排 {{jobs}} 次工作队上门",
+    "label": "灾区家庭分布地图",
+    "layer": {
+      "households": "家庭",
+      "paid": "最初 72 小时援助",
+      "jobs": "工作队上门",
+      "stores": "本地商家",
+      "zones": "灾区"
+    },
+    "loading": "正在加载…",
+    "unassigned": "尚未分配工作队",
+    "store": {
+      "open": "营业中",
+      "raising": "已关闭，正在为重新开业筹款",
+      "closed": "未能重新开业"
+    },
+    "legend": {
+      "paid": "已获最初 72 小时援助",
+      "stores": "本地商家"
+    },
+    "hint": "地图与表格的筛选条件同步。点击标记查看详情。"
   }
 }

@@ -1628,5 +1628,30 @@
     "openedNote_other": "{{name}} está abierto. {{n}} hogares registrados están dentro.",
     "reviewAid": "Revisar la ayuda de las primeras 72 horas en el Centro de Mando",
     "sources": "Fuentes: declaraciones de desastre de OpenFEMA, alertas activas del Servicio Meteorológico Nacional y los condados TIGERweb de la Oficina del Censo. Todos son datos públicos."
+  },
+  "map": {
+    "title": "Mapa en vivo",
+    "summary_one": "{{n}} hogar en el mapa · {{paid}} pagados en las primeras 72 horas · {{jobs}} visitas de cuadrillas programadas",
+    "summary_other": "{{n}} hogares en el mapa · {{paid}} pagados en las primeras 72 horas · {{jobs}} visitas de cuadrillas programadas",
+    "label": "Mapa de los hogares en la zona del desastre",
+    "layer": {
+      "households": "Hogares",
+      "paid": "Ayuda de las primeras 72 horas",
+      "jobs": "Visitas de cuadrillas",
+      "stores": "Negocios locales",
+      "zones": "Zonas de desastre"
+    },
+    "loading": "Cargando…",
+    "unassigned": "sin cuadrilla aún",
+    "store": {
+      "open": "abierto",
+      "raising": "cerrado, recaudando para reabrir",
+      "closed": "no reabrió"
+    },
+    "legend": {
+      "paid": "Recibió la ayuda de las primeras 72 horas",
+      "stores": "Negocio local"
+    },
+    "hint": "El mapa sigue los filtros de la tabla. Haz clic en un punto para ver los detalles."
   }
 }

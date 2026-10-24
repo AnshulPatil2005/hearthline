@@ -1628,5 +1628,30 @@
     "openedNote_other": "Bukas na ang {{name}}. {{n}} nakatalang sambahayan ang nasa loob.",
     "reviewAid": "Suriin ang tulong sa unang 72 oras sa Command Center",
     "sources": "Pinagmulan: mga deklarasyon ng sakuna ng OpenFEMA ng FEMA, mga aktibong babala ng National Weather Service at mga hugis ng county ng TIGERweb ng Census Bureau. Lahat ay pampublikong datos."
+  },
+  "map": {
+    "title": "Live na mapa",
+    "summary_one": "{{n}} sambahayan ang ipinapakita · {{paid}} ang nabayaran sa unang 72 oras · {{jobs}} pagbisita ng crew ang nakaiskedyul",
+    "summary_other": "{{n}} sambahayan ang ipinapakita · {{paid}} ang nabayaran sa unang 72 oras · {{jobs}} pagbisita ng crew ang nakaiskedyul",
+    "label": "Mapa ng mga sambahayan sa lugar ng sakuna",
+    "layer": {
+      "households": "Mga sambahayan",
+      "paid": "Tulong sa unang 72 oras",
+      "jobs": "Pagbisita ng crew",
+      "stores": "Mga lokal na negosyo",
+      "zones": "Mga zone ng sakuna"
+    },
+    "loading": "Naglo-load…",
+    "unassigned": "wala pang crew",
+    "store": {
+      "open": "bukas",
+      "raising": "sarado, nangangalap para muling magbukas",
+      "closed": "hindi nakapagbukas muli"
+    },
+    "legend": {
+      "paid": "Nabayaran ng tulong sa unang 72 oras",
+      "stores": "Lokal na negosyo"
+    },
+    "hint": "Sinusunod ng mapa ang mga filter ng talahanayan. I-click ang isang pin para sa detalye."
   }
 }

@@ -16,6 +16,7 @@ import { api, downloadFile, type CommandRow, type CommandSummary, type DamageLev
 import { AidBatchPanel } from '../components/AidBatchPanel'
 import { AidBatches } from '../components/AidBatches'
 import { AskGrid } from '../components/AskGrid'
+import { CommandMap } from '../components/CommandMap'
 import { Stat } from '../components/Milestones'
 import { RapidAid } from '../components/RapidAid'
 import { money } from '../format'
@@ -45,6 +46,8 @@ export default function CommandCenter() {
   const initialState = useRef<GridState | null>(null)
   const [matching, setMatching] = useState<number | null>(null)
   const [batching, setBatching] = useState(false)
+  const [mapFilter, setMapFilter] = useState<Record<string, unknown>>({})
+  const [mapTick, setMapTick] = useState(0)
   const summary = useQuery({ queryKey: ['command-summary'], queryFn: () => api<CommandSummary>('/command/summary') })
 
   const datasource = useMemo<IServerSideDatasource<CommandRow>>(
@@ -217,6 +220,7 @@ export default function CommandCenter() {
   const refresh = () => {
     gridApi.current?.refreshServerSide({ purge: false })
     void queryClient.invalidateQueries({ queryKey: ['command-summary'] })
+    setMapTick((n) => n + 1)
   }
 
   const s = summary.data
@@ -260,6 +264,7 @@ export default function CommandCenter() {
         />
       )}
       <AskGrid grid={() => gridApi.current} initial={() => initialState.current} />
+      <CommandMap filterModel={mapFilter} tick={mapTick} />
       <p className="text-sm text-ink-soft" aria-live="polite">
         {matching !== null && t('command.matching', { count: matching, n: matching.toLocaleString(i18n.resolvedLanguage) })}
       </p>
@@ -280,7 +285,9 @@ export default function CommandCenter() {
           onGridReady={(e) => {
             gridApi.current = e.api
             initialState.current = e.api.getState()
+            setMapFilter(e.api.getFilterModel() ?? {})
           }}
+          onFilterChanged={(e) => setMapFilter(e.api.getFilterModel() ?? {})}
         />
       </div>
       <p className="text-xs text-ink-faint">{t('command.hint')}</p>

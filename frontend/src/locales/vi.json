@@ -1593,5 +1593,29 @@
     "openedNote_other": "{{name}} đã được mở. Có {{n}} hộ đã đăng ký nằm bên trong.",
     "reviewAid": "Xem hỗ trợ trong 72 giờ đầu ở Trung tâm Chỉ huy",
     "sources": "Nguồn: tuyên bố thảm họa OpenFEMA của FEMA, cảnh báo hiện hành của Sở Khí tượng Quốc gia và ranh giới quận TIGERweb của Cục Điều tra Dân số. Tất cả đều là dữ liệu công khai."
+  },
+  "map": {
+    "title": "Bản đồ trực tiếp",
+    "summary_other": "Hiển thị {{n}} hộ · {{paid}} hộ đã nhận hỗ trợ trong 72 giờ đầu · {{jobs}} lượt đội đến hỗ trợ đã lên lịch",
+    "label": "Bản đồ các hộ trong khu vực thảm họa",
+    "layer": {
+      "households": "Các hộ",
+      "paid": "Hỗ trợ trong 72 giờ đầu",
+      "jobs": "Lượt đội đến hỗ trợ",
+      "stores": "Cửa hàng địa phương",
+      "zones": "Khu vực thảm họa"
+    },
+    "loading": "Đang tải…",
+    "unassigned": "chưa có đội",
+    "store": {
+      "open": "đang mở cửa",
+      "raising": "đã đóng cửa, đang gây quỹ để mở lại",
+      "closed": "không mở lại được"
+    },
+    "legend": {
+      "paid": "Đã nhận hỗ trợ trong 72 giờ đầu",
+      "stores": "Cửa hàng địa phương"
+    },
+    "hint": "Bản đồ theo các bộ lọc của bảng. Bấm vào một điểm để xem chi tiết."
   }
 }

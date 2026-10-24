@@ -15,7 +15,19 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import ColumnElement
 
 from app import ledger
-from app.models import Household, LedgerAccount, LedgerPosting, LedgerTransaction
+from app.models import (
+    AidBatch,
+    AidBatchItem,
+    Business,
+    Crew,
+    CrewJob,
+    DisasterEvent,
+    Household,
+    LedgerAccount,
+    LedgerPosting,
+    LedgerTransaction,
+    RapidAidTrigger,
+)
 
 # What counts as help for a household: gifts and insurance credited to its fund, and cash aid paid to it.
 HELP_KINDS = ("donation", "insurance_payment")
@@ -303,3 +315,66 @@ def _clean(row: dict) -> dict:
         else:
             out[k] = v
     return out
+
+
+# --- The map: the same households as the grid, with everything that has a place ----------------------------------
+
+
+def map_data(db: Session, filter_model: dict | None) -> dict:
+    """Households matching the grid's filters (as compact rows), first-72-hours payments, upcoming crew visits,
+    verified local businesses and the open disasters' zones."""
+    hh = _households()
+    found = db.execute(
+        select(hh.c.id, Household.lat, Household.lng, hh.c.damage_level, hh.c.verification_level, hh.c.unmet_need)
+        .join(Household, Household.id == hh.c.id)
+        .where(Household.lat.is_not(None), Household.lng.is_not(None), *_where(hh, filter_model))
+        .order_by(hh.c.id)
+    ).all()
+    paid = db.execute(
+        select(AidBatchItem.household_id, AidBatchItem.amount, AidBatch.decided_at)
+        .join(AidBatch, AidBatch.id == AidBatchItem.batch_id)
+        .join(RapidAidTrigger, RapidAidTrigger.aid_batch_id == AidBatch.id)
+        .where(AidBatchItem.status.not_in(("queued", "skipped")))
+    ).all()
+    jobs = db.execute(
+        select(CrewJob.id, CrewJob.household_id, Household.lat, Household.lng, Crew.name, CrewJob.title)
+        .join(Household, Household.id == CrewJob.household_id)
+        .outerjoin(Crew, Crew.id == CrewJob.crew_id)
+        .where(CrewJob.status == "scheduled", Household.lat.is_not(None))
+        .order_by(CrewJob.starts_at)
+        .limit(300)
+    ).all()
+    businesses = db.scalars(
+        select(Business).where(Business.verification == "verified", Business.lat.is_not(None)).order_by(Business.id)
+    )
+    events = db.scalars(select(DisasterEvent).where(DisasterEvent.status == "active").order_by(DisasterEvent.id))
+    return {
+        # [id, lat, lng, damage, verification level, unmet need in whole dollars]: 2,000 rows stay small
+        "households": [
+            [r.id, round(r.lat, 5), round(r.lng, 5), r.damage_level, r.verification_level, int(r.unmet_need or 0)]
+            for r in found
+        ],
+        "paid": [{"household_id": h, "amount": f"{a:.2f}", "at": at.isoformat() if at else None} for h, a, at in paid],
+        "jobs": [
+            {"id": j.id, "household_id": j.household_id, "lat": j.lat, "lng": j.lng, "crew": j.name, "title": j.title}
+            for j in jobs
+        ],
+        "businesses": [
+            {"id": b.id, "name": b.name, "kind": b.kind, "lat": b.lat, "lng": b.lng, "status": _business_status(b)}
+            for b in businesses
+        ],
+        "zones": [{"id": e.id, "name": e.name, "is_fictional": e.is_fictional, "zone": e.zone} for e in events],
+    }
+
+
+def _business_status(b: Business) -> str:
+    """open (never closed, or reopened) | raising (closed, raising its Reopen Fund) | closed (missed its date)."""
+    last = b.campaigns[-1].status if b.campaigns else None
+    return {"live": "raising", "refunded": "closed", "closed": "closed"}.get(last or "", "open")
+
+
+def household_card(db: Session, household_id: int) -> dict | None:
+    """What a map pin shows when it's clicked."""
+    hh = _households()
+    row = db.execute(select(hh).where(hh.c.id == household_id)).first()
+    return _clean(dict(row._mapping)) if row else None

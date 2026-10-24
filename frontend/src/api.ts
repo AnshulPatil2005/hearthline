@@ -939,3 +939,19 @@ export type NwsWarning = {
 }
 
 export type DisasterZone = { zone: GeoJsonGeometry; households: number }
+
+export type CommandMapData = {
+  // [id, lat, lng, damage, verification level, unmet need in dollars]
+  households: [number, number, number, string, number, number][]
+  paid: { household_id: number; amount: string; at: string | null }[]
+  jobs: { id: number; household_id: number; lat: number; lng: number; crew: string | null; title: string }[]
+  businesses: {
+    id: number
+    name: string
+    kind: string
+    lat: number
+    lng: number
+    status: 'open' | 'raising' | 'closed'
+  }[]
+  zones: { id: number; name: string; is_fictional: boolean; zone: GeoJsonGeometry }[]
+}

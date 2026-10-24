@@ -132,3 +132,37 @@ def test_bad_requests_are_rejected(sam):
     assert bad.status_code == 422
     group = client.post(ROWS, headers=sam, json={"rowGroupCols": [{"id": "name", "field": "name"}]})
     assert group.status_code == 422
+
+
+def test_the_live_map_shows_the_grids_households_with_what_has_a_place(sam, monkeypatch):
+    from app import rapid_aid
+    from app.models import DisasterEvent
+    from app.paypal import payouts
+
+    everything = client.post("/command/map", json={}, headers=sam).json()
+    assert len(everything["households"]) == 81 and all(len(h) == 6 for h in everything["households"])
+    assert [z["name"] for z in everything["zones"]] == ["Sablewood Fire"] and everything["paid"] == []
+    only = {"damage_level": {"filterType": "set", "values": ["destroyed"]}}
+    destroyed = client.post("/command/map", json={"filter_model": only}, headers=sam).json()
+    assert 0 < len(destroyed["households"]) < 81 and {h[3] for h in destroyed["households"]} == {"destroyed"}
+    bad = client.post("/command/map", json={"filter_model": {"nope": {"filterType": "text"}}}, headers=sam)
+    assert bad.status_code == 422
+
+    # first-72-hours aid lands on the map
+    monkeypatch.setattr(payouts, "send_payouts", lambda *a, **k: payouts.PayoutResult(batch_id="B-1", status="PENDING"))
+    monkeypatch.setattr(rapid_aid, "start_mandate_round", lambda: None)
+    with SessionLocal() as db:
+        rivera = db.query(Household).filter_by(name="Rivera household").one()
+        rivera.verification_level, rivera.payout_email = 3, "elena@personal.example.com"
+        fire = db.query(DisasterEvent).filter_by(status="active").one().id
+        db.commit()
+        rivera_id = rivera.id
+    trigger = client.post("/command/rapid-aid/simulate", json={"disaster_id": fire}, headers=sam).json()["triggers"][0]
+    client.post(f"/command/rapid-aid/{trigger['id']}/approve", headers=sam)
+    paid = client.post("/command/map", json={}, headers=sam).json()["paid"]
+    assert rivera_id in {p["household_id"] for p in paid}
+
+    card = client.get(f"/command/map/households/{rivera_id}", headers=sam).json()
+    assert (card["name"], card["damage_level"]) == ("Rivera household", "destroyed")
+    assert client.get("/command/map/households/999999", headers=sam).status_code == 404
+    assert client.post("/command/map", json={}, headers=login_as("Elena Rivera")).status_code == 403

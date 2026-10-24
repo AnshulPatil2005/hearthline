@@ -45,6 +45,27 @@ def command_summary(staff: OrgStaff, db: DB) -> dict:
     return command.summary(db)
 
 
+class MapIn(BaseModel):
+    filter_model: dict | None = None  # the grid's filters, so the map shows the same households
+
+
+@router.post("/command/map")
+def command_map(body: MapIn, staff: OrgStaff, db: DB) -> dict:
+    """The live map: households (filtered like the grid), first-72-hours payments, crew visits, stores, zones."""
+    try:
+        return command.map_data(db, body.filter_model)
+    except command.BadRequest as e:
+        raise HTTPException(422, str(e)) from None
+
+
+@router.get("/command/map/households/{household_id}")
+def map_household(household_id: int, staff: OrgStaff, db: DB) -> dict:
+    card = command.household_card(db, household_id)
+    if card is None:
+        raise HTTPException(404, "Household not found")
+    return card
+
+
 # --- Batch cash aid (two-person approval) ---------------------------------------------------------
 
 
