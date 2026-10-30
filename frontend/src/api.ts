@@ -1003,3 +1003,31 @@ export type FxRates = {
   source: 'ecb' | 'fallback'
   names: Record<string, string>
 }
+
+export type DispatchProposal = {
+  id: number
+  job_id: number
+  job: string
+  kind: string
+  household: string
+  street: string | null
+  crew_id: number | null
+  crew: string | null
+  starts_at: string | null
+  ends_at: string | null
+  travel_minutes: number
+  rank: number
+  urgency: number
+  reason: string
+  status: 'proposed' | 'accepted' | 'rejected' | 'skipped' | 'stale'
+}
+export type DispatchPlan = {
+  id: number
+  day: string
+  instructions: string
+  summary: string
+  by_ai: boolean
+  created_at: string
+  proposals: DispatchProposal[]
+  counts: Record<string, number>
+}

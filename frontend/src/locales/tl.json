@@ -1778,5 +1778,30 @@
         "go": "Detalye"
       }
     }
+  },
+  "dispatch": {
+    "title": "Dispatch agent",
+    "intro": "Sabihin sa agent kung ano ang mahalaga; iniiskedyul nito ang mga pagbisita bukas para sa bawat trabahong wala pang crew: inuuna ang pinakaapurahan, pinagsasama ang magkakalapit na hintuan, at sa loob ng libreng oras ng bawat crew. Code ang nagkukuwenta ng bawat oras at biyahe, at walang gagalaw hangga't hindi mo tinatanggap.",
+    "instructionsLabel": "Mga tagubilin para sa dispatch agent",
+    "instructionsPlaceholder": "Opsiyonal, hal. Unahin ang may medikal na pangangailangan. Ilapit ang Van 2 sa Juniper Lane.",
+    "plan": "Iplano ang bukas",
+    "planning": "Nagpaplano…",
+    "planFor": "Plano para sa {{date}}:",
+    "byAi": "Pinlano ng dispatch agent (AI).",
+    "byRules": "Pinlano ayon sa pagkaapurahan: hindi available ang AI.",
+    "acceptAll_one": "Tanggapin ang {{count}} mungkahi",
+    "acceptAll_other": "Tanggapin lahat ng {{count}}",
+    "accept": "Tanggapin",
+    "reject": "Tanggihan",
+    "proposed": "Mungkahi",
+    "proposedBy": "Mungkahi ng dispatch agent",
+    "loadTitle": "Trabaho ng mga crew (resource utilization ng Bryntum): kasama ang mga bukas na mungkahi hangga't hindi mo tinatanggihan",
+    "status": {
+      "proposed": "Mungkahi",
+      "accepted": "Tinanggap",
+      "rejected": "Tinanggihan",
+      "skipped": "Sa ibang araw",
+      "stale": "Hindi na kasya"
+    }
   }
 }

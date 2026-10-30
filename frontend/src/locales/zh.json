@@ -1739,5 +1739,29 @@
         "go": "详情"
       }
     }
+  },
+  "dispatch": {
+    "title": "调度助手",
+    "intro": "告诉助手今天的重点；它会为所有尚未分配工作队的任务安排明天的上门：最紧急的优先，相近的地点排在一起，并在每个工作队的空闲时间内。每个时间和每段路程都由代码计算，在您接受之前不会有任何改动。",
+    "instructionsLabel": "给调度助手的指示",
+    "instructionsPlaceholder": "可选，例如：先处理有医疗需求的家庭。让 2 号车留在 Juniper Lane 附近。",
+    "plan": "安排明天",
+    "planning": "正在安排…",
+    "planFor": "{{date}} 的计划：",
+    "byAi": "由调度助手（AI）安排。",
+    "byRules": "按紧急程度安排：AI 暂不可用。",
+    "acceptAll_other": "全部接受（{{count}} 项）",
+    "accept": "接受",
+    "reject": "拒绝",
+    "proposed": "建议",
+    "proposedBy": "调度助手的建议",
+    "loadTitle": "工作队负荷（Bryntum 资源利用率）：未处理的建议在您拒绝前都会计入",
+    "status": {
+      "proposed": "建议中",
+      "accepted": "已接受",
+      "rejected": "已拒绝",
+      "skipped": "改天再安排",
+      "stale": "已排不下"
+    }
   }
 }

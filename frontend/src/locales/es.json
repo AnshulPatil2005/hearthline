@@ -1778,5 +1778,30 @@
         "go": "Detalles"
       }
     }
+  },
+  "dispatch": {
+    "title": "Agente de despacho",
+    "intro": "Dile al agente lo que importa; planifica las visitas de mañana para cada trabajo que aún no tiene cuadrilla: lo más urgente primero, paradas cercanas juntas y dentro de las horas libres de cada cuadrilla. El código calcula cada horario y cada trayecto, y nada cambia hasta que aceptes.",
+    "instructionsLabel": "Instrucciones para el agente de despacho",
+    "instructionsPlaceholder": "Opcional, p. ej. Primero las necesidades médicas. Deja la camioneta 2 cerca de Juniper Lane.",
+    "plan": "Planificar mañana",
+    "planning": "Planificando…",
+    "planFor": "Plan para el {{date}}:",
+    "byAi": "Planificado por el agente de despacho (IA).",
+    "byRules": "Planificado por urgencia: la IA no estaba disponible.",
+    "acceptAll_one": "Aceptar {{count}} propuesta",
+    "acceptAll_other": "Aceptar las {{count}}",
+    "accept": "Aceptar",
+    "reject": "Rechazar",
+    "proposed": "Propuesto",
+    "proposedBy": "Propuesto por el agente de despacho",
+    "loadTitle": "Carga de las cuadrillas (utilización de recursos de Bryntum): las propuestas abiertas cuentan hasta que las rechaces",
+    "status": {
+      "proposed": "Propuesto",
+      "accepted": "Aceptado",
+      "rejected": "Rechazado",
+      "skipped": "Para otro día",
+      "stale": "Ya no cabe"
+    }
   }
 }

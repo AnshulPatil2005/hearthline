@@ -15,6 +15,7 @@ from app.api import (
     command,
     crews,
     disasters,
+    dispatch,
     disputes,
     households,
     impact,
@@ -102,6 +103,7 @@ app.include_router(navigator.router)
 app.include_router(rapid_aid.router)
 app.include_router(readiness.router)
 app.include_router(disasters.router)
+app.include_router(dispatch.router)
 app.include_router(webhooks.router)
 app.include_router(public.router)
 

@@ -12,10 +12,10 @@ from fastapi import APIRouter, Body, Depends
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit
+from app import audit, dispatch
 from app.auth import require_role
 from app.db import get_db
-from app.models import Crew, CrewJob, Role, User
+from app.models import Crew, CrewJob, DispatchProposal, Role, User
 
 router = APIRouter(tags=["crews"])
 DB = Annotated[Session, Depends(get_db)]
@@ -80,13 +80,35 @@ def crews_load(
     resources = [{"id": UNASSIGNED, "name": "", "kind": "", "lead": "", "size": 0}] + [
         {"id": c.id, "name": c.name, "kind": c.kind, "lead": c.lead_name, "size": c.size} for c in crews
     ]
+    # The dispatch agent's open proposals: ghost bars on the crew it proposes (read-only; accepted in the panel)
+    plan = dispatch.latest(db)
+    ghosts = [p for p in plan.proposals if p.status == "proposed"] if plan else []
     return {
         "success": True,
         "requestId": requestId,
         "resources": {"rows": resources},
-        "events": {"rows": [_event(j) for j in jobs]},
+        "events": {"rows": [_event(j) for j in jobs] + [_ghost(p) for p in ghosts]},
         # One assignment per job, with the job's id, so moving a job between rows is an update.
-        "assignments": {"rows": [{"id": j.id, "eventId": j.id, "resourceId": j.crew_id or UNASSIGNED} for j in jobs]},
+        "assignments": {
+            "rows": [{"id": j.id, "eventId": j.id, "resourceId": j.crew_id or UNASSIGNED} for j in jobs]
+            + [{"id": f"p{p.id}", "eventId": f"p{p.id}", "resourceId": p.crew_id} for p in ghosts]
+        },
+    }
+
+
+def _ghost(p: DispatchProposal) -> dict:
+    """A proposal drawn where the agent would put the job: dashed, not draggable, with the agent's reason."""
+    return {
+        **_event(p.job),
+        "id": f"p{p.id}",
+        "startDate": _aware(p.starts_at).isoformat(),
+        "endDate": _aware(p.ends_at).isoformat(),
+        "preamble": f"{p.travel_minutes} minutes",
+        "draggable": False,
+        "resizable": False,
+        "cls": "job-proposal",
+        "proposal": p.id,
+        "reason": p.reason,
     }
 
 
@@ -107,6 +129,8 @@ def crews_sync(staff: Dispatcher, db: DB, payload: Annotated[dict, Body()]) -> d
     changed_events, changed_assignments = [], []
 
     for row in events.get("updated", []):
+        if not isinstance(row.get("id"), int):  # a proposal's ghost: decided in the dispatch panel, not here
+            continue
         job = db.get(CrewJob, row.get("id"))
         if job is None:
             continue
@@ -136,6 +160,8 @@ def crews_sync(staff: Dispatcher, db: DB, payload: Annotated[dict, Body()]) -> d
         )
 
     for row in assignments.get("updated", []):
+        if not isinstance(row.get("eventId", row.get("id")), int):
+            continue
         job = db.get(CrewJob, row.get("eventId", row.get("id")))
         if job is None or "resourceId" not in row:
             continue

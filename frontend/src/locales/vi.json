@@ -1739,5 +1739,29 @@
         "go": "Chi tiết"
       }
     }
+  },
+  "dispatch": {
+    "title": "Trợ lý điều phối",
+    "intro": "Cho trợ lý biết điều gì quan trọng; nó lên lịch các lượt đến ngày mai cho mọi việc chưa có đội: việc khẩn cấp nhất trước, các điểm gần nhau đi cùng nhau, trong giờ rảnh của từng đội. Mọi giờ giấc và quãng đường đều do mã tính, và không có gì thay đổi cho đến khi quý vị chấp nhận.",
+    "instructionsLabel": "Chỉ dẫn cho trợ lý điều phối",
+    "instructionsPlaceholder": "Không bắt buộc, ví dụ: Ưu tiên nhu cầu y tế. Giữ xe 2 gần Juniper Lane.",
+    "plan": "Lên kế hoạch ngày mai",
+    "planning": "Đang lên kế hoạch…",
+    "planFor": "Kế hoạch cho {{date}}:",
+    "byAi": "Do trợ lý điều phối (AI) lên kế hoạch.",
+    "byRules": "Lên kế hoạch theo mức khẩn cấp: AI không khả dụng.",
+    "acceptAll_other": "Chấp nhận cả {{count}}",
+    "accept": "Chấp nhận",
+    "reject": "Từ chối",
+    "proposed": "Đề xuất",
+    "proposedBy": "Đề xuất của trợ lý điều phối",
+    "loadTitle": "Khối lượng việc của các đội (resource utilization của Bryntum): đề xuất còn mở được tính cho đến khi quý vị từ chối",
+    "status": {
+      "proposed": "Đề xuất",
+      "accepted": "Đã chấp nhận",
+      "rejected": "Đã từ chối",
+      "skipped": "Để ngày khác",
+      "stale": "Không còn phù hợp"
+    }
   }
 }

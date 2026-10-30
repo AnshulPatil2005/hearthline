@@ -122,6 +122,7 @@ stand-in "retailer" sandbox account through Payouts. In production it would chec
 | **Site** | Checks a contractor's milestone photos against the work described | A mismatch makes the case high risk, which needs two reviewers |
 | **Policy** | Reads an insurance policy PDF: limits, sub-limits, deadlines; answers questions with a quote | Read-only, and not legal advice; code does the math against the inventory |
 | **Giving** | Gives on a donor's behalf under their giving mandate: chooses among eligible needs and explains each gift | Code lists the only needs it may choose (verified families in an active disaster, the donor's places and kinds) and enforces the per-gift and monthly limits; each gift is claimed before PayPal is called, so it can't be paid twice |
+| **Dispatch** | Plans tomorrow's crew visits for every job without a crew, following the coordinator's instructions, and explains each pick | Code works out each request's urgency, which crews can do it, their free hours and every drive, and fits the agent's picks so no crew is double-booked; proposals are ghost bars until a person accepts each one, and code checks the time again on accept |
 | **Navigator** | Explains each family's next steps in their language (and reads them aloud), and answers questions about them | Code computes the steps and every date (FEMA's 60 days, the policy's deadlines, approvals waiting); the AI only explains them and can't add a step, date or rule |
 | **Funds** | Writes donors' impact notes, the grant-report narrative and replies to payment disputes; answers "Ask PayPal" | Can't move money. Rules in code recommend the dispute answer; staff edit and send it |
 | **Ask the grid** | Turns a question into AG Grid state through the AG Grid AI Toolkit | The server checks the answer before the grid applies it |
@@ -143,7 +144,8 @@ The models are Google Gemini through its OpenAI-compatible API, falling back to 
   (`getStructuredSchema` → model → server check → `setState`).
 - **Bryntum.** **Gantt** for each rebuild plan and each business's reopening plan (only the contractor can move
   milestones that haven't been submitted; the server checks again). **Scheduler Pro** for crew dispatch, with
-  travel-time buffers. **Calendar** for reviewers' video verification calls. **TaskBoard** for the case pipeline. All
+  travel-time buffers, the dispatch agent's proposals drawn as ghost bars (accept or reject them from the bar's menu)
+  and a **ResourceUtilization** view sharing the same project, so each crew's load shows what accepting would do. **Calendar** for reviewers' video verification calls. **TaskBoard** for the case pipeline. All
   four load and save through FastAPI, which implements Bryntum's CrudManager protocol. They use Bryntum's **thin
   packages** (one shared core, pinned to one version), so a reviewer can go from the Calendar to the TaskBoard in the
   same session.

@@ -280,15 +280,20 @@ def seed_crews(db: Session) -> None:
 
     today = datetime.now(PACIFIC).replace(hour=0, minute=0, second=0, microsecond=0)
     jobs = []
-    for crew in crews:
+    for n, crew in enumerate(crews):
         queue = queues[crew.kind]
         for day in range(-3, 8):
             t = today + timedelta(days=day, hours=DAY_START)
+            # Past days and today are full. From tomorrow, crews are booked until 1 pm (the dispatch agent plans the
+            # afternoons), and the two debris crews take turns: a debris job is a whole day.
+            last = DAY_END if day < 1 else DAY_START + 5
+            if crew.kind == "debris" and day >= 1:
+                last = DAY_END if (day + n) % 2 else DAY_START
             while queue:
                 kind, h = queue[0]
                 hours = JOBS[kind][2]
                 start = t + timedelta(minutes=20)  # travel to the household
-                if start + timedelta(hours=hours) > today + timedelta(days=day, hours=DAY_END):
+                if start + timedelta(hours=hours) > today + timedelta(days=day, hours=last):
                     break
                 queue.pop(0)
                 jobs.append(
@@ -304,12 +309,34 @@ def seed_crews(db: Session) -> None:
                     )
                 )
                 t = start + timedelta(hours=hours)
-    # A few requests that came in this morning and still need a crew.
-    for i, kind in enumerate(["water", "tarp_roof", "food", "debris_removal", "wellness", "cleanup", "water", "food"]):
+    # Requests that came in over the last few days and still need a crew: the dispatch agent plans these. Some are
+    # from households with a medical need, which go first.
+    waiting = [
+        "water",
+        "tarp_roof",
+        "food",
+        "debris_removal",
+        "wellness",
+        "cleanup",
+        "water",
+        "food",
+        "wellness",
+        "water",
+        "tarp_roof",
+        "cleanup",
+        "food",
+        "water",
+    ]
+    for i, kind in enumerate(waiting):
         queue = queues[JOBS[kind][0]]
         if not queue:
             continue
-        _, h = queue.pop()
+        medical = [j for j in queue if "medical" in (j[1].needs or []) and j[0] == kind]
+        pick = medical[-1] if medical and i % 3 == 0 else next((j for j in reversed(queue) if j[0] == kind), None)
+        if pick is None:
+            continue
+        queue.remove(pick)
+        _, h = pick
         start = today + timedelta(days=1 + i % 3, hours=9 + (i % 4) * 2)
         jobs.append(
             CrewJob(
@@ -319,6 +346,7 @@ def seed_crews(db: Session) -> None:
                 title=JOBS[kind][1],
                 starts_at=start.astimezone(UTC),
                 ends_at=(start + timedelta(hours=JOBS[kind][2])).astimezone(UTC),
+                requested_at=(today - timedelta(days=i % 4, hours=-9)).astimezone(UTC),
             )
         )
     db.add_all(jobs)

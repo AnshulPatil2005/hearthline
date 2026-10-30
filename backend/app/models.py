@@ -5,7 +5,7 @@ from datetime import UTC, date, datetime
 from decimal import Decimal
 from enum import StrEnum
 
-from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, Text, UniqueConstraint, false
+from sqlalchemy import JSON, ForeignKey, LargeBinary, Numeric, String, Text, UniqueConstraint, false, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship, validates
 
 from app.db import Base
@@ -650,6 +650,7 @@ class CrewJob(Base):
     ends_at: Mapped[datetime]
     travel_minutes: Mapped[int] = mapped_column(default=20)  # shown as a buffer before the job
     status: Mapped[str] = mapped_column(String(20), default="scheduled")  # scheduled | done | cancelled
+    requested_at: Mapped[datetime] = mapped_column(default=now, server_default=func.now())  # when it was asked for
     updated_at: Mapped[datetime] = mapped_column(default=now, onupdate=now)
 
     crew: Mapped[Crew | None] = relationship()
@@ -1145,3 +1146,46 @@ class NavigatorNote(Base):
     facts_hash: Mapped[str] = mapped_column(String(32))
     text: Mapped[str] = mapped_column(String(2000))
     created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class DispatchPlan(Base):
+    """The dispatch agent's plan for one day: the coordinator's instructions, its summary, and its proposals."""
+
+    __tablename__ = "dispatch_plans"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    created_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    day: Mapped[date]
+    instructions: Mapped[str] = mapped_column(String(500), default="")
+    summary: Mapped[str] = mapped_column(String(1000), default="")
+    by_ai: Mapped[bool] = mapped_column(default=True)  # False: the AI wasn't available, so code planned by urgency
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    proposals: Mapped[list["DispatchProposal"]] = relationship(
+        back_populates="plan", cascade="all, delete-orphan", order_by="DispatchProposal.rank"
+    )
+
+
+class DispatchProposal(Base):
+    """One job the agent proposes to give a crew at a time. Nothing moves until a person accepts it."""
+
+    __tablename__ = "dispatch_proposals"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    plan_id: Mapped[int] = mapped_column(ForeignKey("dispatch_plans.id", ondelete="CASCADE"), index=True)
+    job_id: Mapped[int] = mapped_column(ForeignKey("crew_jobs.id", ondelete="CASCADE"), index=True)
+    crew_id: Mapped[int | None] = mapped_column(ForeignKey("crews.id", ondelete="CASCADE"))  # None: left for later
+    starts_at: Mapped[datetime | None]
+    ends_at: Mapped[datetime | None]
+    travel_minutes: Mapped[int] = mapped_column(default=0)
+    rank: Mapped[int] = mapped_column(default=0)  # the agent's order, most urgent first
+    urgency: Mapped[int] = mapped_column(default=0)
+    reason: Mapped[str] = mapped_column(String(400), default="")
+    # proposed | accepted | rejected | skipped (no room that day) | stale (the schedule changed under it)
+    status: Mapped[str] = mapped_column(String(20), default="proposed")
+    decided_by_user_id: Mapped[int | None] = mapped_column(ForeignKey("users.id"))
+    decided_at: Mapped[datetime | None]
+
+    plan: Mapped[DispatchPlan] = relationship(back_populates="proposals")
+    job: Mapped[CrewJob] = relationship()
+    crew: Mapped[Crew | None] = relationship()

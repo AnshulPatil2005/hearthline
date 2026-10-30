@@ -10,3 +10,17 @@
 @import '@bryntum/calendar-thin/calendar.css';
 @import '@bryntum/taskboard-thin/taskboard.css';
 @import '@bryntum/core-thin/stockholm-light.css';
+
+/* The dispatch agent's proposals: ghost bars until someone accepts them */
+.b-sch-event.job-proposal {
+  opacity: 0.75;
+  outline: 2px dashed currentColor;
+  outline-offset: -3px;
+  background-image: repeating-linear-gradient(135deg, rgb(255 255 255 / 0.35) 0 6px, transparent 6px 12px);
+}
+.b-proposal-tag {
+  font-size: 0.7em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

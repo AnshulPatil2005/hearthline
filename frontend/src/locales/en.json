@@ -1778,5 +1778,30 @@
         "go": "Details"
       }
     }
+  },
+  "dispatch": {
+    "title": "Dispatch agent",
+    "intro": "Tell the agent what matters; it plans tomorrow's visits for every job that has no crew yet: the most urgent first, nearby stops together, within each crew's free hours. Code works out every time and every drive, and nothing moves until you accept.",
+    "instructionsLabel": "Instructions for the dispatch agent",
+    "instructionsPlaceholder": "Optional, e.g. Medical needs first. Keep Van 2 near Juniper Lane.",
+    "plan": "Plan tomorrow",
+    "planning": "Planning…",
+    "planFor": "Plan for {{date}}:",
+    "byAi": "Planned by the dispatch agent (AI).",
+    "byRules": "Planned by urgency: the AI wasn't available.",
+    "acceptAll_one": "Accept {{count}} proposal",
+    "acceptAll_other": "Accept all {{count}}",
+    "accept": "Accept",
+    "reject": "Reject",
+    "proposed": "Proposed",
+    "proposedBy": "Proposed by the dispatch agent",
+    "loadTitle": "Crew load (Bryntum resource utilization): open proposals count until you reject them",
+    "status": {
+      "proposed": "Proposed",
+      "accepted": "Accepted",
+      "rejected": "Rejected",
+      "skipped": "Left for another day",
+      "stale": "No longer fits"
+    }
   }
 }
