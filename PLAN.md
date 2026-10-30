@@ -468,11 +468,11 @@ Recorded by `e2e/video_tour.py` (one clip per scene, then `rough_cut.mp4`); the 
 | 1:07–1:21 | **Giving mandate** |
 | 1:21–1:31 | **Recovery navigator** |
 | 1:31–1:48 | **Scam attempt** |
-| 1:48–1:59 | **Rebuild** |
-| 1:59–2:11 | **Reopen** |
-| 2:11–2:37 | **Insurance claim** |
-| 2:37–2:51 | **Command Center** |
-| 2:51–2:57 | **Close** |
+| 1:48–2:00 | **Rebuild** (what-if: framing runs late on the Bryntum Gantt; Elena sees the new move-in day) |
+| 2:00–2:12 | **Reopen** |
+| 2:12–2:38 | **Insurance claim** |
+| 2:38–2:52 | **Command Center** |
+| 2:52–2:58 | **Close** |
 
 ---
 

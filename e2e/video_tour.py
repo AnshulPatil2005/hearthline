@@ -342,16 +342,29 @@ async def review(scene: Scene) -> None:
 
 async def rebuild(scene: Scene) -> None:
     page = scene.page
-    await sign_in_as(scene, "elena.rivera", "/rebuild", ".b-gantt-task")
-    await caption(page, "The rebuild: a licensed contractor's plan in a Bryntum Gantt, with the money in escrow", 3.5)
-    step = page.locator("li", has_text="Debris removal and demolition")
-    await show(page, step.get_by_text("Photo check").first, 0.5)
-    await caption(page, "The Site agent checked the contractor's photos against what this step should look like", 3.5)
-    await click(page, step.get_by_role("button", name="Approve and pay"))
+    await sign_in_as(scene, "dana.okafor", "/contractor", ".b-gantt-task")
+    gantt = page.locator(".b-gantt").first
+    to_chart = "e => window.scrollTo(0, e.getBoundingClientRect().top + scrollY - 70)"
+    async with scene.clip.cut():  # open on the chart (long enough to cover the recording's lead)
+        await gantt.evaluate(to_chart)
+        await page.wait_for_timeout(1500)
+    await caption(page, "The rebuild runs on Bryntum Gantt's scheduling engine, paid step by step from escrow", 1.8)
+    await click(page, page.get_by_role("button", name="What if a step runs late?"), 0.3)
+    panel = page.locator("section[aria-labelledby=what-if-title]")
+    await panel.get_by_label("Step").select_option(label="4. Framing")
+    await click(page, panel.get_by_role("button", name="14 days"), 0.2)
+    await panel.get_by_text("Move-in moves").first.wait_for(timeout=30000)
+    await gantt.evaluate(to_chart)  # back up to the chart: the steps after framing have moved off their baselines
+    await caption(page, "Framing runs two weeks late: the engine moves every step that waits for it", 2.8)
+    await show(page, panel.locator("[aria-live=polite]"), 0.2)
+    await caption(page, "Move-in moves 13 days; the server agrees and lists the escrow payments that move", 2.8)
+    await panel.get_by_label("Why is it late?").fill("The roof trusses arrive two weeks late from the mill")
+    await click(page, panel.get_by_role("button", name="Tell the Rivera household"), 0.2)
     async with scene.clip.cut():
-        done = step.get_by_text("Paid", exact=True).or_(step.get_by_text("balance can't cover"))
-        await done.first.wait_for(timeout=60000)
-    await caption(page, "Elena approves, and the milestone is paid from escrow with PayPal Payouts", 3.5)
+        await panel.wait_for(state="detached", timeout=30000)
+    await sign_in_as(scene, "elena.rivera", "/rebuild", ".b-gantt-task")
+    await show(page, page.locator("div.bg-amber-soft", has_text="moved your move-in day"), 0.2)
+    await caption(page, "Elena sees her new move-in day, the contractor's reason, and which payments move", 2.8)
 
 
 async def reopen(scene: Scene) -> None:
@@ -521,6 +534,9 @@ def lag(clip: Clip, length: float) -> float:
 def keep(clip: Clip, length: float) -> list[tuple[float, float]]:
     """The stretches of a clip left after its cuts (merged and clamped), in order."""
     spans, at, shift = [], 0.0, lag(clip, length)
+    first = min(clip.cuts, default=None)
+    if first and first[0] < 0.5:  # a scene that opens by signing in starts where that ends, not on the way there
+        at = first[1] + shift
     for begin, end in sorted((b + shift, e + shift) for b, e in clip.cuts):
         if begin > at + 0.2:
             spans.append((at, min(begin, length)))
