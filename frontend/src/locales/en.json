@@ -1783,7 +1783,7 @@
     "title": "Dispatch agent",
     "intro": "Tell the agent what matters; it plans tomorrow's visits for every job that has no crew yet: the most urgent first, nearby stops together, within each crew's free hours. Code works out every time and every drive, and nothing moves until you accept.",
     "instructionsLabel": "Instructions for the dispatch agent",
-    "instructionsPlaceholder": "Optional, e.g. Medical needs first. Keep Van 2 near Juniper Lane.",
+    "instructionsPlaceholder": "Optional, e.g. Medical needs first. Give Van 2 both Mesa Dr stops.",
     "plan": "Plan tomorrow",
     "planning": "Planning…",
     "planFor": "Plan for {{date}}:",

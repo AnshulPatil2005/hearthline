@@ -36,8 +36,11 @@ export default function CrewSchedule() {
   const [partner, setPartner] = useState<BryntumSchedulerPro['instance'] | null>(null)
   useEffect(() => setPartner(scheduler.current?.instance ?? null), [])
 
-  // A decision in the dispatch panel (or on a ghost bar) changes jobs: load them again.
-  const reload = () => void (project.current?.instance as unknown as Loadable | undefined)?.load()
+  // A decision in the dispatch panel (or on a ghost bar) changes jobs: load them again. The load view is drawn anew
+  // after each load: redrawn in place, its bars keep stale rows and stretch their labels.
+  const [loads, setLoads] = useState(0)
+  const reload = () =>
+    void (project.current?.instance as unknown as Loadable | undefined)?.load().then(() => setLoads((n) => n + 1))
   const decide = (id: unknown, action: 'accept' | 'reject') =>
     api(`/command/dispatch/proposals/${id}/${action}`, { method: 'POST' })
       .then(() => {
@@ -172,9 +175,11 @@ export default function CrewSchedule() {
         <h2 id="load-title" className="mb-2 text-sm font-semibold">
           {t('dispatch.loadTitle')}
         </h2>
-        <div className="h-[21rem] overflow-hidden rounded-xl border border-line">
+        {/* Shorter than its rows on purpose: when every row fits, Chrome draws the bars' labels stretched */}
+        <div className="h-64 overflow-hidden rounded-xl border border-line">
           {partner && (
             <BryntumResourceUtilization
+              key={loads}
               project={project}
               partner={partner}
               {...timeline}

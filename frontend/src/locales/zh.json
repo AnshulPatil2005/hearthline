@@ -1744,7 +1744,7 @@
     "title": "调度助手",
     "intro": "告诉助手今天的重点；它会为所有尚未分配工作队的任务安排明天的上门：最紧急的优先，相近的地点排在一起，并在每个工作队的空闲时间内。每个时间和每段路程都由代码计算，在您接受之前不会有任何改动。",
     "instructionsLabel": "给调度助手的指示",
-    "instructionsPlaceholder": "可选，例如：先处理有医疗需求的家庭。让 2 号车留在 Juniper Lane 附近。",
+    "instructionsPlaceholder": "可选，例如：先处理有医疗需求的家庭。把 Mesa Dr 的两站都交给 2 号车。",
     "plan": "安排明天",
     "planning": "正在安排…",
     "planFor": "{{date}} 的计划：",

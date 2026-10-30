@@ -1744,7 +1744,7 @@
     "title": "Trợ lý điều phối",
     "intro": "Cho trợ lý biết điều gì quan trọng; nó lên lịch các lượt đến ngày mai cho mọi việc chưa có đội: việc khẩn cấp nhất trước, các điểm gần nhau đi cùng nhau, trong giờ rảnh của từng đội. Mọi giờ giấc và quãng đường đều do mã tính, và không có gì thay đổi cho đến khi quý vị chấp nhận.",
     "instructionsLabel": "Chỉ dẫn cho trợ lý điều phối",
-    "instructionsPlaceholder": "Không bắt buộc, ví dụ: Ưu tiên nhu cầu y tế. Giữ xe 2 gần Juniper Lane.",
+    "instructionsPlaceholder": "Không bắt buộc, ví dụ: Ưu tiên nhu cầu y tế. Giao cả hai điểm ở Mesa Dr cho xe 2.",
     "plan": "Lên kế hoạch ngày mai",
     "planning": "Đang lên kế hoạch…",
     "planFor": "Kế hoạch cho {{date}}:",

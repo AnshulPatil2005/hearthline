@@ -25,11 +25,14 @@ async def main() -> None:
         page.on("console", lambda m: errors.append(m.text[:160]) if m.type == "error" else None)
         await page.goto(f"{WEB}/login?as=sam.whitfield&next=/command/crews", wait_until="networkidle")
         await page.wait_for_selector(".b-sch-event", timeout=30000)
-        print("crews loaded; utilization rows:", await page.locator("section[aria-labelledby=load-title] .b-grid-row").count())
+        print(
+            "crews loaded; utilization rows:",
+            await page.locator("section[aria-labelledby=load-title] .b-grid-row").count(),
+        )
 
         panel = page.locator("section[aria-labelledby='dispatch-title']")
         await panel.get_by_label("Instructions for the dispatch agent").fill(
-            "Medical needs first. Keep Van 2 near Juniper Lane if you can."
+            "Medical needs first. Give Van 2 both Mesa Dr stops."
         )
         await panel.get_by_role("button", name="Plan tomorrow").click()
         await panel.get_by_text(re.compile(r"^Plan for ")).wait_for(timeout=120000)
@@ -41,6 +44,7 @@ async def main() -> None:
         )
         for r in rows[:4]:
             print("   ", " | ".join(r.split("\n"))[:200])
+        print("Mesa Dr stops:", [r.split("\n")[1] for r in rows if "Cruz" in r or "Morales" in r])
         ghosts = page.locator(".b-sch-event.job-proposal")
         await ghosts.first.wait_for(timeout=30000)
         print("ghost bars on the Scheduler:", await ghosts.count())
@@ -65,6 +69,7 @@ async def main() -> None:
         )
         statuses = [r.split("\n")[-1] for r in await panel.locator("li").all_inner_texts()]
         print("after deciding:", {s: statuses.count(s) for s in set(statuses)})
+        await page.wait_for_function("() => !document.querySelector('.b-sch-event.job-proposal')", timeout=30000)
         await page.wait_for_timeout(1500)
         print(
             "ghost bars left:",
@@ -73,6 +78,9 @@ async def main() -> None:
             await page.locator(".b-sch-event-wrap[data-resource-id=unassigned]").count(),
         )
         await page.screenshot(path=OUT / "dispatch_after.png", full_page=True)
+        load = page.locator("section[aria-labelledby=load-title]")
+        await load.scroll_into_view_if_needed()
+        await load.screenshot(path=OUT / "dispatch_load.png")
         print(
             "console errors:",
             [e for e in errors if "license" not in e.lower() and "trial" not in e.lower() and "****" not in e][:4],

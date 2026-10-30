@@ -1783,7 +1783,7 @@
     "title": "Agente de despacho",
     "intro": "Dile al agente lo que importa; planifica las visitas de mañana para cada trabajo que aún no tiene cuadrilla: lo más urgente primero, paradas cercanas juntas y dentro de las horas libres de cada cuadrilla. El código calcula cada horario y cada trayecto, y nada cambia hasta que aceptes.",
     "instructionsLabel": "Instrucciones para el agente de despacho",
-    "instructionsPlaceholder": "Opcional, p. ej. Primero las necesidades médicas. Deja la camioneta 2 cerca de Juniper Lane.",
+    "instructionsPlaceholder": "Opcional, p. ej. Primero las necesidades médicas. Dale a la camioneta 2 las dos paradas de Mesa Dr.",
     "plan": "Planificar mañana",
     "planning": "Planificando…",
     "planFor": "Plan para el {{date}}:",
