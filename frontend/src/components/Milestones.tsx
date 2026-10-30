@@ -1,6 +1,7 @@
 import { lazy, Suspense, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { mediaUrl, type Contractor, type MilestoneStatus, type Project, type SiteCheck } from '../api'
+import type { GanttPreview } from './ProjectGantt'
 
 // Bryntum Gantt is large; load it only when a project has a schedule to show.
 export const ProjectGantt = lazy(() => import('./ProjectGantt'))
@@ -37,7 +38,12 @@ export function PhotoStrip({ urls }: { urls: string[] }) {
     <ul className="grid grid-cols-3 gap-2 sm:grid-cols-4">
       {urls.map((u, i) => (
         <li key={u}>
-          <a href={mediaUrl(u) ?? undefined} target="_blank" rel="noreferrer" aria-label={t('a11y.openPhoto', { n: i + 1 })}>
+          <a
+            href={mediaUrl(u) ?? undefined}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={t('a11y.openPhoto', { n: i + 1 })}
+          >
             <img src={mediaUrl(u) ?? ''} alt="" className="aspect-[4/3] w-full rounded-lg object-cover" />
           </a>
         </li>
@@ -104,18 +110,30 @@ export function ContractorLine({ c }: { c: Contractor }) {
   )
 }
 
-export function GanttSlot({ project, editable, onSynced }: { project: Project; editable: boolean; onSynced?: () => void }) {
+export function GanttSlot({
+  project,
+  editable,
+  onSynced,
+  onPreviewReady,
+}: {
+  project: Project
+  editable: boolean
+  onSynced?: () => void
+  onPreviewReady?: (preview: GanttPreview) => void
+}) {
   if (project.milestones.length === 0) return null
-  // Remount when statuses change so bar colours and progress match the cards below.
-  const key = project.milestones.map((m) => m.status).join()
+  // Remount when statuses change or a delay is recorded, so the chart matches the cards below.
+  const key = `${project.milestones.map((m) => m.status).join()}|${project.changes[0]?.id ?? 0}`
   return (
     <Suspense fallback={<div className="h-[22rem] animate-pulse rounded-xl bg-sunken" />}>
       <ProjectGantt
         key={key}
         base={`/bryntum/gantt/${project.id}`}
-        rows={project.milestones.length}
+        rows={project.milestones.length + 1} // and move-in day
         editable={editable}
         onSynced={onSynced}
+        schedule
+        onPreviewReady={onPreviewReady}
       />
     </Suspense>
   )

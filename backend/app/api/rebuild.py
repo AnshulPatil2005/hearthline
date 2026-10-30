@@ -8,12 +8,12 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import rebuild
+from app import rebuild, rebuild_schedule
 from app.api.households import MyHousehold
 from app.auth import CurrentUser, require_role
 from app.db import get_db
 from app.media import InvalidImage, media_url, prepare_image
-from app.models import Contractor, Media, Milestone, RebuildProject, Role, User
+from app.models import Contractor, Media, Milestone, RebuildProject, Role, ScheduleChange, User
 from app.schemas import ORM, Money
 
 router = APIRouter(tags=["rebuild"])
@@ -36,6 +36,7 @@ class MilestoneIn(BaseModel):
     is_deposit: bool = False
     start_date: datetime
     end_date: datetime
+    after: list[int] | None = Field(default=None, max_length=20)  # step numbers this one waits for
 
 
 class PlanIn(BaseModel):
@@ -68,6 +69,41 @@ class MilestoneOut(ORM):
     paid_at: datetime | None
     photo_urls: list[str] = []
     needs_human_review: bool = False  # what happens when the homeowner approves (rules live in app.rebuild)
+    after: list[int] | None = None
+    baseline_start: datetime | None = None
+    baseline_end: datetime | None = None
+    slack_days: int | None = None  # how late it can run before move-in moves (steps not yet submitted)
+
+
+class ScheduleChangeOut(ORM):
+    id: int
+    milestone_id: int
+    milestone_title: str
+    days: int
+    reason: str
+    moved: list[dict]
+    move_in_before: datetime
+    move_in_after: datetime
+    created_at: datetime
+
+
+class WhatIfIn(BaseModel):
+    milestone_id: int
+    days: int = Field(ge=1, le=rebuild_schedule.MAX_DELAY_DAYS)
+
+
+class DelayIn(WhatIfIn):
+    reason: str = Field(min_length=3, max_length=300)
+
+
+class WhatIfOut(BaseModel):
+    milestone_id: int
+    days: int
+    slack_days: int  # how much of the delay the plan absorbs before move-in moves
+    move_in_before: datetime
+    move_in_after: datetime
+    move_in_days: int
+    moved: list[dict]
 
 
 class ProjectOut(ORM):
@@ -80,17 +116,37 @@ class ProjectOut(ORM):
     deposit_cap: Money
     escrow_balance: Money
     milestones: list[MilestoneOut]
+    move_in: datetime | None = None
+    planned_move_in: datetime | None = None  # in the plan the homeowner accepted
+    changes: list[ScheduleChangeOut] = []  # delays the contractor recorded, newest first
 
 
-def milestone_out(m: Milestone) -> MilestoneOut:
+def milestone_out(m: Milestone, slack: dict[int, int] | None = None) -> MilestoneOut:
     out = MilestoneOut.model_validate(m)
     out.photo_urls = [media_url(mid) for mid in m.photo_media_ids]
     out.needs_human_review = m.status == "submitted" and rebuild.needs_human_review(m)
+    out.after = rebuild_schedule.predecessors(m)
+    out.slack_days = (slack or {}).get(m.id)
     return out
 
 
+def change_out(c: ScheduleChange) -> ScheduleChangeOut:
+    return ScheduleChangeOut(
+        id=c.id,
+        milestone_id=c.milestone_id,
+        milestone_title=c.milestone.title,
+        days=c.days,
+        reason=c.reason,
+        moved=c.moved,
+        move_in_before=c.move_in_before,
+        move_in_after=c.move_in_after,
+        created_at=c.created_at,
+    )
+
+
 def project_out(db: Session, p: RebuildProject) -> ProjectOut:
-    milestones = [milestone_out(m) for m in p.milestones]
+    slack = rebuild_schedule.slack(list(p.milestones))
+    milestones = [milestone_out(m, slack) for m in p.milestones]
     return ProjectOut(
         id=p.id,
         title=p.title,
@@ -101,6 +157,9 @@ def project_out(db: Session, p: RebuildProject) -> ProjectOut:
         deposit_cap=rebuild.deposit_cap(p.total_price),
         escrow_balance=rebuild.escrow_balance(db, p.id),
         milestones=milestones,
+        move_in=rebuild_schedule.move_in(list(p.milestones)),
+        planned_move_in=rebuild_schedule.move_in(list(p.milestones), baseline=True),
+        changes=[change_out(c) for c in p.schedule_changes[:5]],
     )
 
 
@@ -240,3 +299,51 @@ def dispute_milestone(milestone_id: int, body: DisputeIn, home: MyHousehold, use
     if m.project.household_id != home.id:
         raise HTTPException(404, "Milestone not found")
     return milestone_out(run(rebuild.dispute_milestone, db, m, user, body.reason))
+
+
+def _contractors_project(db: Session, project_id: int, contractor: Contractor, user: User) -> RebuildProject:
+    p = project_for(db, project_id, user)
+    if p.contractor_id != contractor.id:
+        raise HTTPException(404, "Project not found")
+    return p
+
+
+def _step(p: RebuildProject, milestone_id: int) -> Milestone:
+    m = next((m for m in p.milestones if m.id == milestone_id), None)
+    if m is None:
+        raise HTTPException(404, "Milestone not found")
+    return m
+
+
+@router.post("/projects/{project_id}/what-if", response_model=WhatIfOut)
+def what_if(project_id: int, body: WhatIfIn, contractor: MyContractor, user: ContractorUser, db: DB) -> WhatIfOut:
+    """What moves if a step runs late, before the contractor tells the homeowner. Nothing is saved."""
+    p = _contractors_project(db, project_id, contractor, user)
+    m = _step(p, body.milestone_id)
+    try:
+        result = rebuild_schedule.what_if(p, m, body.days)
+    except rebuild_schedule.ScheduleError as e:
+        raise HTTPException(409, str(e)) from None
+    return WhatIfOut(
+        milestone_id=m.id,
+        days=body.days,
+        slack_days=rebuild_schedule.slack(list(p.milestones)).get(m.id, 0),
+        move_in_before=result.move_in_before,
+        move_in_after=result.move_in_after,
+        move_in_days=result.move_in_days,
+        moved=[mv.as_dict() for mv in result.moves],
+    )
+
+
+@router.post("/projects/{project_id}/delays", response_model=ScheduleChangeOut, status_code=201)
+def record_delay(
+    project_id: int, body: DelayIn, contractor: MyContractor, user: ContractorUser, db: DB
+) -> ScheduleChangeOut:
+    """The contractor records a delay: the late step and the steps after it move, and the homeowner is told why."""
+    p = _contractors_project(db, project_id, contractor, user)
+    m = _step(p, body.milestone_id)
+    try:
+        change = rebuild_schedule.record_delay(db, p, m, body.days, body.reason, user)
+    except rebuild_schedule.ScheduleError as e:
+        raise HTTPException(409, str(e)) from None
+    return change_out(change)

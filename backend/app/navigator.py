@@ -65,6 +65,7 @@ WORDS = {
     "list_needs": "List what your family needs on your Rebuild Registry",
     "crew_visit": "Crew visit: {title}",
     "video_call": "Video call with a reviewer about your case",
+    "move_in_moved": "Your contractor moved the move-in date {days} days later, because: {reason}",
 }
 
 
@@ -179,6 +180,22 @@ def steps(db: Session, home: Household, today: date | None = None) -> list[Step]
     registry = db.scalar(select(Registry).where(Registry.household_id == home.id))
     if registry is not None and not db.scalar(select(RegistryItem.id).where(RegistryItem.registry_id == registry.id)):
         out.append(Step("list_needs", link="/registry"))
+
+    for project in db.scalars(
+        select(RebuildProject).where(RebuildProject.household_id == home.id, RebuildProject.status == "active")
+    ):
+        change = project.schedule_changes[0] if project.schedule_changes else None
+        if change is not None and change.move_in_after > change.move_in_before:
+            days = (_when(change.move_in_after) - _when(change.move_in_before)).days
+            out.append(
+                Step(
+                    "move_in_moved",
+                    {"days": days, "reason": change.reason[:200], "ref": f"change-{change.id}"},
+                    due=_when(change.move_in_after),
+                    link="/rebuild",
+                    kind="event",
+                )
+            )
 
     soon = datetime.now(UTC) - timedelta(hours=2)
     job = db.scalar(

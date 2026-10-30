@@ -143,7 +143,11 @@ The models are Google Gemini through its OpenAI-compatible API, falling back to 
   sparklines); batch cash aid (master/detail); Price Watch (sparklines); **"Ask the grid"** with the **AI Toolkit**
   (`getStructuredSchema` → model → server check → `setState`).
 - **Bryntum.** **Gantt** for each rebuild plan and each business's reopening plan (only the contractor can move
-  milestones that haven't been submitted; the server checks again). **Scheduler Pro** for crew dispatch, with
+  milestones that haven't been submitted; the server checks again). A rebuild runs on the Gantt's **scheduling
+  engine**: steps still to come are auto-scheduled (no earlier than planned, after the steps they wait for), with the
+  accepted plan as a **baseline**, the **critical path**, each step's **days to spare** (total slack) and a move-in
+  milestone. **"What if a step runs late?"** previews a delay on the chart; the server works out the same schedule,
+  and the homeowner sees the new move-in day, the reason and which escrow payments move. **Scheduler Pro** for crew dispatch, with
   travel-time buffers, the dispatch agent's proposals drawn as ghost bars (accept or reject them from the bar's menu)
   and a **ResourceUtilization** view sharing the same project, so each crew's load shows what accepting would do. **Calendar** for reviewers' video verification calls. **TaskBoard** for the case pipeline. All
   four load and save through FastAPI, which implements Bryntum's CrudManager protocol. They use Bryntum's **thin

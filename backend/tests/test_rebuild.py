@@ -243,13 +243,24 @@ def test_gantt_load_and_contractor_only_rescheduling():
 
     loaded = client.get(f"/bryntum/gantt/{project['id']}/load", headers=h).json()
     root = loaded["tasks"]["rows"][0]
-    assert root["name"] == "Rebuild kitchen" and [c["status"] for c in root["children"]] == ["pending"] * 3
+    steps, move_in = root["children"][:3], root["children"][3]
+    assert root["name"] == "Rebuild kitchen" and [c["status"] for c in steps] == ["pending"] * 3
+    # work not yet submitted is scheduled by Bryntum's engine, no earlier than planned; the accepted plan is baseline
+    assert all(not c["manuallyScheduled"] and c["constraintType"] == "startnoearlierthan" for c in steps)
+    assert all(c["baselines"] == [{"startDate": c["startDate"], "endDate": c["endDate"]}] for c in steps)
+    assert move_in["status"] == "move_in" and move_in["duration"] == 0 and move_in["startDate"] == steps[2]["endDate"]
     assert [(d["fromTask"], d["toTask"]) for d in loaded["dependencies"]["rows"]] == [
-        (root["children"][0]["id"], root["children"][1]["id"]),
-        (root["children"][1]["id"], root["children"][2]["id"]),
+        (steps[0]["id"], steps[1]["id"]),
+        (steps[1]["id"], steps[2]["id"]),
+        (steps[2]["id"], move_in["id"]),
     ]
+    assert loaded["project"]["calendar"] == loaded["calendars"]["rows"][0]["id"]
 
-    framing = root["children"][2]
+    framing = steps[2]
+    # a step can't be moved to start before the step it waits for ends
+    early = {"tasks": {"updated": [{"id": framing["id"], "startDate": "2026-10-20T00:00:00+00:00"}]}}
+    refused = client.post(f"/bryntum/gantt/{project['id']}/sync", headers=dana, json=early).json()
+    assert refused["success"] is False and "can't start before Demolition ends" in refused["message"]
     moved = {"tasks": {"updated": [{"id": framing["id"], "startDate": "2026-11-02T00:00:00+00:00"}]}}
     assert client.post(f"/bryntum/gantt/{project['id']}/sync", headers=h, json=moved).json()["success"] is False
     assert client.post(f"/bryntum/gantt/{project['id']}/sync", headers=dana, json=moved).json()["success"] is True

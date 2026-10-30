@@ -594,7 +594,34 @@
       "start": "开始",
       "end": "结束",
       "editHint": "拖动尚未开始的阶段即可调整时间。已提交或已完成的工作不能移动。",
-      "viewHint": "承包商会随时更新此进度表。绿色表示已付款，橙色表示等待您或审核员处理。"
+      "viewHint": "承包商会随时更新此进度表。绿色表示已付款，橙色表示等待您或审核员处理。",
+      "spare": "可延后天数",
+      "criticalPath": "显示关键路径",
+      "scheduleHint": "每个步骤下方的细条是房主接受的原计划。红色是关键路径：这些步骤一旦延误，入住日期就会推迟。"
+    },
+    "whatIf": {
+      "moveIn": "入住日",
+      "planned": "原计划：{{date}}",
+      "open": "如果某个步骤延误会怎样？",
+      "title": "如果某个步骤延误会怎样？",
+      "intro": "在图表上试一下延误：Bryntum 的排程引擎会推后所有依赖它的步骤。Hearthline 会算出同样的排期；在您向这家人说明原因之前，他们看到的不会有任何变化。",
+      "step": "步骤",
+      "daysLate": "延误天数",
+      "days_other": "{{count}} 天",
+      "moves_other": "入住日从 {{from}} 推到 {{to}}，晚 {{count}} 天。",
+      "absorbed_other": "入住日不变，仍是 {{date}}：{{step}} 有 {{count}} 天余量。",
+      "partlyAbsorbed_other": "{{step}} 原有 {{count}} 天余量，所以入住日推后的天数少于延误天数。",
+      "paymentsMove": "随之推后的托管付款（每笔在对应步骤完成时支付）",
+      "doneBy": "完成 {{from}} → {{to}}",
+      "engineAgrees": "✓ Bryntum 的排程引擎算出的入住日相同。",
+      "engineSays": "Bryntum 的排程引擎算出的是 {{date}}。",
+      "reasonLabel": "为什么延误？",
+      "reasonPlaceholder": "为什么延误？例如：屋顶桁架晚到两周",
+      "tell": "通知 {{name}}",
+      "cancel": "取消",
+      "noticeMoved_other": "{{name}} 把您的入住日改到 {{date}}，晚 {{count}} 天。",
+      "noticeSame": "{{name}} 调整了排期；您的入住日仍是 {{date}}。",
+      "noticeWhy_other": "{{step}} 延误 {{count}} 天："
     }
   },
   "contractor": {
@@ -1737,6 +1764,11 @@
         "title": "与审核员视频通话",
         "detail": "关于您的案件。请备好身份证件。",
         "go": "详情"
+      },
+      "move_in_moved": {
+        "title": "您的入住日已调整",
+        "detail": "承包商说明：{{reason}}。新的排期在您的“重建”页面上。",
+        "go": "查看排期"
       }
     }
   },

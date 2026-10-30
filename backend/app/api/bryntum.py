@@ -14,7 +14,7 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, review
+from app import audit, rebuild_schedule, review
 from app.api.households import MyHousehold
 from app.auth import CurrentUser, require_role
 from app.db import get_db
@@ -226,6 +226,9 @@ MILESTONE_COLOR = {
     "refunded": "red",
 }
 MILESTONE_PROGRESS = {"submitted": 50, "under_review": 75, "paid": 100}
+# The family's move-in day: a milestone after the last steps. Bryntum links a dependency only to a numeric task id,
+# so it gets a number no milestone will reach.
+MOVE_IN = 2_000_000_000
 
 
 def _gantt_project(db: Session, project_id: int, user: User) -> RebuildProject:
@@ -243,28 +246,67 @@ def gantt_load(
     data: str | None = None,  # noqa: N803
 ) -> dict:
     p = _gantt_project(db, project_id, user)
-    children = [
-        {
+    milestones = list(p.milestones)
+    children = []
+    for m in milestones:
+        start, end = _aware(m.start_date).isoformat(), _aware(m.end_date).isoformat()
+        pending = m.status == "pending"
+        row = {
             "id": m.id,
             "name": f"{m.seq}. {m.title} · ${m.amount:,.0f}",
-            "startDate": _aware(m.start_date).isoformat(),
-            "endDate": _aware(m.end_date).isoformat(),
-            "manuallyScheduled": True,
+            "startDate": start,
+            "endDate": end,
+            # Submitted and paid work stays put; Bryntum's engine schedules the rest: no earlier than planned, and
+            # not before the steps it waits for end (the same rules as app.rebuild_schedule)
+            "manuallyScheduled": not pending,
             "percentDone": MILESTONE_PROGRESS.get(m.status, 0),
             "eventColor": MILESTONE_COLOR.get(m.status, "blue"),
             "status": m.status,
             "amount": str(m.amount),
         }
-        for m in p.milestones
-    ]
+        if pending:
+            row |= {"constraintType": "startnoearlierthan", "constraintDate": start}
+        if m.baseline_start and m.baseline_end:  # the plan the homeowner accepted
+            row["baselines"] = [
+                {"startDate": _aware(m.baseline_start).isoformat(), "endDate": _aware(m.baseline_end).isoformat()}
+            ]
+        children.append(row)
+    move_in = rebuild_schedule.move_in(milestones)
+    if move_in is not None:
+        planned = rebuild_schedule.move_in(milestones, baseline=True)
+        children.append(
+            {
+                "id": MOVE_IN,
+                "name": "Move-in day",
+                "startDate": move_in.isoformat(),
+                "duration": 0,
+                "durationUnit": "day",
+                "status": "move_in",
+                "percentDone": 0,
+                **(
+                    {"baselines": [{"startDate": planned.isoformat(), "endDate": planned.isoformat()}]}
+                    if planned
+                    else {}
+                ),
+            }
+        )
     root = {"id": f"project-{p.id}", "name": p.title, "expanded": True, "children": children}  # dates roll up
-    deps = [
-        {"id": i, "fromTask": a.id, "toTask": b.id, "type": 2}  # finish-to-start
-        for i, (a, b) in enumerate(zip(p.milestones, p.milestones[1:], strict=False), start=1)
+    by_seq = {m.seq: m for m in milestones}
+    deps = [  # finish-to-start
+        {"id": f"{by_seq[s].id}-{m.id}", "fromTask": by_seq[s].id, "toTask": m.id, "type": 2}
+        for m in milestones
+        for s in rebuild_schedule.predecessors(m)
+        if s in by_seq
+    ] + [
+        {"id": f"{m.id}-{MOVE_IN}", "fromTask": m.id, "toTask": MOVE_IN, "type": 2}
+        for m in rebuild_schedule.last_steps(milestones)
     ]
     return {
         "success": True,
         "requestId": _request_id(requestId, data),
+        # Every day counts, as on a building site's contract: a 14-day step takes 14 calendar days
+        "project": {"calendar": "every-day", "hoursPerDay": 24, "daysPerWeek": 7, "daysPerMonth": 30},
+        "calendars": {"rows": [{"id": "every-day", "name": "Every day", "unspecifiedTimeIsWorking": True}]},
         "tasks": {"rows": [root]},
         "dependencies": {"rows": deps},
     }
@@ -306,5 +348,9 @@ def gantt_sync(project_id: int, user: CurrentUser, db: DB, payload: Annotated[di
             data={"start": m.start_date.isoformat(), "end": m.end_date.isoformat()},
         )
         changed.append({"id": m.id})
+    problems = rebuild_schedule.violations(list(p.milestones))
+    if problems:
+        db.rollback()
+        return {"success": False, "requestId": request_id, "message": problems[0]}
     db.commit()
     return {"success": True, "requestId": request_id, "tasks": {"rows": changed}}

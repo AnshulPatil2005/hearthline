@@ -11,7 +11,7 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
-from app import audit, ledger, trust
+from app import audit, ledger, rebuild_schedule, trust
 from app.agents import site
 from app.models import Media, Milestone, RebuildProject, User, now
 from app.paypal import payouts
@@ -61,6 +61,9 @@ def submit_plan(db: Session, project: RebuildProject, milestones: list[dict], ac
     for seq, m in enumerate(milestones, start=1):
         if _aware(m["end_date"]) < _aware(m["start_date"]):
             raise RebuildError(f"Milestone {seq} ends before it starts")
+        after = m.get("after")
+        if after is not None and any(not 0 < s < seq for s in after):
+            raise RebuildError(f"Milestone {seq} can only wait for steps before it")
         project.milestones.append(
             Milestone(
                 seq=seq,
@@ -70,8 +73,14 @@ def submit_plan(db: Session, project: RebuildProject, milestones: list[dict], ac
                 is_deposit=bool(m.get("is_deposit")),
                 start_date=_aware(m["start_date"]),
                 end_date=_aware(m["end_date"]),
+                after=sorted(set(after)) if after is not None else None,
             )
         )
+    db.flush()  # new steps get their defaults (pending) before the checks
+    rebuild_schedule.infer_after(project.milestones)
+    problems = rebuild_schedule.violations(project.milestones)  # inferred links always fit; the plan's own may not
+    if problems:
+        raise RebuildError(problems[0])
     project.total_price = total
     project.status = "plan_submitted"
     audit.record(
@@ -107,6 +116,7 @@ def accept_plan(db: Session, project: RebuildProject, actor: User) -> RebuildPro
         },
     )
     project.status = "active"
+    rebuild_schedule.set_baseline(project)  # later delays are measured against the plan the homeowner accepted
     audit.record(
         db,
         actor_user_id=actor.id,

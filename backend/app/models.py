@@ -550,6 +550,9 @@ class RebuildProject(Base):
     milestones: Mapped[list["Milestone"]] = relationship(
         back_populates="project", cascade="all, delete-orphan", order_by="Milestone.seq"
     )
+    schedule_changes: Mapped[list["ScheduleChange"]] = relationship(
+        back_populates="project", cascade="all, delete-orphan", order_by="ScheduleChange.id.desc()"
+    )
 
 
 class Milestone(Base):
@@ -564,7 +567,12 @@ class Milestone(Base):
     is_deposit: Mapped[bool] = mapped_column(default=False)
     start_date: Mapped[datetime]
     end_date: Mapped[datetime]
-    # pending | submitted | under_review | paid | disputed
+    # The steps (by seq) that must finish before this one starts; None means the step before it
+    after: Mapped[list | None] = mapped_column(JSON)
+    # The dates in the plan the homeowner accepted, kept when the schedule changes later
+    baseline_start: Mapped[datetime | None]
+    baseline_end: Mapped[datetime | None]
+    # pending | submitted | under_review | paid | disputed | refunded
     status: Mapped[str] = mapped_column(String(20), default="pending")
     photo_media_ids: Mapped[list] = mapped_column(JSON, default=list)
     site_check: Mapped[dict | None] = mapped_column(JSON)
@@ -574,6 +582,27 @@ class Milestone(Base):
     paid_at: Mapped[datetime | None]
 
     project: Mapped[RebuildProject] = relationship(back_populates="milestones")
+
+
+class ScheduleChange(Base):
+    """A delay the contractor recorded: one step runs late, and the steps after it move."""
+
+    __tablename__ = "schedule_changes"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    project_id: Mapped[int] = mapped_column(ForeignKey("rebuild_projects.id", ondelete="CASCADE"), index=True)
+    milestone_id: Mapped[int] = mapped_column(ForeignKey("milestones.id", ondelete="CASCADE"))
+    days: Mapped[int]
+    reason: Mapped[str] = mapped_column(String(300))
+    # [{milestone_id, seq, title, amount, start_before, end_before, start_after, end_after}] for every step that moved
+    moved: Mapped[list] = mapped_column(JSON, default=list)
+    move_in_before: Mapped[datetime]
+    move_in_after: Mapped[datetime]
+    created_by_user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    created_at: Mapped[datetime] = mapped_column(default=now)
+
+    project: Mapped[RebuildProject] = relationship(back_populates="schedule_changes")
+    milestone: Mapped[Milestone] = relationship()
 
 
 class AidBatch(Base):

@@ -11,6 +11,7 @@ import {
   Stat,
 } from '../components/Milestones'
 import { VoiceButton } from '../components/VoiceButton'
+import { MoveInStat, ScheduleNotice } from '../components/WhatIf'
 import { money } from '../format'
 import { dateRange, paidOut } from '../rebuild'
 
@@ -39,7 +40,10 @@ function StartProject({ onStarted }: { onStarted: () => void }) {
       </label>
       <ul className="mt-4 space-y-2">
         {contractors.data?.map((c) => (
-          <li key={c.id} className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line px-4 py-3">
+          <li
+            key={c.id}
+            className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line px-4 py-3"
+          >
             <ContractorLine c={c} />
             <button
               onClick={() => start.mutate(c.id)}
@@ -183,10 +187,16 @@ function HouseholdProject({ p, onChanged }: { p: Project; onChanged: () => void 
           </span>
         </div>
         {p.milestones.length > 0 && (
-          <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <Stat label={t('rebuild.price')} value={money(p.total_price)} />
             <Stat label={t('rebuild.inEscrow')} value={money(p.escrow_balance)} hint={t('rebuild.escrowHint')} />
             <Stat label={t('rebuild.paidOut')} value={money(paidOut(p))} />
+            <MoveInStat p={p} />
+          </div>
+        )}
+        {p.status === 'active' && p.changes.length > 0 && (
+          <div className="mt-4">
+            <ScheduleNotice p={p} />
           </div>
         )}
         {p.status === 'awaiting_plan' && (

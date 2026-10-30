@@ -594,7 +594,34 @@
       "start": "Bắt đầu",
       "end": "Kết thúc",
       "editHint": "Kéo giai đoạn chưa bắt đầu để dời lịch. Công việc đã gửi hoặc đã xong thì giữ nguyên.",
-      "viewHint": "Nhà thầu cập nhật lịch này. Màu xanh lá là đã trả, màu cam là đang chờ quý vị hoặc người duyệt."
+      "viewHint": "Nhà thầu cập nhật lịch này. Màu xanh lá là đã trả, màu cam là đang chờ quý vị hoặc người duyệt.",
+      "spare": "Số ngày dự phòng",
+      "criticalPath": "Hiện đường găng",
+      "scheduleHint": "Thanh mảnh dưới mỗi bước là kế hoạch chủ nhà đã chấp nhận. Màu đỏ là đường găng: chậm ở đó thì ngày dọn vào bị lùi."
+    },
+    "whatIf": {
+      "moveIn": "Ngày dọn vào",
+      "planned": "Dự kiến: {{date}}",
+      "open": "Nếu một bước bị chậm thì sao?",
+      "title": "Nếu một bước bị chậm thì sao?",
+      "intro": "Thử một lần chậm trễ trên biểu đồ: công cụ lập lịch của Bryntum dời mọi bước phải chờ bước đó. Hearthline tính ra cùng lịch đó, và gia đình sẽ không thấy gì thay đổi cho đến khi quý vị cho họ biết lý do.",
+      "step": "Bước",
+      "daysLate": "Số ngày chậm",
+      "days_other": "{{count}} ngày",
+      "moves_other": "Ngày dọn vào dời từ {{from}} sang {{to}}, chậm {{count}} ngày.",
+      "absorbed_other": "Ngày dọn vào vẫn là {{date}}: {{step}} còn {{count}} ngày dự phòng.",
+      "partlyAbsorbed_other": "{{step}} có {{count}} ngày dự phòng, nên ngày dọn vào dời ít hơn số ngày chậm.",
+      "paymentsMove": "Các khoản thanh toán từ tài khoản ký quỹ bị dời (mỗi khoản được trả khi bước đó xong)",
+      "doneBy": "xong {{from}} → {{to}}",
+      "engineAgrees": "✓ Công cụ lập lịch của Bryntum tính ra cùng ngày dọn vào.",
+      "engineSays": "Công cụ lập lịch của Bryntum tính ra {{date}}.",
+      "reasonLabel": "Vì sao bị chậm?",
+      "reasonPlaceholder": "Vì sao bị chậm? Ví dụ: Giàn mái đến trễ hai tuần",
+      "tell": "Báo cho {{name}}",
+      "cancel": "Hủy",
+      "noticeMoved_other": "{{name}} đã dời ngày dọn vào của quý vị sang {{date}}, chậm {{count}} ngày.",
+      "noticeSame": "{{name}} đã đổi lịch; ngày dọn vào của quý vị vẫn là {{date}}.",
+      "noticeWhy_other": "{{step}} chậm {{count}} ngày:"
     }
   },
   "contractor": {
@@ -1737,6 +1764,11 @@
         "title": "Gọi video với người xét duyệt",
         "detail": "Về hồ sơ của quý vị. Hãy chuẩn bị giấy tờ tùy thân.",
         "go": "Chi tiết"
+      },
+      "move_in_moved": {
+        "title": "Ngày dọn vào của quý vị đã thay đổi",
+        "detail": "Nhà thầu cho biết: {{reason}}. Lịch mới có trên trang Xây dựng lại của quý vị.",
+        "go": "Xem lịch"
       }
     }
   },

@@ -366,6 +366,44 @@ export type Milestone = {
   paid_at: string | null
   photo_urls: string[]
   needs_human_review: boolean
+  after: number[] | null
+  baseline_start: string | null
+  baseline_end: string | null
+  slack_days: number | null
+}
+
+/** One step's dates before and after a delay. */
+export type ScheduleMove = {
+  milestone_id: number
+  seq: number
+  title: string
+  amount: string
+  start_before: string
+  end_before: string
+  start_after: string
+  end_after: string
+}
+
+export type ScheduleChange = {
+  id: number
+  milestone_id: number
+  milestone_title: string
+  days: number
+  reason: string
+  moved: ScheduleMove[]
+  move_in_before: string
+  move_in_after: string
+  created_at: string
+}
+
+export type WhatIf = {
+  milestone_id: number
+  days: number
+  slack_days: number
+  move_in_before: string
+  move_in_after: string
+  move_in_days: number
+  moved: ScheduleMove[]
 }
 
 export type Contractor = {
@@ -386,6 +424,9 @@ export type Project = {
   deposit_cap: string
   escrow_balance: string
   milestones: Milestone[]
+  move_in: string | null
+  planned_move_in: string | null
+  changes: ScheduleChange[]
 }
 
 export type MilestoneEvidence = Pick<

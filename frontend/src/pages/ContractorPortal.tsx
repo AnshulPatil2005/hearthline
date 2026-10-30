@@ -6,6 +6,8 @@ import { GanttSlot, MilestoneStatusPill, PhotoStrip, SiteCheckView, Stat } from 
 import { money } from '../format'
 import { dateRange, paidOut } from '../rebuild'
 import { ConnectPayPal } from '../components/ConnectPayPal'
+import type { GanttPreview } from '../components/ProjectGantt'
+import { WhatIfPanel } from '../components/WhatIf'
 
 type Row = { title: string; done_looks_like: string; amount: string; start: string; end: string; is_deposit: boolean }
 
@@ -27,9 +29,30 @@ function startingRows(p: Project, t: (k: string) => string): Row[] {
       is_deposit: m.is_deposit,
     }))
   return [
-    { title: t('contractor.template.deposit'), done_looks_like: '', amount: '', start: plusDays(1), end: plusDays(3), is_deposit: true },
-    { title: t('contractor.template.demolition'), done_looks_like: '', amount: '', start: plusDays(4), end: plusDays(14), is_deposit: false },
-    { title: t('contractor.template.repair'), done_looks_like: '', amount: '', start: plusDays(15), end: plusDays(35), is_deposit: false },
+    {
+      title: t('contractor.template.deposit'),
+      done_looks_like: '',
+      amount: '',
+      start: plusDays(1),
+      end: plusDays(3),
+      is_deposit: true,
+    },
+    {
+      title: t('contractor.template.demolition'),
+      done_looks_like: '',
+      amount: '',
+      start: plusDays(4),
+      end: plusDays(14),
+      is_deposit: false,
+    },
+    {
+      title: t('contractor.template.repair'),
+      done_looks_like: '',
+      amount: '',
+      start: plusDays(15),
+      end: plusDays(35),
+      is_deposit: false,
+    },
   ]
 }
 
@@ -42,7 +65,9 @@ function PlanEditor({ p, onSaved }: { p: Project; onSaved: () => void }) {
   const deposit = rows.find((r) => r.is_deposit)
   const overCap = deposit !== undefined && Number(deposit.amount) > cap
   const update = (i: number, patch: Partial<Row>) =>
-    setRows((rs) => rs.map((r, j) => (j === i ? { ...r, ...patch } : patch.is_deposit ? { ...r, is_deposit: false } : r)))
+    setRows((rs) =>
+      rs.map((r, j) => (j === i ? { ...r, ...patch } : patch.is_deposit ? { ...r, is_deposit: false } : r)),
+    )
 
   const save = useMutation({
     mutationFn: () =>
@@ -65,13 +90,18 @@ function PlanEditor({ p, onSaved }: { p: Project; onSaved: () => void }) {
     },
     onError: (e) => setError(e instanceof ApiError ? e.message : t('errors.generic')),
   })
-  const valid = rows.every((r) => r.title.trim().length >= 2 && Number(r.amount) > 0 && r.start && r.end && r.end >= r.start)
+  const valid = rows.every(
+    (r) => r.title.trim().length >= 2 && Number(r.amount) > 0 && r.start && r.end && r.end >= r.start,
+  )
 
   return (
     <div className="space-y-3">
       <ol className="space-y-3">
         {rows.map((r, i) => (
-          <li key={i} className="grid gap-2 rounded-lg border border-line p-3 sm:grid-cols-[2rem_minmax(0,1fr)_8rem_9rem_9rem_auto]">
+          <li
+            key={i}
+            className="grid gap-2 rounded-lg border border-line p-3 sm:grid-cols-[2rem_minmax(0,1fr)_8rem_9rem_9rem_auto]"
+          >
             <span className="pt-2 text-sm text-ink-faint">{i + 1}.</span>
             <div className="space-y-2">
               <input
@@ -89,7 +119,11 @@ function PlanEditor({ p, onSaved }: { p: Project; onSaved: () => void }) {
                 className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-sm"
               />
               <label className="flex items-center gap-2 text-xs text-ink-soft">
-                <input type="checkbox" checked={r.is_deposit} onChange={(e) => update(i, { is_deposit: e.target.checked })} />
+                <input
+                  type="checkbox"
+                  checked={r.is_deposit}
+                  onChange={(e) => update(i, { is_deposit: e.target.checked })}
+                />
                 {t('rebuild.deposit')}
               </label>
             </div>
@@ -133,7 +167,14 @@ function PlanEditor({ p, onSaved }: { p: Project; onSaved: () => void }) {
         onClick={() =>
           setRows((rs) => [
             ...rs,
-            { title: '', done_looks_like: '', amount: '', start: rs.at(-1)?.end ?? plusDays(1), end: rs.at(-1)?.end ?? plusDays(7), is_deposit: false },
+            {
+              title: '',
+              done_looks_like: '',
+              amount: '',
+              start: rs.at(-1)?.end ?? plusDays(1),
+              end: rs.at(-1)?.end ?? plusDays(7),
+              is_deposit: false,
+            },
           ])
         }
         disabled={rows.length >= 20}
@@ -220,7 +261,11 @@ function MilestoneWork({ m, canSubmit, onChanged }: { m: Milestone; canSubmit: b
             disabled={submit.isPending || (!m.is_deposit && files.length === 0)}
             className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember disabled:opacity-40"
           >
-            {submit.isPending ? t('contractor.checking') : m.is_deposit ? t('contractor.requestDeposit') : t('contractor.submitWork')}
+            {submit.isPending
+              ? t('contractor.checking')
+              : m.is_deposit
+                ? t('contractor.requestDeposit')
+                : t('contractor.submitWork')}
           </button>
         </div>
       )}
@@ -228,11 +273,15 @@ function MilestoneWork({ m, canSubmit, onChanged }: { m: Milestone; canSubmit: b
         <p className="mt-2 text-xs text-ink-faint">{t('contractor.explain.pending')}</p>
       )}
       {m.status === 'submitted' && <p className="mt-2 text-sm text-ink-soft">{t('contractor.explain.submitted')}</p>}
-      {m.status === 'under_review' && <p className="mt-2 text-sm text-ink-soft">{t('contractor.explain.under_review')}</p>}
+      {m.status === 'under_review' && (
+        <p className="mt-2 text-sm text-ink-soft">{t('contractor.explain.under_review')}</p>
+      )}
       {m.status === 'disputed' && <p className="mt-2 text-sm text-ink-soft">{t('contractor.explain.disputed')}</p>}
       {m.status === 'paid' && (
         <p className="mt-2 text-xs text-ink-faint">
-          {t('rebuild.paidOn', { date: m.paid_at ? new Date(m.paid_at).toLocaleDateString(i18n.resolvedLanguage) : '' })}
+          {t('rebuild.paidOn', {
+            date: m.paid_at ? new Date(m.paid_at).toLocaleDateString(i18n.resolvedLanguage) : '',
+          })}
           {m.paypal_ref && ` · ${t('purchases.paypalRef', { ref: m.paypal_ref })}`}
         </p>
       )}
@@ -247,6 +296,7 @@ function ContractorProject({ p, onChanged }: { p: Project; onChanged: () => void
   const { t } = useTranslation()
   const planning = isPlanning(p)
   const next = p.milestones.find((m) => m.status === 'pending') // work is submitted in order
+  const [preview, setPreview] = useState<GanttPreview | null>(null)
   return (
     <section className="space-y-4">
       <div className="rounded-xl border border-line bg-surface p-5 shadow-sm">
@@ -277,7 +327,8 @@ function ContractorProject({ p, onChanged }: { p: Project; onChanged: () => void
       </div>
       {!planning && (
         <>
-          <GanttSlot project={p} editable={p.status === 'active'} onSynced={onChanged} />
+          <GanttSlot project={p} editable={p.status === 'active'} onSynced={onChanged} onPreviewReady={setPreview} />
+          <WhatIfPanel key={p.changes[0]?.id ?? 0} p={p} gantt={preview} onSaved={onChanged} />
           <ul className="grid items-start gap-3 lg:grid-cols-2">
             {p.milestones.map((m) => (
               <MilestoneWork
@@ -297,8 +348,14 @@ function ContractorProject({ p, onChanged }: { p: Project; onChanged: () => void
 export default function ContractorPortal() {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
-  const projects = useQuery({ queryKey: ['contractor-projects'], queryFn: () => api<Project[]>('/contractors/me/projects') })
-  const refresh = useCallback(() => void queryClient.invalidateQueries({ queryKey: ['contractor-projects'] }), [queryClient])
+  const projects = useQuery({
+    queryKey: ['contractor-projects'],
+    queryFn: () => api<Project[]>('/contractors/me/projects'),
+  })
+  const refresh = useCallback(
+    () => void queryClient.invalidateQueries({ queryKey: ['contractor-projects'] }),
+    [queryClient],
+  )
 
   return (
     <div className="space-y-8">

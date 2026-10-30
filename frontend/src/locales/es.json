@@ -600,7 +600,40 @@
       "start": "Inicio",
       "end": "Fin",
       "editHint": "Arrastre una etapa que no haya empezado para moverla. El trabajo enviado o terminado no se mueve.",
-      "viewHint": "Su contratista mantiene este calendario al día. Verde está pagado; naranja espera por usted o por un revisor."
+      "viewHint": "Su contratista mantiene este calendario al día. Verde está pagado; naranja espera por usted o por un revisor.",
+      "spare": "Días de margen",
+      "criticalPath": "Mostrar la ruta crítica",
+      "scheduleHint": "La barra fina bajo cada paso es el plan que aceptó el propietario. En rojo, la ruta crítica: un retraso ahí mueve el día de la mudanza."
+    },
+    "whatIf": {
+      "moveIn": "Día de la mudanza",
+      "planned": "Previsto: {{date}}",
+      "open": "¿Y si un paso se retrasa?",
+      "title": "¿Y si un paso se retrasa?",
+      "intro": "Prueba un retraso en el gráfico: el motor de planificación de Bryntum mueve cada paso que depende de él. Hearthline calcula el mismo calendario, y nada cambia para la familia hasta que le expliques el porqué.",
+      "step": "Paso",
+      "daysLate": "Días de retraso",
+      "days_one": "{{count}} día",
+      "days_other": "{{count}} días",
+      "moves_one": "La mudanza pasa del {{from}} al {{to}}, {{count}} día después.",
+      "moves_other": "La mudanza pasa del {{from}} al {{to}}, {{count}} días después.",
+      "absorbed_one": "La mudanza sigue el {{date}}: {{step}} tiene {{count}} día de margen.",
+      "absorbed_other": "La mudanza sigue el {{date}}: {{step}} tiene {{count}} días de margen.",
+      "partlyAbsorbed_one": "{{step}} tenía {{count}} día de margen, así que la mudanza se mueve menos que el retraso.",
+      "partlyAbsorbed_other": "{{step}} tenía {{count}} días de margen, así que la mudanza se mueve menos que el retraso.",
+      "paymentsMove": "Pagos del depósito en garantía que se mueven (cada uno se paga cuando termina su paso)",
+      "doneBy": "listo {{from}} → {{to}}",
+      "engineAgrees": "✓ El motor de planificación de Bryntum calcula el mismo día de mudanza.",
+      "engineSays": "El motor de planificación de Bryntum calcula el {{date}}.",
+      "reasonLabel": "¿Por qué se retrasa?",
+      "reasonPlaceholder": "¿Por qué se retrasa? p. ej. Las cerchas del techo llegan dos semanas tarde",
+      "tell": "Avisar a {{name}}",
+      "cancel": "Cancelar",
+      "noticeMoved_one": "{{name}} movió su día de mudanza al {{date}}, {{count}} día después.",
+      "noticeMoved_other": "{{name}} movió su día de mudanza al {{date}}, {{count}} días después.",
+      "noticeSame": "{{name}} cambió el calendario; su día de mudanza sigue el {{date}}.",
+      "noticeWhy_one": "{{step}} va {{count}} día atrasado:",
+      "noticeWhy_other": "{{step}} va {{count}} días atrasado:"
     }
   },
   "contractor": {
@@ -1776,6 +1809,11 @@
         "title": "Videollamada con un revisor",
         "detail": "Sobre tu caso. Ten tu identificación a mano.",
         "go": "Detalles"
+      },
+      "move_in_moved": {
+        "title": "Su día de mudanza cambió",
+        "detail": "Su contratista dice: {{reason}}. El nuevo calendario está en su página de Reconstrucción.",
+        "go": "Ver el calendario"
       }
     }
   },

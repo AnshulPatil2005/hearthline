@@ -600,7 +600,40 @@
       "start": "Simula",
       "end": "Katapusan",
       "editHint": "I-drag ang yugtong hindi pa nagsisimula para ilipat ito. Hindi gumagalaw ang naipasa o tapos nang trabaho.",
-      "viewHint": "Ina-update ng inyong kontratista ang iskedyul na ito. Berde ang bayad na, kahel ang naghihintay sa inyo o sa reviewer."
+      "viewHint": "Ina-update ng inyong kontratista ang iskedyul na ito. Berde ang bayad na, kahel ang naghihintay sa inyo o sa reviewer.",
+      "spare": "Palugit na araw",
+      "criticalPath": "Ipakita ang critical path",
+      "scheduleHint": "Ang manipis na bar sa ilalim ng bawat hakbang ang planong tinanggap ng may-ari. Pula ang critical path: kapag naantala ito, maaantala rin ang araw ng paglipat."
+    },
+    "whatIf": {
+      "moveIn": "Araw ng paglipat",
+      "planned": "Planado: {{date}}",
+      "open": "Paano kung maantala ang isang hakbang?",
+      "title": "Paano kung maantala ang isang hakbang?",
+      "intro": "Subukan ang isang antala sa chart: inililipat ng scheduling engine ng Bryntum ang bawat hakbang na naghihintay dito. Pareho ang iskedyul na kinukuwenta ng Hearthline, at walang magbabago para sa pamilya hangga't hindi mo sinasabi kung bakit.",
+      "step": "Hakbang",
+      "daysLate": "Araw na antala",
+      "days_one": "{{count}} araw",
+      "days_other": "{{count}} araw",
+      "moves_one": "Ang paglipat ay mula {{from}} magiging {{to}}, {{count}} araw na mas huli.",
+      "moves_other": "Ang paglipat ay mula {{from}} magiging {{to}}, {{count}} araw na mas huli.",
+      "absorbed_one": "Mananatili ang paglipat sa {{date}}: may {{count}} araw na palugit ang {{step}}.",
+      "absorbed_other": "Mananatili ang paglipat sa {{date}}: may {{count}} araw na palugit ang {{step}}.",
+      "partlyAbsorbed_one": "May {{count}} araw na palugit ang {{step}}, kaya mas kaunti ang antala ng paglipat.",
+      "partlyAbsorbed_other": "May {{count}} araw na palugit ang {{step}}, kaya mas kaunti ang antala ng paglipat.",
+      "paymentsMove": "Mga bayad mula sa escrow na maaantala (binabayaran ang bawat isa kapag tapos na ang hakbang nito)",
+      "doneBy": "tapos {{from}} → {{to}}",
+      "engineAgrees": "✓ Parehong araw ng paglipat ang kinukuwenta ng scheduling engine ng Bryntum.",
+      "engineSays": "{{date}} ang kinukuwenta ng scheduling engine ng Bryntum.",
+      "reasonLabel": "Bakit naantala?",
+      "reasonPlaceholder": "Bakit naantala? hal. Dalawang linggong late ang roof trusses",
+      "tell": "Sabihan ang {{name}}",
+      "cancel": "Kanselahin",
+      "noticeMoved_one": "Inilipat ng {{name}} ang araw ng iyong paglipat sa {{date}}, {{count}} araw na mas huli.",
+      "noticeMoved_other": "Inilipat ng {{name}} ang araw ng iyong paglipat sa {{date}}, {{count}} araw na mas huli.",
+      "noticeSame": "Binago ng {{name}} ang iskedyul; {{date}} pa rin ang araw ng iyong paglipat.",
+      "noticeWhy_one": "{{count}} araw na late ang {{step}}:",
+      "noticeWhy_other": "{{count}} araw na late ang {{step}}:"
     }
   },
   "contractor": {
@@ -1776,6 +1809,11 @@
         "title": "Video call kasama ang isang reviewer",
         "detail": "Tungkol sa kaso mo. Ihanda ang ID mo.",
         "go": "Detalye"
+      },
+      "move_in_moved": {
+        "title": "Nagbago ang araw ng iyong paglipat",
+        "detail": "Sabi ng iyong contractor: {{reason}}. Nasa iyong Rebuild page ang bagong iskedyul.",
+        "go": "Tingnan ang iskedyul"
       }
     }
   },

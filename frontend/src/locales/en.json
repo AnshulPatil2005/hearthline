@@ -600,7 +600,40 @@
       "start": "Start",
       "end": "End",
       "editHint": "Drag a milestone that hasn't started to move it. Finished and submitted work stays where it is.",
-      "viewHint": "Your contractor keeps this schedule up to date. Green is paid, orange is waiting on you or a reviewer."
+      "viewHint": "Your contractor keeps this schedule up to date. Green is paid, orange is waiting on you or a reviewer.",
+      "spare": "Days to spare",
+      "criticalPath": "Show the critical path",
+      "scheduleHint": "The thin bar under each step is the plan the homeowner accepted. Red marks the critical path: a delay there moves move-in day."
+    },
+    "whatIf": {
+      "moveIn": "Move-in day",
+      "planned": "Planned: {{date}}",
+      "open": "What if a step runs late?",
+      "title": "What if a step runs late?",
+      "intro": "Try a delay on the chart: Bryntum's scheduling engine moves every step that waits for it. Hearthline works out the same schedule, and nothing changes for the family until you tell them why.",
+      "step": "Step",
+      "daysLate": "Days late",
+      "days_one": "{{count}} day",
+      "days_other": "{{count}} days",
+      "moves_one": "Move-in moves from {{from}} to {{to}}, {{count}} day later.",
+      "moves_other": "Move-in moves from {{from}} to {{to}}, {{count}} days later.",
+      "absorbed_one": "Move-in stays {{date}}: {{step}} has {{count}} day to spare.",
+      "absorbed_other": "Move-in stays {{date}}: {{step}} has {{count}} days to spare.",
+      "partlyAbsorbed_one": "{{step}} had {{count}} day to spare, so move-in moves less than the delay.",
+      "partlyAbsorbed_other": "{{step}} had {{count}} days to spare, so move-in moves less than the delay.",
+      "paymentsMove": "Escrow payments that move (each is paid when its step is done)",
+      "doneBy": "done {{from}} → {{to}}",
+      "engineAgrees": "✓ Bryntum's scheduling engine works out the same move-in day.",
+      "engineSays": "Bryntum's scheduling engine works out {{date}}.",
+      "reasonLabel": "Why is it late?",
+      "reasonPlaceholder": "Why is it late? e.g. The roof trusses arrive two weeks late",
+      "tell": "Tell the {{name}}",
+      "cancel": "Cancel",
+      "noticeMoved_one": "{{name}} moved your move-in day to {{date}}, {{count}} day later.",
+      "noticeMoved_other": "{{name}} moved your move-in day to {{date}}, {{count}} days later.",
+      "noticeSame": "{{name}} changed the schedule; your move-in day stays {{date}}.",
+      "noticeWhy_one": "{{step}} is running {{count}} day late:",
+      "noticeWhy_other": "{{step}} is running {{count}} days late:"
     }
   },
   "contractor": {
@@ -1776,6 +1809,11 @@
         "title": "Video call with a reviewer",
         "detail": "About your case. Have your ID nearby.",
         "go": "Details"
+      },
+      "move_in_moved": {
+        "title": "Your move-in day moved",
+        "detail": "Your contractor says: {{reason}}. The new schedule is on your Rebuild page.",
+        "go": "See the schedule"
       }
     }
   },

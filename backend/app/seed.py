@@ -411,7 +411,9 @@ def seed_review_demo(db: Session) -> None:
     db.commit()
 
 
-# (title, what "done" looks like, amount, is deposit, start offset in days from today, length in days)
+# (title, what "done" looks like, amount, is deposit, start offset in days from today, length in days[, after])
+# Each step waits for the one before it, except where `after` (step numbers) says otherwise: the rough-in runs
+# alongside the roof once the framing is up, so the roof has a few days to spare and the rough-in sets move-in.
 RIVERA_REBUILD = [
     ("Deposit", "Contract signed and permits filed.", "1000.00", True, -24, 3),
     (
@@ -437,8 +439,9 @@ RIVERA_REBUILD = [
         "Wiring, panel and supply lines installed and passed rough-in inspection.",
         "10500.00",
         False,
-        49,
+        38,
         14,
+        [4],
     ),
 ]
 
@@ -486,8 +489,9 @@ def seed_rebuild_demo(db: Session) -> None:
             "is_deposit": deposit,
             "start_date": today + timedelta(days=start),
             "end_date": today + timedelta(days=start + length),
+            "after": after[0] if after else None,
         }
-        for title, done, amount, deposit, start, length in RIVERA_REBUILD
+        for title, done, amount, deposit, start, length, *after in RIVERA_REBUILD
     ]
     rebuild.submit_plan(db, project, plan, dana)
     rebuild.accept_plan(db, project, elena)
