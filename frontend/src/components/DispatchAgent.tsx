@@ -98,7 +98,7 @@ export function DispatchAgent({ onChanged }: { onChanged: () => void }) {
                     }),
                   })}
                 </span>{' '}
-                {p.summary}
+                {p.by_ai && p.summary /* without the AI, the note below says so in the reader's language */}
                 <span className="ml-1 text-xs text-ink-faint">
                   {p.by_ai ? t('dispatch.byAi') : t('dispatch.byRules')}
                 </span>
@@ -117,7 +117,7 @@ export function DispatchAgent({ onChanged }: { onChanged: () => void }) {
               {p.proposals.map((x) => (
                 <li key={x.id} className="flex flex-wrap items-center gap-x-3 gap-y-1 px-3 py-2 text-sm">
                   <span className="w-16 shrink-0 tabular-nums text-ink-soft">{time(x.starts_at) || '—'}</span>
-                  <span className="min-w-0 flex-1">
+                  <span className="min-w-0 flex-1 basis-48">
                     <span className="font-medium">
                       {t(`crews.short.${x.kind}`, { defaultValue: x.job })} · {x.household}
                     </span>
