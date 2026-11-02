@@ -198,11 +198,11 @@ export default function RegistryManage() {
           </section>
 
           {fund.data && (
-            <dl className="grid gap-4 sm:grid-cols-3">
+            <dl className="grid gap-x-6 gap-y-5 sm:grid-cols-3">
               {(['donated', 'spent', 'available'] as const).map((k) => (
-                <div key={k} className="panel p-4">
-                  <dt className="text-sm text-ink-soft">{t(`registry.fund.${k}`)}</dt>
-                  <dd className="text-2xl font-semibold tabular-nums">{money(fund.data[k], { cents: true })}</dd>
+                <div key={k} className="border-t-2 border-ink pt-2">
+                  <dt className="kicker text-ink-faint">{t(`registry.fund.${k}`)}</dt>
+                  <dd className="figure mt-1 text-3xl font-semibold">{money(fund.data[k], { cents: true })}</dd>
                 </div>
               ))}
             </dl>

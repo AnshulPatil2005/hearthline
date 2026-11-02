@@ -132,31 +132,31 @@ export default function Books() {
         </p>
       )}
 
-      <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="panel p-4">
-          <dt className="text-sm text-ink-soft">{t('books.balance')}</dt>
-          <dd className="text-2xl font-semibold tabular-nums">
+      <dl className="grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('books.balance')}</dt>
+          <dd className="figure mt-1 text-3xl font-semibold">
             {balance.data ? money(balance.data.available, { cents: true }) : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{t('books.asOf', { when: when(balance.data?.as_of ?? null) })}</dd>
         </div>
-        <div className="panel p-4">
-          <dt className="text-sm text-ink-soft">{t('books.matched')}</dt>
-          <dd className="text-2xl font-semibold tabular-nums text-sage">{r ? r.counts.matched : '—'}</dd>
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('books.matched')}</dt>
+          <dd className="figure mt-1 text-3xl font-semibold text-sage">{r ? r.counts.matched : '—'}</dd>
           <dd className="text-xs text-ink-faint">
             {r ? t('books.flows', { in: money(r.paypal_in), out: money(r.paypal_out) }) : ''}
           </dd>
         </div>
-        <div className="panel p-4">
-          <dt className="text-sm text-ink-soft">{t('books.needsLook')}</dt>
-          <dd className={`text-2xl font-semibold tabular-nums ${needsLook ? 'text-danger' : ''}`}>
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('books.needsLook')}</dt>
+          <dd className={`figure mt-1 text-3xl font-semibold ${needsLook ? 'text-danger' : ''}`}>
             {r ? needsLook : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{r ? t('books.waiting', { count: r.counts.waiting }) : ''}</dd>
         </div>
-        <div className="panel p-4">
-          <dt className="text-sm text-ink-soft">{t('books.window')}</dt>
-          <dd className="text-lg font-semibold">{r ? when(r.start, false) : '—'}</dd>
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('books.window')}</dt>
+          <dd className="figure mt-1 text-2xl font-semibold">{r ? when(r.start, false) : '—'}</dd>
           <dd className="text-xs text-ink-faint">
             {t('books.refreshed', { when: when(r?.paypal_refreshed_at ?? null) })}
           </dd>

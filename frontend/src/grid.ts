@@ -16,8 +16,14 @@ export const gridTheme = themeQuartz.withParams({
   foregroundColor: 'var(--ink)',
   borderColor: 'var(--line)',
   chromeBackgroundColor: 'var(--sunken)',
-  headerTextColor: 'var(--ink-soft)',
+  headerTextColor: 'var(--ink)',
+  headerFontWeight: 600,
   oddRowBackgroundColor: 'var(--surface)',
   fontFamily: 'inherit',
-  wrapperBorderRadius: 12,
+  // Like the panels: square corners and an ink rule along the top of the header
+  wrapperBorderRadius: 4,
+  borderRadius: 3,
+  headerBackgroundColor: 'var(--paper)',
+  wrapperBorder: { color: 'var(--line)' },
+  headerRowBorder: { color: 'var(--ink)', width: 1 },
 })
