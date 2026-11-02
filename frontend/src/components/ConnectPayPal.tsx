@@ -29,7 +29,7 @@ export function ConnectPayPal() {
   const current = s.receives[0].current
 
   return (
-    <section className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="flex flex-wrap items-center justify-between gap-4 panel p-5">
       <div className="min-w-0 flex-[1_1_16rem] space-y-1">
         <h2 className="text-lg font-semibold">{t('connectPayPal.title')}</h2>
         {s.connected ? (

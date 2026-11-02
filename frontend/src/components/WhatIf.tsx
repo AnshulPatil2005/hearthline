@@ -107,10 +107,7 @@ export function WhatIfPanel({ p, gantt, onSaved }: { p: Project; gantt: GanttPre
   const agrees = w && engineMoveIn && Math.abs(engineMoveIn.getTime() - parseTime(w.move_in_after).getTime()) < 60_000
   const error = save.error ?? preview.error
   return (
-    <section
-      aria-labelledby="what-if-title"
-      className="space-y-3 rounded-xl border border-line bg-surface p-4 shadow-sm"
-    >
+    <section aria-labelledby="what-if-title" className="space-y-3 panel p-4">
       <div>
         <h3 id="what-if-title" className="font-semibold">
           {t('rebuild.whatIf.title')}

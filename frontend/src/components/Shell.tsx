@@ -1,4 +1,4 @@
-import { Suspense, type ReactNode } from 'react'
+import { Suspense, useState, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../auth'
@@ -25,10 +25,10 @@ export function Logo({ className = 'size-7' }: { className?: string }) {
   )
 }
 
-export function LanguageSelect() {
+export function LanguageSelect({ tone = 'paper' }: { tone?: 'paper' | 'night' }) {
   const { t, i18n } = useTranslation()
   return (
-    <label className="flex items-center gap-2 text-sm text-ink-soft">
+    <label className={`flex items-center gap-2 text-sm ${tone === 'night' ? 'text-on-night' : 'text-ink-soft'}`}>
       <span className="sr-only">{t('nav.language')}</span>
       <svg
         viewBox="0 0 24 24"
@@ -44,7 +44,11 @@ export function LanguageSelect() {
       <select
         value={i18n.resolvedLanguage}
         onChange={(e) => void i18n.changeLanguage(e.target.value)}
-        className="rounded-md border border-line bg-surface px-2 py-1 text-ink"
+        className={
+          tone === 'night'
+            ? 'rounded-sm border border-on-night/30 bg-night px-1.5 py-0.5 font-mono text-xs text-on-night'
+            : 'rounded-md border border-line bg-paper px-2 py-1 text-ink'
+        }
       >
         {LANGUAGES.map((l) => (
           <option key={l.code} value={l.code}>
@@ -58,9 +62,49 @@ export function LanguageSelect() {
 
 // On phones the links get their own full-width row that scrolls sideways, so the page itself never does.
 const navRow =
-  'order-last -mx-1 flex w-full gap-1 overflow-x-auto px-1 [scrollbar-width:none] lg:order-none lg:mx-0 lg:w-auto lg:overflow-visible lg:px-0'
+  'order-last -mx-1 flex w-full gap-4 overflow-x-auto px-1 [scrollbar-width:none] lg:order-none lg:mx-0 lg:w-auto lg:self-stretch lg:overflow-visible lg:px-0'
+// Sections of the report: the current one is underlined in the signal color, like a newspaper's section rail
 const navClass = ({ isActive }: { isActive: boolean }) =>
-  `shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-sm font-medium ${isActive ? 'bg-sunken text-ink' : 'text-ink-soft hover:text-ink'}`
+  `-mb-px flex shrink-0 items-center whitespace-nowrap border-b-2 py-3 text-sm ${
+    isActive
+      ? 'border-ember font-semibold text-ink'
+      : 'border-transparent text-ink-soft hover:border-line hover:text-ink'
+  }`
+
+/** The dateline above the masthead: today's date, and that this is a demo in the PayPal sandbox. */
+export function Dateline({ wide = false }: { wide?: boolean }) {
+  const { t, i18n } = useTranslation()
+  const [today] = useState(() => new Date())
+  return (
+    <div className="bg-night text-on-night">
+      <div
+        className={`kicker mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} items-center justify-between gap-4 px-4 py-1`}
+      >
+        <span className="shrink-0">
+          {today.toLocaleDateString(i18n.resolvedLanguage, {
+            weekday: 'short',
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+          })}
+        </span>
+        <span className="hidden min-w-0 flex-1 truncate text-center opacity-80 md:block">{t('app.demoNotice')}</span>
+        <LanguageSelect tone="night" />
+      </div>
+    </div>
+  )
+}
+
+export function Wordmark({ size = 'md' }: { size?: 'md' | 'lg' }) {
+  return (
+    <span
+      className={`flex items-center gap-2 font-serif font-semibold tracking-tight text-ink ${size === 'lg' ? 'text-4xl sm:text-5xl' : 'text-[1.35rem]'}`}
+    >
+      <Logo className={size === 'lg' ? 'size-11 sm:size-12' : 'size-7'} />
+      Hearthline
+    </span>
+  )
+}
 
 export function Shell({ children, wide = false }: { children: ReactNode; wide?: boolean }) {
   const { t } = useTranslation()
@@ -69,120 +113,121 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
 
   return (
     <div className="flex min-h-svh flex-col">
-      <header className="border-b border-line bg-surface">
-        <div
-          className={`mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3`}
-        >
-          <Link to="/" className="flex items-center gap-2 font-semibold text-ink">
-            <Logo />
-            Hearthline
-          </Link>
-          {user?.role === 'household' && (
-            <nav className={navRow}>
-              <NavLink to="/home" className={navClass}>
-                {t('nav.home')}
-              </NavLink>
-              <NavLink to="/inventory" className={navClass}>
-                {t('nav.inventory')}
-              </NavLink>
-              <NavLink to="/registry" className={navClass}>
-                {t('nav.registry')}
-              </NavLink>
-              <NavLink to="/insurance" className={navClass}>
-                {t('nav.insurance')}
-              </NavLink>
-              <NavLink to="/rebuild" className={navClass}>
-                {t('nav.rebuild')}
-              </NavLink>
-              <NavLink to="/money" className={navClass}>
-                {t('nav.money')}
-              </NavLink>
-              <NavLink to="/aid" className={navClass}>
-                {t('nav.aid')}
-              </NavLink>
-            </nav>
-          )}
-          {user?.role === 'donor' && (
-            <nav className={navRow}>
-              <NavLink to="/giving" className={navClass}>
-                {t('nav.giving')}
-              </NavLink>
-              <NavLink to="/price-watch" className={navClass}>
-                {t('nav.priceWatch')}
-              </NavLink>
-            </nav>
-          )}
-          {user?.role === 'business' && (
-            <nav className={navRow}>
-              <NavLink to="/business" className={navClass}>
-                {t('nav.reopenFund')}
-              </NavLink>
-            </nav>
-          )}
-          {user?.role === 'contractor' && (
-            <nav className={navRow}>
-              <NavLink to="/contractor" className={navClass}>
-                {t('nav.projects')}
-              </NavLink>
-            </nav>
-          )}
-          {user && STAFF_ROLES.includes(user.role) && (
-            <nav className={navRow}>
-              {(user.role === 'org_admin' || user.role === 'supervisor') && (
-                <>
-                  <NavLink to="/command" end className={navClass}>
-                    {t('nav.command')}
-                  </NavLink>
-                  <NavLink to="/command/disasters" className={navClass}>
-                    {t('nav.disasters')}
-                  </NavLink>
-                  <NavLink to="/command/crews" className={navClass}>
-                    {t('nav.crews')}
-                  </NavLink>
-                  <NavLink to="/command/businesses" className={navClass}>
-                    {t('nav.businesses')}
-                  </NavLink>
-                  <NavLink to="/command/disputes" className={navClass}>
-                    {t('nav.disputes')}
-                  </NavLink>
-                  <NavLink to="/command/books" className={navClass}>
-                    {t('nav.books')}
-                  </NavLink>
-                  <NavLink to="/price-watch" className={navClass}>
-                    {t('nav.priceWatch')}
-                  </NavLink>
-                </>
-              )}
-              <NavLink to="/review" end className={navClass}>
-                {t('nav.review')}
-              </NavLink>
-              <NavLink to="/review/calendar" className={navClass}>
-                {t('nav.calendar')}
-              </NavLink>
-              <NavLink to="/review/board" className={navClass}>
-                {t('nav.board')}
-              </NavLink>
-            </nav>
-          )}
-          <div className="ml-auto flex items-center gap-4">
-            <LanguageSelect />
-            {user && (
-              <div className="flex items-center gap-3">
-                <div className="hidden text-right sm:block">
-                  <div className="text-sm font-medium leading-tight">{user.name}</div>
-                  <div className="text-xs text-ink-faint">{t(`roles.${user.role}`)}</div>
-                </div>
-                <button
-                  onClick={() => {
-                    signOut()
-                    navigate('/login')
-                  }}
-                  className="rounded-md border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken hover:text-ink"
-                >
-                  {t('nav.switchPersona')}
-                </button>
-              </div>
+      <header>
+        <Dateline wide={wide} />
+        <div className="border-b border-ink bg-paper">
+          <div
+            className={`mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-wrap items-center gap-x-8 px-4 pt-2 lg:pt-0`}
+          >
+            <Link to="/" className="py-2">
+              <Wordmark />
+            </Link>
+            {user?.role === 'household' && (
+              <nav className={navRow}>
+                <NavLink to="/home" className={navClass}>
+                  {t('nav.home')}
+                </NavLink>
+                <NavLink to="/inventory" className={navClass}>
+                  {t('nav.inventory')}
+                </NavLink>
+                <NavLink to="/registry" className={navClass}>
+                  {t('nav.registry')}
+                </NavLink>
+                <NavLink to="/insurance" className={navClass}>
+                  {t('nav.insurance')}
+                </NavLink>
+                <NavLink to="/rebuild" className={navClass}>
+                  {t('nav.rebuild')}
+                </NavLink>
+                <NavLink to="/money" className={navClass}>
+                  {t('nav.money')}
+                </NavLink>
+                <NavLink to="/aid" className={navClass}>
+                  {t('nav.aid')}
+                </NavLink>
+              </nav>
             )}
+            {user?.role === 'donor' && (
+              <nav className={navRow}>
+                <NavLink to="/giving" className={navClass}>
+                  {t('nav.giving')}
+                </NavLink>
+                <NavLink to="/price-watch" className={navClass}>
+                  {t('nav.priceWatch')}
+                </NavLink>
+              </nav>
+            )}
+            {user?.role === 'business' && (
+              <nav className={navRow}>
+                <NavLink to="/business" className={navClass}>
+                  {t('nav.reopenFund')}
+                </NavLink>
+              </nav>
+            )}
+            {user?.role === 'contractor' && (
+              <nav className={navRow}>
+                <NavLink to="/contractor" className={navClass}>
+                  {t('nav.projects')}
+                </NavLink>
+              </nav>
+            )}
+            {user && STAFF_ROLES.includes(user.role) && (
+              <nav className={navRow}>
+                {(user.role === 'org_admin' || user.role === 'supervisor') && (
+                  <>
+                    <NavLink to="/command" end className={navClass}>
+                      {t('nav.command')}
+                    </NavLink>
+                    <NavLink to="/command/disasters" className={navClass}>
+                      {t('nav.disasters')}
+                    </NavLink>
+                    <NavLink to="/command/crews" className={navClass}>
+                      {t('nav.crews')}
+                    </NavLink>
+                    <NavLink to="/command/businesses" className={navClass}>
+                      {t('nav.businesses')}
+                    </NavLink>
+                    <NavLink to="/command/disputes" className={navClass}>
+                      {t('nav.disputes')}
+                    </NavLink>
+                    <NavLink to="/command/books" className={navClass}>
+                      {t('nav.books')}
+                    </NavLink>
+                    <NavLink to="/price-watch" className={navClass}>
+                      {t('nav.priceWatch')}
+                    </NavLink>
+                  </>
+                )}
+                <NavLink to="/review" end className={navClass}>
+                  {t('nav.review')}
+                </NavLink>
+                <NavLink to="/review/calendar" className={navClass}>
+                  {t('nav.calendar')}
+                </NavLink>
+                <NavLink to="/review/board" className={navClass}>
+                  {t('nav.board')}
+                </NavLink>
+              </nav>
+            )}
+            <div className="ml-auto flex items-center gap-4 py-2">
+              {user && (
+                <div className="flex items-center gap-3">
+                  <div className="hidden text-right sm:block">
+                    <div className="text-sm font-semibold leading-tight">{user.name}</div>
+                    <div className="kicker text-ink-faint">{t(`roles.${user.role}`)}</div>
+                  </div>
+                  <button
+                    onClick={() => {
+                      signOut()
+                      navigate('/login')
+                    }}
+                    className="rounded-md border border-ink/70 px-3 py-1.5 text-sm font-medium text-ink hover:bg-ink hover:text-paper"
+                  >
+                    {t('nav.switchPersona')}
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </header>

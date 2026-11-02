@@ -11,7 +11,7 @@ export function BatchAidList() {
   const aid = useQuery({ queryKey: ['batch-aid'], queryFn: () => api<BatchAid[]>('/households/me/batch-aid') })
   if (!aid.data?.length) return null
   return (
-    <section aria-labelledby="batch-aid-title" className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section aria-labelledby="batch-aid-title" className="panel p-5">
       <h2 id="batch-aid-title" className="text-lg font-semibold">
         {t('aid.batchAid.title')}
       </h2>

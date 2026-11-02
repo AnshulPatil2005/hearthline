@@ -28,7 +28,7 @@ function Upload({ onDone, replacing }: { onDone: () => void; replacing: boolean 
     onError: (e) => setError(e instanceof ApiError ? e.message : t('errors.generic')),
   })
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{replacing ? t('insurance.replace') : t('insurance.uploadTitle')}</h2>
       {!replacing && <p className="mt-1 text-sm text-ink-soft">{t('insurance.uploadBody')}</p>}
       <div className="mt-3 flex flex-wrap items-center gap-3">
@@ -60,10 +60,11 @@ function Ask() {
   const { t } = useTranslation()
   const [question, setQuestion] = useState('')
   const ask = useMutation({
-    mutationFn: (q: string) => api<PolicyAnswer>('/households/me/policy/ask', { method: 'POST', body: JSON.stringify({ question: q }) }),
+    mutationFn: (q: string) =>
+      api<PolicyAnswer>('/households/me/policy/ask', { method: 'POST', body: JSON.stringify({ question: q }) }),
   })
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('insurance.askTitle')}</h2>
       <form
         className="mt-3 flex flex-wrap gap-2"
@@ -105,7 +106,9 @@ function Ask() {
         </div>
       )}
       {ask.isError && (
-        <p className="mt-2 text-sm text-danger">{ask.error instanceof ApiError ? ask.error.message : t('errors.generic')}</p>
+        <p className="mt-2 text-sm text-danger">
+          {ask.error instanceof ApiError ? ask.error.message : t('errors.generic')}
+        </p>
       )}
       <p className="mt-3 text-xs text-ink-faint">{t('insurance.notAdvice')}</p>
     </section>
@@ -122,24 +125,29 @@ export default function Insurance() {
     retry: (count, e) => !(e instanceof ApiError && e.status === 404) && count < 1,
   })
   const p = policy.data
-  const date = (d: string) => new Date(`${d}T12:00`).toLocaleDateString(i18n.resolvedLanguage, { month: 'long', day: 'numeric', year: 'numeric' })
+  const date = (d: string) =>
+    new Date(`${d}T12:00`).toLocaleDateString(i18n.resolvedLanguage, { month: 'long', day: 'numeric', year: 'numeric' })
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('insurance.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('insurance.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('insurance.subtitle')}</p>
       </div>
       {policy.isPending && <div className="h-40 animate-pulse rounded-xl bg-sunken" />}
-      {!policy.isPending && !p && <Upload onDone={() => void queryClient.invalidateQueries({ queryKey: ['policy'] })} replacing={false} />}
+      {!policy.isPending && !p && (
+        <Upload onDone={() => void queryClient.invalidateQueries({ queryKey: ['policy'] })} replacing={false} />
+      )}
       {p && (
         <>
-          <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+          <section className="panel p-5">
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <h2 className="text-xl font-semibold">{p.summary.insurer}</h2>
                 <p className="text-sm text-ink-soft">
-                  {[p.summary.policy_number, t(`insurance.type.${p.summary.policy_type}`), p.summary.period].filter(Boolean).join(' · ')}
+                  {[p.summary.policy_number, t(`insurance.type.${p.summary.policy_type}`), p.summary.period]
+                    .filter(Boolean)
+                    .join(' · ')}
                 </p>
               </div>
               <span className="text-xs text-ink-faint">{p.filename}</span>
@@ -154,20 +162,25 @@ export default function Insurance() {
               ))}
             </div>
             <p className="mt-3 text-sm text-ink-soft">
-              {t('insurance.deductible', { amount: p.summary.deductible === null ? '—' : money(p.summary.deductible) })} ·{' '}
-              {t(`insurance.settlement.${p.summary.contents_settlement}`)}
+              {t('insurance.deductible', { amount: p.summary.deductible === null ? '—' : money(p.summary.deductible) })}{' '}
+              · {t(`insurance.settlement.${p.summary.contents_settlement}`)}
             </p>
           </section>
 
-          <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+          <section className="panel p-5">
             <h2 className="font-semibold">{t('insurance.claimTitle')}</h2>
             {p.check.contents_limit && (
               <div className="mt-3">
                 <Progress funded={Number(p.check.inventory_value)} target={Number(p.check.contents_limit)} />
                 <p className="mt-2 text-sm">
-                  {t('insurance.inventoryVsLimit', { inventory: money(p.check.inventory_value), limit: money(p.check.contents_limit) })}
+                  {t('insurance.inventoryVsLimit', {
+                    inventory: money(p.check.inventory_value),
+                    limit: money(p.check.contents_limit),
+                  })}
                   {Number(p.check.contents_gap) > 0 && (
-                    <span className="ml-1 font-medium text-danger">{t('insurance.gap', { gap: money(p.check.contents_gap) })}</span>
+                    <span className="ml-1 font-medium text-danger">
+                      {t('insurance.gap', { gap: money(p.check.contents_gap) })}
+                    </span>
                   )}
                 </p>
               </div>
@@ -182,16 +195,22 @@ export default function Insurance() {
                   >
                     <span className="font-medium">{s.what}</span>{' '}
                     {Number(s.over_by) > 0
-                      ? t('insurance.overSubLimit', { value: money(s.items_value), limit: money(s.limit), over: money(s.over_by) })
+                      ? t('insurance.overSubLimit', {
+                          value: money(s.items_value),
+                          limit: money(s.limit),
+                          over: money(s.over_by),
+                        })
                       : t('insurance.withinSubLimit', { value: money(s.items_value), limit: money(s.limit) })}
                     <span className="block text-xs text-ink-soft">{s.items.join(', ')}</span>
                   </li>
                 ))}
             </ul>
-            <p className="mt-3 text-xs text-ink-faint">{t('insurance.otherSubLimits', { count: p.check.sub_limits.filter((s) => s.items.length === 0).length })}</p>
+            <p className="mt-3 text-xs text-ink-faint">
+              {t('insurance.otherSubLimits', { count: p.check.sub_limits.filter((s) => s.items.length === 0).length })}
+            </p>
           </section>
 
-          <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+          <section className="panel p-5">
             <h2 className="font-semibold">{t('insurance.deadlinesTitle')}</h2>
             <ul className="mt-3 space-y-2">
               {p.check.deadlines.map((d) => (
@@ -201,7 +220,11 @@ export default function Insurance() {
                     <span className="block text-xs text-ink-faint">“{d.text}”</span>
                   </span>
                   {d.due && (
-                    <span className={d.days_left !== null && d.days_left <= 14 ? 'font-medium text-danger' : 'text-ink-soft'}>
+                    <span
+                      className={
+                        d.days_left !== null && d.days_left <= 14 ? 'font-medium text-danger' : 'text-ink-soft'
+                      }
+                    >
                       {d.days_left !== null && d.days_left < 0
                         ? t('insurance.overdue', { date: date(d.due) })
                         : t('insurance.due', { date: date(d.due), count: d.days_left ?? 0 })}

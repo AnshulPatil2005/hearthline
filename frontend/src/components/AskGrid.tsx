@@ -63,7 +63,7 @@ export function AskGrid<T>({ grid, initial }: Props<T>) {
 
   const examples = [t('command.ask.example1'), t('command.ask.example2'), t('command.ask.example3')]
   return (
-    <section className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <section className="panel p-4">
       <form
         className="flex flex-wrap items-center gap-2"
         onSubmit={(e) => {
@@ -122,7 +122,11 @@ export function AskGrid<T>({ grid, initial }: Props<T>) {
           <span className="mr-2 rounded bg-ember-soft px-1.5 py-0.5 text-xs font-medium text-ember">AI</span>
           {answer.explanation}{' '}
           <span className="text-ink-soft">
-            · {t('command.matching', { count: answer.matching, n: answer.matching.toLocaleString(i18n.resolvedLanguage) })}
+            ·{' '}
+            {t('command.matching', {
+              count: answer.matching,
+              n: answer.matching.toLocaleString(i18n.resolvedLanguage),
+            })}
           </span>
           <span className="block text-xs text-ink-faint">{t('command.ask.check')}</span>
         </p>

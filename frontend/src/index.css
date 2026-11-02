@@ -1,45 +1,50 @@
 @import 'tailwindcss';
 
-/* Design tokens. Warm, calm neutrals; ember is the single accent. Dark mode swaps the
-   variables, so components only ever use the semantic names below. */
+/* Design tokens. A field report on paper: newsprint and ink, hairline rules instead of floating cards, one
+   signal color (vermilion) for what needs doing. Dark mode swaps the variables, so components only ever use the
+   semantic names below. Every text pair is WCAG AA (4.5:1) in both themes. */
 :root {
-  --paper: #fbf8f4;
-  --surface: #ffffff;
-  --sunken: #f3eee7;
-  --ink: #1f1a17;
-  --ink-soft: #5b524b;
-  --ink-faint: #736960; /* 4.6:1 or better on paper, surface and sunken (WCAG AA) */
-  --line: #e7e0d7;
-  --ember: #c2410c;
-  --ember-soft: #fff1e6;
+  --paper: #f5f2eb;
+  --surface: #fffdf8;
+  --sunken: #ece6da;
+  --ink: #17140f;
+  --ink-soft: #4d463e;
+  --ink-faint: #675f55;
+  --line: #ddd5c7;
+  --ember: #bf340a;
+  --ember-soft: #fbe6da;
   --on-ember: #ffffff;
-  --sage: #2b7549;
-  --sage-soft: #e8f5ec;
-  --amber: #b45309;
-  --amber-soft: #fff6e0;
-  --danger: #b42318;
-  --danger-soft: #fdecea;
+  --sage: #25603f;
+  --sage-soft: #e2efe6;
+  --amber: #8a5000;
+  --amber-soft: #f8ebd0;
+  --danger: #b3261e;
+  --danger-soft: #fbe4e1;
+  --night: #17140f; /* the masthead band */
+  --on-night: #f5f2eb;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #15120f;
-    --surface: #1e1a16;
-    --sunken: #26211c;
-    --ink: #f4efe9;
-    --ink-soft: #c5bbb0;
-    --ink-faint: #9a9087;
-    --line: #353029;
-    --ember: #fb8a4c;
-    --ember-soft: #3a2216;
-    --on-ember: #1b120d;
+    --paper: #121110;
+    --surface: #1a1815;
+    --sunken: #25221e;
+    --ink: #f2ede4;
+    --ink-soft: #c9c0b3;
+    --ink-faint: #9f968a;
+    --line: #34302a;
+    --ember: #ff7d4a;
+    --ember-soft: #3a1d10;
+    --on-ember: #170c06;
     --sage: #6fcf97;
-    --sage-soft: #18301f;
-    --amber: #f6b44f;
-    --amber-soft: #352914;
+    --sage-soft: #15291d;
+    --amber: #f2b14c;
+    --amber-soft: #33260f;
     --danger: #f97066;
     --danger-soft: #3b1715;
+    --night: #0b0a09;
+    --on-night: #f2ede4;
     color-scheme: dark;
   }
 }
@@ -61,7 +66,22 @@
   --color-amber-soft: var(--amber-soft);
   --color-danger: var(--danger);
   --color-danger-soft: var(--danger-soft);
-  --font-sans: 'Inter', system-ui, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --color-night: var(--night);
+  --color-on-night: var(--on-night);
+  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, 'Noto Serif', serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+
+/* Square-ish corners and no floating shadows: panels sit on the page like printed boxes */
+@theme {
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --shadow-sm: 0 0 #0000;
+  --shadow-md: 0 1px 0 0 var(--line), 0 2px 0 0 rgb(23 20 15 / 0.06);
 }
 
 body {
@@ -70,6 +90,48 @@ body {
   color: var(--ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Headlines are set in the serif, like a report's; everything you act on stays in the sans. In the base layer, so
+   a heading styled as a kicker (or anything else) by its own classes keeps them. */
+@layer base {
+  h1,
+  h2 {
+    font-family: var(--font-serif);
+    font-optical-sizing: auto;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+}
+
+/* A section's kicker: small capitals in the mono, like a dateline */
+@utility kicker {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* A section of the page: a printed box with an ink rule across the top, like a section of a report */
+@utility panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-top: 2px solid var(--ink);
+}
+
+/* Figures that matter (money, counts) in the serif, with lining, tabular numerals */
+@utility figure {
+  font-family: var(--font-serif);
+  font-optical-sizing: auto;
+  font-variant-numeric: lining-nums tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--ember-soft);
+  color: var(--ink);
 }
 
 :focus-visible {

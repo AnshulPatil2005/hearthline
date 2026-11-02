@@ -162,7 +162,7 @@ export default function CrewSchedule() {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('crews.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('crews.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('crews.subtitle')}</p>
       </div>
       <DispatchAgent onChanged={reload} />

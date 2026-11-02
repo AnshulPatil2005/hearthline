@@ -102,7 +102,7 @@ export default function Books() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t('books.title')}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('books.title')}</h1>
           <p className="mt-1 max-w-3xl text-ink-soft">{t('books.subtitle')}</p>
         </div>
         <div className="flex gap-2">
@@ -133,28 +133,28 @@ export default function Books() {
       )}
 
       <dl className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+        <div className="panel p-4">
           <dt className="text-sm text-ink-soft">{t('books.balance')}</dt>
           <dd className="text-2xl font-semibold tabular-nums">
             {balance.data ? money(balance.data.available, { cents: true }) : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{t('books.asOf', { when: when(balance.data?.as_of ?? null) })}</dd>
         </div>
-        <div className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+        <div className="panel p-4">
           <dt className="text-sm text-ink-soft">{t('books.matched')}</dt>
           <dd className="text-2xl font-semibold tabular-nums text-sage">{r ? r.counts.matched : '—'}</dd>
           <dd className="text-xs text-ink-faint">
             {r ? t('books.flows', { in: money(r.paypal_in), out: money(r.paypal_out) }) : ''}
           </dd>
         </div>
-        <div className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+        <div className="panel p-4">
           <dt className="text-sm text-ink-soft">{t('books.needsLook')}</dt>
           <dd className={`text-2xl font-semibold tabular-nums ${needsLook ? 'text-danger' : ''}`}>
             {r ? needsLook : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{r ? t('books.waiting', { count: r.counts.waiting }) : ''}</dd>
         </div>
-        <div className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+        <div className="panel p-4">
           <dt className="text-sm text-ink-soft">{t('books.window')}</dt>
           <dd className="text-lg font-semibold">{r ? when(r.start, false) : '—'}</dd>
           <dd className="text-xs text-ink-faint">

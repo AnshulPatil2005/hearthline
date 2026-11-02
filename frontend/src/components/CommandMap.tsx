@@ -207,7 +207,7 @@ export function CommandMap({ filterModel, tick }: { filterModel: Record<string, 
   const shown = new Set(d?.households.map((h) => h[0]))
   const paidShown = d?.paid.filter((p) => shown.has(p.household_id)).length ?? 0
   return (
-    <section aria-labelledby="map-title" className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <section aria-labelledby="map-title" className="panel p-4">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="map-title" className="text-lg font-semibold">
           {t('map.title')}

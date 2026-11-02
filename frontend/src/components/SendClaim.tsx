@@ -30,7 +30,7 @@ export function SendClaim({ insurer }: { insurer: string }) {
   }
 
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('claim.title', { insurer: c?.insurer ?? insurer })}</h2>
       {c?.status === 'paid' ? (
         <div className="mt-2 space-y-1 text-sm">

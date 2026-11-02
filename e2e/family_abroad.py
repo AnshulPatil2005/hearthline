@@ -33,7 +33,7 @@ async def main() -> None:
             .get_by_role("button", name=re.compile("Fund this|Financiar"))
             .click()
         )
-        panel = page.locator("div.rounded-xl", has=page.locator("select[name=currency]")).first
+        panel = page.locator("div.panel", has=page.locator("select[name=currency]")).first
         await panel.wait_for(timeout=30000)
         await page.wait_for_function("document.querySelector('select[name=currency]').value !== 'USD'", timeout=15000)  # rates loaded
         picked = await panel.locator("select[name=currency]").input_value()

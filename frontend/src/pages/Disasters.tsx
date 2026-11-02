@@ -107,10 +107,7 @@ function Preview({ picked, onOpened }: { picked: Picked; onOpened: (e: DisasterE
   const title = picked.tab === 'fema' ? `${picked.row.title} (${picked.row.state})` : picked.row.event
   const opened = picked.row.opened_event_id !== null
   return (
-    <section
-      aria-labelledby="preview-title"
-      className="space-y-3 rounded-xl border border-line bg-surface p-4 shadow-sm"
-    >
+    <section aria-labelledby="preview-title" className="space-y-3 panel p-4">
       <div>
         <h3 id="preview-title" className="font-semibold">
           {title}
@@ -266,7 +263,7 @@ export default function Disasters() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('disasters.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('disasters.title')}</h1>
         <p className="mt-1 max-w-3xl text-ink-soft">{t('disasters.subtitle')}</p>
       </div>
 

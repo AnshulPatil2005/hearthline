@@ -68,6 +68,18 @@
       "sam_whitfield": "runs the Command Center",
       "luis_moreno": "Moreno's Bakery, closed by the fire",
       "rosa_delgado": "Sablewood Mercantile, open again after the fire"
+    },
+    "lede": "Hearthline moves help through PayPal from the first warning to the day a family moves home. AI agents do the legwork and explain every step; people approve every dollar.",
+    "stageLines": {
+      "prepare": "Photograph the home before disaster strikes. AI lists and prices what's there.",
+      "respond": "Cash within hours of an evacuation order, and donors fund exactly what's needed.",
+      "rebuild": "Contractors are paid from escrow, one checked step at a time.",
+      "reopen": "Local shops sell gift cards to reopen, with the money released as they rebuild."
+    },
+    "groups": {
+      "people": "Families and donors",
+      "build": "Rebuilding the town",
+      "relief": "Relief network"
     }
   },
   "home": {
@@ -276,7 +288,8 @@
     "fundThis": "Fund this",
     "shopNow": "Buy it now",
     "giveIn": "Give in",
-    "fxEstimate": "{{given}} is about {{usd}} for the family. PayPal's exchange rate applies at checkout; the family receives dollars."
+    "fxEstimate": "{{given}} is about {{usd}} for the family. PayPal's exchange rate applies at checkout; the family receives dollars.",
+    "raisedLabel": "Raised so far"
   },
   "purchases": {
     "title": "What the Shopper bought",

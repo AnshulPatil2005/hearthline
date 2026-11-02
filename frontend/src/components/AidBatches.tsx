@@ -148,9 +148,20 @@ export function AidBatches({ onPaid }: Props) {
         width: 140,
         valueFormatter: (p) => t(`command.damage.${p.value}`),
       },
-      { field: 'amount', headerName: t('command.batch.col.amount'), width: 120, type: 'rightAligned', valueFormatter: (p) => money(p.value) },
+      {
+        field: 'amount',
+        headerName: t('command.batch.col.amount'),
+        width: 120,
+        type: 'rightAligned',
+        valueFormatter: (p) => money(p.value),
+      },
       { field: 'receiver', headerName: t('command.col.paypal'), width: 230 },
-      { field: 'status', headerName: t('command.batch.col.status'), width: 140, valueFormatter: (p) => statusLabel(p.value) },
+      {
+        field: 'status',
+        headerName: t('command.batch.col.status'),
+        width: 140,
+        valueFormatter: (p) => statusLabel(p.value),
+      },
       {
         field: 'note',
         headerName: t('command.batch.col.note'),

@@ -38,17 +38,15 @@ function CopyButton({ value, what }: { value: string; what: string }) {
 export function DemoTour() {
   const { t } = useTranslation()
   return (
-    <section aria-labelledby="tour-title" className="mt-10 rounded-xl border border-line bg-surface p-5 shadow-sm">
-      <h2 id="tour-title" className="text-lg font-semibold">
+    <section aria-labelledby="tour-title" className="border-t-4 border-ink bg-surface px-5 pt-5 pb-2">
+      <h2 id="tour-title" className="text-2xl">
         {t('tour.title')}
       </h2>
       <p className="mt-1 text-sm text-ink-soft">{t('tour.subtitle')}</p>
-      <ol className="mt-4 space-y-4">
+      <ol className="mt-4 divide-y divide-line">
         {STEPS.map((s, i) => (
-          <li key={s.key} className="flex gap-3">
-            <span className="grid size-7 shrink-0 place-items-center rounded-full bg-ember-soft text-sm font-semibold text-ember">
-              {i + 1}
-            </span>
+          <li key={s.key} className="flex gap-4 py-4">
+            <span className="w-7 shrink-0 font-mono text-sm text-ember">{String(i + 1).padStart(2, '0')}</span>
             <div className="min-w-0 flex-1 text-sm">
               <p className="font-medium">{t(`tour.${s.key}.title`)}</p>
               <p className="text-ink-soft">{t(`tour.${s.key}.body`)}</p>

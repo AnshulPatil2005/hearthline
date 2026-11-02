@@ -221,7 +221,7 @@ function MilestoneWork({ m, canSubmit, onChanged }: { m: Milestone; canSubmit: b
   })
 
   return (
-    <li className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <li className="panel p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <div className="font-medium">
@@ -299,7 +299,7 @@ function ContractorProject({ p, onChanged }: { p: Project; onChanged: () => void
   const [preview, setPreview] = useState<GanttPreview | null>(null)
   return (
     <section className="space-y-4">
-      <div className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+      <div className="panel p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold">{p.title}</h2>
@@ -360,7 +360,7 @@ export default function ContractorPortal() {
   return (
     <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('contractor.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('contractor.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('contractor.subtitle')}</p>
       </div>
       <ConnectPayPal />

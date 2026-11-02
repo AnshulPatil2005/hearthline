@@ -167,7 +167,7 @@ export function RapidAid({ onPaid }: { onPaid: () => void }) {
   const b = board.data
   if (!b || !disaster) return null
   return (
-    <section aria-labelledby="rapid-title" className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section aria-labelledby="rapid-title" className="panel p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="max-w-3xl">
           <h2 id="rapid-title" className="text-lg font-semibold">

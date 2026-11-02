@@ -92,10 +92,10 @@ export function SiteCheckView({ check }: { check: SiteCheck }) {
 
 export function Stat({ label, value, hint }: { label: string; value: ReactNode; hint?: string }) {
   return (
-    <div className="rounded-lg bg-sunken px-4 py-3">
-      <div className="text-xs text-ink-faint">{label}</div>
-      <div className="mt-0.5 text-xl font-semibold">{value}</div>
-      {hint && <div className="mt-0.5 text-xs text-ink-faint">{hint}</div>}
+    <div className="border-t-2 border-ink pt-2">
+      <div className="kicker text-ink-faint">{label}</div>
+      <div className="figure mt-1 text-3xl font-semibold">{value}</div>
+      {hint && <div className="mt-1 text-xs text-ink-faint">{hint}</div>}
     </div>
   )
 }

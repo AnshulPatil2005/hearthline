@@ -48,9 +48,10 @@ function CampaignSetup({ onCreated }: { onCreated: () => void }) {
     onSuccess: onCreated,
     onError: (e) => setError(errorText(e, t('errors.generic'))),
   })
-  const update = (i: number, patch: Partial<Step>) => setSteps((ss) => ss.map((s, j) => (j === i ? { ...s, ...patch } : s)))
+  const update = (i: number, patch: Partial<Step>) =>
+    setSteps((ss) => ss.map((s, j) => (j === i ? { ...s, ...patch } : s)))
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('business.setup.title')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('business.setup.body')}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -97,8 +98,20 @@ function CampaignSetup({ onCreated }: { onCreated: () => void }) {
                 className="w-full bg-transparent outline-none"
               />
             </label>
-            <input type="date" value={s.start} onChange={(e) => update(i, { start: e.target.value })} aria-label={t('rebuild.gantt.start')} className="rounded-lg border border-line bg-surface px-2 py-2 text-sm" />
-            <input type="date" value={s.end} onChange={(e) => update(i, { end: e.target.value })} aria-label={t('rebuild.gantt.end')} className="rounded-lg border border-line bg-surface px-2 py-2 text-sm" />
+            <input
+              type="date"
+              value={s.start}
+              onChange={(e) => update(i, { start: e.target.value })}
+              aria-label={t('rebuild.gantt.start')}
+              className="rounded-lg border border-line bg-surface px-2 py-2 text-sm"
+            />
+            <input
+              type="date"
+              value={s.end}
+              onChange={(e) => update(i, { end: e.target.value })}
+              aria-label={t('rebuild.gantt.end')}
+              className="rounded-lg border border-line bg-surface px-2 py-2 text-sm"
+            />
             <button
               onClick={() => setSteps((ss) => ss.filter((_, j) => j !== i))}
               disabled={steps.length === 1}
@@ -111,7 +124,12 @@ function CampaignSetup({ onCreated }: { onCreated: () => void }) {
         ))}
       </ol>
       <button
-        onClick={() => setSteps((ss) => [...ss, { title: '', amount: '', start: ss.at(-1)?.end ?? inDays(1), end: ss.at(-1)?.end ?? inDays(14) }])}
+        onClick={() =>
+          setSteps((ss) => [
+            ...ss,
+            { title: '', amount: '', start: ss.at(-1)?.end ?? inDays(1), end: ss.at(-1)?.end ?? inDays(14) },
+          ])
+        }
         className="mt-2 rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken"
       >
         + {t('business.setup.addStep')}
@@ -122,7 +140,9 @@ function CampaignSetup({ onCreated }: { onCreated: () => void }) {
         </span>
         <button
           onClick={() => save.mutate()}
-          disabled={save.isPending || goal <= 0 || steps.some((s) => s.title.trim().length < 2 || !(Number(s.amount) > 0))}
+          disabled={
+            save.isPending || goal <= 0 || steps.some((s) => s.title.trim().length < 2 || !(Number(s.amount) > 0))
+          }
           className="rounded-lg bg-ember px-4 py-2 font-medium text-on-ember disabled:opacity-40"
         >
           {t('business.setup.start')}
@@ -138,7 +158,8 @@ function StepCard({ step, onChanged }: { step: Tranche; onChanged: () => void })
   const [note, setNote] = useState('')
   const [error, setError] = useState<string | null>(null)
   const ask = useMutation({
-    mutationFn: () => api(`/business/me/tranches/${step.id}/request`, { method: 'POST', body: JSON.stringify({ note }) }),
+    mutationFn: () =>
+      api(`/business/me/tranches/${step.id}/request`, { method: 'POST', body: JSON.stringify({ note }) }),
     onSuccess: () => {
       setError(null)
       onChanged()
@@ -146,7 +167,7 @@ function StepCard({ step, onChanged }: { step: Tranche; onChanged: () => void })
     onError: (e) => setError(errorText(e, t('errors.generic'))),
   })
   return (
-    <li className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <li className="panel p-4">
       <div className="flex items-start justify-between gap-2">
         <div>
           <div className="font-medium">
@@ -157,7 +178,9 @@ function StepCard({ step, onChanged }: { step: Tranche; onChanged: () => void })
             {new Date(step.end_date).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' })}
           </div>
         </div>
-        <span className="rounded-full bg-sunken px-2.5 py-0.5 text-xs font-medium">{t(`business.step.${step.status}`)}</span>
+        <span className="rounded-full bg-sunken px-2.5 py-0.5 text-xs font-medium">
+          {t(`business.step.${step.status}`)}
+        </span>
       </div>
       {step.decision_note && <p className="mt-2 text-sm text-ink-soft">“{step.decision_note}”</p>}
       {(step.status === 'pending' || step.status === 'rejected') && (
@@ -208,9 +231,12 @@ function Redeem({ reopened, onRedeemed }: { reopened: boolean; onRedeemed: () =>
     [t],
   )
   const redeem = useMutation({
-    mutationFn: () => api<GiftCardInfo>('/business/me/redeem', { method: 'POST', body: JSON.stringify({ code, amount }) }),
+    mutationFn: () =>
+      api<GiftCardInfo>('/business/me/redeem', { method: 'POST', body: JSON.stringify({ code, amount }) }),
     onSuccess: (c) => {
-      setMessage(t('business.redeem.done', { amount: money(amount, { cents: true }), left: money(c.balance, { cents: true }) }))
+      setMessage(
+        t('business.redeem.done', { amount: money(amount, { cents: true }), left: money(c.balance, { cents: true }) }),
+      )
       setCard(c)
       setAmount('')
       setError(null)
@@ -219,7 +245,7 @@ function Redeem({ reopened, onRedeemed }: { reopened: boolean; onRedeemed: () =>
     onError: (e) => setError(errorText(e, t('errors.generic'))),
   })
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('business.redeem.title')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{reopened ? t('business.redeem.body') : t('business.redeem.notYet')}</p>
       <div className="mt-3 space-y-3">
@@ -244,9 +270,7 @@ function Redeem({ reopened, onRedeemed }: { reopened: boolean; onRedeemed: () =>
         </form>
         {card && (
           <div className="flex flex-wrap items-center gap-2 rounded-lg bg-sunken p-3 text-sm">
-            <span>
-              {t('business.redeem.balance', { balance: money(card.balance, { cents: true }) })}
-            </span>
+            <span>{t('business.redeem.balance', { balance: money(card.balance, { cents: true }) })}</span>
             <label className="flex items-center gap-1 rounded-lg border border-line bg-surface px-2">
               $
               <input
@@ -282,17 +306,50 @@ function CardsGrid() {
     () => [
       { field: 'code_end', headerName: t('business.cards.code'), width: 110, valueFormatter: (p) => `…${p.value}` },
       { field: 'buyer', headerName: t('business.cards.buyer'), flex: 1, minWidth: 120 },
-      { field: 'amount_paid', headerName: t('business.cards.paid'), width: 110, type: 'rightAligned', valueFormatter: (p) => money(p.value) },
-      { field: 'face_value', headerName: t('business.cards.worth'), width: 110, type: 'rightAligned', valueFormatter: (p) => money(p.value, { cents: true }) },
-      { field: 'balance', headerName: t('business.cards.balance'), width: 110, type: 'rightAligned', valueFormatter: (p) => money(p.value, { cents: true }) },
-      { field: 'payment_method', headerName: t('business.cards.method'), width: 120, filter: 'agSetColumnFilter', valueFormatter: (p) => t(`business.cards.via.${p.value}`, { defaultValue: p.value }) },
-      { field: 'status', headerName: t('business.cards.status'), width: 120, filter: 'agSetColumnFilter', valueFormatter: (p) => t(`business.cards.state.${p.value}`, { defaultValue: p.value }) },
+      {
+        field: 'amount_paid',
+        headerName: t('business.cards.paid'),
+        width: 110,
+        type: 'rightAligned',
+        valueFormatter: (p) => money(p.value),
+      },
+      {
+        field: 'face_value',
+        headerName: t('business.cards.worth'),
+        width: 110,
+        type: 'rightAligned',
+        valueFormatter: (p) => money(p.value, { cents: true }),
+      },
+      {
+        field: 'balance',
+        headerName: t('business.cards.balance'),
+        width: 110,
+        type: 'rightAligned',
+        valueFormatter: (p) => money(p.value, { cents: true }),
+      },
+      {
+        field: 'payment_method',
+        headerName: t('business.cards.method'),
+        width: 120,
+        filter: 'agSetColumnFilter',
+        valueFormatter: (p) => t(`business.cards.via.${p.value}`, { defaultValue: p.value }),
+      },
+      {
+        field: 'status',
+        headerName: t('business.cards.status'),
+        width: 120,
+        filter: 'agSetColumnFilter',
+        valueFormatter: (p) => t(`business.cards.state.${p.value}`, { defaultValue: p.value }),
+      },
       {
         field: 'activated_at',
         headerName: t('business.cards.bought'),
         width: 130,
         sort: 'desc',
-        valueFormatter: (p) => (p.value ? new Date(p.value).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' }) : ''),
+        valueFormatter: (p) =>
+          p.value
+            ? new Date(p.value).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' })
+            : '',
       },
     ],
     [i18n.resolvedLanguage, t],
@@ -323,7 +380,10 @@ export default function BusinessHome() {
     void queryClient.invalidateQueries({ queryKey: ['business-cards'] })
   }, [queryClient])
   const [confirming, setConfirming] = useState(false)
-  const reopened = useMutation({ mutationFn: () => api('/business/me/reopened', { method: 'POST' }), onSuccess: refresh })
+  const reopened = useMutation({
+    mutationFn: () => api('/business/me/reopened', { method: 'POST' }),
+    onSuccess: refresh,
+  })
 
   const b = me.data
   const c = b?.campaign
@@ -335,7 +395,7 @@ export default function BusinessHome() {
         <>
           <div className="flex flex-wrap items-end justify-between gap-3">
             <div>
-              <h1 className="text-3xl font-semibold tracking-tight">{b.name}</h1>
+              <h1 className="text-4xl leading-tight tracking-tight text-balance">{b.name}</h1>
               <p className="mt-1 text-ink-soft">{t('business.subtitle')}</p>
             </div>
             {b.verification === 'verified' && c && (
@@ -347,7 +407,7 @@ export default function BusinessHome() {
           <ConnectPayPal />
           <LocalShop />
           {b.verification !== 'verified' && (
-            <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
+            <p className="panel px-4 py-3">
               {t(`business.verification.${b.verification}`)}
               {b.verification_note && <span className="block text-sm text-ink-soft">“{b.verification_note}”</span>}
             </p>
@@ -355,21 +415,36 @@ export default function BusinessHome() {
           {b.verification === 'verified' && !active && <CampaignSetup onCreated={refresh} />}
           {c && active && (
             <>
-              <div className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+              <div className="panel p-5">
                 <Progress funded={Number(c.raised)} target={Number(c.goal_amount)} />
                 <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-                  <Stat label={t('business.stat.raised')} value={money(c.raised)} hint={t('reopen.ofGoal', { goal: money(c.goal_amount) })} />
-                  <Stat label={t('business.stat.escrow')} value={money(c.escrow)} hint={t('business.stat.escrowHint')} />
+                  <Stat
+                    label={t('business.stat.raised')}
+                    value={money(c.raised)}
+                    hint={t('reopen.ofGoal', { goal: money(c.goal_amount) })}
+                  />
+                  <Stat
+                    label={t('business.stat.escrow')}
+                    value={money(c.escrow)}
+                    hint={t('business.stat.escrowHint')}
+                  />
                   <Stat label={t('business.stat.released')} value={money(c.released)} />
                   <Stat label={t('business.stat.redeemed')} value={money(c.redeemed, { cents: true })} />
-                  <Stat label={t('business.stat.cards')} value={c.cards_sold.toLocaleString(i18n.resolvedLanguage)} hint={t('reopen.bonus', { bonus: c.bonus_percent })} />
+                  <Stat
+                    label={t('business.stat.cards')}
+                    value={c.cards_sold.toLocaleString(i18n.resolvedLanguage)}
+                    hint={t('reopen.bonus', { bonus: c.bonus_percent })}
+                  />
                 </div>
                 {c.status === 'live' && (
                   <div className="mt-4 flex flex-wrap items-center gap-3">
                     {confirming ? (
                       <>
                         <span className="text-sm">{t('business.reopen.confirm')}</span>
-                        <button onClick={() => reopened.mutate()} className="rounded-lg bg-sage px-3 py-1.5 text-sm font-medium text-white">
+                        <button
+                          onClick={() => reopened.mutate()}
+                          className="rounded-lg bg-sage px-3 py-1.5 text-sm font-medium text-white"
+                        >
                           {t('business.reopen.yes')}
                         </button>
                         <button onClick={() => setConfirming(false)} className="text-sm text-ink-soft">
@@ -377,13 +452,19 @@ export default function BusinessHome() {
                         </button>
                       </>
                     ) : (
-                      <button onClick={() => setConfirming(true)} className="rounded-lg border border-sage px-3 py-1.5 text-sm font-medium text-sage hover:bg-sage-soft">
+                      <button
+                        onClick={() => setConfirming(true)}
+                        className="rounded-lg border border-sage px-3 py-1.5 text-sm font-medium text-sage hover:bg-sage-soft"
+                      >
                         {t('business.reopen.button')}
                       </button>
                     )}
                     <span className="text-xs text-ink-faint">
                       {t('business.reopen.deadline', {
-                        date: new Date(c.reopen_by).toLocaleDateString(i18n.resolvedLanguage, { month: 'long', day: 'numeric' }),
+                        date: new Date(c.reopen_by).toLocaleDateString(i18n.resolvedLanguage, {
+                          month: 'long',
+                          day: 'numeric',
+                        }),
                       })}
                     </span>
                   </div>

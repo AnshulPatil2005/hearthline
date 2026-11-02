@@ -31,7 +31,7 @@ export default function ConnectPayPalReturn() {
   const back = user ? homePathFor(user.role) : '/login'
 
   return (
-    <div className="mx-auto max-w-lg space-y-4 rounded-xl border border-line bg-surface p-6 text-center shadow-sm">
+    <div className="mx-auto max-w-lg space-y-4 panel p-6 text-center">
       <h1 className="text-2xl font-semibold">{t('connectPayPal.title')}</h1>
       {cancelled ? (
         <p className="text-ink-soft">{t('connectPayPal.cancelled')}</p>
@@ -50,7 +50,9 @@ export default function ConnectPayPalReturn() {
                 what: finish.data.receives.map((r) => t(`connectPayPal.what.${r.what}`)).join(', '),
               })}
             </p>
-            {!finish.data.verified_account && <p className="text-sm text-amber">{t('connectPayPal.notVerifiedNote')}</p>}
+            {!finish.data.verified_account && (
+              <p className="text-sm text-amber">{t('connectPayPal.notVerifiedNote')}</p>
+            )}
           </div>
         )
       )}

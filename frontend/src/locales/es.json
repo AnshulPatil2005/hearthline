@@ -68,6 +68,18 @@
       "sam_whitfield": "dirige el Centro de Mando",
       "luis_moreno": "Panadería Moreno, cerrada por el incendio",
       "rosa_delgado": "Sablewood Mercantile, abierta de nuevo después del incendio"
+    },
+    "lede": "Hearthline mueve la ayuda a través de PayPal desde la primera alerta hasta el día en que una familia vuelve a casa. Los agentes de IA hacen el trabajo y explican cada paso; las personas aprueban cada dólar.",
+    "stageLines": {
+      "prepare": "Fotografía tu hogar antes del desastre. La IA enumera y valora lo que hay.",
+      "respond": "Efectivo a las pocas horas de una orden de evacuación, y los donantes financian justo lo que hace falta.",
+      "rebuild": "Los contratistas cobran del depósito en garantía, un paso verificado a la vez.",
+      "reopen": "Los negocios locales venden tarjetas de regalo para reabrir, y el dinero se libera a medida que reconstruyen."
+    },
+    "groups": {
+      "people": "Familias y donantes",
+      "build": "Reconstruir el pueblo",
+      "relief": "Red de ayuda"
     }
   },
   "home": {
@@ -276,7 +288,8 @@
     "fundThis": "Financiar",
     "shopNow": "Comprar ahora",
     "giveIn": "Donar en",
-    "fxEstimate": "{{given}} son unos {{usd}} para la familia. Al pagar se aplica el tipo de cambio de PayPal; la familia recibe dólares."
+    "fxEstimate": "{{given}} son unos {{usd}} para la familia. Al pagar se aplica el tipo de cambio de PayPal; la familia recibe dólares.",
+    "raisedLabel": "Recaudado hasta ahora"
   },
   "purchases": {
     "title": "Lo que compró el Comprador",

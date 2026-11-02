@@ -27,7 +27,7 @@ function Orders() {
   })
   if (!orders.data?.length) return null
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('localShop.ordersTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('localShop.ordersBody')}</p>
       <ul className="mt-3 divide-y divide-line">
@@ -138,7 +138,7 @@ function Catalog() {
   const s = shop.data
   if (!s) return null
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('localShop.catalogTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('localShop.catalogBody')}</p>
       {!s.open && <p className="mt-2 rounded-lg bg-amber-soft px-3 py-2 text-sm">{t('localShop.notOpen')}</p>}

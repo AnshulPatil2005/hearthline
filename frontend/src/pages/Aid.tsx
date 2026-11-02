@@ -19,7 +19,7 @@ const STATUS_TONE: Record<HouseholdCase['status'], string> = {
 function VerificationCard({ v }: { v: Verification }) {
   const { t } = useTranslation()
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
         <h2 className="font-semibold">{t('aid.verificationTitle')}</h2>
         <span className="rounded-full bg-sunken px-2.5 py-0.5 text-sm font-medium">
@@ -58,7 +58,7 @@ function RequestCashAid({ onDone }: { onDone: () => void }) {
     onError: (e) => setError(e instanceof ApiError ? e.message : t('errors.generic')),
   })
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('aid.requestTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('aid.requestBody')}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-[10rem_minmax(0,1fr)_auto] sm:items-start">
@@ -108,7 +108,7 @@ function CaseCard({ c, onChanged }: { c: HouseholdCase; onChanged: () => void })
     },
   })
   return (
-    <li className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <li className="panel p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <div className="font-medium">
@@ -168,12 +168,12 @@ export default function Aid() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('aid.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('aid.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('aid.subtitle')}</p>
       </div>
       {verification.data && <VerificationCard v={verification.data} />}
       {calls.data?.[0] && (
-        <p className="rounded-xl border border-line bg-surface px-4 py-3 shadow-sm">
+        <p className="panel px-4 py-3">
           {t('home.upcomingCall', {
             name: calls.data[0].reviewer_name.split(' ')[0],
             when: new Date(calls.data[0].starts_at).toLocaleString(i18n.resolvedLanguage, {

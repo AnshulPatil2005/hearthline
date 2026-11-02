@@ -11,7 +11,7 @@ export default function Legal({ doc }: { doc: 'privacy' | 'terms' }) {
     <PublicFrame>
       <article className="mx-auto max-w-2xl space-y-6">
         <header className="space-y-2">
-          <h1 className="text-3xl font-semibold tracking-tight">{t(`legal.${doc}.title`)}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t(`legal.${doc}.title`)}</h1>
           <p className="text-ink-soft">{t(`legal.${doc}.intro`)}</p>
         </header>
         {sections.map((s) => (

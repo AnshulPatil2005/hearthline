@@ -51,7 +51,10 @@ function BuyCard({ campaign, onBought }: { campaign: PublicCampaign; onBought: (
             <p className="text-sm text-ink-soft">{t('reopen.card.worth')}</p>
             <p className="text-3xl font-semibold">{money(card.face_value, { cents: true })}</p>
             <p className="mt-2 font-mono text-lg tracking-wider">{card.code}</p>
-            <Link to={`/card/${card.code}`} className="mt-2 inline-block text-sm font-medium text-ember hover:underline">
+            <Link
+              to={`/card/${card.code}`}
+              className="mt-2 inline-block text-sm font-medium text-ember hover:underline"
+            >
               {t('reopen.buy.keep')}
             </Link>
           </div>
@@ -63,7 +66,7 @@ function BuyCard({ campaign, onBought }: { campaign: PublicCampaign; onBought: (
   const worth = (amount * (100 + c.bonus_percent)) / 100
   const valid = amount >= 10 && amount <= Math.min(500, left)
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('reopen.buy.title')}</h2>
       <div className="mt-3 flex flex-wrap gap-2">
         {[25, 50, 100].map((v) => (
@@ -90,7 +93,11 @@ function BuyCard({ campaign, onBought }: { campaign: PublicCampaign; onBought: (
       </div>
       <p className="mt-3 text-sm">
         {c.bonus_percent > 0
-          ? t('reopen.buy.worthBonus', { pay: money(amount), worth: money(worth, { cents: true }), bonus: c.bonus_percent })
+          ? t('reopen.buy.worthBonus', {
+              pay: money(amount),
+              worth: money(worth, { cents: true }),
+              bonus: c.bonus_percent,
+            })
           : t('reopen.buy.worth', { pay: money(amount) })}
       </p>
       <input
@@ -134,7 +141,7 @@ function BecomeRegular({ campaign }: { campaign: PublicCampaign }) {
     }
   }
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('reopen.regular.title')}</h2>
       <p className="mt-1 text-sm text-ink-soft">
         {t('reopen.regular.body', {
@@ -144,7 +151,9 @@ function BecomeRegular({ campaign }: { campaign: PublicCampaign }) {
           name: campaign.name,
         })}
       </p>
-      {c.regulars > 0 && <p className="mt-1 text-xs text-ink-faint">{t('reopen.regular.count', { count: c.regulars })}</p>}
+      {c.regulars > 0 && (
+        <p className="mt-1 text-xs text-ink-faint">{t('reopen.regular.count', { count: c.regulars })}</p>
+      )}
       <div className="mt-3 flex flex-wrap gap-2">
         <input
           value={name}
@@ -195,12 +204,13 @@ export default function ReopenPublic() {
               {c.status === 'refunded' && (
                 <p className="mt-4 rounded-lg bg-sunken px-4 py-3 text-ink-soft">{t('reopen.wasRefunded')}</p>
               )}
-              <div className="mt-6 rounded-xl border border-line bg-surface p-5 shadow-sm">
+              <div className="mt-6 panel p-5">
                 <Progress funded={Number(c.raised)} target={Number(c.goal_amount)} />
                 <p className="mt-2 text-sm">
                   <span className="text-lg font-semibold">{money(c.raised)}</span>{' '}
                   <span className="text-ink-soft">
-                    {t('reopen.ofGoal', { goal: money(c.goal_amount) })} · {t('reopen.cardsSold', { count: c.cards_sold })}
+                    {t('reopen.ofGoal', { goal: money(c.goal_amount) })} ·{' '}
+                    {t('reopen.cardsSold', { count: c.cards_sold })}
                   </span>
                 </p>
                 <p className="mt-1 text-sm text-ink-soft">
@@ -222,7 +232,10 @@ export default function ReopenPublic() {
             </div>
             {c.status === 'live' && (
               <div className="space-y-4">
-                <BuyCard campaign={b} onBought={() => void queryClient.invalidateQueries({ queryKey: ['reopen', slug] })} />
+                <BuyCard
+                  campaign={b}
+                  onBought={() => void queryClient.invalidateQueries({ queryKey: ['reopen', slug] })}
+                />
                 <BecomeRegular campaign={b} />
               </div>
             )}
@@ -233,10 +246,12 @@ export default function ReopenPublic() {
             <p className="text-sm text-ink-soft">{t('reopen.plan.body')}</p>
             <ul className="grid gap-2 md:grid-cols-3">
               {c.tranches.map((tr) => (
-                <li key={tr.id} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+                <li key={tr.id} className="panel p-4">
                   <div className="flex items-start justify-between gap-2">
                     <span className="font-medium">{tr.title}</span>
-                    <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${TRANCHE_TONE[tr.status]}`}>
+                    <span
+                      className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${TRANCHE_TONE[tr.status]}`}
+                    >
                       {t(`reopen.tranche.${tr.status}`)}
                     </span>
                   </div>

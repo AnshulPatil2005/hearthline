@@ -8,7 +8,17 @@ import { toRow, type Row } from '../rows'
 import ScanPanel from '../components/ScanPanel'
 import { money } from '../format'
 
-const EXPORT_COLUMNS = ['room_name', 'name', 'category', 'quantity', 'unit_price', 'total', 'evidence_level', 'match', 'confirmed']
+const EXPORT_COLUMNS = [
+  'room_name',
+  'name',
+  'category',
+  'quantity',
+  'unit_price',
+  'total',
+  'evidence_level',
+  'match',
+  'confirmed',
+]
 
 export default function Inventory() {
   const { t } = useTranslation()
@@ -35,7 +45,7 @@ export default function Inventory() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t('inventory.title')}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('inventory.title')}</h1>
           <p className="mt-1 text-ink-soft">{t('inventory.subtitle')}</p>
         </div>
         {summary.data && (
@@ -43,7 +53,9 @@ export default function Inventory() {
             <span className="rounded-full bg-sunken px-3 py-1">
               {t('inventory.summary.total')} <strong className="tabular-nums">{money(summary.data.total_value)}</strong>
             </span>
-            <span className="rounded-full bg-sunken px-3 py-1">{t('rooms.items', { count: summary.data.item_count })}</span>
+            <span className="rounded-full bg-sunken px-3 py-1">
+              {t('rooms.items', { count: summary.data.item_count })}
+            </span>
             {unconfirmed > 0 && (
               <span className="rounded-full bg-amber-soft px-3 py-1 text-amber">
                 {t('inventory.summary.unconfirmed', { count: unconfirmed })}
@@ -73,7 +85,9 @@ export default function Inventory() {
           {t('errors.generic')}
         </p>
       ) : items.data && items.data.length === 0 ? (
-        <p className="rounded-xl border border-dashed border-line px-4 py-10 text-center text-ink-soft">{t('inventory.empty')}</p>
+        <p className="rounded-xl border border-dashed border-line px-4 py-10 text-center text-ink-soft">
+          {t('inventory.empty')}
+        </p>
       ) : (
         <>
           <InventoryGrid

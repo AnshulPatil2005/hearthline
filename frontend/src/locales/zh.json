@@ -68,6 +68,18 @@
       "sam_whitfield": "负责指挥中心",
       "luis_moreno": "Moreno 面包店，因火灾关门",
       "rosa_delgado": "Sablewood Mercantile，火灾后重新开业"
+    },
+    "lede": "Hearthline 通过 PayPal 传递援助：从第一次预警，到一家人搬回家的那一天。AI 助手承担繁琐的工作并解释每一步，每一美元都由人来批准。",
+    "stageLines": {
+      "prepare": "灾难来临前为家拍照，AI 会列出并估价家中物品。",
+      "respond": "疏散令发出后数小时内发放现金，捐助者为真正需要的东西出资。",
+      "rebuild": "承包商从托管账户中收款，每核实一步才付一步。",
+      "reopen": "本地商家出售礼品卡以便重新开业，资金随重建进度逐步发放。"
+    },
+    "groups": {
+      "people": "家庭与捐助者",
+      "build": "重建小镇",
+      "relief": "救援网络"
     }
   },
   "home": {
@@ -272,7 +284,8 @@
     "fundThis": "资助此项",
     "shopNow": "立即购买",
     "giveIn": "捐赠币种",
-    "fxEstimate": "{{given}} 约合给这家人的 {{usd}}。付款时按 PayPal 汇率换算；这家人收到的是美元。"
+    "fxEstimate": "{{given}} 约合给这家人的 {{usd}}。付款时按 PayPal 汇率换算；这家人收到的是美元。",
+    "raisedLabel": "目前已筹得"
   },
   "purchases": {
     "title": "采购助手买了什么",

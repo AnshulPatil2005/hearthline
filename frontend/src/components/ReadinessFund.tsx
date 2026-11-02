@@ -29,28 +29,28 @@ export function ReadinessFund() {
   const mine = d.mine
   const chosen = monthly ?? pool.tiers[1] ?? pool.tiers[0]
   return (
-    <section aria-labelledby="readiness-title" className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section aria-labelledby="readiness-title" className="panel p-5">
       <h2 id="readiness-title" className="text-lg font-semibold">
         {t('readiness.title')}
       </h2>
       <p className="mt-1 max-w-3xl text-sm text-ink-soft">{t('readiness.intro')}</p>
-      <dl className="mt-3 grid gap-3 sm:grid-cols-3">
-        <div className="rounded-lg bg-sunken px-3 py-2">
-          <dt className="text-xs text-ink-faint">{t('readiness.ready')}</dt>
-          <dd className="text-xl font-semibold">{money(pool.balance)}</dd>
+      <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-3">
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('readiness.ready')}</dt>
+          <dd className="figure mt-1 text-3xl font-semibold">{money(pool.balance)}</dd>
         </div>
-        <div className="rounded-lg bg-sunken px-3 py-2">
-          <dt className="text-xs text-ink-faint">{t('readiness.givers')}</dt>
-          <dd className="text-xl font-semibold">
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('readiness.givers')}</dt>
+          <dd className="figure mt-1 text-3xl font-semibold">
             {pool.givers.toLocaleString(i18n.resolvedLanguage)}
-            <span className="ml-1 text-sm font-normal text-ink-soft">
+            <span className="ml-1.5 font-sans text-sm font-normal text-ink-soft">
               {t('readiness.perMonth', { amount: money(pool.monthly) })}
             </span>
           </dd>
         </div>
-        <div className="rounded-lg bg-sunken px-3 py-2">
-          <dt className="text-xs text-ink-faint">{t('readiness.released')}</dt>
-          <dd className="text-xl font-semibold">{money(pool.released)}</dd>
+        <div className="border-t-2 border-ink pt-2">
+          <dt className="kicker text-ink-faint">{t('readiness.released')}</dt>
+          <dd className="figure mt-1 text-3xl font-semibold">{money(pool.released)}</dd>
         </div>
       </dl>
 

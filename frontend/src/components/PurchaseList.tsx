@@ -23,7 +23,7 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
     onSuccess: onChanged,
   })
   return (
-    <li className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <li className="panel p-4">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="font-medium">{p.title}</div>

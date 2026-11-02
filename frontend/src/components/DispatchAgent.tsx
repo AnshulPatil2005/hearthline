@@ -46,7 +46,7 @@ export function DispatchAgent({ onChanged }: { onChanged: () => void }) {
   const open = p?.proposals.filter((x) => x.status === 'proposed') ?? []
   const error = plan.error ?? decide.error ?? acceptAll.error
   return (
-    <section aria-labelledby="dispatch-title" className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <section aria-labelledby="dispatch-title" className="panel p-4">
       <div className="flex flex-wrap items-start gap-4">
         <div className="min-w-0 flex-1">
           <h2 id="dispatch-title" className="text-lg font-semibold">

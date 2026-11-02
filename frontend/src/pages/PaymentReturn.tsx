@@ -43,7 +43,9 @@ export default function PaymentReturn() {
         {cancelled && <p className="text-lg">{t('paid.cancelled')}</p>}
         {capture.isPending && !cancelled && <p className="text-ink-soft">{t('paid.finishing')}</p>}
         {capture.isError && (
-          <p className="text-danger">{capture.error instanceof ApiError ? capture.error.message : t('errors.generic')}</p>
+          <p className="text-danger">
+            {capture.error instanceof ApiError ? capture.error.message : t('errors.generic')}
+          </p>
         )}
         {capture.data !== undefined && kind === 'donation' && (
           <>
@@ -53,7 +55,9 @@ export default function PaymentReturn() {
         )}
         {card && (
           <>
-            <p className="text-2xl font-semibold text-sage">{kind === 'regular' ? t('paid.regularReady') : t('paid.cardReady')}</p>
+            <p className="text-2xl font-semibold text-sage">
+              {kind === 'regular' ? t('paid.regularReady') : t('paid.cardReady')}
+            </p>
             <div className="mt-4 flex justify-center">
               <GiftCardQr code={card.code} />
             </div>
@@ -61,7 +65,10 @@ export default function PaymentReturn() {
             <p className="text-sm text-ink-soft">
               {t('reopen.card.worth')} {money(card.face_value, { cents: true })}
             </p>
-            <Link to={`/card/${card.code}`} className="mt-3 inline-block text-sm font-medium text-ember hover:underline">
+            <Link
+              to={`/card/${card.code}`}
+              className="mt-3 inline-block text-sm font-medium text-ember hover:underline"
+            >
               {t('reopen.buy.keep')}
             </Link>
           </>

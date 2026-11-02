@@ -99,7 +99,8 @@ export default function CommandCenter() {
           values: serverValues('verification_level'),
           valueFormatter: (p: ValueFormatterParams) => t(`command.level`, { level: p.value }),
         },
-        valueFormatter: (p) => (p.value === null || p.value === undefined ? '' : t('command.level', { level: p.value })),
+        valueFormatter: (p) =>
+          p.value === null || p.value === undefined ? '' : t('command.level', { level: p.value }),
       },
       {
         field: 'unmet_need',
@@ -132,7 +133,12 @@ export default function CommandCenter() {
         sortable: false,
         cellRenderer: 'agSparklineCellRenderer',
         cellRendererParams: {
-          sparklineOptions: { type: 'bar', direction: 'vertical', fill: cssColor('--sage'), padding: { top: 6, bottom: 6 } },
+          sparklineOptions: {
+            type: 'bar',
+            direction: 'vertical',
+            fill: cssColor('--sage'),
+            padding: { top: 6, bottom: 6 },
+          },
         },
       },
       {
@@ -156,7 +162,9 @@ export default function CommandCenter() {
           valueFormatter: (p: ValueFormatterParams) => t(`command.need.${p.value}`, { defaultValue: p.value }),
         },
         valueFormatter: (p) =>
-          Array.isArray(p.value) ? p.value.map((n: string) => t(`command.need.${n}`, { defaultValue: n })).join(', ') : '',
+          Array.isArray(p.value)
+            ? p.value.map((n: string) => t(`command.need.${n}`, { defaultValue: n })).join(', ')
+            : '',
       },
       {
         field: 'household_size',
@@ -174,7 +182,8 @@ export default function CommandCenter() {
         filter: 'agSetColumnFilter',
         filterParams: {
           values: [true, false],
-          valueFormatter: (p: ValueFormatterParams) => (p.value === true || p.value === 'true' ? t('command.yes') : t('command.no')),
+          valueFormatter: (p: ValueFormatterParams) =>
+            p.value === true || p.value === 'true' ? t('command.yes') : t('command.no'),
         },
         valueFormatter: (p) => (p.value === true ? t('command.yes') : p.value === false ? t('command.no') : ''),
       },
@@ -193,7 +202,9 @@ export default function CommandCenter() {
         width: 140,
         filter: 'agDateColumnFilter',
         valueFormatter: (p) =>
-          p.value ? new Date(p.value).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' }) : '',
+          p.value
+            ? new Date(p.value).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' })
+            : '',
       },
     ],
     [i18n.resolvedLanguage, t],
@@ -228,7 +239,7 @@ export default function CommandCenter() {
     <div className="space-y-5">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t('command.title')}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('command.title')}</h1>
           <p className="mt-1 text-ink-soft">{t('command.subtitle')}</p>
         </div>
         <div className="flex gap-2">
@@ -244,13 +255,19 @@ export default function CommandCenter() {
           >
             {t('command.grantReport')}
           </button>
-          <button onClick={refresh} className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken">
+          <button
+            onClick={refresh}
+            className="rounded-lg border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken"
+          >
             {t('command.refresh')}
           </button>
         </div>
       </div>
-      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
-        <Stat label={t('command.stat.households')} value={s ? s.households.toLocaleString(i18n.resolvedLanguage) : '…'} />
+      <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
+        <Stat
+          label={t('command.stat.households')}
+          value={s ? s.households.toLocaleString(i18n.resolvedLanguage) : '…'}
+        />
         <Stat label={t('command.stat.destroyed')} value={s ? s.destroyed.toLocaleString(i18n.resolvedLanguage) : '…'} />
         <Stat label={t('command.stat.verified')} value={s ? s.verified.toLocaleString(i18n.resolvedLanguage) : '…'} />
         <Stat label={t('command.stat.help')} value={s ? money(s.help_received) : '…'} />
@@ -266,7 +283,8 @@ export default function CommandCenter() {
       <AskGrid grid={() => gridApi.current} initial={() => initialState.current} />
       <CommandMap filterModel={mapFilter} tick={mapTick} />
       <p className="text-sm text-ink-soft" aria-live="polite">
-        {matching !== null && t('command.matching', { count: matching, n: matching.toLocaleString(i18n.resolvedLanguage) })}
+        {matching !== null &&
+          t('command.matching', { count: matching, n: matching.toLocaleString(i18n.resolvedLanguage) })}
       </p>
       <div className="h-[calc(100svh-22rem)] min-h-[30rem]">
         <AgGridReact<CommandRow>

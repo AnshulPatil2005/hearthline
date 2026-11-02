@@ -54,7 +54,7 @@ export default function ReviewBoard() {
   return (
     <div className="flex h-[calc(100svh-11rem)] min-h-[32rem] flex-col gap-4">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('board.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('board.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('board.subtitle')}</p>
       </div>
       <div className="min-h-0 flex-1 overflow-hidden rounded-xl border border-line">

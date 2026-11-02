@@ -23,10 +23,10 @@ async def main() -> None:
         await page.goto(f"{WEB}/login?as=marcus.chen")
         await page.wait_for_url("**/giving", timeout=10000)
         await page.wait_for_selector("text=Delivered to the family", timeout=15000)  # gifts show at once
-        await page.wait_for_selector("p.rounded-xl span:text-is('AI')", timeout=90000)  # then the agent's note
-        stats = await page.locator(".rounded-lg.bg-sunken").all_inner_texts()
+        await page.wait_for_selector("p.panel span:text-is('AI')", timeout=90000)  # then the agent's note
+        stats = await page.locator("div:has(> .figure)").all_inner_texts()
         print("stats:", [" ".join(s.split()) for s in stats[:4]])
-        note = await page.locator("p.rounded-xl").first.inner_text()
+        note = await page.locator("p.panel").first.inner_text()
         print("note:", " ".join(note.split())[:300])
         await page.screenshot(path=OUT / "giving.png", full_page=True)
 

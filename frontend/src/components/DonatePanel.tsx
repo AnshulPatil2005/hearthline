@@ -75,7 +75,7 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
 
   const valid = amount >= 1 && (remaining === null || toFamily(amount) <= remaining * (foreign ? 1.02 : 1))
   return (
-    <div className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <div className="panel p-5">
       <div className="flex items-start justify-between gap-3">
         <h3 className="font-semibold">
           {item ? t('registry.fundItem', { name: item.name }) : t('registry.fundGeneral')}

@@ -68,6 +68,18 @@
       "sam_whitfield": "điều hành Trung tâm Chỉ huy",
       "luis_moreno": "Tiệm bánh Moreno, đóng cửa vì vụ cháy",
       "rosa_delgado": "Sablewood Mercantile, mở cửa lại sau vụ cháy"
+    },
+    "lede": "Hearthline chuyển sự giúp đỡ qua PayPal, từ cảnh báo đầu tiên đến ngày gia đình dọn về nhà. Các trợ lý AI lo phần việc nặng nhọc và giải thích từng bước; con người phê duyệt từng đô la.",
+    "stageLines": {
+      "prepare": "Chụp ảnh ngôi nhà trước khi thảm họa xảy ra. AI liệt kê và định giá đồ đạc.",
+      "respond": "Tiền mặt trong vài giờ sau lệnh sơ tán, và nhà hảo tâm tài trợ đúng những thứ cần thiết.",
+      "rebuild": "Nhà thầu được trả từ tài khoản ký quỹ, từng bước một sau khi được kiểm tra.",
+      "reopen": "Cửa hàng địa phương bán thẻ quà tặng để mở cửa lại, và tiền được giải ngân dần khi họ xây dựng lại."
+    },
+    "groups": {
+      "people": "Gia đình và nhà hảo tâm",
+      "build": "Xây dựng lại thị trấn",
+      "relief": "Mạng lưới cứu trợ"
     }
   },
   "home": {
@@ -272,7 +284,8 @@
     "fundThis": "Tài trợ",
     "shopNow": "Mua ngay",
     "giveIn": "Đóng góp bằng",
-    "fxEstimate": "{{given}} tương đương khoảng {{usd}} cho gia đình. Khi thanh toán sẽ áp dụng tỷ giá của PayPal; gia đình nhận bằng đô la."
+    "fxEstimate": "{{given}} tương đương khoảng {{usd}} cho gia đình. Khi thanh toán sẽ áp dụng tỷ giá của PayPal; gia đình nhận bằng đô la.",
+    "raisedLabel": "Đã quyên góp được"
   },
   "purchases": {
     "title": "Những gì trợ lý mua sắm đã mua",

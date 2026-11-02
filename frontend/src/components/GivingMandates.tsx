@@ -337,7 +337,7 @@ export function GivingMandates() {
   const current = mandates.data?.find((m) => ['active', 'paused', 'saving'].includes(m.status))
   if (mandates.isPending) return null
   return (
-    <section aria-labelledby="mandate-title" className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section aria-labelledby="mandate-title" className="panel p-5">
       <h2 id="mandate-title" className="text-lg font-semibold">
         {t('mandate.title')}
       </h2>

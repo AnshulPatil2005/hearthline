@@ -22,9 +22,9 @@ const EVIDENCE_TONE: Record<ClaimItem['evidence'], string> = {
 
 function Figure({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className="rounded-xl border border-line bg-surface p-4 shadow-sm">
-      <dt className="text-sm text-ink-soft">{label}</dt>
-      <dd className={`text-2xl font-semibold tabular-nums ${strong ? 'text-ember' : ''}`}>{value}</dd>
+    <div className="border-t-2 border-ink pt-2">
+      <dt className="kicker text-ink-faint">{label}</dt>
+      <dd className={`figure mt-1 text-3xl font-semibold ${strong ? 'text-ember' : ''}`}>{value}</dd>
     </div>
   )
 }
@@ -56,7 +56,7 @@ function PayClaim({ token, packet, onPaid }: { token: string; packet: ClaimPacke
   }
 
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('claimView.payTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('claimView.payBody')}</p>
       <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -168,10 +168,8 @@ export default function ClaimView() {
       {p && (
         <div className="space-y-6">
           <header>
-            <p className="text-sm font-medium uppercase tracking-wide text-ember">
-              {t('claimView.eyebrow', { insurer: p.insurer })}
-            </p>
-            <h1 className="mt-1 text-3xl font-semibold tracking-tight">{p.policyholder}</h1>
+            <p className="kicker text-ember">{t('claimView.eyebrow', { insurer: p.insurer })}</p>
+            <h1 className="mt-1 text-4xl leading-tight tracking-tight text-balance">{p.policyholder}</h1>
             <p className="mt-1 text-ink-soft">
               {p.address}
               {p.policy_number && ` · ${t('claimView.policy', { number: p.policy_number })}`}

@@ -44,7 +44,10 @@ export default function GiftCardView() {
               </p>
             </>
           )}
-          <Link to={`/reopen/${c.business_slug}`} className="mt-4 inline-block text-sm font-medium text-ember hover:underline">
+          <Link
+            to={`/reopen/${c.business_slug}`}
+            className="mt-4 inline-block text-sm font-medium text-ember hover:underline"
+          >
             {t('reopen.card.seeFund')}
           </Link>
         </div>

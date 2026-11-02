@@ -13,7 +13,13 @@ export function GiftCardQr({ code, size = 180 }: { code: string; size?: number }
       .catch(() => setSrc(null))
   }, [code, size])
   return src ? (
-    <img src={src} width={size} height={size} alt={t('reopen.card.qrAlt', { code })} className="rounded-lg bg-white p-2" />
+    <img
+      src={src}
+      width={size}
+      height={size}
+      alt={t('reopen.card.qrAlt', { code })}
+      className="rounded-lg bg-white p-2"
+    />
   ) : (
     <div style={{ width: size, height: size }} className="animate-pulse rounded-lg bg-sunken" />
   )

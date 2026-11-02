@@ -27,7 +27,7 @@ function StartProject({ onStarted }: { onStarted: () => void }) {
     onError: (e) => setError(e instanceof ApiError ? e.message : t('errors.generic')),
   })
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('rebuild.startTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('rebuild.startBody')}</p>
       <label className="mt-4 block text-sm">
@@ -80,7 +80,7 @@ function MilestoneCard({ m, onChanged }: { m: Milestone; onChanged: () => void }
   })
 
   return (
-    <li className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+    <li className="panel p-4">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <div className="font-medium">
@@ -174,7 +174,7 @@ function HouseholdProject({ p, onChanged }: { p: Project; onChanged: () => void 
 
   return (
     <section className="space-y-4">
-      <div className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+      <div className="panel p-5">
         <div className="flex flex-wrap items-start justify-between gap-3">
           <div>
             <h2 className="text-xl font-semibold">{p.title}</h2>
@@ -241,7 +241,7 @@ export default function Rebuild() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('rebuild.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('rebuild.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('rebuild.subtitle')}</p>
       </div>
       {projects.isError && <p className="rounded-lg bg-danger-soft px-4 py-3 text-danger">{t('errors.generic')}</p>}

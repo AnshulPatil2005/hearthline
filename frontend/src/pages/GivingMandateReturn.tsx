@@ -32,7 +32,7 @@ export default function GivingMandateReturn() {
   })
   const data = started.data
   return (
-    <div className="mx-auto max-w-lg space-y-4 rounded-xl border border-line bg-surface p-6 text-center shadow-sm">
+    <div className="mx-auto max-w-lg space-y-4 panel p-6 text-center">
       <h1 className="text-2xl font-semibold">{t('mandate.title')}</h1>
       <div aria-live="polite" className="space-y-2">
         {cancelled ? (

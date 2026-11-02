@@ -27,7 +27,7 @@ export function AskPayPal() {
   const answer = ask.data
 
   return (
-    <section id="ask-paypal" aria-labelledby="ask-paypal-title" className="space-y-3 rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section id="ask-paypal" aria-labelledby="ask-paypal-title" className="space-y-3 panel p-5">
       <div>
         <h2 id="ask-paypal-title" className="text-lg font-semibold">
           {t('disputes.ask.title')}
@@ -81,7 +81,9 @@ export function AskPayPal() {
           <p className="whitespace-pre-line rounded-lg bg-sunken px-4 py-3 text-sm leading-relaxed">{answer.answer}</p>
           {answer.steps.length > 0 && (
             <details open className="text-sm">
-              <summary className="cursor-pointer text-ink-soft">{t('disputes.ask.steps', { count: answer.steps.length })}</summary>
+              <summary className="cursor-pointer text-ink-soft">
+                {t('disputes.ask.steps', { count: answer.steps.length })}
+              </summary>
               <ol className="mt-2 space-y-1.5">
                 {answer.steps.map((s, i) => (
                   <li key={i} className="flex flex-wrap items-baseline gap-2">

@@ -97,7 +97,7 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
     })
 
   return (
-    <article className="space-y-5 rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <article className="space-y-5 panel p-5">
       <header className="space-y-1">
         <div className="flex flex-wrap items-center gap-2 text-xs">
           <span className="font-mono text-ink-faint">{d.paypal_dispute_id}</span>
@@ -121,7 +121,7 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
 
       {d.payer_message && (
         <blockquote className="rounded-lg border-l-4 border-amber bg-amber-soft/50 px-4 py-3 text-sm">
-          <p className="text-xs font-medium uppercase tracking-wide text-ink-faint">{t('disputes.payerSays')}</p>
+          <p className="kicker text-ink-faint">{t('disputes.payerSays')}</p>
           <p className="mt-1">“{d.payer_message}”</p>
         </blockquote>
       )}
@@ -151,7 +151,7 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
       </section>
 
       <section className="rounded-lg bg-sunken px-4 py-3 text-sm">
-        <p className="text-xs font-medium uppercase tracking-wide text-ink-faint">{t('disputes.rules')}</p>
+        <p className="kicker text-ink-faint">{t('disputes.rules')}</p>
         <p className="mt-1">
           <span className="font-semibold">
             {t(`disputes.action.${d.recommended}`, {
@@ -305,7 +305,7 @@ export default function Disputes() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t('disputes.title')}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('disputes.title')}</h1>
           <p className="mt-1 max-w-3xl text-ink-soft">{t('disputes.subtitle')}</p>
         </div>
         <div className="flex items-center gap-3">

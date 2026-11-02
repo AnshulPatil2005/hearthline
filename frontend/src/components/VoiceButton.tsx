@@ -50,7 +50,13 @@ export function VoiceButton({ onText, className = '' }: Props) {
     r.continuous = false
     r.onresult = (e) => {
       const results = Array.from(e.results)
-      onText(results.map((res) => res[0].transcript).join(' ').trim(), results.every((res) => res.isFinal))
+      onText(
+        results
+          .map((res) => res[0].transcript)
+          .join(' ')
+          .trim(),
+        results.every((res) => res.isFinal),
+      )
     }
     r.onerror = (e) => setError(e.error === 'not-allowed' ? t('voice.blocked') : t('voice.failed'))
     r.onend = () => setListening(false)
@@ -70,7 +76,14 @@ export function VoiceButton({ onText, className = '' }: Props) {
         title={listening ? t('voice.stop') : t('voice.start')}
         className={`grid size-9 shrink-0 place-items-center rounded-lg border ${listening ? 'animate-pulse border-ember bg-ember-soft text-ember' : 'border-line text-ink-soft hover:bg-sunken hover:text-ink'} ${className}`}
       >
-        <svg viewBox="0 0 24 24" className="size-4" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+        <svg
+          viewBox="0 0 24 24"
+          className="size-4"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          aria-hidden="true"
+        >
           <rect x="9" y="3" width="6" height="11" rx="3" />
           <path d="M5 11a7 7 0 0 0 14 0M12 18v3" strokeLinecap="round" />
         </svg>

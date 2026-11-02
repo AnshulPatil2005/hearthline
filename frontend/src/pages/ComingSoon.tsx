@@ -9,9 +9,11 @@ export default function ComingSoon() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-3xl font-semibold tracking-tight">{t('comingSoon.title', { role: t(`roles.${user.role}`) })}</h1>
+      <h1 className="text-4xl leading-tight tracking-tight text-balance">
+        {t('comingSoon.title', { role: t(`roles.${user.role}`) })}
+      </h1>
       <p className="mt-2 text-ink-soft">{user.title}</p>
-      <section className="mt-8 rounded-xl border border-line bg-surface p-5 shadow-sm">
+      <section className="mt-8 panel p-5">
         <p className="text-ink-soft">{t('comingSoon.body', { name: user.name.split(' ')[0] })}</p>
         <ul className="mt-4 space-y-2">
           {features.map((f) => (

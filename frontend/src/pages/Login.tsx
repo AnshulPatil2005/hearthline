@@ -6,25 +6,16 @@ import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
 import { DemoTour } from '../components/DemoTour'
 import { Footer } from '../components/Footer'
-import { LanguageSelect, Logo } from '../components/Shell'
+import { Dateline, Wordmark } from '../components/Shell'
 import { homePathFor } from '../paths'
 
-const ROLE_TINT: Record<Role, string> = {
-  household: 'bg-ember-soft text-ember',
-  donor: 'bg-sage-soft text-sage',
-  contractor: 'bg-amber-soft text-amber',
-  reviewer: 'bg-sunken text-ink',
-  supervisor: 'bg-sunken text-ink',
-  org_admin: 'bg-sage-soft text-sage',
-  business: 'bg-amber-soft text-amber',
-}
-
-const initials = (name: string) =>
-  name
-    .split(' ')
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
+// The cast, in the order a visitor meets them: the people helped, the people rebuilding, the people deciding
+const GROUPS: { key: string; roles: Role[] }[] = [
+  { key: 'people', roles: ['household', 'donor'] },
+  { key: 'build', roles: ['contractor', 'business'] },
+  { key: 'relief', roles: ['org_admin', 'reviewer', 'supervisor'] },
+]
+const STAGES = ['prepare', 'respond', 'rebuild', 'reopen'] as const
 
 type ResetStatus = { running: boolean; available_in_seconds: number; error: string | null }
 
@@ -124,65 +115,92 @@ export default function Login() {
     }
   }
 
+  const persona = (p: User) =>
+    t(`login.persona.${p.email.split('@')[0].replace('.', '_')}`, {
+      defaultValue: p.title?.split(' · ')[1] ?? p.title,
+    })
+
   return (
-    <div className="min-h-svh px-4 py-10">
-      <div className="mx-auto max-w-5xl">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2 text-lg font-semibold">
-            <Logo className="size-8" />
-            Hearthline
+    <div className="flex min-h-svh flex-col">
+      <Dateline />
+      <div className="mx-auto w-full max-w-6xl flex-1 px-4">
+        <header className="flex items-end justify-between gap-4 border-b-4 border-ink pt-8 pb-4">
+          <Wordmark size="lg" />
+        </header>
+
+        <section className="grid gap-x-12 gap-y-8 border-b border-ink py-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
+          <div>
+            <p className="kicker text-ember">{STAGES.map((s) => t(`app.stages.${s}`)).join(' · ')}</p>
+            <h1 className="mt-4 text-5xl leading-[1.02] tracking-tight text-balance sm:text-6xl">{t('app.tagline')}</h1>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{t('login.lede')}</p>
           </div>
-          <LanguageSelect />
-        </div>
-
-        <div className="mt-12 max-w-2xl">
-          <p className="text-sm font-medium tracking-wide text-ember uppercase">
-            {(['prepare', 'respond', 'rebuild', 'reopen'] as const).map((s) => t(`app.stages.${s}`)).join(' · ')}
-          </p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-balance">{t('app.tagline')}</h1>
-          <h2 className="mt-8 text-xl font-semibold">{t('login.title')}</h2>
-          <p className="mt-2 text-ink-soft">{t('login.subtitle')}</p>
-        </div>
-
-        {(error || personas.isError) && (
-          <p role="alert" className="mt-6 rounded-lg bg-danger-soft px-4 py-3 text-danger">
-            {t('login.error')}
-          </p>
-        )}
-
-        <ul className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {personas.isPending &&
-            Array.from({ length: 8 }, (_, i) => <li key={i} className="h-44 animate-pulse rounded-xl bg-sunken" />)}
-          {personas.data?.map((p) => (
-            <li key={p.id}>
-              <button
-                onClick={() => void choose(p)}
-                disabled={pending !== null}
-                className="flex h-full w-full flex-col rounded-xl border border-line bg-surface p-4 text-left shadow-sm transition hover:-translate-y-0.5 hover:border-ember hover:shadow-md disabled:opacity-60"
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`grid size-10 place-items-center rounded-full text-sm font-semibold ${ROLE_TINT[p.role]}`}
-                  >
-                    {initials(p.name)}
-                  </span>
-                  <div>
-                    <div className="font-semibold">{p.name}</div>
-                    <div className="text-xs text-ink-faint">{t(`roles.${p.role}`)}</div>
-                  </div>
+          <ol className="divide-y divide-line self-end border-t border-ink lg:border-t-0">
+            {STAGES.map((stage, i) => (
+              <li key={stage} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2 py-3">
+                <span className="font-mono text-sm text-ember">{String(i + 1).padStart(2, '0')}</span>
+                <div>
+                  <p className="font-serif text-xl font-semibold">{t(`app.stages.${stage}`)}</p>
+                  <p className="text-sm text-ink-soft">{t(`login.stageLines.${stage}`)}</p>
                 </div>
-                <p className="mt-3 flex-1 text-sm text-ink-soft first-letter:uppercase">
-                  {t(`login.persona.${p.email.split('@')[0].replace('.', '_')}`, {
-                    defaultValue: p.title?.split(' · ')[1] ?? p.title,
-                  })}
-                </p>
-                <span className="mt-4 text-sm font-medium text-ember">
-                  {pending === p.id ? '…' : t('login.signIn', { name: p.name.split(' ')[0] })} →
-                </span>
-              </button>
-            </li>
-          ))}
-        </ul>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section aria-labelledby="cast-title" className="py-10">
+          <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
+            <h2 id="cast-title" className="text-3xl">
+              {t('login.title')}
+            </h2>
+            <p className="max-w-xl text-ink-soft">{t('login.subtitle')}</p>
+          </div>
+
+          {(error || personas.isError) && (
+            <p role="alert" className="mt-6 border-l-2 border-danger bg-danger-soft px-4 py-3 text-danger">
+              {t('login.error')}
+            </p>
+          )}
+
+          {personas.isPending && <div className="mt-8 h-96 animate-pulse bg-sunken" />}
+          <div className="mt-6 grid gap-x-10 gap-y-8 lg:grid-cols-3">
+            {personas.data &&
+              GROUPS.map((g) => (
+                <div key={g.key}>
+                  <h3 className="kicker border-b border-ink pb-2 text-ink">{t(`login.groups.${g.key}`)}</h3>
+                  <ul className="divide-y divide-line">
+                    {personas.data
+                      .filter((p) => g.roles.includes(p.role))
+                      .map((p) => (
+                        <li key={p.id}>
+                          <button
+                            onClick={() => void choose(p)}
+                            disabled={pending !== null}
+                            className="group grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 py-4 text-left disabled:opacity-60"
+                          >
+                            <span className="min-w-0">
+                              <span className="block font-serif text-xl font-semibold group-hover:text-ember">
+                                {p.name}
+                              </span>
+                              <span className="kicker block text-ink-faint">{t(`roles.${p.role}`)}</span>
+                              <span className="mt-1 block text-sm text-ink-soft first-letter:uppercase">
+                                {persona(p)}
+                              </span>
+                            </span>
+                            <span
+                              aria-hidden
+                              className="mt-0.5 text-2xl leading-none text-ember transition-transform group-hover:translate-x-1"
+                            >
+                              {pending === p.id ? '…' : '→'}
+                            </span>
+                            <span className="sr-only">{t('login.signIn', { name: p.name.split(' ')[0] })}</span>
+                          </button>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              ))}
+          </div>
+        </section>
 
         <DemoTour />
         <ResetDemo />

@@ -84,7 +84,7 @@ export function AidBatchPanel({ filterModel, onCreated }: Props) {
 
   const filters = Object.keys(filterModel())
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('command.batch.title')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('command.batch.intro')}</p>
       <p className="mt-2 text-xs text-ink-faint">

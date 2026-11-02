@@ -80,7 +80,12 @@ export default function PriceWatch() {
         sortable: false,
         cellRenderer: 'agSparklineCellRenderer',
         cellRendererParams: {
-          sparklineOptions: { type: 'line', stroke: cssColor('--ember'), strokeWidth: 2, padding: { top: 6, bottom: 6 } },
+          sparklineOptions: {
+            type: 'line',
+            stroke: cssColor('--ember'),
+            strokeWidth: 2,
+            padding: { top: 6, bottom: 6 },
+          },
         },
       },
       {
@@ -110,16 +115,22 @@ export default function PriceWatch() {
   const e = report.data?.event
   const rows = report.data?.rows ?? []
   const flagged = rows.filter((r) => r.status === 'gouging').length
-  const date = (d: string) => new Date(d).toLocaleDateString(i18n.resolvedLanguage, { month: 'long', day: 'numeric', year: 'numeric' })
+  const date = (d: string) =>
+    new Date(d).toLocaleDateString(i18n.resolvedLanguage, { month: 'long', day: 'numeric', year: 'numeric' })
   return (
     <PublicFrame wide>
       <div className="space-y-5">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
-            <h1 className="text-3xl font-semibold tracking-tight">{t('priceWatch.title')}</h1>
+            <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('priceWatch.title')}</h1>
             {e && (
               <p className="mt-1 max-w-3xl text-ink-soft">
-                {t('priceWatch.subtitle', { event: e.name, declared: date(e.declared_at), until: date(e.protection_until), limit })}
+                {t('priceWatch.subtitle', {
+                  event: e.name,
+                  declared: date(e.declared_at),
+                  until: date(e.protection_until),
+                  limit,
+                })}
               </p>
             )}
           </div>
@@ -134,7 +145,9 @@ export default function PriceWatch() {
           )}
         </div>
         {e && (
-          <p className={`rounded-lg px-4 py-3 text-sm ${flagged ? 'bg-danger-soft text-danger' : 'bg-sage-soft text-sage'}`}>
+          <p
+            className={`rounded-lg px-4 py-3 text-sm ${flagged ? 'bg-danger-soft text-danger' : 'bg-sage-soft text-sage'}`}
+          >
             {t('priceWatch.summary', { count: flagged, total: rows.length, limit })}
             {!e.protection_active && ` ${t('priceWatch.inactive')}`}
           </p>

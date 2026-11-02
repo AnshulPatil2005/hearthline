@@ -96,7 +96,7 @@ export default function Money() {
     <div className="space-y-6">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-semibold tracking-tight">{t('money.title')}</h1>
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('money.title')}</h1>
           <p className="mt-1 text-ink-soft">{t('money.subtitle')}</p>
         </div>
         <button
@@ -111,7 +111,7 @@ export default function Money() {
       {fund.data && (
         <dl className="grid gap-4 sm:grid-cols-3">
           {(['donated', 'spent', 'available'] as const).map((k) => (
-            <div key={k} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+            <div key={k} className="panel p-4">
               <dt className="text-sm text-ink-soft">{t(`registry.fund.${k}`)}</dt>
               <dd className="text-2xl font-semibold tabular-nums">{money(fund.data[k], { cents: true })}</dd>
             </div>

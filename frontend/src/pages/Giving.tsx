@@ -11,7 +11,7 @@ function GiftCard({ gift }: { gift: Gift }) {
   const { t, i18n } = useTranslation()
   const date = (d: string) => new Date(d).toLocaleDateString(i18n.resolvedLanguage, { month: 'short', day: 'numeric' })
   return (
-    <li className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <li className="panel p-5">
       <div className="flex flex-wrap items-start justify-between gap-2">
         <div>
           <div className="font-semibold">
@@ -57,7 +57,7 @@ export default function Giving() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('giving.title')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('giving.title')}</h1>
         <p className="mt-1 text-ink-soft">{t('giving.subtitle')}</p>
       </div>
       <ReadinessFund />
@@ -73,7 +73,7 @@ export default function Giving() {
             />
             <Stat label={t('giving.stat.delivered')} value={g.items_delivered.toLocaleString(i18n.resolvedLanguage)} />
           </div>
-          <p className="rounded-xl border border-line bg-surface p-5 leading-relaxed shadow-sm" aria-live="polite">
+          <p className="panel p-5 leading-relaxed" aria-live="polite">
             {note.data?.by_ai && (
               <span className="mr-2 rounded bg-ember-soft px-1.5 py-0.5 text-xs font-medium text-ember">AI</span>
             )}
@@ -90,7 +90,7 @@ export default function Giving() {
         <h2 className="text-lg font-semibold">{t('giving.helpMore')}</h2>
         <ul className="grid gap-3 md:grid-cols-3">
           {registries.data?.map((r) => (
-            <li key={r.slug} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+            <li key={r.slug} className="panel p-4">
               <Link to={`/r/${r.slug}`} className="font-medium text-ember hover:underline">
                 {r.title}
               </Link>
@@ -100,7 +100,7 @@ export default function Giving() {
             </li>
           ))}
           {funds.data?.map((f) => (
-            <li key={f.slug} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+            <li key={f.slug} className="panel p-4">
               <Link to={`/reopen/${f.slug}`} className="font-medium text-ember hover:underline">
                 {f.business}
               </Link>

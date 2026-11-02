@@ -68,6 +68,18 @@
       "sam_whitfield": "namamahala sa Command Center",
       "luis_moreno": "Moreno's Bakery, nagsara dahil sa sunog",
       "rosa_delgado": "Sablewood Mercantile, bukas na ulit pagkatapos ng sunog"
+    },
+    "lede": "Dinadala ng Hearthline ang tulong sa pamamagitan ng PayPal mula sa unang babala hanggang sa araw na makauwi ang pamilya. Ang mga AI agent ang gumagawa ng trabaho at nagpapaliwanag ng bawat hakbang; tao ang nag-aapruba ng bawat dolyar.",
+    "stageLines": {
+      "prepare": "Kunan ng litrato ang bahay bago ang sakuna. Inililista at tinataya ng AI ang mga gamit.",
+      "respond": "Pera sa loob ng ilang oras matapos ang utos na lumikas, at pinopondohan ng mga donor ang eksaktong kailangan.",
+      "rebuild": "Binabayaran ang mga contractor mula sa escrow, isang nasuring hakbang sa bawat pagkakataon.",
+      "reopen": "Nagbebenta ng gift card ang mga lokal na tindahan para muling magbukas, at inilalabas ang pera habang sila'y bumabangon."
+    },
+    "groups": {
+      "people": "Mga pamilya at donor",
+      "build": "Muling pagtatayo ng bayan",
+      "relief": "Network ng tulong"
     }
   },
   "home": {
@@ -276,7 +288,8 @@
     "fundThis": "Pondohan",
     "shopNow": "Bilhin na ngayon",
     "giveIn": "Magbigay sa",
-    "fxEstimate": "Ang {{given}} ay mga {{usd}} para sa pamilya. Ang exchange rate ng PayPal ang gagamitin sa pagbabayad; dolyar ang matatanggap ng pamilya."
+    "fxEstimate": "Ang {{given}} ay mga {{usd}} para sa pamilya. Ang exchange rate ng PayPal ang gagamitin sa pagbabayad; dolyar ang matatanggap ng pamilya.",
+    "raisedLabel": "Nalikom na"
   },
   "purchases": {
     "title": "Ang binili ng Shopper",

@@ -16,7 +16,7 @@ function CreateRegistry({ home }: { home: Household }) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['my-registry'] }),
   })
   return (
-    <section className="max-w-2xl rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="max-w-2xl panel p-5">
       <h2 className="text-lg font-semibold">{t('registry.createTitle')}</h2>
       <p className="mt-1 text-sm text-ink-soft">{t('registry.createBody')}</p>
       <input
@@ -72,7 +72,7 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
 
   const priced = inventory.data?.filter((i) => i.unit_price) ?? []
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="font-semibold">{t('registry.addTitle')}</h2>
       <div className="mt-3 grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -173,7 +173,7 @@ export default function RegistryManage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-semibold tracking-tight">{t('registry.manageTitle')}</h1>
+        <h1 className="text-4xl leading-tight tracking-tight text-balance">{t('registry.manageTitle')}</h1>
         <p className="mt-1 text-ink-soft">{t('registry.manageSubtitle')}</p>
       </div>
 
@@ -181,7 +181,7 @@ export default function RegistryManage() {
 
       {reg && (
         <>
-          <section className="flex flex-wrap items-center gap-3 rounded-xl border border-line bg-surface p-4 shadow-sm">
+          <section className="flex flex-wrap items-center gap-3 panel p-4">
             <span className="text-sm text-ink-soft">{t('registry.shareLink')}</span>
             <code className="rounded bg-sunken px-2 py-1 text-sm">{publicUrl}</code>
             <button
@@ -200,7 +200,7 @@ export default function RegistryManage() {
           {fund.data && (
             <dl className="grid gap-4 sm:grid-cols-3">
               {(['donated', 'spent', 'available'] as const).map((k) => (
-                <div key={k} className="rounded-xl border border-line bg-surface p-4 shadow-sm">
+                <div key={k} className="panel p-4">
                   <dt className="text-sm text-ink-soft">{t(`registry.fund.${k}`)}</dt>
                   <dd className="text-2xl font-semibold tabular-nums">{money(fund.data[k], { cents: true })}</dd>
                 </div>
@@ -210,7 +210,7 @@ export default function RegistryManage() {
 
           <PurchaseList />
 
-          <section className="rounded-xl border border-line bg-surface shadow-sm">
+          <section className="panel">
             <ul className="divide-y divide-line">
               {reg.items.map((i) => (
                 <li key={i.id} className="flex flex-wrap items-center gap-3 px-4 py-3">

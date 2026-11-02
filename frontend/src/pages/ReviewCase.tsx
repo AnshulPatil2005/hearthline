@@ -18,8 +18,8 @@ const SEVERITY: Record<string, string> = {
 
 function Panel({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
-      <h2 className="text-sm font-semibold tracking-wide text-ink-faint uppercase">{title}</h2>
+    <section className="panel p-5">
+      <h2 className="kicker text-ink-faint">{title}</h2>
       <div className="mt-3">{children}</div>
     </section>
   )
@@ -151,7 +151,7 @@ export default function ReviewCase() {
           ← {t('review.back')}
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-3">
-          <h1 className="text-3xl font-semibold tracking-tight">
+          <h1 className="text-4xl leading-tight tracking-tight text-balance">
             {t(`review.kind.${c.kind}`)} · {c.household_name}
           </h1>
           <RiskBadge tier={c.risk_tier} score={c.risk_score} />

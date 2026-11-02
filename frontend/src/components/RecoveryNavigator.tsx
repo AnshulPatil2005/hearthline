@@ -51,7 +51,7 @@ function Due({ step }: { step: NavigatorStep }) {
         : days > 0 && days <= 30
           ? t('navigator.inDays', { count: days, date })
           : date
-  return <span className={`shrink-0 rounded-full px-2 py-0.5 text-xs font-medium ${tone}`}>{label}</span>
+  return <span className={`shrink-0 rounded-sm px-1.5 py-0.5 font-mono text-xs ${tone}`}>{label}</span>
 }
 
 function StepRow({ step, onMark }: { step: NavigatorStep; onMark: (s: NavigatorStep) => void }) {
@@ -74,28 +74,31 @@ function StepRow({ step, onMark }: { step: NavigatorStep; onMark: (s: NavigatorS
           className={`mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full ${step.kind === 'event' ? 'bg-ink-faint' : 'bg-ember'}`}
         />
       )}
-      <div className="min-w-0 flex-1">
+      <div className="min-w-0 flex-1 basis-56">
         <p className={`font-medium ${step.done ? 'line-through' : ''}`}>
           {t(`navigator.step.${step.key}.title`, step.params)}
         </p>
         <p className="text-sm text-ink-soft">{t(`navigator.step.${step.key}.detail`, step.params)}</p>
       </div>
-      <Due step={step} />
-      {!step.done &&
-        (external ? (
-          <a
-            href={step.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shrink-0 rounded-lg border border-line px-2.5 py-1 text-sm hover:bg-sunken"
-          >
-            {open}
-          </a>
-        ) : (
-          <Link to={step.link} className="shrink-0 rounded-lg border border-line px-2.5 py-1 text-sm hover:bg-sunken">
-            {open}
-          </Link>
-        ))}
+      {/* the date and the action travel together: beside the text, or under it on a narrow screen */}
+      <div className="flex shrink-0 items-center gap-2">
+        <Due step={step} />
+        {!step.done &&
+          (external ? (
+            <a
+              href={step.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shrink-0 rounded-lg border border-line px-2.5 py-1 text-sm hover:bg-sunken"
+            >
+              {open}
+            </a>
+          ) : (
+            <Link to={step.link} className="shrink-0 rounded-lg border border-line px-2.5 py-1 text-sm hover:bg-sunken">
+              {open}
+            </Link>
+          ))}
+      </div>
     </li>
   )
 }
@@ -133,7 +136,7 @@ export function RecoveryNavigator() {
   const open = p.steps.filter((s) => !s.done)
   const done = p.steps.filter((s) => s.done)
   return (
-    <section aria-labelledby="navigator-title" className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section aria-labelledby="navigator-title" className="panel p-5">
       <div className="flex flex-wrap items-baseline justify-between gap-2">
         <h2 id="navigator-title" className="text-lg font-semibold">
           {t('navigator.title')}

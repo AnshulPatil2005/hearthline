@@ -62,7 +62,10 @@ export default function ScanPanel() {
     try {
       let roomId = Number(roomChoice)
       if (roomChoice === NEW_ROOM) {
-        const room = await api<Room>('/households/me/rooms', { method: 'POST', body: JSON.stringify({ name: newRoomName }) })
+        const room = await api<Room>('/households/me/rooms', {
+          method: 'POST',
+          body: JSON.stringify({ name: newRoomName }),
+        })
         roomId = room.id
         setRoomChoice(String(room.id))
         setNewRoomName('')
@@ -77,12 +80,11 @@ export default function ScanPanel() {
     }
   }
 
-  const roomName =
-    rooms.data?.find((r) => r.id === scan.data?.room_id)?.name ?? newRoomName
+  const roomName = rooms.data?.find((r) => r.id === scan.data?.room_id)?.name ?? newRoomName
   const canStart = photos.length > 0 && !busy && (roomChoice !== NEW_ROOM || newRoomName.trim().length > 0)
 
   return (
-    <section className="rounded-xl border border-line bg-surface p-5 shadow-sm">
+    <section className="panel p-5">
       <h2 className="text-lg font-semibold">{t('inventory.scan.title')}</h2>
       <div className="mt-4 grid gap-4 md:grid-cols-[minmax(0,14rem)_minmax(0,1fr)_auto] md:items-end">
         <label className="block text-sm">
@@ -142,7 +144,9 @@ export default function ScanPanel() {
         {status === 'done' && (
           <p className="text-sage">{t('inventory.scan.done', { count: scan.data!.item_count, room: roomName })}</p>
         )}
-        {status === 'failed' && <p className="text-danger">{t('inventory.scan.failed', { error: scan.data!.error })}</p>}
+        {status === 'failed' && (
+          <p className="text-danger">{t('inventory.scan.failed', { error: scan.data!.error })}</p>
+        )}
         {error && <p className="text-danger">{error}</p>}
       </div>
     </section>

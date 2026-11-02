@@ -51,7 +51,13 @@ function PriceCell({ data, valueFormatted }: ICellRendererParams<Row, number | n
 function MatchCell({ data }: ICellRendererParams<Row>) {
   if (!data?.match_url) return null
   return (
-    <a href={data.match_url} target="_blank" rel="noreferrer" title={data.match_title ?? ''} className="text-ember hover:underline">
+    <a
+      href={data.match_url}
+      target="_blank"
+      rel="noreferrer"
+      title={data.match_title ?? ''}
+      className="text-ember hover:underline"
+    >
       {data.retailer} ↗
     </a>
   )
@@ -59,7 +65,8 @@ function MatchCell({ data }: ICellRendererParams<Row>) {
 
 type Props = { rows: Row[]; onChanged: () => void; onError: (message: string) => void }
 
-const moneyCell = (p: ValueFormatterParams) => (p.value === null || p.value === undefined ? '' : money(p.value, { cents: true }))
+const moneyCell = (p: ValueFormatterParams) =>
+  p.value === null || p.value === undefined ? '' : money(p.value, { cents: true })
 
 const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid({ rows, onChanged, onError }, ref) {
   const { t } = useTranslation()
@@ -69,7 +76,14 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
     () => [
       { field: 'photo_url', headerName: '', width: 60, cellRenderer: PhotoCell, sortable: false },
       { field: 'room_name', headerName: t('inventory.col.room'), rowGroup: true, hide: true },
-      { field: 'name', headerName: t('inventory.col.item'), editable: true, flex: 1, minWidth: 200, tooltipField: 'name' },
+      {
+        field: 'name',
+        headerName: t('inventory.col.item'),
+        editable: true,
+        flex: 1,
+        minWidth: 200,
+        tooltipField: 'name',
+      },
       {
         field: 'category',
         headerName: t('inventory.col.category'),
@@ -80,7 +94,14 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
         filter: 'agSetColumnFilter',
         width: 145,
       },
-      { field: 'quantity', headerName: t('inventory.col.qty'), editable: true, cellEditor: 'agNumberCellEditor', cellEditorParams: { min: 1, precision: 0 }, width: 68 },
+      {
+        field: 'quantity',
+        headerName: t('inventory.col.qty'),
+        editable: true,
+        cellEditor: 'agNumberCellEditor',
+        cellEditorParams: { min: 1, precision: 0 },
+        width: 68,
+      },
       {
         field: 'unit_price',
         headerName: t('inventory.col.unitPrice'),
@@ -125,7 +146,10 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
     const field = e.colDef.field && EDITABLE[e.colDef.field]
     if (!field || !e.data || e.newValue === e.oldValue) return
     try {
-      const saved = await api<Item>(`/items/${e.data.id}`, { method: 'PATCH', body: JSON.stringify({ [field]: e.newValue }) })
+      const saved = await api<Item>(`/items/${e.data.id}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ [field]: e.newValue }),
+      })
       e.node.setData(toRow(saved))
       void queryClient.invalidateQueries({ queryKey: ['inventory-summary'] })
       onChanged()
