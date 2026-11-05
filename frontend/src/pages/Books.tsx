@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { api, ApiError, type BooksLine, type BooksReport, type PayPalBalance } from '../api'
 import { money, parseTime } from '../format'
 import { gridTheme } from '../grid'
+import { BuiltWith } from '../components/Showcase'
 
 type Row = Omit<BooksLine, 'amount'> & { amount: number; id: number }
 
@@ -132,31 +133,31 @@ export default function Books() {
         </p>
       )}
 
-      <dl className="grid gap-x-6 gap-y-5 sm:grid-cols-2 lg:grid-cols-4">
-        <div className="border-t-2 border-ink pt-2">
+      <dl className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('books.balance')}</dt>
-          <dd className="figure mt-1 text-3xl font-semibold">
+          <dd className="figure mt-0.5 text-2xl font-semibold">
             {balance.data ? money(balance.data.available, { cents: true }) : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{t('books.asOf', { when: when(balance.data?.as_of ?? null) })}</dd>
         </div>
-        <div className="border-t-2 border-ink pt-2">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('books.matched')}</dt>
-          <dd className="figure mt-1 text-3xl font-semibold text-sage">{r ? r.counts.matched : '—'}</dd>
+          <dd className="figure mt-0.5 text-2xl font-semibold text-sage">{r ? r.counts.matched : '—'}</dd>
           <dd className="text-xs text-ink-faint">
             {r ? t('books.flows', { in: money(r.paypal_in), out: money(r.paypal_out) }) : ''}
           </dd>
         </div>
-        <div className="border-t-2 border-ink pt-2">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('books.needsLook')}</dt>
-          <dd className={`figure mt-1 text-3xl font-semibold ${needsLook ? 'text-danger' : ''}`}>
+          <dd className={`figure mt-0.5 text-2xl font-semibold ${needsLook ? 'text-danger' : ''}`}>
             {r ? needsLook : '—'}
           </dd>
           <dd className="text-xs text-ink-faint">{r ? t('books.waiting', { count: r.counts.waiting }) : ''}</dd>
         </div>
-        <div className="border-t-2 border-ink pt-2">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('books.window')}</dt>
-          <dd className="figure mt-1 text-2xl font-semibold">{r ? when(r.start, false) : '—'}</dd>
+          <dd className="figure mt-0.5 text-xl font-semibold">{r ? when(r.start, false) : '—'}</dd>
           <dd className="text-xs text-ink-faint">
             {t('books.refreshed', { when: when(r?.paypal_refreshed_at ?? null) })}
           </dd>
@@ -175,6 +176,10 @@ export default function Books() {
           overlayNoRowsTemplate={t('books.empty')}
         />
       </div>
+      <BuiltWith
+        name="AG Grid Enterprise"
+        what="set filters · Excel export · PayPal's records through APIMatic's PayPal Python SDK (Transaction Search, Balances)"
+      />
       <p className="text-xs text-ink-faint">{t('books.hint')}</p>
     </div>
   )

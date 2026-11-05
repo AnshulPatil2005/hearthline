@@ -33,7 +33,8 @@
     "insurance": "Insurance",
     "disputes": "Disputes",
     "books": "Books",
-    "disasters": "Disasters"
+    "disasters": "Disasters",
+    "features": "Feature guide"
   },
   "roles": {
     "household": "Household",
@@ -1853,6 +1854,235 @@
       "rejected": "Rejected",
       "skipped": "Left for another day",
       "stale": "No longer fits"
+    }
+  },
+  "showcase": {
+    "pageTitle": "Everything Hearthline does",
+    "navFeatures": "Features",
+    "navSponsors": "Sponsor tools",
+    "navTour": "5-minute tour",
+    "ctaTour": "Take the 5-minute tour",
+    "ctaFeatures": "See every feature",
+    "ctaSponsors": "See the sponsor tools",
+    "facts": {
+      "paypal": "PayPal APIs",
+      "agents": "AI agents",
+      "features": "features to try",
+      "sponsors": "sponsor tools",
+      "languages": "languages"
+    },
+    "featuresTitle": "All {{count}} features, one click away",
+    "featuresIntro": "Each link signs you in as the right person and opens the page. Nothing to set up: the demo is seeded, and PayPal runs in the sandbox.",
+    "groups": {
+      "prepare": "Before the disaster",
+      "respond": "The first days",
+      "trust": "Keeping the money safe",
+      "rebuild": "Rebuild, claim and reopen",
+      "run": "Running the response"
+    },
+    "open": "Open",
+    "openAs": "Open as {{name}}",
+    "builtWith": "Built with {{name}}",
+    "f": {
+      "inventory": {
+        "title": "Home inventory from photos",
+        "body": "Photograph each room before disaster strikes. The Inventory agent lists what it sees, Channel3 prices it, and you edit it in AG Grid and export the claim to Excel."
+      },
+      "policy": {
+        "title": "Insurance policy, read for you",
+        "body": "Upload a policy PDF. The Policy agent finds the limits and deadlines and answers questions with a quote; code checks the limits against the inventory."
+      },
+      "readiness": {
+        "title": "Readiness fund",
+        "body": "Donors give $10, $25 or $50 a month with PayPal Subscriptions to a pool that pays families as soon as a disaster is declared."
+      },
+      "navigator": {
+        "title": "Recovery navigator",
+        "body": "Each family's next steps with real dates (FEMA's 60 days, the policy's deadlines), explained in their language and read aloud."
+      },
+      "first72": {
+        "title": "Cash in the first 72 hours",
+        "body": "An evacuation order or FEMA declaration triggers aid for families who prepared: one approval, one PayPal Payouts batch, and Sentinel holds back anyone suspicious."
+      },
+      "registry": {
+        "title": "A registry of exactly what's needed",
+        "body": "The Riveras' public page. Donors fund specific items with PayPal, Venmo or Pay Later (the sandbox buyer login is in the tour below)."
+      },
+      "abroad": {
+        "title": "Family abroad gives in pesos",
+        "body": "Give in Mexican or Philippine pesos, euros, Canadian dollars or pounds. PayPal converts it and the family receives dollars at PayPal's rate."
+      },
+      "shopper": {
+        "title": "The Shopper agent buys it",
+        "body": "Once an item is funded, the Shopper finds it, checks nine spending rules in code (price gouging included) and pays the store through PayPal."
+      },
+      "marketplace": {
+        "title": "Local stores negotiate",
+        "body": "Each reopened store runs its own pricing agent within the owner's floor price. The Shopper asks for quotes over MCP and may counter once."
+      },
+      "mandates": {
+        "title": "Giving on autopilot",
+        "body": "A donor saves their PayPal account with Vault and sets limits. The giving agent gives to verified families within them, with no checkout, and explains each gift."
+      },
+      "scam": {
+        "title": "A copycat fundraiser, caught",
+        "body": "Sentinel flags a fake registry for the Riveras. Two reviewers reject it, and every donor is refunded through PayPal."
+      },
+      "review": {
+        "title": "People approve the money",
+        "body": "Cash aid is reviewed at a depth that scales with risk: one reviewer, a video call on the Bryntum Calendar, or two reviewers and a supervisor."
+      },
+      "disputes": {
+        "title": "Payment disputes desk",
+        "body": "PayPal disputes arrive by webhook. Rules recommend the answer, the Funds agent drafts it with evidence, and staff decide what goes to PayPal."
+      },
+      "books": {
+        "title": "Books checked against PayPal",
+        "body": "Every ledger entry is matched to PayPal's own records through Transaction Search with APIMatic's PayPal SDK. Ask PayPal questions over its MCP server."
+      },
+      "claim": {
+        "title": "Contents claim, paid with PayPal",
+        "body": "Hearthline builds the claim from the inventory with the policy's limits applied. The adjuster opens a link and pays it with PayPal."
+      },
+      "milestones": {
+        "title": "Rebuild paid from escrow",
+        "body": "The contractor's plan sits in escrow on a Bryntum Gantt. The Site agent checks each step's photos before the homeowner releases the payment."
+      },
+      "whatif": {
+        "title": "What if a step runs late?",
+        "body": "The contractor tries a delay on the chart: Bryntum's scheduling engine moves every step after it, and the family sees the new move-in day and why."
+      },
+      "reopen": {
+        "title": "Reopen fund for local shops",
+        "body": "Moreno's Bakery sells gift cards and monthly plans now. The money waits in escrow and is released step by step as it rebuilds."
+      },
+      "pricewatch": {
+        "title": "Price-gouging watch",
+        "body": "Essentials compared with their prices before the disaster (Channel3 price history). Anything over California's 10% limit is flagged."
+      },
+      "command": {
+        "title": "Command Center for 2,005 households",
+        "body": "AG Grid's server-side row model over every household, with filters translated to SQL, and \"Ask the grid\" in plain words through the AG Grid AI Toolkit."
+      },
+      "map": {
+        "title": "Live map",
+        "body": "Households by damage, the fire zone, crews and stores on OpenStreetMap. It follows the grid's filters, and new payments pulse as they land."
+      },
+      "batch": {
+        "title": "Batch cash aid, two people",
+        "body": "One person prepares a PayPal Payouts batch and a different person approves it; a master/detail grid shows every payment."
+      },
+      "dispatch": {
+        "title": "AI crew dispatcher",
+        "body": "The dispatch agent plans tomorrow's crew visits on Bryntum Scheduler Pro. Each visit is a ghost bar until a person accepts it."
+      },
+      "disasters": {
+        "title": "Real disasters",
+        "body": "Open any disaster FEMA declared in the last four months, or a live weather warning. Its counties become the zone, and aid is proposed."
+      },
+      "pipeline": {
+        "title": "Case pipeline",
+        "body": "Every review case by status on a Bryntum TaskBoard. Cards move only when reviewers decide."
+      },
+      "grant": {
+        "title": "Impact reports",
+        "body": "The Funds agent writes donors' impact notes and a grant report PDF from the ledger's real numbers."
+      },
+      "api": {
+        "title": "Open to other AI agents",
+        "body": "A public API and MCP server let another agent find a family's needs and prepare a PayPal gift for a person to approve."
+      }
+    },
+    "sponsorsTitle": "How the sponsor tools are used",
+    "sponsorsIntro": "Each tool does real work in the app. Every line below opens the place where it's used.",
+    "sponsor": {
+      "paypal": {
+        "headline": "The core: every dollar moves through PayPal, in the sandbox.",
+        "facts": [
+          "PayPal APIs working together",
+          "currencies a gift can arrive in",
+          "ways to pay at checkout"
+        ],
+        "uses": {
+          "orders": "Orders v2 and the JS SDK: PayPal, Venmo and Pay Later on every registry",
+          "payouts": "Payouts: first-72-hours aid, purchases and rebuild milestones",
+          "subscriptions": "Subscriptions: the readiness fund and Reopen monthly plans",
+          "vault": "Vault and merchant-initiated Orders: giving mandates with no checkout",
+          "disputes": "Disputes API and webhooks: the disputes desk",
+          "reporting": "Transaction Search and Balances: the books, checked against PayPal",
+          "login": "Log in with PayPal: contractors and businesses connect their own accounts",
+          "mcp": "PayPal's MCP server: \"Ask PayPal\" about the account"
+        }
+      },
+      "aggrid": {
+        "headline": "11 grids, from a server-side model over 2,005 households to a grid you ask in plain words.",
+        "facts": [
+          "grids in the app",
+          "rows in the server-side row model",
+          "set filters"
+        ],
+        "uses": {
+          "ssrm": "Server-side row model: filters, sorting and grouping translated to SQL",
+          "toolkit": "AI Toolkit: \"Ask the grid\" turns a question into the grid's filters",
+          "grouping": "Row grouping, inline editing and Excel export: the home inventory",
+          "masterDetail": "Master/detail: each ledger entry's postings, each batch's payments",
+          "sparklines": "Sparklines with AG Charts: price history on Price Watch",
+          "map": "The live map follows the grid's filter model"
+        }
+      },
+      "bryntum": {
+        "headline": "Five Bryntum views on one shared core, all loading and saving through a CrudManager backend in FastAPI.",
+        "facts": [
+          "views",
+          "products",
+          "shared core (thin packages)"
+        ],
+        "uses": {
+          "gantt": "Gantt: scheduling engine, baselines, critical path, slack and a what-if preview",
+          "scheduler": "Scheduler Pro: travel-time buffers, drag to assign, and the AI dispatcher's ghost bars",
+          "utilization": "ResourceUtilization: each crew's load, sharing the Scheduler's project",
+          "calendar": "Calendar: reviewers' video verification calls",
+          "taskboard": "TaskBoard: the review case pipeline",
+          "crud": "Gantt for each shop's reopening plan, released step by step"
+        }
+      },
+      "channel3": {
+        "headline": "Real products and real prices behind every valuation, purchase and price check.",
+        "facts": [
+          "jobs in the app",
+          "prices tracked for gouging"
+        ],
+        "uses": {
+          "valuation": "Product search prices every item in the home inventory",
+          "shopper": "The Shopper finds the product it buys for a funded need",
+          "history": "Price history sets the pre-disaster baseline for the gouging guard"
+        }
+      },
+      "apimatic": {
+        "headline": "PayPal's APIMatic-generated Python SDK, integrated with APIMatic's PayPal Context Plugin.",
+        "facts": [
+          "PayPal API families through APIMatic's SDK",
+          "Context Plugin workflow"
+        ],
+        "uses": {
+          "sdk": "Orders through PayPal's APIMatic-generated Server SDK",
+          "vault": "Vault and merchant-initiated Orders for giving mandates",
+          "reporting": "Transaction Search and Balances for the books",
+          "plugin": "Context Plugin workflow: contract sheet, SDK map and stub-transport tests (public repo)",
+          "openapi": "Hearthline's own public API: OpenAPI 3.1, ready for SDK generation"
+        }
+      },
+      "render": {
+        "headline": "Deployed from one Blueprint: the API and the web app, with a demo anyone can reset.",
+        "facts": [
+          "services from one Blueprint",
+          "click to reset the demo"
+        ],
+        "uses": {
+          "blueprint": "render.yaml: API and static site, migrations and demo data on start-up",
+          "reset": "Put the demo back to the start, from this page"
+        }
+      }
     }
   }
 }

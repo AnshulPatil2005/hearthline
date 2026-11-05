@@ -11,6 +11,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL, api, tokenStore } from '../api'
 import { DispatchAgent } from '../components/DispatchAgent'
+import { BuiltWith } from '../components/Showcase'
 
 // Jobs are at addresses in Sablewood, California: show local site time whoever is dispatching.
 const SITE_TIME_ZONE = 'America/Los_Angeles'
@@ -171,6 +172,10 @@ export default function CrewSchedule() {
       <div className="h-[calc(100svh-16rem)] min-h-[30rem] overflow-hidden rounded-xl border border-line">
         <BryntumSchedulerPro ref={scheduler} project={project} {...timeline} {...props} />
       </div>
+      <BuiltWith
+        name="Bryntum Scheduler Pro"
+        what="event buffers for travel time · drag to assign · CrudManager sync with FastAPI · the ResourceUtilization view below shares the project"
+      />
       <section aria-labelledby="load-title">
         <h2 id="load-title" className="mb-2 text-sm font-semibold">
           {t('dispatch.loadTitle')}

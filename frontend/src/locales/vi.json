@@ -33,7 +33,8 @@
     "insurance": "Bảo hiểm",
     "disputes": "Khiếu nại",
     "books": "Sổ sách",
-    "disasters": "Thảm họa"
+    "disasters": "Thảm họa",
+    "features": "Hướng dẫn tính năng"
   },
   "roles": {
     "household": "Hộ gia đình",
@@ -1807,6 +1808,235 @@
       "rejected": "Đã từ chối",
       "skipped": "Để ngày khác",
       "stale": "Không còn phù hợp"
+    }
+  },
+  "showcase": {
+    "pageTitle": "Mọi điều Hearthline làm",
+    "navFeatures": "Tính năng",
+    "navSponsors": "Công cụ nhà tài trợ",
+    "navTour": "Tham quan 5 phút",
+    "ctaTour": "Bắt đầu tham quan 5 phút",
+    "ctaFeatures": "Xem mọi tính năng",
+    "ctaSponsors": "Xem công cụ nhà tài trợ",
+    "facts": {
+      "paypal": "API của PayPal",
+      "agents": "trợ lý AI",
+      "features": "tính năng để thử",
+      "sponsors": "công cụ nhà tài trợ",
+      "languages": "ngôn ngữ"
+    },
+    "featuresTitle": "Cả {{count}} tính năng, chỉ một cú nhấp",
+    "featuresIntro": "Mỗi liên kết đăng nhập đúng người và mở trang đó. Không cần cài đặt gì: bản demo đã có sẵn dữ liệu, và PayPal chạy trong sandbox.",
+    "groups": {
+      "prepare": "Trước thảm họa",
+      "respond": "Những ngày đầu",
+      "trust": "Giữ an toàn cho tiền",
+      "rebuild": "Xây dựng lại, bồi thường và mở cửa lại",
+      "run": "Điều phối cứu trợ"
+    },
+    "open": "Mở",
+    "openAs": "Mở với tư cách {{name}}",
+    "builtWith": "Xây dựng bằng {{name}}",
+    "f": {
+      "inventory": {
+        "title": "Kê khai đồ đạc từ ảnh",
+        "body": "Chụp ảnh từng phòng trước khi thảm họa xảy ra. Trợ lý kê khai liệt kê những gì nó thấy, Channel3 định giá, rồi quý vị chỉnh sửa trong AG Grid và xuất hồ sơ bồi thường ra Excel."
+      },
+      "policy": {
+        "title": "Đọc hợp đồng bảo hiểm giúp quý vị",
+        "body": "Tải lên PDF hợp đồng. Trợ lý hợp đồng tìm hạn mức và thời hạn, trả lời kèm trích dẫn; mã đối chiếu hạn mức với bảng kê đồ đạc."
+      },
+      "readiness": {
+        "title": "Quỹ sẵn sàng",
+        "body": "Nhà hảo tâm góp 10, 25 hoặc 50 đô la mỗi tháng qua PayPal Subscriptions vào một quỹ chi trả cho các gia đình ngay khi thảm họa được công bố."
+      },
+      "navigator": {
+        "title": "Trợ lý phục hồi",
+        "body": "Các bước tiếp theo của từng gia đình với ngày thật (60 ngày của FEMA, thời hạn của hợp đồng), được giải thích bằng ngôn ngữ của họ và đọc to."
+      },
+      "first72": {
+        "title": "Tiền mặt trong 72 giờ đầu",
+        "body": "Lệnh sơ tán hoặc công bố của FEMA kích hoạt trợ giúp cho các gia đình đã chuẩn bị: một lần duyệt, một đợt PayPal Payouts, và Sentinel giữ lại trường hợp đáng ngờ."
+      },
+      "registry": {
+        "title": "Danh sách đúng những gì cần",
+        "body": "Trang công khai của gia đình Rivera. Nhà hảo tâm tài trợ từng món cụ thể bằng PayPal, Venmo hoặc Pay Later (thông tin đăng nhập người mua sandbox có trong phần tham quan bên dưới)."
+      },
+      "abroad": {
+        "title": "Người thân ở nước ngoài góp bằng peso",
+        "body": "Góp bằng peso Mexico hoặc Philippines, euro, đô la Canada hoặc bảng Anh. PayPal quy đổi và gia đình nhận đô la theo tỷ giá của PayPal."
+      },
+      "shopper": {
+        "title": "Trợ lý mua sắm đi mua",
+        "body": "Khi một món đã đủ tiền, trợ lý mua sắm tìm món đó, kiểm tra chín quy tắc chi tiêu trong mã (kể cả nâng giá) và trả tiền cho cửa hàng qua PayPal."
+      },
+      "marketplace": {
+        "title": "Cửa hàng địa phương thương lượng",
+        "body": "Mỗi cửa hàng mở cửa lại có trợ lý định giá riêng, không thấp hơn giá sàn của chủ. Trợ lý mua sắm hỏi giá qua MCP và có thể trả giá một lần."
+      },
+      "mandates": {
+        "title": "Quyên góp tự động",
+        "body": "Nhà hảo tâm lưu tài khoản PayPal bằng Vault và đặt hạn mức. Trợ lý quyên góp tặng cho các gia đình đã xác minh trong hạn mức đó, không cần thanh toán, và giải thích từng món quà."
+      },
+      "scam": {
+        "title": "Phát hiện quyên góp giả mạo",
+        "body": "Sentinel đánh dấu một danh sách giả mạo gia đình Rivera. Hai người duyệt từ chối nó, và mọi nhà hảo tâm được hoàn tiền qua PayPal."
+      },
+      "review": {
+        "title": "Con người duyệt tiền",
+        "body": "Trợ cấp tiền mặt được duyệt theo mức rủi ro: một người duyệt, một cuộc gọi video trên Bryntum Calendar, hoặc hai người duyệt và một giám sát."
+      },
+      "disputes": {
+        "title": "Bàn xử lý tranh chấp thanh toán",
+        "body": "Tranh chấp PayPal đến qua webhook. Quy tắc đề xuất câu trả lời, trợ lý quỹ soạn kèm bằng chứng, và nhân viên quyết định gửi gì cho PayPal."
+      },
+      "books": {
+        "title": "Sổ sách đối chiếu với PayPal",
+        "body": "Mỗi bút toán được khớp với hồ sơ của chính PayPal qua Transaction Search bằng SDK PayPal của APIMatic. Hỏi PayPal qua máy chủ MCP của họ."
+      },
+      "claim": {
+        "title": "Bồi thường đồ đạc, trả bằng PayPal",
+        "body": "Hearthline lập hồ sơ bồi thường từ bảng kê với hạn mức của hợp đồng. Nhân viên giám định mở liên kết và trả bằng PayPal."
+      },
+      "milestones": {
+        "title": "Xây dựng lại, trả từ tài khoản ký quỹ",
+        "body": "Kế hoạch của nhà thầu nằm trong ký quỹ trên Bryntum Gantt. Trợ lý công trường kiểm tra ảnh từng bước trước khi chủ nhà giải ngân."
+      },
+      "whatif": {
+        "title": "Nếu một bước bị chậm thì sao?",
+        "body": "Nhà thầu thử một lần chậm trễ trên biểu đồ: công cụ lập lịch của Bryntum dời mọi bước phía sau, và gia đình thấy ngày dọn vào mới cùng lý do."
+      },
+      "reopen": {
+        "title": "Quỹ mở cửa lại cho cửa hàng địa phương",
+        "body": "Moreno's Bakery đang bán thẻ quà tặng và gói hằng tháng. Tiền nằm trong ký quỹ và được giải ngân dần khi tiệm xây dựng lại."
+      },
+      "pricewatch": {
+        "title": "Theo dõi nâng giá",
+        "body": "So sánh hàng thiết yếu với giá trước thảm họa (lịch sử giá của Channel3). Mọi giá vượt giới hạn 10% của California đều bị đánh dấu."
+      },
+      "command": {
+        "title": "Trung tâm chỉ huy cho 2.005 hộ",
+        "body": "Mô hình hàng phía máy chủ của AG Grid trên mọi hộ, bộ lọc được chuyển thành SQL, và \"Hỏi bảng\" bằng lời thường qua AG Grid AI Toolkit."
+      },
+      "map": {
+        "title": "Bản đồ trực tiếp",
+        "body": "Các hộ theo mức thiệt hại, vùng cháy, đội và cửa hàng trên OpenStreetMap. Bản đồ theo bộ lọc của bảng, và khoản thanh toán mới nhấp nháy khi đến."
+      },
+      "batch": {
+        "title": "Trợ cấp theo đợt, hai người",
+        "body": "Một người chuẩn bị đợt PayPal Payouts và một người khác duyệt; bảng chính/chi tiết hiển thị mọi khoản thanh toán."
+      },
+      "dispatch": {
+        "title": "Điều phối đội bằng AI",
+        "body": "Trợ lý điều phối lên lịch các lượt đến của đội ngày mai trên Bryntum Scheduler Pro. Mỗi lượt là một thanh mờ cho đến khi có người chấp nhận."
+      },
+      "disasters": {
+        "title": "Thảm họa thật",
+        "body": "Mở bất kỳ thảm họa nào FEMA công bố trong bốn tháng qua, hoặc một cảnh báo thời tiết đang hiệu lực. Các quận của nó trở thành vùng, và trợ giúp được đề xuất."
+      },
+      "pipeline": {
+        "title": "Quy trình hồ sơ",
+        "body": "Mọi hồ sơ duyệt theo trạng thái trên Bryntum TaskBoard. Thẻ chỉ di chuyển khi người duyệt quyết định."
+      },
+      "grant": {
+        "title": "Báo cáo tác động",
+        "body": "Trợ lý quỹ viết ghi chú tác động cho nhà hảo tâm và báo cáo tài trợ dạng PDF từ số liệu thật trong sổ cái."
+      },
+      "api": {
+        "title": "Mở cho các trợ lý AI khác",
+        "body": "API công khai và máy chủ MCP cho phép trợ lý khác tìm nhu cầu của một gia đình và chuẩn bị món quà PayPal để người duyệt."
+      }
+    },
+    "sponsorsTitle": "Cách dùng các công cụ của nhà tài trợ",
+    "sponsorsIntro": "Mỗi công cụ làm việc thật trong ứng dụng. Mỗi dòng bên dưới mở đúng nơi nó được dùng.",
+    "sponsor": {
+      "paypal": {
+        "headline": "Cốt lõi: mọi đô la đều đi qua PayPal, trong sandbox.",
+        "facts": [
+          "API của PayPal cùng hoạt động",
+          "loại tiền món quà có thể đến",
+          "cách thanh toán khi trả tiền"
+        ],
+        "uses": {
+          "orders": "Orders v2 và JS SDK: PayPal, Venmo và Pay Later trên mọi danh sách",
+          "payouts": "Payouts: trợ giúp 72 giờ đầu, mua sắm và các mốc xây dựng lại",
+          "subscriptions": "Subscriptions: quỹ sẵn sàng và gói hằng tháng của quỹ mở cửa lại",
+          "vault": "Vault và Orders do người bán khởi tạo: quyên góp tự động không cần thanh toán",
+          "disputes": "Disputes API và webhook: bàn xử lý tranh chấp",
+          "reporting": "Transaction Search và Balances: sổ sách đối chiếu với PayPal",
+          "login": "Đăng nhập bằng PayPal: nhà thầu và doanh nghiệp kết nối tài khoản của mình",
+          "mcp": "Máy chủ MCP của PayPal: \"Hỏi PayPal\" về tài khoản"
+        }
+      },
+      "aggrid": {
+        "headline": "11 bảng, từ mô hình phía máy chủ trên 2.005 hộ đến một bảng quý vị hỏi bằng lời thường.",
+        "facts": [
+          "bảng trong ứng dụng",
+          "hàng trong mô hình phía máy chủ",
+          "bộ lọc tập hợp"
+        ],
+        "uses": {
+          "ssrm": "Mô hình hàng phía máy chủ: lọc, sắp xếp và nhóm được chuyển thành SQL",
+          "toolkit": "AI Toolkit: \"Hỏi bảng\" biến câu hỏi thành bộ lọc của bảng",
+          "grouping": "Nhóm hàng, sửa trực tiếp và xuất Excel: bảng kê đồ đạc",
+          "masterDetail": "Chính/chi tiết: bút toán của mỗi giao dịch, khoản thanh toán của mỗi đợt",
+          "sparklines": "Biểu đồ mini bằng AG Charts: lịch sử giá trên trang theo dõi giá",
+          "map": "Bản đồ trực tiếp theo mô hình bộ lọc của bảng"
+        }
+      },
+      "bryntum": {
+        "headline": "Năm giao diện Bryntum trên một lõi chung, tất cả tải và lưu qua backend CrudManager trong FastAPI.",
+        "facts": [
+          "giao diện",
+          "sản phẩm",
+          "lõi chung (gói thin)"
+        ],
+        "uses": {
+          "gantt": "Gantt: công cụ lập lịch, đường cơ sở, đường găng, độ trễ cho phép và xem trước chậm trễ",
+          "scheduler": "Scheduler Pro: thời gian di chuyển, kéo để phân công, và thanh mờ của điều phối AI",
+          "utilization": "ResourceUtilization: khối lượng việc của từng đội, dùng chung dự án với Scheduler",
+          "calendar": "Calendar: cuộc gọi video xác minh của người duyệt",
+          "taskboard": "TaskBoard: quy trình hồ sơ duyệt",
+          "crud": "Gantt cho kế hoạch mở cửa lại của từng cửa hàng, giải ngân từng bước"
+        }
+      },
+      "channel3": {
+        "headline": "Sản phẩm và giá thật đằng sau mỗi lần định giá, mua hàng và kiểm tra giá.",
+        "facts": [
+          "công việc trong ứng dụng",
+          "mức giá được theo dõi"
+        ],
+        "uses": {
+          "valuation": "Tìm kiếm sản phẩm định giá mọi món trong bảng kê đồ đạc",
+          "shopper": "Trợ lý mua sắm tìm sản phẩm cần mua cho một nhu cầu đã đủ tiền",
+          "history": "Lịch sử giá đặt mức giá trước thảm họa cho việc chống nâng giá"
+        }
+      },
+      "apimatic": {
+        "headline": "SDK Python của PayPal do APIMatic tạo, tích hợp bằng PayPal Context Plugin của APIMatic.",
+        "facts": [
+          "nhóm API PayPal qua SDK của APIMatic",
+          "quy trình Context Plugin"
+        ],
+        "uses": {
+          "sdk": "Orders qua Server SDK của PayPal do APIMatic tạo",
+          "vault": "Vault và Orders do người bán khởi tạo cho quyên góp tự động",
+          "reporting": "Transaction Search và Balances cho sổ sách",
+          "plugin": "Quy trình Context Plugin: bảng hợp đồng, bản đồ SDK và kiểm thử với transport giả (kho mã công khai)",
+          "openapi": "API công khai của chính Hearthline: OpenAPI 3.1, sẵn sàng để tạo SDK"
+        }
+      },
+      "render": {
+        "headline": "Triển khai từ một Blueprint: API và ứng dụng web, với bản demo ai cũng có thể đặt lại.",
+        "facts": [
+          "dịch vụ từ một Blueprint",
+          "cú nhấp để đặt lại demo"
+        ],
+        "uses": {
+          "blueprint": "render.yaml: API và trang tĩnh, di chuyển dữ liệu và dữ liệu demo khi khởi động",
+          "reset": "Đưa bản demo về trạng thái ban đầu, ngay từ trang này"
+        }
+      }
     }
   }
 }

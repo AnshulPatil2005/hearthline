@@ -6,7 +6,8 @@ import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
 import { DemoTour } from '../components/DemoTour'
 import { Footer } from '../components/Footer'
-import { Dateline, Wordmark } from '../components/Shell'
+import { FeatureIndex, QuickFacts, SponsorShowcase } from '../components/Showcase'
+import { LanguageSelect, Wordmark } from '../components/Shell'
 import { homePathFor } from '../paths'
 
 // The cast, in the order a visitor meets them: the people helped, the people rebuilding, the people deciding
@@ -53,7 +54,7 @@ function ResetDemo() {
   })
 
   return (
-    <div className="mt-8 text-center text-sm text-ink-soft" aria-live="polite">
+    <div id="reset" className="mt-8 scroll-mt-6 text-center text-sm text-ink-soft" aria-live="polite">
       {running ? (
         <p>{t('login.reset.running')}</p>
       ) : confirming ? (
@@ -119,95 +120,99 @@ export default function Login() {
     t(`login.persona.${p.email.split('@')[0].replace('.', '_')}`, {
       defaultValue: p.title?.split(' · ')[1] ?? p.title,
     })
+  const people = GROUPS.flatMap((g) => (personas.data ?? []).filter((p) => g.roles.includes(p.role)))
 
   return (
     <div className="flex min-h-svh flex-col">
-      <Dateline />
-      <div className="mx-auto w-full max-w-6xl flex-1 px-4">
-        <header className="flex items-end justify-between gap-4 border-b-4 border-ink pt-8 pb-4">
-          <Wordmark size="lg" />
-        </header>
+      <header className="border-b border-line bg-surface">
+        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
+          <Wordmark />
+          <nav className="flex items-center gap-5 text-sm">
+            <a href="#features" className="hidden text-ink-soft hover:text-ink sm:inline">
+              {t('showcase.navFeatures')}
+            </a>
+            <a href="#sponsors" className="hidden text-ink-soft hover:text-ink sm:inline">
+              {t('showcase.navSponsors')}
+            </a>
+            <a href="#tour" className="hidden text-ink-soft hover:text-ink sm:inline">
+              {t('showcase.navTour')}
+            </a>
+            <LanguageSelect />
+          </nav>
+        </div>
+      </header>
 
-        <section className="grid gap-x-12 gap-y-8 border-b border-ink py-10 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)]">
-          <div>
-            <p className="kicker text-ember">{STAGES.map((s) => t(`app.stages.${s}`)).join(' · ')}</p>
-            <h1 className="mt-4 text-5xl leading-[1.02] tracking-tight text-balance sm:text-6xl">{t('app.tagline')}</h1>
-            <p className="mt-6 max-w-xl text-lg leading-relaxed text-ink-soft">{t('login.lede')}</p>
+      <main className="mx-auto w-full max-w-6xl flex-1 space-y-14 px-4 py-10">
+        <section className="space-y-6">
+          <div className="max-w-3xl">
+            <p className="text-sm font-medium text-ember">{STAGES.map((s) => t(`app.stages.${s}`)).join(' · ')}</p>
+            <h1 className="mt-2 text-4xl leading-tight tracking-tight text-balance sm:text-5xl">{t('app.tagline')}</h1>
+            <p className="mt-4 text-lg text-ink-soft">{t('login.lede')}</p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <a href="#tour" className="rounded-lg bg-ember px-4 py-2.5 font-medium text-on-ember hover:opacity-90">
+                {t('showcase.ctaTour')}
+              </a>
+              <a
+                href="#features"
+                className="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium hover:bg-sunken"
+              >
+                {t('showcase.ctaFeatures')}
+              </a>
+              <a
+                href="#sponsors"
+                className="rounded-lg border border-line bg-surface px-4 py-2.5 font-medium hover:bg-sunken"
+              >
+                {t('showcase.ctaSponsors')}
+              </a>
+            </div>
           </div>
-          <ol className="divide-y divide-line self-end border-t border-ink lg:border-t-0">
-            {STAGES.map((stage, i) => (
-              <li key={stage} className="grid grid-cols-[2.5rem_minmax(0,1fr)] gap-2 py-3">
-                <span className="font-mono text-sm text-ember">{String(i + 1).padStart(2, '0')}</span>
-                <div>
-                  <p className="font-serif text-xl font-semibold">{t(`app.stages.${stage}`)}</p>
-                  <p className="text-sm text-ink-soft">{t(`login.stageLines.${stage}`)}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
+          <QuickFacts />
         </section>
 
-        <section aria-labelledby="cast-title" className="py-10">
-          <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2">
-            <h2 id="cast-title" className="text-3xl">
+        <section aria-labelledby="cast-title">
+          <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-1">
+            <h2 id="cast-title" className="text-2xl">
               {t('login.title')}
             </h2>
-            <p className="max-w-xl text-ink-soft">{t('login.subtitle')}</p>
+            <p className="max-w-xl text-sm text-ink-soft">{t('login.subtitle')}</p>
           </div>
-
           {(error || personas.isError) && (
-            <p role="alert" className="mt-6 border-l-2 border-danger bg-danger-soft px-4 py-3 text-danger">
+            <p role="alert" className="mt-4 rounded-lg bg-danger-soft px-4 py-3 text-danger">
               {t('login.error')}
             </p>
           )}
-
-          {personas.isPending && <div className="mt-8 h-96 animate-pulse bg-sunken" />}
-          <div className="mt-6 grid gap-x-10 gap-y-8 lg:grid-cols-3">
-            {personas.data &&
-              GROUPS.map((g) => (
-                <div key={g.key}>
-                  <h3 className="kicker border-b border-ink pb-2 text-ink">{t(`login.groups.${g.key}`)}</h3>
-                  <ul className="divide-y divide-line">
-                    {personas.data
-                      .filter((p) => g.roles.includes(p.role))
-                      .map((p) => (
-                        <li key={p.id}>
-                          <button
-                            onClick={() => void choose(p)}
-                            disabled={pending !== null}
-                            className="group grid w-full grid-cols-[minmax(0,1fr)_auto] items-start gap-3 py-4 text-left disabled:opacity-60"
-                          >
-                            <span className="min-w-0">
-                              <span className="block font-serif text-xl font-semibold group-hover:text-ember">
-                                {p.name}
-                              </span>
-                              <span className="kicker block text-ink-faint">{t(`roles.${p.role}`)}</span>
-                              <span className="mt-1 block text-sm text-ink-soft first-letter:uppercase">
-                                {persona(p)}
-                              </span>
-                            </span>
-                            <span
-                              aria-hidden
-                              className="mt-0.5 text-2xl leading-none text-ember transition-transform group-hover:translate-x-1"
-                            >
-                              {pending === p.id ? '…' : '→'}
-                            </span>
-                            <span className="sr-only">{t('login.signIn', { name: p.name.split(' ')[0] })}</span>
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              ))}
-          </div>
+          <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {personas.isPending &&
+              Array.from({ length: 9 }, (_, i) => <li key={i} className="h-24 animate-pulse rounded-xl bg-sunken" />)}
+            {people.map((p) => (
+              <li key={p.id}>
+                <button
+                  onClick={() => void choose(p)}
+                  disabled={pending !== null}
+                  className="panel flex h-full w-full flex-col p-4 text-left hover:border-ember disabled:opacity-60"
+                >
+                  <span className="min-w-0">
+                    <span className="block font-semibold">{p.name}</span>
+                    <span className="block text-xs text-ink-faint">{t(`roles.${p.role}`)}</span>
+                    <span className="mt-1 block text-sm text-ink-soft first-letter:uppercase">{persona(p)}</span>
+                  </span>
+                  <span className="mt-auto pt-3 text-sm font-medium text-ember">
+                    {pending === p.id ? '…' : t('login.signIn', { name: p.name.split(' ')[0] })} →
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
         </section>
 
-        <DemoTour />
+        <FeatureIndex />
+        <SponsorShowcase />
+        <div id="tour" className="scroll-mt-6">
+          <DemoTour />
+        </div>
         <ResetDemo />
-      </div>
-      <div className="mt-10">
-        <Footer />
-      </div>
+      </main>
+      <Footer />
     </div>
   )
 }

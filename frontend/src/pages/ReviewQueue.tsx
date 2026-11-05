@@ -9,6 +9,7 @@ import { useAuth } from '../auth'
 import RiskBadge from '../components/RiskBadge'
 import { money } from '../format'
 import { gridTheme } from '../grid'
+import { BuiltWith } from '../components/Showcase'
 
 export default function ReviewQueue() {
   const { t, i18n } = useTranslation()
@@ -111,6 +112,7 @@ export default function ReviewQueue() {
           loading={queue.isPending}
         />
       </div>
+      <BuiltWith name="AG Grid Enterprise" what="set filters · sorting by risk · one row per case" />
       <p className="text-xs text-ink-faint">{t('review.queueHint')}</p>
     </div>
   )

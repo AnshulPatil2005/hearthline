@@ -21,6 +21,7 @@ import { Stat } from '../components/Milestones'
 import { RapidAid } from '../components/RapidAid'
 import { money } from '../format'
 import { gridTheme } from '../grid'
+import { BuiltWith } from '../components/Showcase'
 
 const DAMAGE_TONE: Record<DamageLevel, string> = {
   destroyed: 'bg-danger-soft text-danger',
@@ -263,7 +264,7 @@ export default function CommandCenter() {
           </button>
         </div>
       </div>
-      <div className="grid gap-x-6 gap-y-5 sm:grid-cols-3 lg:grid-cols-5">
+      <div className="grid gap-3 sm:grid-cols-3 lg:grid-cols-5">
         <Stat
           label={t('command.stat.households')}
           value={s ? s.households.toLocaleString(i18n.resolvedLanguage) : '…'}
@@ -308,6 +309,10 @@ export default function CommandCenter() {
           onFilterChanged={(e) => setMapFilter(e.api.getFilterModel() ?? {})}
         />
       </div>
+      <BuiltWith
+        name="AG Grid Enterprise"
+        what="server-side row model over 2,005 households · filters and grouping run as SQL · set filters with server values · AI Toolkit (Ask the grid) · sparklines"
+      />
       <p className="text-xs text-ink-faint">{t('command.hint')}</p>
       <AidBatches onPaid={refresh} />
     </div>

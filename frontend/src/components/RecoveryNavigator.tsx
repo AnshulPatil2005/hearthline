@@ -51,7 +51,7 @@ function Due({ step }: { step: NavigatorStep }) {
         : days > 0 && days <= 30
           ? t('navigator.inDays', { count: days, date })
           : date
-  return <span className={`shrink-0 rounded-sm px-1.5 py-0.5 font-mono text-xs ${tone}`}>{label}</span>
+  return <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-xs font-medium ${tone}`}>{label}</span>
 }
 
 function StepRow({ step, onMark }: { step: NavigatorStep; onMark: (s: NavigatorStep) => void }) {

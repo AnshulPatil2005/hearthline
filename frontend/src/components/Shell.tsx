@@ -1,4 +1,4 @@
-import { Suspense, useState, type ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { useTranslation } from 'react-i18next'
 import { Link, NavLink, useNavigate } from 'react-router'
 import { useAuth } from '../auth'
@@ -25,10 +25,10 @@ export function Logo({ className = 'size-7' }: { className?: string }) {
   )
 }
 
-export function LanguageSelect({ tone = 'paper' }: { tone?: 'paper' | 'night' }) {
+export function LanguageSelect() {
   const { t, i18n } = useTranslation()
   return (
-    <label className={`flex items-center gap-2 text-sm ${tone === 'night' ? 'text-on-night' : 'text-ink-soft'}`}>
+    <label className="flex items-center gap-2 text-sm text-ink-soft">
       <span className="sr-only">{t('nav.language')}</span>
       <svg
         viewBox="0 0 24 24"
@@ -44,11 +44,7 @@ export function LanguageSelect({ tone = 'paper' }: { tone?: 'paper' | 'night' })
       <select
         value={i18n.resolvedLanguage}
         onChange={(e) => void i18n.changeLanguage(e.target.value)}
-        className={
-          tone === 'night'
-            ? 'rounded-sm border border-on-night/30 bg-night px-1.5 py-0.5 font-mono text-xs text-on-night'
-            : 'rounded-md border border-line bg-paper px-2 py-1 text-ink'
-        }
+        className="rounded-md border border-line bg-paper px-2 py-1 text-ink"
       >
         {LANGUAGES.map((l) => (
           <option key={l.code} value={l.code}>
@@ -71,36 +67,12 @@ const navClass = ({ isActive }: { isActive: boolean }) =>
       : 'border-transparent text-ink-soft hover:border-line hover:text-ink'
   }`
 
-/** The dateline above the masthead: today's date, and that this is a demo in the PayPal sandbox. */
-export function Dateline({ wide = false }: { wide?: boolean }) {
-  const { t, i18n } = useTranslation()
-  const [today] = useState(() => new Date())
-  return (
-    <div className="bg-night text-on-night">
-      <div
-        className={`kicker mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} items-center justify-between gap-4 px-4 py-1`}
-      >
-        <span className="shrink-0">
-          {today.toLocaleDateString(i18n.resolvedLanguage, {
-            weekday: 'short',
-            day: 'numeric',
-            month: 'short',
-            year: 'numeric',
-          })}
-        </span>
-        <span className="hidden min-w-0 flex-1 truncate text-center opacity-80 md:block">{t('app.demoNotice')}</span>
-        <LanguageSelect tone="night" />
-      </div>
-    </div>
-  )
-}
-
 export function Wordmark({ size = 'md' }: { size?: 'md' | 'lg' }) {
   return (
     <span
-      className={`flex items-center gap-2 font-serif font-semibold tracking-tight text-ink ${size === 'lg' ? 'text-4xl sm:text-5xl' : 'text-[1.35rem]'}`}
+      className={`flex items-center gap-2 font-semibold tracking-tight text-ink ${size === 'lg' ? 'text-2xl' : 'text-lg'}`}
     >
-      <Logo className={size === 'lg' ? 'size-11 sm:size-12' : 'size-7'} />
+      <Logo className={size === 'lg' ? 'size-9' : 'size-7'} />
       Hearthline
     </span>
   )
@@ -114,8 +86,7 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
   return (
     <div className="flex min-h-svh flex-col">
       <header>
-        <Dateline wide={wide} />
-        <div className="border-b border-ink bg-paper">
+        <div className="border-b border-line bg-surface">
           <div
             className={`mx-auto flex ${wide ? 'max-w-7xl' : 'max-w-6xl'} flex-wrap items-center gap-x-8 px-4 pt-2 lg:pt-0`}
           >
@@ -210,18 +181,19 @@ export function Shell({ children, wide = false }: { children: ReactNode; wide?: 
               </nav>
             )}
             <div className="ml-auto flex items-center gap-4 py-2">
+              <LanguageSelect />
               {user && (
                 <div className="flex items-center gap-3">
                   <div className="hidden text-right sm:block">
                     <div className="text-sm font-semibold leading-tight">{user.name}</div>
-                    <div className="kicker text-ink-faint">{t(`roles.${user.role}`)}</div>
+                    <div className="text-xs text-ink-faint">{t(`roles.${user.role}`)}</div>
                   </div>
                   <button
                     onClick={() => {
                       signOut()
                       navigate('/login')
                     }}
-                    className="rounded-md border border-ink/70 px-3 py-1.5 text-sm font-medium text-ink hover:bg-ink hover:text-paper"
+                    className="rounded-md border border-line px-3 py-1.5 text-sm text-ink-soft hover:bg-sunken hover:text-ink"
                   >
                     {t('nav.switchPersona')}
                   </button>

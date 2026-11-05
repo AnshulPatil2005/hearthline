@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { api, type Fund, type LedgerPosting, type LedgerRow } from '../api'
 import { money } from '../format'
 import { gridTheme } from '../grid'
+import { BuiltWith } from '../components/Showcase'
 
 type Row = Omit<LedgerRow, 'amount' | 'balance'> & { amount: number; balance: number }
 
@@ -109,11 +110,11 @@ export default function Money() {
       </div>
 
       {fund.data && (
-        <dl className="grid gap-x-6 gap-y-5 sm:grid-cols-3">
+        <dl className="grid gap-3 sm:grid-cols-3">
           {(['donated', 'spent', 'available'] as const).map((k) => (
-            <div key={k} className="border-t-2 border-ink pt-2">
+            <div key={k} className="rounded-lg border border-line bg-surface px-4 py-3">
               <dt className="kicker text-ink-faint">{t(`registry.fund.${k}`)}</dt>
-              <dd className="figure mt-1 text-3xl font-semibold">{money(fund.data[k], { cents: true })}</dd>
+              <dd className="figure mt-0.5 text-2xl font-semibold">{money(fund.data[k], { cents: true })}</dd>
             </div>
           ))}
         </dl>
@@ -124,23 +125,29 @@ export default function Money() {
           {t('money.empty')}
         </p>
       ) : (
-        <div className="h-[60vh] min-h-96">
-          <AgGridReact<Row>
-            ref={grid}
-            theme={gridTheme}
-            rowData={rows}
-            columnDefs={columnDefs}
-            getRowId={(p) => String(p.data.id)}
-            masterDetail
-            detailCellRendererParams={detailCellRendererParams}
-            detailRowAutoHeight
-            defaultColDef={{ sortable: true, resizable: true }}
-            rowGroupPanelShow="always"
-            grandTotalRow="bottom"
-            suppressAggFuncInHeader
-            sideBar={{ toolPanels: ['columns', 'filters'] }}
-            cellSelection
-            enableCharts
+        <div>
+          <div className="h-[60vh] min-h-96">
+            <AgGridReact<Row>
+              ref={grid}
+              theme={gridTheme}
+              rowData={rows}
+              columnDefs={columnDefs}
+              getRowId={(p) => String(p.data.id)}
+              masterDetail
+              detailCellRendererParams={detailCellRendererParams}
+              detailRowAutoHeight
+              defaultColDef={{ sortable: true, resizable: true }}
+              rowGroupPanelShow="always"
+              grandTotalRow="bottom"
+              suppressAggFuncInHeader
+              sideBar={{ toolPanels: ['columns', 'filters'] }}
+              cellSelection
+              enableCharts
+            />
+          </div>
+          <BuiltWith
+            name="AG Grid Enterprise"
+            what="master/detail: each entry's postings · row grouping · integrated charts · Excel export"
           />
         </div>
       )}

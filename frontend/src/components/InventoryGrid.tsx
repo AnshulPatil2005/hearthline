@@ -13,6 +13,7 @@ import { api, CATEGORIES, mediaUrl, type EvidenceLevel, type Item } from '../api
 import { money } from '../format'
 import { gridTheme } from '../grid'
 import { toRow, type Row } from '../rows'
+import { BuiltWith } from './Showcase'
 
 const EVIDENCE_TINT: Record<EvidenceLevel, string> = {
   pre_disaster_scan: 'bg-sage-soft text-sage',
@@ -183,26 +184,32 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
 
   return (
     // Short lists size to their rows; long ones scroll inside the grid so rendering stays fast.
-    <div className={rows.length > 25 ? 'h-[70vh]' : ''}>
-      <AgGridReact<Row>
-        ref={ref}
-        theme={gridTheme}
-        rowData={rows}
-        columnDefs={columnDefs}
-        getRowId={(p) => String(p.data.id)}
-        domLayout={rows.length > 25 ? 'normal' : 'autoHeight'}
-        defaultColDef={{ sortable: true, resizable: true, suppressHeaderMenuButton: true }}
-        autoGroupColumnDef={{ headerName: t('inventory.col.room'), minWidth: 150 }}
-        tooltipShowDelay={400}
-        groupDefaultExpanded={1}
-        grandTotalRow="bottom"
-        suppressAggFuncInHeader
-        stopEditingWhenCellsLoseFocus
-        getContextMenuItems={getContextMenuItems}
-        onCellValueChanged={(e) => void onCellValueChanged(e)}
-        rowHeight={48}
+    <>
+      <div className={rows.length > 25 ? 'h-[70vh]' : ''}>
+        <AgGridReact<Row>
+          ref={ref}
+          theme={gridTheme}
+          rowData={rows}
+          columnDefs={columnDefs}
+          getRowId={(p) => String(p.data.id)}
+          domLayout={rows.length > 25 ? 'normal' : 'autoHeight'}
+          defaultColDef={{ sortable: true, resizable: true, suppressHeaderMenuButton: true }}
+          autoGroupColumnDef={{ headerName: t('inventory.col.room'), minWidth: 150 }}
+          tooltipShowDelay={400}
+          groupDefaultExpanded={1}
+          grandTotalRow="bottom"
+          suppressAggFuncInHeader
+          stopEditingWhenCellsLoseFocus
+          getContextMenuItems={getContextMenuItems}
+          onCellValueChanged={(e) => void onCellValueChanged(e)}
+          rowHeight={48}
+        />
+      </div>
+      <BuiltWith
+        name="AG Grid Enterprise"
+        what="row grouping by room · inline editing · Excel export · prices from Channel3"
       />
-    </div>
+    </>
   )
 })
 

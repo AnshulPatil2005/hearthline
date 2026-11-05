@@ -87,7 +87,7 @@ function Rooms({ summary }: { summary: InventorySummary }) {
                 <span className="font-medium">{r.room_name}</span>
                 <span className="ml-2 text-sm text-ink-faint">{t('rooms.items', { count: r.item_count })}</span>
               </span>
-              <span className="font-mono text-sm">{money(r.total_value)}</span>
+              <span className="tabular-nums">{money(r.total_value)}</span>
             </li>
           ))}
         </ul>

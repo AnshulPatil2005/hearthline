@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { API_URL, tokenStore } from '../api'
+import { BuiltWith } from '../components/Showcase'
 
 const STATUSES = ['in_review', 'needs_info', 'escalated', 'approved', 'rejected'] as const
 const COLORS: Record<(typeof STATUSES)[number], string> = {
@@ -60,6 +61,7 @@ export default function ReviewBoard() {
       <div className="min-h-0 flex-1 overflow-hidden rounded-xl border border-line">
         <BryntumTaskBoard {...props} />
       </div>
+      <BuiltWith name="Bryntum TaskBoard" what="one column per case status · CrudManager load with FastAPI" />
     </div>
   )
 }

@@ -12,6 +12,7 @@ const ClaimView = lazy(() => import('./pages/ClaimView'))
 const ConnectPayPalReturn = lazy(() => import('./pages/ConnectPayPalReturn'))
 const Disasters = lazy(() => import('./pages/Disasters'))
 const Disputes = lazy(() => import('./pages/Disputes'))
+const Features = lazy(() => import('./pages/Features'))
 const Legal = lazy(() => import('./pages/Legal'))
 const BusinessHome = lazy(() => import('./pages/BusinessHome'))
 const CommandCenter = lazy(() => import('./pages/CommandCenter'))
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="/reopen/:slug" element={<ReopenPublic />} />
           <Route path="/card/:code" element={<GiftCardView />} />
           <Route path="/price-watch" element={<PriceWatch />} />
+          <Route path="/features" element={<Features />} />
           <Route path="/paid" element={<PaymentReturn />} />
           <Route path="/claim/:token" element={<ClaimView />} />
           <Route path="/privacy" element={<Legal doc="privacy" />} />

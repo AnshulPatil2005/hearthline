@@ -6,6 +6,7 @@ import { BryntumGantt, type BryntumGanttProps } from '@bryntum/gantt-react-thin'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { API_URL, tokenStore } from '../api'
+import { BuiltWith } from './Showcase'
 
 /** Lets a page show "what if this step runs late?" on the chart, scheduled by Bryntum's engine, without saving. */
 export type GanttPreview = {
@@ -177,6 +178,14 @@ export default function ProjectGantt({
       </div>
       {error && <p className="text-sm text-danger">{error}</p>}
       <div className="flex flex-wrap items-start justify-between gap-x-4 gap-y-1">
+        <BuiltWith
+          name="Bryntum Gantt"
+          what={
+            schedule
+              ? 'scheduling engine · baselines · critical path · total slack · what-if preview · CrudManager sync'
+              : 'CrudManager load and sync with FastAPI'
+          }
+        />
         <p className="text-xs text-ink-faint">
           {hint ?? (editable ? t('rebuild.gantt.editHint') : t('rebuild.gantt.viewHint'))}
           {schedule && ` ${t('rebuild.gantt.scheduleHint')}`}

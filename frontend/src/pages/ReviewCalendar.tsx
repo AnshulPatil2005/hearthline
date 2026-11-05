@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useNavigate } from 'react-router'
 import { API_URL, tokenStore } from '../api'
+import { BuiltWith } from '../components/Showcase'
 
 export default function ReviewCalendar() {
   const { t } = useTranslation()
@@ -43,6 +44,7 @@ export default function ReviewCalendar() {
       <div className="min-h-0 flex-1 overflow-hidden rounded-xl border border-line">
         <BryntumCalendar {...props} />
       </div>
+      <BuiltWith name="Bryntum Calendar" what="video verification calls · CrudManager load and sync with FastAPI" />
     </div>
   )
 }

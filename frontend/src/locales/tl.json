@@ -33,7 +33,8 @@
     "insurance": "Insurance",
     "disputes": "Mga dispute",
     "books": "Libro",
-    "disasters": "Mga sakuna"
+    "disasters": "Mga sakuna",
+    "features": "Gabay sa mga feature"
   },
   "roles": {
     "household": "Sambahayan",
@@ -1853,6 +1854,235 @@
       "rejected": "Tinanggihan",
       "skipped": "Sa ibang araw",
       "stale": "Hindi na kasya"
+    }
+  },
+  "showcase": {
+    "pageTitle": "Lahat ng ginagawa ng Hearthline",
+    "navFeatures": "Mga feature",
+    "navSponsors": "Mga tool ng sponsor",
+    "navTour": "5-minutong tour",
+    "ctaTour": "Simulan ang 5-minutong tour",
+    "ctaFeatures": "Tingnan ang bawat feature",
+    "ctaSponsors": "Tingnan ang mga tool ng sponsor",
+    "facts": {
+      "paypal": "PayPal API",
+      "agents": "AI agent",
+      "features": "feature na masusubukan",
+      "sponsors": "tool ng sponsor",
+      "languages": "wika"
+    },
+    "featuresTitle": "Lahat ng {{count}} feature, isang click lang",
+    "featuresIntro": "Bawat link ay nagla-log in bilang tamang tao at nagbubukas ng pahina. Walang kailangang i-set up: may laman na ang demo, at tumatakbo ang PayPal sa sandbox.",
+    "groups": {
+      "prepare": "Bago ang sakuna",
+      "respond": "Ang mga unang araw",
+      "trust": "Pag-iingat sa pera",
+      "rebuild": "Muling pagtatayo, claim at muling pagbubukas",
+      "run": "Pamamahala sa pagtugon"
+    },
+    "open": "Buksan",
+    "openAs": "Buksan bilang {{name}}",
+    "builtWith": "Ginawa gamit ang {{name}}",
+    "f": {
+      "inventory": {
+        "title": "Imbentaryo ng bahay mula sa litrato",
+        "body": "Kunan ng litrato ang bawat kuwarto bago ang sakuna. Inililista ng Inventory agent ang nakikita nito, pinepresyuhan ng Channel3, at ine-edit mo ito sa AG Grid at ine-export sa Excel ang claim."
+      },
+      "policy": {
+        "title": "Binabasa ang iyong insurance policy",
+        "body": "Mag-upload ng PDF ng policy. Hinahanap ng Policy agent ang mga limit at deadline at sumasagot nang may sipi; tinitingnan ng code ang mga limit laban sa imbentaryo."
+      },
+      "readiness": {
+        "title": "Pondo para sa paghahanda",
+        "body": "Nagbibigay ang mga donor ng $10, $25 o $50 kada buwan gamit ang PayPal Subscriptions sa isang pondo na nagbabayad sa mga pamilya sa sandaling ideklara ang sakuna."
+      },
+      "navigator": {
+        "title": "Gabay sa pagbangon",
+        "body": "Ang mga susunod na hakbang ng bawat pamilya na may totoong petsa (60 araw ng FEMA, mga deadline ng policy), ipinaliwanag sa kanilang wika at binabasa nang malakas."
+      },
+      "first72": {
+        "title": "Pera sa unang 72 oras",
+        "body": "Ang utos na lumikas o deklarasyon ng FEMA ay nagsisimula ng tulong para sa mga pamilyang naghanda: isang apruba, isang batch ng PayPal Payouts, at pinipigilan ng Sentinel ang mga kahina-hinala."
+      },
+      "registry": {
+        "title": "Listahan ng eksaktong kailangan",
+        "body": "Ang pampublikong pahina ng mga Rivera. Pinopondohan ng mga donor ang mga partikular na gamit gamit ang PayPal, Venmo o Pay Later (nasa tour sa ibaba ang login ng sandbox buyer)."
+      },
+      "abroad": {
+        "title": "Nagbibigay ang pamilya sa ibang bansa sa piso",
+        "body": "Magbigay sa Mexican o Philippine peso, euro, Canadian dollar o pound. Kino-convert ito ng PayPal at tumatanggap ng dolyar ang pamilya sa rate ng PayPal."
+      },
+      "shopper": {
+        "title": "Ang Shopper agent ang bumibili",
+        "body": "Kapag napondohan ang gamit, hinahanap ito ng Shopper, sinusuri ang siyam na patakaran sa paggastos sa code (kasama ang sobrang presyo) at binabayaran ang tindahan sa PayPal."
+      },
+      "marketplace": {
+        "title": "Nakikipagtawaran ang mga lokal na tindahan",
+        "body": "Bawat muling nagbukas na tindahan ay may sariling pricing agent na hindi bababa sa floor price ng may-ari. Humihingi ng quote ang Shopper sa MCP at puwedeng tumawad nang isang beses."
+      },
+      "mandates": {
+        "title": "Awtomatikong pagbibigay",
+        "body": "Sine-save ng donor ang kanyang PayPal account gamit ang Vault at nagtatakda ng mga limit. Nagbibigay ang giving agent sa mga beripikadong pamilya sa loob ng mga iyon, walang checkout, at ipinapaliwanag ang bawat regalo."
+      },
+      "scam": {
+        "title": "Nahuli ang pekeng fundraiser",
+        "body": "Minarkahan ng Sentinel ang pekeng listahan para sa mga Rivera. Tinanggihan ito ng dalawang reviewer, at na-refund sa PayPal ang bawat donor."
+      },
+      "review": {
+        "title": "Tao ang nag-aapruba ng pera",
+        "body": "Sinusuri ang cash aid ayon sa panganib: isang reviewer, isang video call sa Bryntum Calendar, o dalawang reviewer at isang supervisor."
+      },
+      "disputes": {
+        "title": "Desk para sa mga dispute sa bayad",
+        "body": "Dumarating sa webhook ang mga dispute sa PayPal. Nagrerekomenda ng sagot ang mga patakaran, binubuo ito ng Funds agent na may ebidensya, at ang staff ang nagpapasya kung ano ang ipapadala sa PayPal."
+      },
+      "books": {
+        "title": "Mga talaan na sinuri laban sa PayPal",
+        "body": "Itinutugma ang bawat entry sa sariling talaan ng PayPal gamit ang Transaction Search sa PayPal SDK ng APIMatic. Magtanong sa PayPal sa MCP server nito."
+      },
+      "claim": {
+        "title": "Claim ng mga gamit, binayaran sa PayPal",
+        "body": "Binubuo ng Hearthline ang claim mula sa imbentaryo na may mga limit ng policy. Binubuksan ng adjuster ang link at binabayaran ito sa PayPal."
+      },
+      "milestones": {
+        "title": "Pagtatayo na binabayaran mula sa escrow",
+        "body": "Nasa escrow sa Bryntum Gantt ang plano ng contractor. Sinusuri ng Site agent ang mga litrato ng bawat hakbang bago ilabas ng may-ari ng bahay ang bayad."
+      },
+      "whatif": {
+        "title": "Paano kung maantala ang isang hakbang?",
+        "body": "Sinusubukan ng contractor ang antala sa chart: inililipat ng scheduling engine ng Bryntum ang bawat kasunod na hakbang, at nakikita ng pamilya ang bagong araw ng paglipat at kung bakit."
+      },
+      "reopen": {
+        "title": "Pondo para muling magbukas ang mga tindahan",
+        "body": "Nagbebenta ngayon ang Moreno's Bakery ng gift card at buwanang plano. Naghihintay sa escrow ang pera at inilalabas nang paunti-unti habang sila'y bumabangon."
+      },
+      "pricewatch": {
+        "title": "Bantay sa sobrang presyo",
+        "body": "Inihahambing ang mga pangunahing bilihin sa presyo bago ang sakuna (price history ng Channel3). Minamarkahan ang lampas sa 10% na limit ng California."
+      },
+      "command": {
+        "title": "Command Center para sa 2,005 sambahayan",
+        "body": "Ang server-side row model ng AG Grid sa bawat sambahayan, na may mga filter na isinasalin sa SQL, at \"Tanungin ang grid\" sa simpleng salita gamit ang AG Grid AI Toolkit."
+      },
+      "map": {
+        "title": "Live na mapa",
+        "body": "Mga sambahayan ayon sa pinsala, ang lugar ng sunog, mga crew at tindahan sa OpenStreetMap. Sumusunod ito sa mga filter ng grid, at kumikislap ang mga bagong bayad pagdating."
+      },
+      "batch": {
+        "title": "Batch na cash aid, dalawang tao",
+        "body": "Isang tao ang naghahanda ng batch ng PayPal Payouts at ibang tao ang nag-aapruba; ipinapakita ng master/detail grid ang bawat bayad."
+      },
+      "dispatch": {
+        "title": "AI na dispatcher ng crew",
+        "body": "Pinaplano ng dispatch agent ang mga pagbisita ng crew bukas sa Bryntum Scheduler Pro. Bawat pagbisita ay ghost bar hangga't hindi ito tinatanggap ng tao."
+      },
+      "disasters": {
+        "title": "Totoong mga sakuna",
+        "body": "Buksan ang anumang sakunang idineklara ng FEMA sa nakaraang apat na buwan, o isang live na babala sa panahon. Ang mga county nito ang nagiging zone, at iminumungkahi ang tulong."
+      },
+      "pipeline": {
+        "title": "Daloy ng mga kaso",
+        "body": "Bawat kaso ng review ayon sa status sa Bryntum TaskBoard. Gumagalaw lang ang mga card kapag nagpasya ang mga reviewer."
+      },
+      "grant": {
+        "title": "Mga ulat ng epekto",
+        "body": "Isinusulat ng Funds agent ang mga tala ng epekto para sa mga donor at isang grant report na PDF mula sa totoong numero ng ledger."
+      },
+      "api": {
+        "title": "Bukas sa ibang AI agent",
+        "body": "Hinahayaan ng pampublikong API at MCP server ang ibang agent na hanapin ang kailangan ng pamilya at maghanda ng regalong PayPal na aaprubahan ng tao."
+      }
+    },
+    "sponsorsTitle": "Paano ginagamit ang mga tool ng sponsor",
+    "sponsorsIntro": "Bawat tool ay gumagawa ng totoong trabaho sa app. Bawat linya sa ibaba ay nagbubukas ng lugar kung saan ito ginagamit.",
+    "sponsor": {
+      "paypal": {
+        "headline": "Ang ubod: bawat dolyar ay dumaraan sa PayPal, sa sandbox.",
+        "facts": [
+          "PayPal API na magkakasamang gumagana",
+          "currency na puwedeng gamitin sa regalo",
+          "paraan ng pagbabayad sa checkout"
+        ],
+        "uses": {
+          "orders": "Orders v2 at ang JS SDK: PayPal, Venmo at Pay Later sa bawat listahan",
+          "payouts": "Payouts: tulong sa unang 72 oras, mga binili at mga milestone ng pagtatayo",
+          "subscriptions": "Subscriptions: ang pondo para sa paghahanda at buwanang plano ng muling pagbubukas",
+          "vault": "Vault at merchant-initiated Orders: awtomatikong pagbibigay nang walang checkout",
+          "disputes": "Disputes API at mga webhook: ang desk para sa mga dispute",
+          "reporting": "Transaction Search at Balances: mga talaan, sinuri laban sa PayPal",
+          "login": "Log in with PayPal: ikinokonekta ng mga contractor at negosyo ang sarili nilang account",
+          "mcp": "Ang MCP server ng PayPal: \"Magtanong sa PayPal\" tungkol sa account"
+        }
+      },
+      "aggrid": {
+        "headline": "11 grid, mula sa server-side model ng 2,005 sambahayan hanggang sa grid na tinatanong mo sa simpleng salita.",
+        "facts": [
+          "grid sa app",
+          "row sa server-side row model",
+          "set filter"
+        ],
+        "uses": {
+          "ssrm": "Server-side row model: mga filter, pagsunod-sunod at pagpangkat na isinasalin sa SQL",
+          "toolkit": "AI Toolkit: ginagawang filter ng \"Tanungin ang grid\" ang isang tanong",
+          "grouping": "Pagpangkat ng row, pag-edit sa loob at pag-export sa Excel: ang imbentaryo ng bahay",
+          "masterDetail": "Master/detail: mga posting ng bawat entry, mga bayad ng bawat batch",
+          "sparklines": "Sparklines gamit ang AG Charts: price history sa Price Watch",
+          "map": "Sumusunod ang live na mapa sa filter model ng grid"
+        }
+      },
+      "bryntum": {
+        "headline": "Limang view ng Bryntum sa iisang core, na naglo-load at nagse-save sa CrudManager backend sa FastAPI.",
+        "facts": [
+          "view",
+          "produkto",
+          "iisang core (thin packages)"
+        ],
+        "uses": {
+          "gantt": "Gantt: scheduling engine, baseline, critical path, slack at preview ng antala",
+          "scheduler": "Scheduler Pro: buffer ng biyahe, i-drag para mag-assign, at mga ghost bar ng AI dispatcher",
+          "utilization": "ResourceUtilization: trabaho ng bawat crew, kasama ang project ng Scheduler",
+          "calendar": "Calendar: mga video call ng reviewer para sa beripikasyon",
+          "taskboard": "TaskBoard: daloy ng mga kaso ng review",
+          "crud": "Gantt para sa plano ng muling pagbubukas ng bawat tindahan, inilalabas nang paunti-unti"
+        }
+      },
+      "channel3": {
+        "headline": "Totoong produkto at totoong presyo sa likod ng bawat pagtaya, pagbili at pagsusuri ng presyo.",
+        "facts": [
+          "gamit sa app",
+          "presyong binabantayan"
+        ],
+        "uses": {
+          "valuation": "Pinepresyuhan ng product search ang bawat gamit sa imbentaryo",
+          "shopper": "Hinahanap ng Shopper ang produktong bibilhin para sa napondohang pangangailangan",
+          "history": "Itinatakda ng price history ang presyo bago ang sakuna para sa bantay sa sobrang presyo"
+        }
+      },
+      "apimatic": {
+        "headline": "Ang PayPal Python SDK na ginawa ng APIMatic, isinama gamit ang PayPal Context Plugin ng APIMatic.",
+        "facts": [
+          "pamilya ng PayPal API sa SDK ng APIMatic",
+          "Context Plugin workflow"
+        ],
+        "uses": {
+          "sdk": "Orders sa PayPal Server SDK na ginawa ng APIMatic",
+          "vault": "Vault at merchant-initiated Orders para sa awtomatikong pagbibigay",
+          "reporting": "Transaction Search at Balances para sa mga talaan",
+          "plugin": "Context Plugin workflow: contract sheet, SDK map at stub-transport test (pampublikong repo)",
+          "openapi": "Sariling pampublikong API ng Hearthline: OpenAPI 3.1, handa para gumawa ng SDK"
+        }
+      },
+      "render": {
+        "headline": "Na-deploy mula sa iisang Blueprint: ang API at web app, na may demong puwedeng i-reset ng kahit sino.",
+        "facts": [
+          "serbisyo mula sa iisang Blueprint",
+          "click para i-reset ang demo"
+        ],
+        "uses": {
+          "blueprint": "render.yaml: API at static site, migration at demo data sa pagsisimula",
+          "reset": "Ibalik sa simula ang demo, mula sa pahinang ito"
+        }
+      }
     }
   }
 }

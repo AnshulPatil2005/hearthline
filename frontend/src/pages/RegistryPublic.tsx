@@ -13,7 +13,7 @@ function ItemRow({ item, onFund }: { item: RegistryItem; onFund: () => void }) {
   return (
     <li className="grid gap-x-6 gap-y-3 py-5 sm:grid-cols-[minmax(0,1fr)_13rem]">
       <div className="min-w-0">
-        <h3 className="font-serif text-xl font-semibold tracking-tight">
+        <h3 className="text-lg font-semibold">
           {item.name}
           {item.quantity > 1 && (
             <span className="ml-1.5 font-sans text-base font-normal text-ink-faint">× {item.quantity}</span>
@@ -24,7 +24,7 @@ function ItemRow({ item, onFund }: { item: RegistryItem; onFund: () => void }) {
       <div className="flex flex-col justify-center gap-2">
         <Progress funded={Number(item.funded_amount)} target={Number(item.target_amount)} />
         <div className="flex items-center justify-between gap-3">
-          <span className="font-mono text-xs text-ink-soft">
+          <span className="text-sm text-ink-soft tabular-nums">
             {t('registry.raisedOf', { raised: money(item.funded_amount), target: money(item.target_amount) })}
           </span>
           {funded ? (
@@ -59,11 +59,11 @@ export default function RegistryPublic() {
         <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_20rem]">
           <div className="space-y-6">
             <div>
-              <p className="kicker text-ember">
+              <p className="text-sm text-ink-faint">
                 {reg.household_name} · {reg.city}, {reg.state}
                 {reg.disaster_name && ` · ${t('registry.affectedBy', { disaster: reg.disaster_name })}`}
               </p>
-              <h1 className="mt-3 text-5xl leading-[1.05] tracking-tight text-balance">{reg.title}</h1>
+              <h1 className="mt-2 text-4xl leading-tight tracking-tight text-balance">{reg.title}</h1>
               <p className="mt-5 text-lg leading-relaxed whitespace-pre-line text-ink-soft">{reg.story}</p>
             </div>
 
@@ -78,7 +78,7 @@ export default function RegistryPublic() {
             )}
 
             <section>
-              <h2 className="border-b border-ink pb-2 text-2xl">{t('registry.needs')}</h2>
+              <h2 className="border-b border-line pb-2 text-xl">{t('registry.needs')}</h2>
               <ul className="divide-y divide-line border-b border-line">
                 {reg.items.map((item) => (
                   <ItemRow
@@ -95,18 +95,16 @@ export default function RegistryPublic() {
           </div>
 
           <aside className="space-y-4 lg:sticky lg:top-6 lg:self-start">
-            <section className="border-t-4 border-ink bg-surface p-5">
+            <section className="panel p-5">
               <p className="kicker text-ink-faint">{t('registry.raisedLabel')}</p>
-              <p className="figure mt-1 text-5xl font-semibold">{money(reg.total_funded)}</p>
+              <p className="figure mt-1 text-4xl font-semibold">{money(reg.total_funded)}</p>
               <p className="mt-1 text-sm text-ink-soft">
                 {t('registry.raisedOfTotal', { target: money(reg.total_target) })}
               </p>
               <div className="mt-3">
                 <Progress funded={Number(reg.total_funded)} target={Number(reg.total_target)} />
               </div>
-              <p className="mt-2 font-mono text-xs text-ink-faint">
-                {t('registry.donors', { count: reg.donor_count })}
-              </p>
+              <p className="mt-2 text-sm text-ink-faint">{t('registry.donors', { count: reg.donor_count })}</p>
               <button
                 onClick={() => setGiving('general')}
                 className="mt-4 w-full rounded-md border border-ink px-3 py-2 text-sm font-semibold hover:bg-ink hover:text-paper"
@@ -115,14 +113,14 @@ export default function RegistryPublic() {
               </button>
             </section>
 
-            <section className="border-l-2 border-ember pl-4">
-              <h2 className="kicker text-ink">{t('registry.howTitle')}</h2>
-              <p className="mt-2 font-serif text-lg leading-snug text-ink">{t('registry.howBody')}</p>
+            <section className="rounded-lg bg-sunken p-4 text-sm">
+              <h2 className="font-semibold">{t('registry.howTitle')}</h2>
+              <p className="mt-1 text-ink-soft">{t('registry.howBody')}</p>
             </section>
 
             {reg.recent_donations.length > 0 && (
               <section>
-                <h2 className="kicker border-b border-ink pb-2">{t('registry.recent')}</h2>
+                <h2 className="border-b border-line pb-2 text-sm font-semibold">{t('registry.recent')}</h2>
                 <ul className="divide-y divide-line text-sm">
                   {reg.recent_donations.map((d) => (
                     <li key={d.id} className="py-3">

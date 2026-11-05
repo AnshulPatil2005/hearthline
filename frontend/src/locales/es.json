@@ -33,7 +33,8 @@
     "insurance": "Seguro",
     "disputes": "Disputas",
     "books": "Contabilidad",
-    "disasters": "Desastres"
+    "disasters": "Desastres",
+    "features": "Guía de funciones"
   },
   "roles": {
     "household": "Hogar",
@@ -1853,6 +1854,235 @@
       "rejected": "Rechazado",
       "skipped": "Para otro día",
       "stale": "Ya no cabe"
+    }
+  },
+  "showcase": {
+    "pageTitle": "Todo lo que hace Hearthline",
+    "navFeatures": "Funciones",
+    "navSponsors": "Herramientas de patrocinadores",
+    "navTour": "Recorrido de 5 minutos",
+    "ctaTour": "Haz el recorrido de 5 minutos",
+    "ctaFeatures": "Ver todas las funciones",
+    "ctaSponsors": "Ver las herramientas de patrocinadores",
+    "facts": {
+      "paypal": "API de PayPal",
+      "agents": "agentes de IA",
+      "features": "funciones para probar",
+      "sponsors": "herramientas de patrocinadores",
+      "languages": "idiomas"
+    },
+    "featuresTitle": "Las {{count}} funciones, a un clic",
+    "featuresIntro": "Cada enlace inicia sesión con la persona adecuada y abre la página. No hay nada que configurar: la demo tiene datos de ejemplo y PayPal funciona en el sandbox.",
+    "groups": {
+      "prepare": "Antes del desastre",
+      "respond": "Los primeros días",
+      "trust": "Proteger el dinero",
+      "rebuild": "Reconstruir, reclamar y reabrir",
+      "run": "Coordinar la respuesta"
+    },
+    "open": "Abrir",
+    "openAs": "Abrir como {{name}}",
+    "builtWith": "Hecho con {{name}}",
+    "f": {
+      "inventory": {
+        "title": "Inventario del hogar con fotos",
+        "body": "Fotografía cada habitación antes del desastre. El agente de inventario enumera lo que ve, Channel3 le pone precio, y lo editas en AG Grid y exportas el reclamo a Excel."
+      },
+      "policy": {
+        "title": "Tu póliza, leída por ti",
+        "body": "Sube el PDF de la póliza. El agente de pólizas encuentra los límites y plazos y responde con una cita; el código compara los límites con el inventario."
+      },
+      "readiness": {
+        "title": "Fondo de preparación",
+        "body": "Los donantes dan 10, 25 o 50 dólares al mes con PayPal Subscriptions a un fondo que paga a las familias en cuanto se declara un desastre."
+      },
+      "navigator": {
+        "title": "Navegador de recuperación",
+        "body": "Los próximos pasos de cada familia con fechas reales (los 60 días de FEMA, los plazos de la póliza), explicados en su idioma y leídos en voz alta."
+      },
+      "first72": {
+        "title": "Efectivo en las primeras 72 horas",
+        "body": "Una orden de evacuación o una declaración de FEMA activa la ayuda para las familias que se prepararon: una aprobación, un lote de PayPal Payouts, y Sentinel retiene a quien parezca sospechoso."
+      },
+      "registry": {
+        "title": "Una lista de lo que hace falta",
+        "body": "La página pública de los Rivera. Los donantes financian artículos concretos con PayPal, Venmo o Pay Later (el acceso del comprador de prueba está en el recorrido)."
+      },
+      "abroad": {
+        "title": "La familia en el extranjero da en pesos",
+        "body": "Da en pesos mexicanos o filipinos, euros, dólares canadienses o libras. PayPal lo convierte y la familia recibe dólares al tipo de PayPal."
+      },
+      "shopper": {
+        "title": "El agente comprador lo compra",
+        "body": "Cuando un artículo está financiado, el comprador lo busca, revisa nueve reglas de gasto en el código (incluidos los precios abusivos) y paga a la tienda con PayPal."
+      },
+      "marketplace": {
+        "title": "Las tiendas locales negocian",
+        "body": "Cada tienda reabierta tiene su propio agente de precios dentro del mínimo del dueño. El comprador pide cotizaciones por MCP y puede contraofertar una vez."
+      },
+      "mandates": {
+        "title": "Donaciones automáticas",
+        "body": "Un donante guarda su cuenta PayPal con Vault y pone límites. El agente de donaciones da a familias verificadas dentro de ellos, sin pagar a mano, y explica cada regalo."
+      },
+      "scam": {
+        "title": "Una recaudación falsa, detectada",
+        "body": "Sentinel marca una lista falsa de los Rivera. Dos revisores la rechazan y a cada donante se le reembolsa con PayPal."
+      },
+      "review": {
+        "title": "Las personas aprueban el dinero",
+        "body": "La ayuda en efectivo se revisa según el riesgo: un revisor, una videollamada en Bryntum Calendar, o dos revisores y un supervisor."
+      },
+      "disputes": {
+        "title": "Mesa de disputas de pago",
+        "body": "Las disputas de PayPal llegan por webhook. Las reglas recomiendan la respuesta, el agente de fondos la redacta con pruebas y el personal decide qué se envía a PayPal."
+      },
+      "books": {
+        "title": "Cuentas cotejadas con PayPal",
+        "body": "Cada asiento se cruza con los registros de PayPal mediante Transaction Search con el SDK de PayPal de APIMatic. Pregúntale a PayPal por su servidor MCP."
+      },
+      "claim": {
+        "title": "Reclamo de contenidos, pagado con PayPal",
+        "body": "Hearthline arma el reclamo a partir del inventario con los límites de la póliza. El ajustador abre un enlace y lo paga con PayPal."
+      },
+      "milestones": {
+        "title": "Reconstrucción pagada desde el depósito",
+        "body": "El plan del contratista está en depósito en garantía sobre un Gantt de Bryntum. El agente de obra revisa las fotos de cada paso antes de que el propietario libere el pago."
+      },
+      "whatif": {
+        "title": "¿Y si un paso se retrasa?",
+        "body": "El contratista prueba un retraso en el gráfico: el motor de planificación de Bryntum mueve cada paso posterior, y la familia ve su nuevo día de mudanza y por qué."
+      },
+      "reopen": {
+        "title": "Fondo para reabrir comercios",
+        "body": "Moreno's Bakery vende tarjetas de regalo y planes mensuales ahora. El dinero espera en depósito y se libera paso a paso mientras reconstruye."
+      },
+      "pricewatch": {
+        "title": "Vigilancia de precios abusivos",
+        "body": "Productos esenciales comparados con su precio antes del desastre (historial de precios de Channel3). Se marca todo lo que supere el límite del 10% de California."
+      },
+      "command": {
+        "title": "Centro de mando para 2.005 hogares",
+        "body": "El modelo de filas del lado del servidor de AG Grid sobre cada hogar, con filtros traducidos a SQL, y \"Pregúntale a la tabla\" en lenguaje natural con el AI Toolkit de AG Grid."
+      },
+      "map": {
+        "title": "Mapa en vivo",
+        "body": "Hogares según el daño, la zona del incendio, cuadrillas y tiendas en OpenStreetMap. Sigue los filtros de la tabla, y los pagos nuevos parpadean al llegar."
+      },
+      "batch": {
+        "title": "Ayuda en lote, dos personas",
+        "body": "Una persona prepara un lote de PayPal Payouts y otra distinta lo aprueba; una tabla maestro/detalle muestra cada pago."
+      },
+      "dispatch": {
+        "title": "Despachador de cuadrillas con IA",
+        "body": "El agente de despacho planifica las visitas de mañana en Bryntum Scheduler Pro. Cada visita es una barra fantasma hasta que una persona la acepta."
+      },
+      "disasters": {
+        "title": "Desastres reales",
+        "body": "Abre cualquier desastre declarado por FEMA en los últimos cuatro meses, o una alerta meteorológica activa. Sus condados forman la zona y se propone ayuda."
+      },
+      "pipeline": {
+        "title": "Flujo de casos",
+        "body": "Cada caso de revisión por estado en un TaskBoard de Bryntum. Las tarjetas solo se mueven cuando los revisores deciden."
+      },
+      "grant": {
+        "title": "Informes de impacto",
+        "body": "El agente de fondos escribe notas de impacto para los donantes y un informe PDF para subvenciones con las cifras reales del libro contable."
+      },
+      "api": {
+        "title": "Abierto a otros agentes de IA",
+        "body": "Una API pública y un servidor MCP permiten que otro agente encuentre lo que necesita una familia y prepare un regalo con PayPal para que una persona lo apruebe."
+      }
+    },
+    "sponsorsTitle": "Cómo se usan las herramientas de los patrocinadores",
+    "sponsorsIntro": "Cada herramienta hace trabajo real en la app. Cada línea abre el lugar donde se usa.",
+    "sponsor": {
+      "paypal": {
+        "headline": "El núcleo: cada dólar pasa por PayPal, en el sandbox.",
+        "facts": [
+          "API de PayPal trabajando juntas",
+          "monedas en que puede llegar un regalo",
+          "formas de pagar al finalizar la compra"
+        ],
+        "uses": {
+          "orders": "Orders v2 y el JS SDK: PayPal, Venmo y Pay Later en cada lista",
+          "payouts": "Payouts: ayuda de las primeras 72 horas, compras e hitos de reconstrucción",
+          "subscriptions": "Subscriptions: el fondo de preparación y los planes mensuales de reapertura",
+          "vault": "Vault y Orders iniciadas por el comercio: donaciones automáticas sin pagar a mano",
+          "disputes": "API de disputas y webhooks: la mesa de disputas",
+          "reporting": "Transaction Search y Balances: las cuentas, cotejadas con PayPal",
+          "login": "Iniciar sesión con PayPal: contratistas y negocios conectan sus propias cuentas",
+          "mcp": "El servidor MCP de PayPal: \"Pregúntale a PayPal\" sobre la cuenta"
+        }
+      },
+      "aggrid": {
+        "headline": "11 tablas, desde un modelo del lado del servidor con 2.005 hogares hasta una tabla a la que le preguntas en lenguaje natural.",
+        "facts": [
+          "tablas en la app",
+          "filas en el modelo del lado del servidor",
+          "filtros de conjunto"
+        ],
+        "uses": {
+          "ssrm": "Modelo de filas del lado del servidor: filtros, orden y agrupación traducidos a SQL",
+          "toolkit": "AI Toolkit: \"Pregúntale a la tabla\" convierte una pregunta en filtros",
+          "grouping": "Agrupación de filas, edición en línea y exportación a Excel: el inventario del hogar",
+          "masterDetail": "Maestro/detalle: los asientos de cada movimiento, los pagos de cada lote",
+          "sparklines": "Minigráficos con AG Charts: historial de precios en la vigilancia de precios",
+          "map": "El mapa en vivo sigue el modelo de filtros de la tabla"
+        }
+      },
+      "bryntum": {
+        "headline": "Cinco vistas de Bryntum sobre un núcleo compartido, que cargan y guardan con un backend CrudManager en FastAPI.",
+        "facts": [
+          "vistas",
+          "productos",
+          "núcleo compartido (paquetes thin)"
+        ],
+        "uses": {
+          "gantt": "Gantt: motor de planificación, líneas base, ruta crítica, holgura y vista previa de retrasos",
+          "scheduler": "Scheduler Pro: tiempos de traslado, arrastrar para asignar y las barras fantasma del despachador con IA",
+          "utilization": "ResourceUtilization: la carga de cada cuadrilla, con el mismo proyecto que el Scheduler",
+          "calendar": "Calendar: las videollamadas de verificación de los revisores",
+          "taskboard": "TaskBoard: el flujo de casos de revisión",
+          "crud": "Gantt del plan de reapertura de cada comercio, liberado paso a paso"
+        }
+      },
+      "channel3": {
+        "headline": "Productos y precios reales detrás de cada valoración, compra y control de precios.",
+        "facts": [
+          "usos en la app",
+          "precios vigilados"
+        ],
+        "uses": {
+          "valuation": "La búsqueda de productos pone precio a cada artículo del inventario",
+          "shopper": "El comprador encuentra el producto que compra para una necesidad financiada",
+          "history": "El historial de precios fija el precio previo al desastre para el control de abusos"
+        }
+      },
+      "apimatic": {
+        "headline": "El SDK de Python de PayPal generado por APIMatic, integrado con el Context Plugin de PayPal de APIMatic.",
+        "facts": [
+          "familias de API de PayPal con el SDK de APIMatic",
+          "flujo con el Context Plugin"
+        ],
+        "uses": {
+          "sdk": "Orders con el Server SDK de PayPal generado por APIMatic",
+          "vault": "Vault y Orders iniciadas por el comercio para las donaciones automáticas",
+          "reporting": "Transaction Search y Balances para las cuentas",
+          "plugin": "Flujo con el Context Plugin: hoja de contrato, mapa del SDK y pruebas con transporte simulado (repositorio público)",
+          "openapi": "La propia API pública de Hearthline: OpenAPI 3.1, lista para generar SDK"
+        }
+      },
+      "render": {
+        "headline": "Desplegado desde un solo Blueprint: la API y la app web, con una demo que cualquiera puede reiniciar.",
+        "facts": [
+          "servicios desde un Blueprint",
+          "clic para reiniciar la demo"
+        ],
+        "uses": {
+          "blueprint": "render.yaml: API y sitio estático, migraciones y datos de demo al arrancar",
+          "reset": "Devolver la demo a su estado inicial, desde esta página"
+        }
+      }
     }
   }
 }

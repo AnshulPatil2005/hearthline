@@ -24,3 +24,8 @@
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
+
+/* The travel-time label on each buffer: Bryntum's light grey is 2.9:1; ours passes WCAG AA in both themes */
+.b-sch-event-buffer .b-buffer-label {
+  color: var(--ink-soft);
+}

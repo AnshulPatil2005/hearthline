@@ -10,15 +10,18 @@ AG Grid, Bryntum, Channel3, APIMatic and Render.
 - **Video:** _link added at submission_
 - **Live demo:** https://hearthline-web.onrender.com (Render's free plan sleeps when idle, so the first visit can take
   about a minute; the page says when it's waking up)
+- **Feature guide for judges:** https://hearthline-web.onrender.com/features lists all 27 features, each opening
+  signed in as the right person, and how each sponsor's tool is used, with a link to every place it's used
 - **The demo is fictional.** Sablewood, its wildfire and its people are made up. Every payment runs in the PayPal
   sandbox, so no real money moves.
 
 ## Try it
 
-Open the app and pick a persona on the sign-in page (no password), or use a direct link such as
+Open the app: the first page is a guide. Pick a persona (no password), open any of the 27 features (each link signs
+you in as the right person), see how each sponsor's tool is used, or follow the five-minute path with the sandbox
+buyer login to copy. Direct links work too, such as
 [`/login?as=elena.rivera`](https://hearthline-web.onrender.com/login?as=elena.rivera). Each persona shows a different
-side of the same disaster. Below the personas, a five-minute path links each step to the right person and page, with
-the sandbox buyer login to copy.
+side of the same disaster, and every AG Grid and Bryntum view is captioned with the features it uses.
 
 | Persona | Who they are | Try this |
 |---|---|---|

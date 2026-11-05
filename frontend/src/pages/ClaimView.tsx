@@ -22,9 +22,9 @@ const EVIDENCE_TONE: Record<ClaimItem['evidence'], string> = {
 
 function Figure({ label, value, strong = false }: { label: string; value: string; strong?: boolean }) {
   return (
-    <div className="border-t-2 border-ink pt-2">
+    <div className="rounded-lg border border-line bg-surface px-4 py-3">
       <dt className="kicker text-ink-faint">{label}</dt>
-      <dd className={`figure mt-1 text-3xl font-semibold ${strong ? 'text-ember' : ''}`}>{value}</dd>
+      <dd className={`figure mt-0.5 text-2xl font-semibold ${strong ? 'text-ember' : ''}`}>{value}</dd>
     </div>
   )
 }

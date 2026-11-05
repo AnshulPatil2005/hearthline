@@ -8,6 +8,7 @@ import { useAuth } from '../auth'
 import { PublicFrame } from '../components/PublicFrame'
 import { money } from '../format'
 import { gridTheme } from '../grid'
+import { BuiltWith } from '../components/Showcase'
 
 const STATUS_TONE: Record<PriceWatchRow['status'], string> = {
   gouging: 'bg-danger-soft text-danger',
@@ -162,6 +163,10 @@ export default function PriceWatch() {
             loading={report.isPending}
           />
         </div>
+        <BuiltWith
+          name="AG Grid Enterprise"
+          what="sparklines with AG Charts · set filters · prices and price history from Channel3"
+        />
         <p className="text-xs text-ink-faint">{t('priceWatch.note')}</p>
       </div>
     </PublicFrame>

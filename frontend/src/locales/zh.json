@@ -33,7 +33,8 @@
     "insurance": "保险",
     "disputes": "争议",
     "books": "账目",
-    "disasters": "灾害"
+    "disasters": "灾害",
+    "features": "功能指南"
   },
   "roles": {
     "household": "住户",
@@ -1807,6 +1808,235 @@
       "rejected": "已拒绝",
       "skipped": "改天再安排",
       "stale": "已排不下"
+    }
+  },
+  "showcase": {
+    "pageTitle": "Hearthline 的全部功能",
+    "navFeatures": "功能",
+    "navSponsors": "赞助商工具",
+    "navTour": "5 分钟导览",
+    "ctaTour": "开始 5 分钟导览",
+    "ctaFeatures": "查看全部功能",
+    "ctaSponsors": "查看赞助商工具",
+    "facts": {
+      "paypal": "个 PayPal API",
+      "agents": "个 AI 助手",
+      "features": "项可体验的功能",
+      "sponsors": "个赞助商工具",
+      "languages": "种语言"
+    },
+    "featuresTitle": "全部 {{count}} 项功能，一键直达",
+    "featuresIntro": "每个链接都会以合适的身份登录并打开对应页面。无需任何设置：演示已预置数据，PayPal 在沙盒中运行。",
+    "groups": {
+      "prepare": "灾难之前",
+      "respond": "最初几天",
+      "trust": "守护资金安全",
+      "rebuild": "重建、理赔与重新开业",
+      "run": "统筹救援"
+    },
+    "open": "打开",
+    "openAs": "以 {{name}} 身份打开",
+    "builtWith": "使用 {{name}} 构建",
+    "f": {
+      "inventory": {
+        "title": "用照片建立家庭物品清单",
+        "body": "灾难来临前为每个房间拍照。物品清单助手列出看到的物品，Channel3 为其估价，您可在 AG Grid 中编辑并将理赔清单导出为 Excel。"
+      },
+      "policy": {
+        "title": "替您读懂保单",
+        "body": "上传保单 PDF。保单助手找出限额和期限，并引用原文回答问题；代码会把限额与物品清单进行核对。"
+      },
+      "readiness": {
+        "title": "备灾基金",
+        "body": "捐助者通过 PayPal Subscriptions 每月捐 10、25 或 50 美元，汇入一个基金，灾难一经宣布即向家庭发放。"
+      },
+      "navigator": {
+        "title": "恢复导航",
+        "body": "每个家庭的下一步及真实日期（FEMA 的 60 天、保单的期限），用他们的语言解释并朗读。"
+      },
+      "first72": {
+        "title": "最初 72 小时的现金援助",
+        "body": "疏散令或 FEMA 宣布灾难后，自动为提前做好准备的家庭启动援助：一次批准、一批 PayPal Payouts，Sentinel 会拦下可疑对象。"
+      },
+      "registry": {
+        "title": "列明真正所需的清单",
+        "body": "Rivera 一家的公开页面。捐助者可用 PayPal、Venmo 或 Pay Later 资助具体物品（沙盒买家登录信息见下方导览）。"
+      },
+      "abroad": {
+        "title": "海外亲人用比索捐助",
+        "body": "可用墨西哥比索、菲律宾比索、欧元、加元或英镑捐助。PayPal 负责换汇，家庭按 PayPal 汇率收到美元。"
+      },
+      "shopper": {
+        "title": "采购助手代为购买",
+        "body": "物品筹款完成后，采购助手找到该物品，用代码检查九条消费规则（包括哄抬价格），并通过 PayPal 付款给商店。"
+      },
+      "marketplace": {
+        "title": "本地商店议价",
+        "body": "每家重新开业的商店都有自己的定价助手，不低于店主的底价。采购助手通过 MCP 询价，并可还价一次。"
+      },
+      "mandates": {
+        "title": "自动捐助",
+        "body": "捐助者用 Vault 保存 PayPal 账户并设定上限。捐助助手在上限内向经核实的家庭捐助，无需结账，并解释每一笔捐助。"
+      },
+      "scam": {
+        "title": "识破冒名筹款",
+        "body": "Sentinel 标记了一个冒充 Rivera 家的虚假清单。两名审核员予以拒绝，每位捐助者都通过 PayPal 获得退款。"
+      },
+      "review": {
+        "title": "资金由人来批准",
+        "body": "现金援助按风险决定审核深度：一名审核员、一次 Bryntum Calendar 上的视频通话，或两名审核员加一名主管。"
+      },
+      "disputes": {
+        "title": "付款争议处理台",
+        "body": "PayPal 争议通过 webhook 送达。规则给出建议答复，资金助手附上证据起草，由工作人员决定提交给 PayPal 的内容。"
+      },
+      "books": {
+        "title": "与 PayPal 对账",
+        "body": "每笔账目都通过 Transaction Search（使用 APIMatic 的 PayPal SDK）与 PayPal 自己的记录核对。还可通过 PayPal 的 MCP 服务器提问。"
+      },
+      "claim": {
+        "title": "财产理赔，用 PayPal 支付",
+        "body": "Hearthline 根据物品清单并套用保单限额生成理赔申请。理赔员打开链接，用 PayPal 支付。"
+      },
+      "milestones": {
+        "title": "从托管账户支付重建款",
+        "body": "承包商的计划连同资金托管在 Bryntum Gantt 上。现场助手先核查每一步的照片，房主才放款。"
+      },
+      "whatif": {
+        "title": "如果某个步骤延误会怎样？",
+        "body": "承包商在图表上试一下延误：Bryntum 的排程引擎推后其后的每一步，家庭会看到新的入住日及原因。"
+      },
+      "reopen": {
+        "title": "本地商家重新开业基金",
+        "body": "Moreno's Bakery 现在出售礼品卡和月度计划。资金托管保存，随重建进度逐步发放。"
+      },
+      "pricewatch": {
+        "title": "哄抬价格监测",
+        "body": "将生活必需品与灾前价格对比（Channel3 价格历史）。超过加州 10% 上限的会被标记。"
+      },
+      "command": {
+        "title": "覆盖 2,005 户家庭的指挥中心",
+        "body": "AG Grid 服务器端行模型覆盖每户家庭，筛选条件转换为 SQL；还可通过 AG Grid AI Toolkit 用自然语言“问表格”。"
+      },
+      "map": {
+        "title": "实时地图",
+        "body": "在 OpenStreetMap 上显示按受损程度区分的家庭、火灾区域、工作队和商店。地图跟随表格筛选，新付款到账时会闪烁。"
+      },
+      "batch": {
+        "title": "批量现金援助，双人把关",
+        "body": "一人准备 PayPal Payouts 批次，另一人批准；主从表格显示每一笔付款。"
+      },
+      "dispatch": {
+        "title": "AI 工作队调度",
+        "body": "调度助手在 Bryntum Scheduler Pro 上安排明天的工作队上门。每次上门在有人接受前都显示为虚影条。"
+      },
+      "disasters": {
+        "title": "真实灾难",
+        "body": "打开 FEMA 近四个月宣布的任一灾难，或一条实时天气警报。相关县域成为灾区，并提议援助。"
+      },
+      "pipeline": {
+        "title": "案件流程",
+        "body": "在 Bryntum TaskBoard 上按状态展示每个审核案件。只有审核员做出决定时卡片才会移动。"
+      },
+      "grant": {
+        "title": "影响报告",
+        "body": "资金助手根据账本的真实数字为捐助者撰写影响说明，并生成资助报告 PDF。"
+      },
+      "api": {
+        "title": "向其他 AI 助手开放",
+        "body": "公开 API 和 MCP 服务器让其他助手能找到家庭的需求，并准备一笔 PayPal 捐助供人批准。"
+      }
+    },
+    "sponsorsTitle": "赞助商工具的使用方式",
+    "sponsorsIntro": "每个工具在应用中都承担真实的工作。下方每一行都会打开它被使用的地方。",
+    "sponsor": {
+      "paypal": {
+        "headline": "核心：每一美元都经由 PayPal 流转，全部在沙盒中。",
+        "facts": [
+          "个协同工作的 PayPal API",
+          "种捐助可使用的货币",
+          "种结账付款方式"
+        ],
+        "uses": {
+          "orders": "Orders v2 和 JS SDK：每个清单都支持 PayPal、Venmo 和 Pay Later",
+          "payouts": "Payouts：最初 72 小时援助、采购和重建里程碑",
+          "subscriptions": "Subscriptions：备灾基金和重新开业月度计划",
+          "vault": "Vault 和商家发起的 Orders：无需结账的自动捐助",
+          "disputes": "Disputes API 和 webhook：争议处理台",
+          "reporting": "Transaction Search 和 Balances：与 PayPal 对账",
+          "login": "使用 PayPal 登录：承包商和商家连接自己的账户",
+          "mcp": "PayPal 的 MCP 服务器：就账户“问 PayPal”"
+        }
+      },
+      "aggrid": {
+        "headline": "11 个表格，从覆盖 2,005 户家庭的服务器端模型，到可以用自然语言提问的表格。",
+        "facts": [
+          "个应用内表格",
+          "行服务器端数据",
+          "个集合筛选器"
+        ],
+        "uses": {
+          "ssrm": "服务器端行模型：筛选、排序和分组转换为 SQL",
+          "toolkit": "AI Toolkit：“问表格”把问题变成表格的筛选条件",
+          "grouping": "行分组、行内编辑和 Excel 导出：家庭物品清单",
+          "masterDetail": "主从视图：每笔账目的分录、每个批次的付款",
+          "sparklines": "AG Charts 迷你图：价格监测中的价格历史",
+          "map": "实时地图跟随表格的筛选模型"
+        }
+      },
+      "bryntum": {
+        "headline": "五个 Bryntum 视图共用一个核心，全部通过 FastAPI 中的 CrudManager 后端加载和保存。",
+        "facts": [
+          "个视图",
+          "个产品",
+          "个共享核心（thin 包）"
+        ],
+        "uses": {
+          "gantt": "Gantt：排程引擎、基线、关键路径、浮动时间和延误预览",
+          "scheduler": "Scheduler Pro：路程缓冲、拖动分配，以及 AI 调度的虚影条",
+          "utilization": "ResourceUtilization：每个工作队的负荷，与 Scheduler 共用项目",
+          "calendar": "Calendar：审核员的视频核实通话",
+          "taskboard": "TaskBoard：审核案件流程",
+          "crud": "每家商店重新开业计划的 Gantt，逐步放款"
+        }
+      },
+      "channel3": {
+        "headline": "每一次估价、采购和价格检查背后，都是真实的商品和价格。",
+        "facts": [
+          "项用途",
+          "个受监测的价格"
+        ],
+        "uses": {
+          "valuation": "商品搜索为家庭物品清单中的每件物品估价",
+          "shopper": "采购助手为已筹款的需求找到要购买的商品",
+          "history": "价格历史为哄抬价格监测设定灾前基准"
+        }
+      },
+      "apimatic": {
+        "headline": "由 APIMatic 生成的 PayPal Python SDK，并借助 APIMatic 的 PayPal Context Plugin 集成。",
+        "facts": [
+          "类经 APIMatic SDK 调用的 PayPal API",
+          "套 Context Plugin 工作流"
+        ],
+        "uses": {
+          "sdk": "通过 APIMatic 生成的 PayPal Server SDK 调用 Orders",
+          "vault": "用于自动捐助的 Vault 和商家发起的 Orders",
+          "reporting": "用于对账的 Transaction Search 和 Balances",
+          "plugin": "Context Plugin 工作流：契约表、SDK 地图和模拟传输测试（公开仓库）",
+          "openapi": "Hearthline 自己的公开 API：OpenAPI 3.1，可直接生成 SDK"
+        }
+      },
+      "render": {
+        "headline": "用一个 Blueprint 部署：API 和网页应用，演示任何人都能重置。",
+        "facts": [
+          "个服务来自同一 Blueprint",
+          "键重置演示"
+        ],
+        "uses": {
+          "blueprint": "render.yaml：API 和静态站点，启动时自动迁移并加载演示数据",
+          "reset": "在本页把演示恢复到初始状态"
+        }
+      }
     }
   }
 }

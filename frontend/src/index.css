@@ -1,50 +1,50 @@
 @import 'tailwindcss';
 
-/* Design tokens. A field report on paper: newsprint and ink, hairline rules instead of floating cards, one
-   signal color (vermilion) for what needs doing. Dark mode swaps the variables, so components only ever use the
-   semantic names below. Every text pair is WCAG AA (4.5:1) in both themes. */
+/* Design tokens: plain and calm. Neutral greys and white, one accent (ember, from the logo's flame) for what
+   needs doing, and the usual green/amber/red for status. Dark mode swaps the variables, so components only ever
+   use the semantic names below. Every text pair is WCAG AA (4.5:1) in both themes. */
 :root {
-  --paper: #f5f2eb;
-  --surface: #fffdf8;
-  --sunken: #ece6da;
-  --ink: #17140f;
-  --ink-soft: #4d463e;
-  --ink-faint: #675f55;
-  --line: #ddd5c7;
-  --ember: #bf340a;
-  --ember-soft: #fbe6da;
+  --paper: #f6f7f9;
+  --surface: #ffffff;
+  --sunken: #eef0f3;
+  --ink: #111827;
+  --ink-soft: #4b5563;
+  --ink-faint: #636b78;
+  --line: #e3e5ea;
+  --ember: #c2410c;
+  --ember-soft: #fff1e8;
   --on-ember: #ffffff;
-  --sage: #25603f;
-  --sage-soft: #e2efe6;
-  --amber: #8a5000;
-  --amber-soft: #f8ebd0;
-  --danger: #b3261e;
-  --danger-soft: #fbe4e1;
-  --night: #17140f; /* the masthead band */
-  --on-night: #f5f2eb;
+  --sage: #1d7a45;
+  --sage-soft: #e7f5ec;
+  --amber: #975a06;
+  --amber-soft: #fdf4e1;
+  --danger: #b91c1c;
+  --danger-soft: #fdecec;
+  --night: #111827;
+  --on-night: #f6f7f9;
   color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #121110;
-    --surface: #1a1815;
-    --sunken: #25221e;
-    --ink: #f2ede4;
-    --ink-soft: #c9c0b3;
-    --ink-faint: #9f968a;
-    --line: #34302a;
-    --ember: #ff7d4a;
-    --ember-soft: #3a1d10;
-    --on-ember: #170c06;
+    --paper: #0f1115;
+    --surface: #171a20;
+    --sunken: #20242c;
+    --ink: #f3f4f6;
+    --ink-soft: #c4c9d2;
+    --ink-faint: #9aa1ad;
+    --line: #2c313a;
+    --ember: #fb8a4c;
+    --ember-soft: #3a2216;
+    --on-ember: #1b120d;
     --sage: #6fcf97;
     --sage-soft: #15291d;
     --amber: #f2b14c;
     --amber-soft: #33260f;
     --danger: #f97066;
     --danger-soft: #3b1715;
-    --night: #0b0a09;
-    --on-night: #f2ede4;
+    --night: #000000;
+    --on-night: #f3f4f6;
     color-scheme: dark;
   }
 }
@@ -68,20 +68,18 @@
   --color-danger-soft: var(--danger-soft);
   --color-night: var(--night);
   --color-on-night: var(--on-night);
-  --font-sans: 'IBM Plex Sans Variable', 'IBM Plex Sans', system-ui, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
-  --font-serif: 'Newsreader Variable', 'Newsreader', Georgia, 'Noto Serif', serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+  --font-sans: 'Inter Variable', 'Inter', system-ui, 'Segoe UI', Roboto, 'Noto Sans', sans-serif;
+  --font-serif: var(--font-sans);
+  --font-mono: ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Menlo, Consolas, monospace;
 }
 
-/* Square-ish corners and no floating shadows: panels sit on the page like printed boxes */
+/* Modest corners, no floating shadows */
 @theme {
-  --radius-sm: 2px;
-  --radius-md: 3px;
-  --radius-lg: 4px;
-  --radius-xl: 6px;
-  --radius-2xl: 8px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 10px;
   --shadow-sm: 0 0 #0000;
-  --shadow-md: 0 1px 0 0 var(--line), 0 2px 0 0 rgb(23 20 15 / 0.06);
+  --shadow-md: 0 1px 3px 0 rgb(17 24 39 / 0.08);
 }
 
 body {
@@ -89,44 +87,37 @@ body {
   background: var(--paper);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-feature-settings: 'cv11', 'ss01';
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 
-/* Headlines are set in the serif, like a report's; everything you act on stays in the sans. In the base layer, so
-   a heading styled as a kicker (or anything else) by its own classes keeps them. */
 @layer base {
   h1,
   h2 {
-    font-family: var(--font-serif);
-    font-optical-sizing: auto;
     font-weight: 600;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
 }
 
-/* A section's kicker: small capitals in the mono, like a dateline */
-@utility kicker {
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-/* A section of the page: a printed box with an ink rule across the top, like a section of a report */
+/* A section of the page */
 @utility panel {
   background: var(--surface);
   border: 1px solid var(--line);
-  border-top: 2px solid var(--ink);
+  border-radius: 10px;
 }
 
-/* Figures that matter (money, counts) in the serif, with lining, tabular numerals */
+/* A small label above a value or a list */
+@utility kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+/* Numbers that matter: money, counts */
 @utility figure {
-  font-family: var(--font-serif);
-  font-optical-sizing: auto;
-  font-variant-numeric: lining-nums tabular-nums;
-  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
 }
 
 ::selection {

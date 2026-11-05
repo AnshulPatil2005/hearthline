@@ -34,23 +34,23 @@ export function ReadinessFund() {
         {t('readiness.title')}
       </h2>
       <p className="mt-1 max-w-3xl text-sm text-ink-soft">{t('readiness.intro')}</p>
-      <dl className="mt-4 grid gap-x-6 gap-y-4 sm:grid-cols-3">
-        <div className="border-t-2 border-ink pt-2">
+      <dl className="mt-4 grid gap-3 sm:grid-cols-3">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('readiness.ready')}</dt>
-          <dd className="figure mt-1 text-3xl font-semibold">{money(pool.balance)}</dd>
+          <dd className="figure mt-0.5 text-2xl font-semibold">{money(pool.balance)}</dd>
         </div>
-        <div className="border-t-2 border-ink pt-2">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('readiness.givers')}</dt>
-          <dd className="figure mt-1 text-3xl font-semibold">
+          <dd className="figure mt-0.5 text-2xl font-semibold">
             {pool.givers.toLocaleString(i18n.resolvedLanguage)}
             <span className="ml-1.5 font-sans text-sm font-normal text-ink-soft">
               {t('readiness.perMonth', { amount: money(pool.monthly) })}
             </span>
           </dd>
         </div>
-        <div className="border-t-2 border-ink pt-2">
+        <div className="rounded-lg border border-line bg-surface px-4 py-3">
           <dt className="kicker text-ink-faint">{t('readiness.released')}</dt>
-          <dd className="figure mt-1 text-3xl font-semibold">{money(pool.released)}</dd>
+          <dd className="figure mt-0.5 text-2xl font-semibold">{money(pool.released)}</dd>
         </div>
       </dl>
 
