@@ -247,3 +247,26 @@ def test_a_window_newer_than_paypals_report_is_waiting_not_an_error(paypal_repor
 
     paypal_reporting.routes[TRANSACTIONS_PATH] = json_response(404, {"name": "RESOURCE_NOT_FOUND", "message": "x"})
     assert client.get("/command/books/reconcile", headers=sam).status_code == 400  # any other 404 is still an error
+
+
+def test_staff_can_check_the_audit_chain():
+    from app import audit
+    from app.db import SessionLocal
+    from app.models import AuditEvent
+    from tests.helpers import client, login_as
+
+    with SessionLocal() as db:
+        for i in range(3):
+            audit.record(db, action="test.event", subject_type="test", subject_id=i, data={"n": i})
+        db.commit()
+    sam = login_as("Sam Whitfield")
+    ok = client.get("/command/books/audit", headers=sam).json()
+    assert ok["intact"] and ok["events"] >= 3 and len(ok["latest_hash"]) == 64
+    with SessionLocal() as db:  # someone edits history
+        first = db.query(AuditEvent).order_by(AuditEvent.id).first()
+        first.data = {"n": 99}
+        db.commit()
+        first_id = first.id
+    bad = client.get("/command/books/audit", headers=sam).json()
+    assert not bad["intact"] and bad["first_broken_id"] == first_id
+    assert client.get("/command/books/audit", headers=login_as("Elena Rivera")).status_code == 403

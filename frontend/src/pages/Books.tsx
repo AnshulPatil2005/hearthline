@@ -32,6 +32,13 @@ export default function Books() {
     queryFn: () => api<PayPalBalance>('/command/books/balance'),
   })
   const report = useQuery({ queryKey: ['books'], queryFn: () => api<BooksReport>('/command/books/reconcile') })
+  const chain = useQuery({
+    queryKey: ['audit-chain'],
+    queryFn: () =>
+      api<{ events: number; intact: boolean; first_broken_id: number | null; latest_hash: string | null }>(
+        '/command/books/audit',
+      ),
+  })
   const when = (iso: string | null, withTime = true) =>
     iso
       ? parseTime(iso).toLocaleString(i18n.resolvedLanguage, {
@@ -126,6 +133,21 @@ export default function Books() {
           </button>
         </div>
       </div>
+
+      {chain.data && (
+        <p
+          className={`rounded-lg px-4 py-3 text-sm ${chain.data.intact ? 'bg-sage-soft text-ink' : 'bg-danger-soft text-danger'}`}
+        >
+          <span className="font-semibold">{t('books.audit.title')}</span>{' '}
+          {chain.data.intact
+            ? t('books.audit.intact', {
+                count: chain.data.events,
+                n: chain.data.events.toLocaleString(i18n.resolvedLanguage),
+                hash: chain.data.latest_hash?.slice(0, 12) ?? '',
+              })
+            : t('books.audit.broken', { id: chain.data.first_broken_id })}
+        </p>
+      )}
 
       {failed && (
         <p className="rounded-lg bg-danger-soft px-4 py-3 text-danger">

@@ -7,7 +7,9 @@ from pathlib import Path
 
 from app.main import app
 
-DOCS = Path(__file__).resolve().parents[2] / "docs" / "api"
+ROOT = Path(__file__).resolve().parents[2]
+DOCS = ROOT / "docs" / "api"
+APIMATIC_SPEC = ROOT / "apimatic" / "src" / "spec"  # APIMatic's build input: the SDKs and the docs portal
 SERVERS = [
     {"url": "https://hearthline-api.onrender.com", "description": "Hosted demo (PayPal sandbox)"},
     {"url": "http://localhost:8000", "description": "Local development"},
@@ -113,11 +115,12 @@ def files() -> dict[Path, str]:
     return {
         DOCS / "hearthline-v1.openapi.json": json.dumps(spec, indent=2) + "\n",
         DOCS / "hearthline-v1.postman_collection.json": json.dumps(postman(spec), indent=2) + "\n",
+        APIMATIC_SPEC / "hearthline-v1.openapi.json": json.dumps(spec, indent=2) + "\n",
     }
 
 
 if __name__ == "__main__":
-    DOCS.mkdir(parents=True, exist_ok=True)
     for path, text in files().items():
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8", newline="\n")
         print("wrote", path)

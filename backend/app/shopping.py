@@ -12,7 +12,7 @@ from decimal import Decimal
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import audit, geo, gouging, ledger, local_first, marketplace, policy
+from app import audit, gouging, ledger, local_first, marketplace, policy, trust
 from app.agents import shopper
 from app.config import get_settings
 from app.db import SessionLocal
@@ -45,9 +45,9 @@ def spent_today(db: Session, household_id: int) -> Decimal:
 
 
 def ships_to_verified_address(home: Household) -> bool:
-    return bool(
-        home.disaster_event and home.lat is not None and geo.in_zone(home.disaster_event.zone, home.lat, home.lng)
-    )
+    """Inside the disaster zone and proven to be the family's home (a document or a caseworker's vouch). An address
+    that is merely inside the zone could be anyone's."""
+    return trust.in_disaster_zone(home) and bool(home.residence_verified or home.vouched_by_user_id)
 
 
 def plan_purchase(db: Session, item: RegistryItem) -> Purchase:

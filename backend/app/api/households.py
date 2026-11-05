@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import geo
+from app import audit, geo, trust
 from app.auth import CurrentUser
 from app.db import get_db
 from app.models import DisasterEvent, Household
@@ -80,7 +80,9 @@ def get_my_household(home: MyHousehold) -> HouseholdOut:
 @router.patch("/households/me", response_model=HouseholdOut)
 def update_my_household(body: HouseholdUpdate, home: MyHousehold, db: DB) -> HouseholdOut:
     changes = body.model_dump(exclude_unset=True)
-    address_changed = any(k in changes for k in ("address_line", "city", "state", "postal_code"))
+    address_changed = any(
+        k in changes and changes[k] != getattr(home, k) for k in ("address_line", "city", "state", "postal_code")
+    )
     for key, value in changes.items():
         setattr(home, key, value)
     if address_changed:
@@ -89,5 +91,19 @@ def update_my_household(body: HouseholdUpdate, home: MyHousehold, db: DB) -> Hou
             raise HTTPException(422, "We couldn't find that address. Check it and try again.")
         home.lat, home.lng = point
         home.disaster_event = geo.event_for_point(db, *point)
+        # Proof of residence was for the old address: a new one has to be proven again, or nobody could verify
+        # a home inside the zone and then move the household's address to unlock aid somewhere else
+        if home.residence_verified or home.vouched_by_user_id:
+            audit.record(
+                db,
+                action="household.residence_reset",
+                subject_type="household",
+                subject_id=home.id,
+                data={"reason": "address changed", "was_vouched_by": home.vouched_by_user_id},
+            )
+        home.residence_verified = False
+        home.vouched_by_user_id = None
+        home.vouch_note = None
+        trust.refresh_level(db, home)
     db.commit()
     return household_out(home)

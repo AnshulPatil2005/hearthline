@@ -52,3 +52,32 @@ def test_production_refuses_the_development_secret():
         Settings(environment="production", _env_file=None)
     assert Settings(environment="production", secret_key="x" * 40, _env_file=None).secret_key == "x" * 40
     assert Settings(_env_file=None).environment == "development"  # local runs keep the default
+
+
+def test_only_a_sign_in_token_signs_in():
+    """The PayPal-connect state is signed with the same key but carries its own purpose: it can't be a login."""
+    from datetime import UTC, datetime, timedelta
+
+    import jwt
+
+    from app.config import get_settings
+
+    seeded()
+    elena = next(p for p in client.get("/auth/personas").json() if p["name"] == "Elena Rivera")
+    exp = datetime.now(UTC) + timedelta(minutes=10)
+    key = get_settings().secret_key
+    state = jwt.encode({"sub": str(elena["id"]), "purpose": "paypal_connect", "exp": exp}, key, algorithm="HS256")
+    assert client.get("/me", headers={"Authorization": f"Bearer {state}"}).status_code == 401
+    older = jwt.encode({"sub": str(elena["id"]), "exp": exp}, key, algorithm="HS256")  # issued before purposes
+    assert client.get("/me", headers={"Authorization": f"Bearer {older}"}).status_code == 200
+
+
+def test_live_paypal_only_on_purpose():
+    import pytest
+    from pydantic import ValidationError
+
+    from app.config import Settings
+
+    with pytest.raises(ValidationError, match="sandbox"):
+        Settings(paypal_environment="live", _env_file=None)
+    assert Settings(paypal_environment="live", allow_live_paypal=True, _env_file=None).paypal_environment == "live"

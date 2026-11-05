@@ -1367,6 +1367,12 @@
       "out": "Payout",
       "refund": "Refund",
       "other": "Other"
+    },
+    "audit": {
+      "title": "Audit log:",
+      "intact_one": "{{n}} decision and payment, each one hashed onto the one before it. The chain is intact (latest {{hash}}…).",
+      "intact_other": "{{n}} decisions and payments, each one hashed onto the one before it. The chain is intact (latest {{hash}}…).",
+      "broken": "the chain is broken at event {{id}}: an entry was changed or removed."
     }
   },
   "claim": {

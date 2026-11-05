@@ -40,6 +40,7 @@ class Settings(BaseSettings):
     paypal_client_id: str | None = None
     paypal_client_secret: str | None = None
     paypal_environment: str = "sandbox"
+    allow_live_paypal: bool = False  # live PayPal moves real money: only with this set on purpose
     paypal_webhook_id: str | None = None
     # Log in with PayPal sends people back here. PayPal only saves public https return URLs, so local development
     # registers a placeholder (e.g. https://example.com/connect/paypal); empty = the web app's /connect/paypal.
@@ -52,6 +53,8 @@ class Settings(BaseSettings):
     def _real_secret_in_production(self) -> "Settings":
         if self.environment == "production" and (self.secret_key == DEV_SECRET or len(self.secret_key) < 32):
             raise ValueError("Set SECRET_KEY to a long random value in production (render.yaml generates one)")
+        if self.paypal_environment != "sandbox" and not self.allow_live_paypal:
+            raise ValueError("Hearthline runs on the PayPal sandbox; set ALLOW_LIVE_PAYPAL=true to use live PayPal")
         return self
 
     @property

@@ -94,6 +94,7 @@ def test_unverified_webhook_is_stored_but_not_processed(monkeypatch):
     monkeypatch.setitem(webhooks.HANDLERS, "PAYMENT.CAPTURE.COMPLETED", [lambda db, res: calls.append(1)])
     r = client.post("/webhooks/paypal", json=EVENT)  # no PAYPAL_WEBHOOK_ID / signature headers in tests
     assert r.json()["verified"] is False and calls == []
+    assert r.status_code == 401  # so PayPal redelivers; a delivery that verifies is then processed
     assert client.post("/webhooks/paypal", json={"nope": 1}).status_code == 400
 
 

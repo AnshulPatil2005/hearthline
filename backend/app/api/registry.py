@@ -17,7 +17,7 @@ from app.api.households import MyHousehold
 from app.auth import CurrentUser, OptionalUser
 from app.config import get_settings
 from app.db import get_db
-from app.models import Donation, Item, Registry, RegistryItem
+from app.models import Donation, Item, Registry, RegistryItem, Role
 from app.paypal import orders
 from app.schemas import ORM, Money
 
@@ -244,10 +244,21 @@ def paypal_client_id() -> dict:
     return {"client_id": s.paypal_client_id, "environment": s.paypal_environment}
 
 
+REVIEWERS = {Role.REVIEWER, Role.SUPERVISOR, Role.ORG_ADMIN}
+
+
 @router.get("/registries/{slug}", response_model=RegistryOut)
-def view_registry(slug: str, db: DB) -> RegistryOut:
-    """Public. Shows the town but never the household's address."""
-    return registry_out(db, get_registry(db, slug))
+def view_registry(slug: str, db: DB, user: OptionalUser) -> RegistryOut:
+    """Public once a human has approved it. Shows the town but never the household's address.
+
+    Until then only the family and reviewers can open it, so an unchecked page (maybe a copy of someone else's
+    story) never carries Hearthline's name to donors. A closed registry stays visible: its donors were refunded
+    and the page says so."""
+    reg = get_registry(db, slug)
+    insider = user is not None and (user.household_id == reg.household_id or user.role in REVIEWERS)
+    if reg.status == "pending_review" and not insider:
+        raise HTTPException(404, "Registry not found")
+    return registry_out(db, reg)
 
 
 @router.post("/registries/{slug}/donations", response_model=DonationCreated, status_code=201)

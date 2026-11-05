@@ -1337,6 +1337,11 @@
       "out": "Khoản chi",
       "refund": "Hoàn tiền",
       "other": "Khác"
+    },
+    "audit": {
+      "title": "Nhật ký kiểm toán:",
+      "intact_other": "{{n}} quyết định và khoản thanh toán, mỗi mục được băm nối với mục trước. Chuỗi còn nguyên vẹn (mới nhất {{hash}}…).",
+      "broken": "chuỗi bị đứt ở sự kiện {{id}}: có mục đã bị sửa hoặc xóa."
     }
   },
   "claim": {

@@ -1,0 +1,52 @@
+name: APIMatic SDKs and portal
+
+# Builds the Public API's SDKs (TypeScript, Python, C#) and documentation portal from apimatic/src.
+# Needs the APIMATIC_API_KEY repository secret; without it the job says so and stops.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [apimatic/**]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      APIMATIC_API_KEY: ${{ secrets.APIMATIC_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check for an APIMatic key
+        id: key
+        run: |
+          if [ -z "$APIMATIC_API_KEY" ]; then
+            echo "::notice::Set the APIMATIC_API_KEY repository secret to build the SDKs and portal."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
+      - uses: actions/setup-node@v4
+        if: steps.key.outputs.present == 'true'
+        with:
+          node-version: 22
+      - name: Validate the spec
+        if: steps.key.outputs.present == 'true'
+        run: npx --yes @apimatic/cli@2 api validate -i apimatic -k "$APIMATIC_API_KEY"
+      - name: Generate the SDKs
+        if: steps.key.outputs.present == 'true'
+        run: |
+          for lang in typescript python csharp; do
+            npx --yes @apimatic/cli@2 sdk generate -l "$lang" -i apimatic -d "apimatic/sdk/$lang" -f -k "$APIMATIC_API_KEY"
+          done
+      - name: Generate the portal
+        if: steps.key.outputs.present == 'true'
+        run: npx --yes @apimatic/cli@2 portal generate -i apimatic -d apimatic/portal -f -k "$APIMATIC_API_KEY"
+      - uses: actions/upload-artifact@v4
+        if: steps.key.outputs.present == 'true'
+        with:
+          name: hearthline-sdks-and-portal
+          path: |
+            apimatic/sdk
+            apimatic/portal

@@ -1367,6 +1367,12 @@
       "out": "Payout",
       "refund": "Refund",
       "other": "Iba pa"
+    },
+    "audit": {
+      "title": "Audit log:",
+      "intact_one": "{{n}} desisyon at bayad, bawat isa ay naka-hash sa nauna rito. Buo ang chain (pinakabago {{hash}}…).",
+      "intact_other": "{{n}} desisyon at bayad, bawat isa ay naka-hash sa nauna rito. Buo ang chain (pinakabago {{hash}}…).",
+      "broken": "putol ang chain sa event {{id}}: may entry na binago o inalis."
     }
   },
   "claim": {

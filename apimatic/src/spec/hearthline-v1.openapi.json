@@ -1,0 +1,1504 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Hearthline Public API",
+    "version": "1.0.0",
+    "description": "Find verified families' Rebuild Registries and local businesses' Reopen Funds after a disaster, check essential prices against their pre-disaster baseline, and prepare gifts. Preparing a gift returns a PayPal approval link: a person approves every payment, nothing is charged before that. The same operations are MCP tools at /mcp.",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://hearthline-api.onrender.com",
+      "description": "Hosted demo (PayPal sandbox)"
+    },
+    {
+      "url": "http://localhost:8000",
+      "description": "Local development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Public API v1",
+      "description": "No login needed."
+    }
+  ],
+  "paths": {
+    "/v1/disasters": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "List Disasters",
+        "description": "Disasters Hearthline is responding to.",
+        "operationId": "listDisasters",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Disaster"
+                  },
+                  "type": "array",
+                  "title": "Response Listdisasters"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/registries": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Find Registries",
+        "description": "Families' verified Rebuild Registries, those that still need the most first.",
+        "operationId": "findRegistries",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Words in the title, story or items, e.g. 'mattress'",
+              "title": "Q"
+            },
+            "description": "Words in the title, story or items, e.g. 'mattress'"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "At most this many registries",
+              "default": 20,
+              "title": "Limit"
+            },
+            "description": "At most this many registries"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RegistrySummary"
+                  },
+                  "title": "Response Findregistries"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/registries/{slug}": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Get Registry",
+        "description": "A registry with every item and what it still needs.",
+        "operationId": "getRegistry",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The registry's slug",
+              "examples": [
+                "rivera-family"
+              ],
+              "title": "Slug"
+            },
+            "description": "The registry's slug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegistryDetail"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/registries/{slug}/donations": {
+      "post": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Prepare Donation",
+        "description": "Prepare a gift to a family. Returns a PayPal link the donor opens to approve it.",
+        "operationId": "prepareDonation",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The registry's slug",
+              "examples": [
+                "rivera-family"
+              ],
+              "title": "Slug"
+            },
+            "description": "The registry's slug"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DonationRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Checkout"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Not possible right now (for example, the registry or fund isn't taking gifts)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "PayPal couldn't start the payment; nothing was charged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/donations/{donation_id}": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Get Donation",
+        "description": "Where a gift went: paid, item bought, shipped, delivered.",
+        "operationId": "getDonation",
+        "parameters": [
+          {
+            "name": "donation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "From `Checkout.id`",
+              "title": "Donation Id"
+            },
+            "description": "From `Checkout.id`"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DonationStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reopen-funds": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "List Reopen Funds",
+        "description": "Local businesses selling gift cards to pay for reopening.",
+        "operationId": "listReopenFunds",
+        "parameters": [
+          {
+            "name": "include_closed",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "Also list funds that reopened, refunded or closed",
+              "default": false,
+              "title": "Include Closed"
+            },
+            "description": "Also list funds that reopened, refunded or closed"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ReopenFund"
+                  },
+                  "title": "Response Listreopenfunds"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reopen-funds/{slug}": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Get Reopen Fund",
+        "description": "A business's Reopen Fund: its plan, what's raised and which steps' money staff have released.",
+        "operationId": "getReopenFund",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Reopen Fund's slug",
+              "examples": [
+                "morenos-bakery"
+              ],
+              "title": "Slug"
+            },
+            "description": "The Reopen Fund's slug"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReopenFund"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/reopen-funds/{slug}/gift-cards": {
+      "post": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Prepare Gift Card",
+        "description": "Prepare a gift card purchase. Returns a PayPal link the buyer opens to approve it.",
+        "operationId": "prepareGiftCard",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The Reopen Fund's slug",
+              "examples": [
+                "morenos-bakery"
+              ],
+              "title": "Slug"
+            },
+            "description": "The Reopen Fund's slug"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GiftCardRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Checkout"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "Not possible right now (for example, the registry or fund isn't taking gifts)",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "PayPal couldn't start the payment; nothing was charged",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/gift-cards/{code}": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Get Gift Card",
+        "description": "A gift card's balance and whether it can be spent yet.",
+        "operationId": "getGiftCard",
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "The card's code",
+              "title": "Code"
+            },
+            "description": "The card's code"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GiftCardStatus"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Problem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/price-watch": {
+      "get": {
+        "tags": [
+          "Public API v1"
+        ],
+        "summary": "Price Watch",
+        "description": "Essential prices against their pre-disaster baseline (California's 10% limit).",
+        "operationId": "getPriceWatch",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "ok",
+                    "gouging",
+                    "no_baseline",
+                    "unknown"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only prices with this status",
+              "title": "Status"
+            },
+            "description": "Only prices with this status"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Only this kind of essential, e.g. water or fuel",
+              "title": "Category"
+            },
+            "description": "Only this kind of essential, e.g. water or fuel"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PriceReport"
+                  },
+                  "title": "Response Getpricewatch"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Checkout": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "Donation or gift card id"
+          },
+          "order_id": {
+            "type": "string",
+            "title": "Order Id",
+            "description": "PayPal order id"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Amount",
+            "description": "USD"
+          },
+          "approval_url": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Approval Url",
+            "description": "Open this to approve the payment with PayPal"
+          },
+          "status_url": {
+            "type": "string",
+            "title": "Status Url",
+            "description": "API URL to check the payment's status"
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "description": "A reminder to show the person paying",
+            "default": "A person must approve this payment with PayPal. Nothing is charged until they do."
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "order_id",
+          "amount",
+          "approval_url",
+          "status_url"
+        ],
+        "title": "Checkout",
+        "description": "A prepared payment. Nothing is charged until a person approves it at `approval_url`."
+      },
+      "Disaster": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Stable id used in URLs",
+            "examples": [
+              "sablewood-fire"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Public name",
+            "examples": [
+              "Sablewood Fire"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "description": "wildfire | flood | hurricane | earthquake",
+            "examples": [
+              "wildfire"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "active while Hearthline is responding",
+            "examples": [
+              "active"
+            ]
+          },
+          "declared_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Declared At",
+            "description": "When the state of emergency was declared (UTC)"
+          },
+          "price_protection_until": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Protection Until",
+            "description": "Prices of essentials may rise at most 10% until then"
+          },
+          "is_fictional": {
+            "type": "boolean",
+            "title": "Is Fictional",
+            "description": "True for the demo scenario (a fictional town)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "name",
+          "kind",
+          "status",
+          "declared_at",
+          "price_protection_until",
+          "is_fictional"
+        ],
+        "title": "Disaster",
+        "description": "A disaster Hearthline is responding to."
+      },
+      "DonationRequest": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 10000.0,
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Amount",
+            "description": "USD",
+            "examples": [
+              50
+            ]
+          },
+          "item_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item Id",
+            "description": "A registry item; omit to give to the household fund"
+          },
+          "donor_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Donor Name",
+            "description": "Shown to the family"
+          },
+          "message": {
+            "type": "string",
+            "maxLength": 280,
+            "title": "Message",
+            "description": "A note for the family",
+            "default": ""
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount"
+        ],
+        "title": "DonationRequest",
+        "description": "A gift to a family: toward one item, or to the household fund."
+      },
+      "DonationStatus": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "Donation id"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "created (waiting for approval) | captured | failed | refunded"
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Amount",
+            "description": "USD"
+          },
+          "item": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Item",
+            "description": "The registry item it pays for; null for the household fund"
+          },
+          "timeline": {
+            "items": {
+              "$ref": "#/components/schemas/TimelineEvent"
+            },
+            "type": "array",
+            "title": "Timeline",
+            "description": "What happened, in order"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "status",
+          "amount",
+          "item",
+          "timeline"
+        ],
+        "title": "DonationStatus",
+        "description": "Where a gift is: paid, the item bought, shipped and delivered."
+      },
+      "GiftCardRequest": {
+        "properties": {
+          "amount": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 500.0,
+                "minimum": 10.0
+              },
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              }
+            ],
+            "title": "Amount",
+            "description": "USD",
+            "examples": [
+              50
+            ]
+          },
+          "buyer_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 80
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Buyer Name",
+            "description": "Shown as a supporter"
+          }
+        },
+        "type": "object",
+        "required": [
+          "amount"
+        ],
+        "title": "GiftCardRequest",
+        "description": "A gift card bought ahead from a closed business; it's worth the bonus percent more in the shop."
+      },
+      "GiftCardStatus": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "The card's code (also printed as a QR code)"
+          },
+          "business": {
+            "type": "string",
+            "title": "Business",
+            "description": "Where it can be spent"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "active | refunded"
+          },
+          "face_value": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Face Value",
+            "description": "What the card was worth when bought, in USD (price plus bonus)"
+          },
+          "balance": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Balance",
+            "description": "What's left to spend, in USD"
+          },
+          "usable_now": {
+            "type": "boolean",
+            "title": "Usable Now",
+            "description": "True once the business has reopened"
+          }
+        },
+        "type": "object",
+        "required": [
+          "code",
+          "business",
+          "status",
+          "face_value",
+          "balance",
+          "usable_now"
+        ],
+        "title": "GiftCardStatus",
+        "description": "A Reopen gift card. Whoever has the code can spend it, so treat the code like cash."
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "PriceReport": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "Product or service",
+            "examples": [
+              "Portable generator 3500W"
+            ]
+          },
+          "seller": {
+            "type": "string",
+            "title": "Seller",
+            "description": "Store or local seller"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category",
+            "description": "water | fuel | generator | lodging | medical | tools | building_materials | emergency_supplies"
+          },
+          "source": {
+            "type": "string",
+            "title": "Source",
+            "description": "channel3 (online) | local_survey (demo data)"
+          },
+          "baseline_price": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Baseline Price",
+            "description": "Median price in the 30 days before the declaration"
+          },
+          "current_price": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Current Price",
+            "description": "Latest price seen, in USD"
+          },
+          "markup_percent": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Markup Percent",
+            "description": "Change from the baseline, in percent"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "ok | gouging | no_baseline | unknown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "seller",
+          "category",
+          "source",
+          "baseline_price",
+          "current_price",
+          "markup_percent",
+          "status"
+        ],
+        "title": "PriceReport",
+        "description": "An essential item's price now against its price before the disaster (California Penal Code 396)."
+      },
+      "Problem": {
+        "properties": {
+          "detail": {
+            "type": "string",
+            "title": "Detail",
+            "description": "A sentence you can show to the person",
+            "examples": [
+              "Registry not found"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "title": "Problem",
+        "description": "Why a request failed."
+      },
+      "RegistryDetail": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Stable id used in URLs",
+            "examples": [
+              "rivera-family"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "The registry's title",
+            "examples": [
+              "Help the Riveras come home"
+            ]
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "description": "Town",
+            "examples": [
+              "Sablewood"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "title": "State",
+            "description": "US state code",
+            "examples": [
+              "CA"
+            ]
+          },
+          "open_items": {
+            "type": "integer",
+            "title": "Open Items",
+            "description": "Items that still need money"
+          },
+          "still_needed": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Still Needed",
+            "description": "Sum of what open items still need, in USD"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "The registry's public page"
+          },
+          "story": {
+            "type": "string",
+            "title": "Story",
+            "description": "The family's story, in their words"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/RegistryItemInfo"
+            },
+            "type": "array",
+            "title": "Items",
+            "description": "Every item, most urgent first"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "city",
+          "state",
+          "open_items",
+          "still_needed",
+          "url",
+          "story",
+          "items"
+        ],
+        "title": "RegistryDetail",
+        "description": "A registry with its story and every item."
+      },
+      "RegistryItemInfo": {
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Id",
+            "description": "Item id; pass it as `item_id` to give toward this item"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name",
+            "description": "What the family needs",
+            "examples": [
+              "Twin mattresses"
+            ]
+          },
+          "note": {
+            "type": "string",
+            "title": "Note",
+            "description": "Why they need it, in the family's words"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category",
+            "description": "Kind of item, e.g. bedding, clothing, electronics, kitchenware, tools",
+            "examples": [
+              "bedding"
+            ]
+          },
+          "quantity": {
+            "type": "integer",
+            "title": "Quantity",
+            "description": "How many"
+          },
+          "target_amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Target Amount",
+            "description": "Total needed for this item, in USD"
+          },
+          "funded_amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Funded Amount",
+            "description": "Given so far, in USD"
+          },
+          "remaining": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Remaining",
+            "description": "Still needed, in USD"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "open | funded | purchased | delivered"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "note",
+          "category",
+          "quantity",
+          "target_amount",
+          "funded_amount",
+          "remaining",
+          "status"
+        ],
+        "title": "RegistryItemInfo",
+        "description": "Something specific a family needs, and how much of it is paid for."
+      },
+      "RegistrySummary": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Stable id used in URLs",
+            "examples": [
+              "rivera-family"
+            ]
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "The registry's title",
+            "examples": [
+              "Help the Riveras come home"
+            ]
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "description": "Town",
+            "examples": [
+              "Sablewood"
+            ]
+          },
+          "state": {
+            "type": "string",
+            "title": "State",
+            "description": "US state code",
+            "examples": [
+              "CA"
+            ]
+          },
+          "open_items": {
+            "type": "integer",
+            "title": "Open Items",
+            "description": "Items that still need money"
+          },
+          "still_needed": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Still Needed",
+            "description": "Sum of what open items still need, in USD"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "The registry's public page"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "title",
+          "city",
+          "state",
+          "open_items",
+          "still_needed",
+          "url"
+        ],
+        "title": "RegistrySummary",
+        "description": "A verified family's Rebuild Registry. Shows the town, never the family's address."
+      },
+      "ReopenFund": {
+        "properties": {
+          "slug": {
+            "type": "string",
+            "title": "Slug",
+            "description": "Stable id used in URLs",
+            "examples": [
+              "morenos-bakery"
+            ]
+          },
+          "business": {
+            "type": "string",
+            "title": "Business",
+            "description": "Business name",
+            "examples": [
+              "Moreno's Bakery"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "title": "Kind",
+            "description": "bakery | restaurant | retail | services | other"
+          },
+          "city": {
+            "type": "string",
+            "title": "City",
+            "description": "Town"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "live | reopened | refunded | closed"
+          },
+          "goal_amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Goal Amount",
+            "description": "What the reopening plan costs, in USD"
+          },
+          "raised": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Raised",
+            "description": "Paid for gift cards so far, in USD"
+          },
+          "bonus_percent": {
+            "type": "integer",
+            "title": "Bonus Percent",
+            "description": "A card is worth this much more in the shop than it costs"
+          },
+          "reopen_by": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Reopen By",
+            "description": "The promised reopening date (UTC); escrow is refunded if missed"
+          },
+          "url": {
+            "type": "string",
+            "title": "Url",
+            "description": "The fund's public page"
+          },
+          "steps": {
+            "items": {
+              "$ref": "#/components/schemas/ReopenStep"
+            },
+            "type": "array",
+            "title": "Steps",
+            "description": "The reopening plan, in order"
+          }
+        },
+        "type": "object",
+        "required": [
+          "slug",
+          "business",
+          "kind",
+          "city",
+          "status",
+          "goal_amount",
+          "raised",
+          "bonus_percent",
+          "reopen_by",
+          "url",
+          "steps"
+        ],
+        "title": "ReopenFund",
+        "description": "A local business selling gift cards to pay for reopening. The money is held in escrow and refunded to\nbuyers, from what's left, if the business misses its reopening date."
+      },
+      "ReopenStep": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "What the money is for",
+            "examples": [
+              "Replace the ovens"
+            ]
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^(?!^[-+.]*$)[+-]?0*\\d*\\.?\\d*$",
+            "title": "Amount",
+            "description": "USD"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "pending | requested | released | rejected"
+          }
+        },
+        "type": "object",
+        "required": [
+          "title",
+          "amount",
+          "status"
+        ],
+        "title": "ReopenStep",
+        "description": "One step of a business's reopening plan. Staff release each step's money from escrow."
+      },
+      "TimelineEvent": {
+        "properties": {
+          "at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "At",
+            "description": "When it happened (UTC); null if it hasn't yet"
+          },
+          "event": {
+            "type": "string",
+            "title": "Event",
+            "description": "What happened, in plain words",
+            "examples": [
+              "Delivered to the family"
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "at",
+          "event"
+        ],
+        "title": "TimelineEvent",
+        "description": "One step in a gift's journey."
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  }
+}

@@ -1367,6 +1367,12 @@
       "out": "Pago enviado",
       "refund": "Reembolso",
       "other": "Otro"
+    },
+    "audit": {
+      "title": "Registro de auditoría:",
+      "intact_one": "{{n}} decisión o pago, cada uno con un hash encadenado al anterior. La cadena está intacta (último {{hash}}…).",
+      "intact_other": "{{n}} decisiones y pagos, cada uno con un hash encadenado al anterior. La cadena está intacta (último {{hash}}…).",
+      "broken": "la cadena se rompe en el evento {{id}}: se cambió o se borró una entrada."
     }
   },
   "claim": {

@@ -18,13 +18,14 @@ from app.db import get_db
 from app.models import Role, User
 
 ALGORITHM = "HS256"
+LOGIN = "login"  # the `purpose` of a sign-in token; other tokens signed with the same key carry their own
 bearer = HTTPBearer(auto_error=False)
 
 
 def issue_token(user: User) -> str:
     s = get_settings()
     expires = datetime.now(UTC) + timedelta(hours=s.token_ttl_hours)
-    return jwt.encode({"sub": str(user.id), "exp": expires}, s.secret_key, algorithm=ALGORITHM)
+    return jwt.encode({"sub": str(user.id), "purpose": LOGIN, "exp": expires}, s.secret_key, algorithm=ALGORITHM)
 
 
 def current_user(
@@ -34,7 +35,10 @@ def current_user(
     if creds is None:
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Sign in required")
     try:
-        user_id = int(jwt.decode(creds.credentials, get_settings().secret_key, algorithms=[ALGORITHM])["sub"])
+        claims = jwt.decode(creds.credentials, get_settings().secret_key, algorithms=[ALGORITHM])
+        if claims.get("purpose", LOGIN) != LOGIN:  # tokens issued before purposes existed are sign-ins
+            raise ValueError("not a sign-in token")
+        user_id = int(claims["sub"])
     except (jwt.PyJWTError, KeyError, ValueError):
         raise HTTPException(status.HTTP_401_UNAUTHORIZED, "Invalid or expired token") from None
     user = db.get(User, user_id)

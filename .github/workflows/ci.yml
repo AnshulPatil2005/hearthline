@@ -1,0 +1,61 @@
+name: CI
+
+# Every push and pull request: the backend's lint and tests (SQLite, PayPal and the AI stubbed, no secrets needed)
+# and the frontend's lint, type check and production build.
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  backend:
+    name: Backend (ruff, pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - name: Install Python and dependencies
+        run: uv sync --frozen
+      - name: Lint
+        run: uv run ruff check app tests
+      - name: Format
+        run: uv run ruff format --check app tests
+      - name: Migrations match the models
+        run: |
+          DATABASE_URL="sqlite:///$RUNNER_TEMP/ci.db" uv run alembic upgrade head
+          DATABASE_URL="sqlite:///$RUNNER_TEMP/ci.db" uv run alembic check
+      - name: Tests
+        run: uv run pytest -q
+
+  frontend:
+    name: Frontend (lint, types, build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Format
+        run: npx prettier --no-semi --single-quote --print-width 120 --check "src/**/*.{ts,tsx}"
+      - name: Type check and build
+        run: npm run build

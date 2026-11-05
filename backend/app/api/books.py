@@ -6,12 +6,13 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
-from app import reconcile
+from app import audit, reconcile
 from app.auth import require_role
 from app.db import get_db
-from app.models import Role, User
+from app.models import AuditEvent, Role, User
 from app.paypal import reporting
 from app.schemas import Money
 
@@ -24,6 +25,28 @@ class BalanceOut(BaseModel):
     available: Money
     total: Money
     as_of: datetime | None
+
+
+class AuditOut(BaseModel):
+    events: int
+    intact: bool
+    first_broken_id: int | None
+    latest_hash: str | None
+    latest_at: datetime | None
+
+
+@router.get("/audit", response_model=AuditOut)
+def audit_chain(staff: OrgStaff, db: DB) -> AuditOut:
+    """Re-check the whole audit log: every event's hash covers its content and the hash before it."""
+    intact, broken = audit.verify_chain(db)
+    latest = db.scalar(select(AuditEvent).order_by(AuditEvent.id.desc()).limit(1))
+    return AuditOut(
+        events=db.scalar(select(func.count(AuditEvent.id))) or 0,
+        intact=intact,
+        first_broken_id=broken,
+        latest_hash=latest.hash if latest else None,
+        latest_at=latest.created_at if latest else None,
+    )
 
 
 @router.get("/balance", response_model=BalanceOut)

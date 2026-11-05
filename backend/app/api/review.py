@@ -21,7 +21,7 @@ from app.schemas import ORM, Money
 router = APIRouter(tags=["review"])
 DB = Annotated[Session, Depends(get_db)]
 Staff = Annotated[User, Depends(require_role(Role.REVIEWER, Role.SUPERVISOR, Role.ORG_ADMIN))]
-RNG = random.Random()
+RNG = random.SystemRandom()  # unpredictable: nobody can steer who reviews
 
 
 class CaseIn(BaseModel):

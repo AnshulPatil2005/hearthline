@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy.orm import Session
 from starlette.concurrency import run_in_threadpool
 
@@ -10,8 +11,8 @@ from app.paypal import webhooks
 router = APIRouter(tags=["webhooks"])
 
 
-@router.post("/webhooks/paypal", include_in_schema=False)
-async def paypal_webhook(request: Request, db: Annotated[Session, Depends(get_db)]) -> dict:
+@router.post("/webhooks/paypal", include_in_schema=False, response_model=None)
+async def paypal_webhook(request: Request, db: Annotated[Session, Depends(get_db)]) -> dict | JSONResponse:
     event = await request.json()
     if not isinstance(event, dict) or "id" not in event or "event_type" not in event:
         raise HTTPException(400, "Not a PayPal webhook event")
@@ -20,4 +21,9 @@ async def paypal_webhook(request: Request, db: Annotated[Session, Depends(get_db
     stored = await run_in_threadpool(webhooks.handle, db, event, verified)
     if stored.error:
         raise HTTPException(500, "Processing failed; PayPal will retry")  # non-2xx makes PayPal redeliver
-    return {"received": stored.id, "verified": stored.verified}
+    body = {"received": stored.id, "verified": stored.verified}
+    if not stored.verified:
+        # Stored but not acted on. A non-2xx answer makes PayPal redeliver, so an event whose check failed for a
+        # passing reason (PayPal's verify call down, say) is handled once a delivery verifies; a forged one never is.
+        return JSONResponse(status_code=401, content=body)
+    return body

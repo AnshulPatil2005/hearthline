@@ -41,6 +41,7 @@ from app.api import (
 from app.config import get_settings
 from app.db import engine
 from app.paypal import reporting
+from app.rate_limit import RateLimit
 
 settings = get_settings()
 mcp_app = mcp_server.http_app()
@@ -68,6 +69,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+if settings.environment == "production":
+    app.add_middleware(RateLimit)  # added before CORS, so CORS wraps it and the browser can read a 429
 app.add_middleware(
     CORSMiddleware,
     allow_origin_regex=settings.cors_origin_regex,

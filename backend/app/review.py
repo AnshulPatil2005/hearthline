@@ -88,7 +88,7 @@ def open_case(
     extra_flags: list[trust.Flag] | None = None,  # signs specific to this case, e.g. a failed photo check
     context: dict | None = None,  # extra facts for Sentinel
 ) -> Case:
-    rng = rng or random.Random()
+    rng = rng or random.SystemRandom()
     flags = trust.sentinel_flags(db, home, amount) + (extra_flags or [])
     score, tier = trust.risk(flags)
     facts = {
@@ -155,7 +155,7 @@ def is_assigned(case: Case, user: User) -> bool:
 def decide(
     db: Session, case: Case, reviewer: User, decision: str, reason: str, rng: random.Random | None = None
 ) -> Case:
-    rng = rng or random.Random()
+    rng = rng or random.SystemRandom()
     if decision not in DECISIONS:
         raise ReviewError("Unknown decision")
     if decision != "approve" and len(reason.strip()) < 5:

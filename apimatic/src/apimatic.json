@@ -1,0 +1,55 @@
+{
+  "$schema": "https://cdn.jsdelivr.net/npm/@apimatic/cli@2/apimatic.schema.json",
+  "schemaVersion": 1,
+  "portal": {
+    "site": {
+      "name": "Hearthline Public API",
+      "description": "Find verified families' Rebuild Registries and local businesses' Reopen Funds after a disaster, check essential prices against their pre-disaster baseline, and prepare gifts that a person approves on PayPal."
+    },
+    "brand": {
+      "colors": {
+        "primary": "#c2410c"
+      },
+      "colorMode": "both"
+    },
+    "navigation": {
+      "links": [
+        { "label": "Live demo", "url": "https://hearthline-web.onrender.com" },
+        { "label": "Feature guide", "url": "https://hearthline-web.onrender.com/features" },
+        { "label": "GitHub", "url": "https://github.com/AnshulPatil2005/hearthline" }
+      ]
+    },
+    "ai": {
+      "pageActions": true
+    }
+  },
+  "languages": {
+    "typescript": {
+      "publishing": {
+        "packageConfiguration": {
+          "name": "hearthline-sdk",
+          "description": "TypeScript SDK for Hearthline's Public API: disaster registries, Reopen Funds, price watch and PayPal gift links.",
+          "keywords": ["hearthline", "disaster-relief", "paypal", "donations"],
+          "homepage": "https://hearthline-web.onrender.com"
+        }
+      }
+    },
+    "python": {
+      "publishing": {
+        "packageConfiguration": {
+          "name": "hearthline-sdk",
+          "description": "Python SDK for Hearthline's Public API: disaster registries, Reopen Funds, price watch and PayPal gift links.",
+          "keywords": ["hearthline", "disaster-relief", "paypal", "donations"]
+        }
+      }
+    },
+    "csharp": {
+      "publishing": {
+        "packageConfiguration": {
+          "packageId": "Hearthline.Sdk",
+          "description": "C# SDK for Hearthline's Public API: disaster registries, Reopen Funds, price watch and PayPal gift links."
+        }
+      }
+    }
+  }
+}

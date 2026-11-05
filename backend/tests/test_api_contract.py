@@ -2,7 +2,8 @@ from scripts import export_api
 
 
 def test_committed_api_files_match_the_code():
-    """docs/api is what APIMatic and Postman read. Regenerate with: uv run python -m scripts.export_api"""
+    """docs/api and apimatic/src/spec are what Postman and APIMatic read.
+    Regenerate with: uv run python -m scripts.export_api"""
     for path, text in export_api.files().items():
         assert path.read_text(encoding="utf-8") == text, f"{path.name} is out of date"
 

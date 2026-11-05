@@ -146,6 +146,9 @@ def test_new_registry_is_hidden_until_a_human_approves(fakes):
     reg = client.post("/households/me/registry", headers=h, json={"title": "Help the Nguyens"}).json()
     assert reg["status"] == "pending_review"
     assert client.post(f"/registries/{reg['slug']}/donations", json={"amount": "10"}).status_code == 409
+    assert client.get(f"/registries/{reg['slug']}").status_code == 404  # not public yet
+    assert client.get(f"/registries/{reg['slug']}", headers=h).json()["status"] == "pending_review"  # the family
+    assert client.get(f"/registries/{reg['slug']}", headers=login_as("Priya Nair")).status_code == 200  # a reviewer
 
     case = client.get("/households/me/cases", headers=h).json()[0]
     assert case["kind"] == "registry_verification"

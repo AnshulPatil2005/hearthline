@@ -45,10 +45,12 @@ def fakes(monkeypatch):
     return paid
 
 
-def fund(item_name: str) -> int:
-    """Fully fund a registry item through the real capture path; returns the item id."""
+def fund(item_name: str, *, proven: bool = True) -> int:
+    """Fully fund a registry item through the real capture path; returns the item id. The Riveras' utility bill
+    was checked at the shelter (as in the demo) unless `proven` is False."""
     login_as("Elena Rivera")
     with SessionLocal() as db:
+        db.query(Household).filter_by(name="Rivera household").one().residence_verified = proven
         item = db.query(RegistryItem).filter_by(name=item_name).one()
         donation = Donation(
             registry_id=item.registry_id,
@@ -96,6 +98,15 @@ def test_blocked_purchase_is_never_paid(fakes, monkeypatch):
     p = client.get("/households/me/purchases", headers=login_as("Elena Rivera")).json()[0]
     assert p["status"] == "blocked" and fakes == []
     assert [c["rule"] for c in p["policy_checks"] if not c["passed"]] == ["known_retailer"]
+
+
+def test_nothing_ships_to_an_address_nobody_proved(fakes):
+    """Inside the fire zone isn't enough: until a document or a caseworker confirms the family lives there, the
+    Shopper won't send anything to it."""
+    fund("Steel-toe work boots", proven=False)
+    p = client.get("/households/me/purchases", headers=login_as("Elena Rivera")).json()[0]
+    assert p["status"] == "blocked" and fakes == []
+    assert [c["rule"] for c in p["policy_checks"] if not c["passed"]] == ["ships_to_verified_address"]
 
 
 def test_reject_and_payout_failure(fakes, monkeypatch):

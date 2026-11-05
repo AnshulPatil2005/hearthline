@@ -50,7 +50,9 @@ function loadScript(src: string): Promise<void> {
 
 export function getPayPalSdk(locale: string): Promise<PayPalSdk> {
   instance ??= (async () => {
-    const { client_id, environment } = await api<{ client_id: string; environment: 'sandbox' | 'live' }>('/paypal/client-id')
+    const { client_id, environment } = await api<{ client_id: string; environment: 'sandbox' | 'live' }>(
+      '/paypal/client-id',
+    )
     await loadScript(SCRIPT_URL[environment])
     return window.paypal!.createInstance({
       clientId: client_id,
