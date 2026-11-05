@@ -5,7 +5,7 @@ from starlette.responses import PlainTextResponse
 from starlette.routing import Route
 from starlette.testclient import TestClient
 
-from app.rate_limit import LIMITS, Counter, Limit, RateLimit
+from app.rate_limit import LIMITS, Counter, Limit, RateLimit, client_ip
 
 
 class Clock:
@@ -54,3 +54,11 @@ def test_the_limits_cover_the_ai_calls_but_not_ordinary_page_loads():
     assert limit_for("GET /households/me/policy") is None
     assert limit_for("GET /command/dispatch/plan") is None
     assert limit_for("GET /health") is None
+
+
+def test_the_client_is_who_cloudflare_says():
+    """On Render, Cloudflare's CF-Connecting-IP can't be faked; a client-sent X-Forwarded-For can."""
+    spoofed = [(b"x-forwarded-for", b"6.6.6.6, 172.71.0.1"), (b"cf-connecting-ip", b"1.2.3.4")]
+    assert client_ip({"headers": spoofed, "client": ("10.0.0.9", 1)}) == "1.2.3.4"
+    assert client_ip({"headers": spoofed[:1], "client": ("10.0.0.9", 1)}) == "6.6.6.6"  # off Render
+    assert client_ip({"headers": [], "client": ("10.0.0.9", 1)}) == "10.0.0.9"

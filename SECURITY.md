@@ -134,9 +134,9 @@ We'd rather say these than have someone find them.
 - **No identity verification.** Residence is proven with a document a caseworker checks or by a caseworker's vouch.
   There is no KYC, and a determined fraudster with a forged bill could reach level 2. Two-person review and Books
   are the backstop.
-- **The rate limits are in memory** on the one API instance. A restart forgets them, and the per-client count
-  trusts the first address in `X-Forwarded-For`. The total limit holds either way. They are there to stop floods
-  and runaway cost, not a determined attacker.
+- **The rate limits are in memory** on the one API instance, and a restart forgets them. Clients are told apart
+  by the address Cloudflare (in front of Render) reports, which a client can't fake, and every limit also has a
+  total. They are there to stop floods and runaway cost, not a determined attacker with many addresses.
 - **The audit chain is checked on demand**, in tests and from the Books page, not continuously. Events are
   appended without a database lock, so two writes at the same moment could link to the same previous event. That
   would show as a break, not hide one. The time of each event isn't part of its hash.

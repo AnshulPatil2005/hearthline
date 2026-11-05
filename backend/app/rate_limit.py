@@ -1,7 +1,7 @@
 """Request limits for the hosted demo: plenty for anyone exploring it, not enough to run up the AI bill, flood the
 public API or hammer sign-in.
 
-Each limit counts per client (by IP) and in total, so a client that fakes its address still meets the total.
+Each limit counts per client (by IP) and in total, so even a client that somehow varies its address meets the total.
 The counts live in memory on the one API instance and a restart forgets them: a guard rail against floods and
 runaway cost, not a defence against a determined attacker (see SECURITY.md).
 """
@@ -44,10 +44,15 @@ LIMITS = (
 )
 
 
+# Render runs every service behind Cloudflare, which overwrites CF-Connecting-IP with the caller's address, so a
+# client can't fake it. X-Forwarded-For is only appended to, so its first entry is whatever the client sent.
+CLIENT_HEADERS = (b"cf-connecting-ip", b"true-client-ip", b"x-forwarded-for")
+
+
 def client_ip(scope: Scope) -> str:
-    """Render's proxy puts the caller's address first in X-Forwarded-For."""
-    for name, value in scope.get("headers", []):
-        if name == b"x-forwarded-for":
+    headers = dict(scope.get("headers", []))
+    for name in CLIENT_HEADERS:
+        if value := headers.get(name):
             return value.decode("latin-1").split(",")[0].strip()
     client = scope.get("client")
     return client[0] if client else "unknown"
