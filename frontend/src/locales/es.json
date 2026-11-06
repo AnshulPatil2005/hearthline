@@ -2100,6 +2100,31 @@
           "reset": "Devolver la demo a su estado inicial, desde esta página"
         }
       }
+    },
+    "why": {
+      "title": "Por qué importa",
+      "lead": "En un año, entre 3 y 3,9 millones de adultos en EE. UU. tuvieron que dejar su casa por un desastre. Cada parte de Hearthline responde a algo con lo que se encuentran.",
+      "see": "Verlo",
+      "prepare": {
+        "figure": "47 %",
+        "text": "de los propietarios en EE. UU. tiene un inventario de su casa: la lista que pide la aseguradora después de una pérdida.",
+        "answer": "Hearthline convierte fotos de cada cuarto en un inventario con fecha y precios antes de que pase nada."
+      },
+      "respond": {
+        "figure": "Hasta 77 %",
+        "text": "de las llamadas diarias a la línea de FEMA quedaron sin respuesta en las dos semanas después del huracán Milton (2024). La espera llegó a 2 horas y 14 minutos.",
+        "answer": "Las familias que se prepararon reciben dinero horas después de una orden de evacuación, sin esperar al teléfono."
+      },
+      "trust": {
+        "figure": "1,9–2,7 millones",
+        "text": "de adultos desplazados recibieron una posible oferta fraudulenta en el mes siguiente a un desastre.",
+        "answer": "Sentinel detecta fotos copiadas y colectas falsas; deciden dos personas, y a quien donó a un registro falso se le devuelve el dinero."
+      },
+      "rebuild": {
+        "figure": "69 %",
+        "text": "de los hogares encuestados que perdieron su casa en los incendios de Los Ángeles de 2025 no tiene seguro suficiente: les faltan 542.000 dólares en promedio (encuesta voluntaria).",
+        "answer": "El inventario muestra lo que la póliza no cubre, y la reclamación al seguro se arma a partir de él."
+      }
     }
   }
 }

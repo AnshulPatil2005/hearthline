@@ -2100,6 +2100,31 @@
           "reset": "Put the demo back to the start, from this page"
         }
       }
+    },
+    "why": {
+      "title": "Why it matters",
+      "lead": "In one year, 3 to 3.9 million adults in the US were displaced from their homes by a disaster. Each part of Hearthline answers something they run into.",
+      "see": "See it",
+      "prepare": {
+        "figure": "47%",
+        "text": "of US homeowners have a home inventory: the list an insurer asks for after a loss.",
+        "answer": "Hearthline turns room photos into a dated, priced inventory before anything happens."
+      },
+      "respond": {
+        "figure": "Up to 77%",
+        "text": "of daily calls to FEMA's helpline went unanswered in the two weeks after Hurricane Milton (2024). Waits peaked at 2 hours 14 minutes.",
+        "answer": "Families who prepared get cash within hours of an evacuation order, with no phone line to wait on."
+      },
+      "trust": {
+        "figure": "1.9–2.7 million",
+        "text": "displaced adults got a possible scam offer within a month of a disaster.",
+        "answer": "Sentinel flags copied photos and fake fundraisers; two people decide, and donors to a fake registry are refunded."
+      },
+      "rebuild": {
+        "figure": "69%",
+        "text": "of surveyed households who lost their home in the 2025 Los Angeles fires are underinsured, by $542,000 on average (a self-selected survey).",
+        "answer": "The inventory shows what the policy won't cover, and the insurance claim is built from it."
+      }
     }
   }
 }

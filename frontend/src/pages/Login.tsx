@@ -6,7 +6,7 @@ import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
 import { DemoTour } from '../components/DemoTour'
 import { Footer } from '../components/Footer'
-import { FeatureIndex, QuickFacts, SponsorShowcase } from '../components/Showcase'
+import { FeatureIndex, QuickFacts, SponsorShowcase, WhyItMatters } from '../components/Showcase'
 import { LanguageSelect, Wordmark } from '../components/Shell'
 import { homePathFor } from '../paths'
 
@@ -168,6 +168,8 @@ export default function Login() {
           </div>
           <QuickFacts />
         </section>
+
+        <WhyItMatters />
 
         <section aria-labelledby="cast-title">
           <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-1">

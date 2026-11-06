@@ -2100,6 +2100,31 @@
           "reset": "Ibalik sa simula ang demo, mula sa pahinang ito"
         }
       }
+    },
+    "why": {
+      "title": "Bakit ito mahalaga",
+      "lead": "Sa loob ng isang taon, 3 hanggang 3.9 milyong adulto sa US ang napaalis sa kanilang tahanan dahil sa sakuna. Bawat bahagi ng Hearthline ay sagot sa isang bagay na hinaharap nila.",
+      "see": "Tingnan",
+      "prepare": {
+        "figure": "47%",
+        "text": "ng mga may-ari ng bahay sa US ang may imbentaryo ng bahay: ang listahang hinihingi ng insurer pagkatapos ng pagkawala.",
+        "answer": "Ginagawa ng Hearthline ang mga larawan ng kuwarto na isang imbentaryong may petsa at presyo bago pa may mangyari."
+      },
+      "respond": {
+        "figure": "Hanggang 77%",
+        "text": "ng mga tawag kada araw sa helpline ng FEMA ang hindi nasagot sa loob ng dalawang linggo pagkatapos ng Hurricane Milton (2024). Umabot sa 2 oras at 14 minuto ang paghihintay.",
+        "answer": "Ang mga pamilyang naghanda ay nakakatanggap ng pera ilang oras matapos ang utos ng paglikas, nang hindi naghihintay sa telepono."
+      },
+      "trust": {
+        "figure": "1.9–2.7 milyon",
+        "text": "na mga napaalis na adulto ang nakatanggap ng posibleng alok na scam sa loob ng isang buwan matapos ang sakuna.",
+        "answer": "Minamarkahan ng Sentinel ang mga kinopyang larawan at pekeng fundraiser; dalawang tao ang nagpapasya, at ibinabalik ang pera ng nag-donate sa pekeng registry."
+      },
+      "rebuild": {
+        "figure": "69%",
+        "text": "ng mga sinurbey na sambahayang nawalan ng bahay sa sunog sa Los Angeles noong 2025 ang kulang sa insurance, nang $542,000 sa karaniwan (boluntaryong survey).",
+        "answer": "Ipinapakita ng imbentaryo ang hindi sakop ng polisiya, at mula rito binubuo ang claim sa insurance."
+      }
     }
   }
 }

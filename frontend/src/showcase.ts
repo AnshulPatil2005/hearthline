@@ -167,3 +167,38 @@ export const SPONSORS: Sponsor[] = [
     ],
   },
 ]
+
+/** Why it matters: one sourced figure per stage, each linked to the feature that answers it (texts in `showcase.why`).
+ * Every figure was checked against the source document; keep the wording in the locales as exact as the sources. */
+export const WHY = {
+  lead: {
+    source: 'GAO-26-108280, May 2026, citing the Census Bureau',
+    href: 'https://www.gao.gov/products/gao-26-108280',
+  },
+  items: [
+    {
+      key: 'prepare',
+      source: 'Insurance Information Institute, 2023',
+      href: 'https://www.iii.org/blog/survey-suggestsfew-homeowners-prepare-for-weather-related-risks/',
+      feature: { as: 'elena.rivera', to: '/inventory' },
+    },
+    {
+      key: 'respond',
+      source: 'GAO-26-108154, April 2026',
+      href: 'https://www.gao.gov/products/gao-26-108154',
+      feature: { as: 'sam.whitfield', to: '/command' },
+    },
+    {
+      key: 'trust',
+      source: 'GAO-26-108280, May 2026',
+      href: 'https://www.gao.gov/products/gao-26-108280',
+      feature: { as: 'priya.nair', to: '/review' },
+    },
+    {
+      key: 'rebuild',
+      source: 'United Policyholders, March 2026',
+      href: 'https://uphelp.org/wp-content/uploads/2026/03/UP-2025-LA-Wildfires-12-Month-Survey-Results-Final.pdf',
+      feature: { as: 'elena.rivera', to: '/insurance' },
+    },
+  ],
+} as const

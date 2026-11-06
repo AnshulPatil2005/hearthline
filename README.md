@@ -9,6 +9,17 @@ verified work, and helps the local businesses they depend on reopen with support
 Built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com) on the PayPal sandbox, with Google Gemini,
 AG Grid, Bryntum, Channel3, APIMatic and Render.
 
+**Why it matters:**
+
+- In one year, **3 to 3.9 million** US adults were displaced from their homes by a disaster ([GAO-26-108280](https://www.gao.gov/products/gao-26-108280), May 2026, citing the Census Bureau).
+- In the two weeks after Hurricane Milton, **up to 77%** of daily calls to FEMA's helpline went unanswered, and waits peaked at 2 hours 14 minutes ([GAO-26-108154](https://www.gao.gov/products/gao-26-108154), April 2026).
+- **1.9 to 2.7 million** displaced adults got a possible scam offer within a month of a disaster ([GAO-26-108280](https://www.gao.gov/products/gao-26-108280)).
+- Only **47%** of US homeowners have a home inventory, the list an insurer asks for after a loss ([Insurance Information Institute](https://www.iii.org/blog/survey-suggestsfew-homeowners-prepare-for-weather-related-risks/), 2023).
+- **69%** of surveyed households who lost their home in the 2025 Los Angeles fires are underinsured, by **$542,000** on average ([United Policyholders](https://uphelp.org/wp-content/uploads/2026/03/UP-2025-LA-Wildfires-12-Month-Survey-Results-Final.pdf), March 2026; a self-selected survey).
+
+Each part of Hearthline answers one of these: an inventory made before the disaster, cash within hours for families
+who prepared, fraud checks with people deciding, and claims built from the inventory.
+
 - **Video:** _link added at submission_
 - **Live demo:** https://hearthline-web.onrender.com (Render's free plan sleeps when idle, so the first visit can take
   about a minute; the page says when it's waking up)

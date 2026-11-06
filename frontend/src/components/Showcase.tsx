@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { Link } from 'react-router'
-import { FEATURE_COUNT, FEATURE_GROUPS, featureHref, SPONSORS, type Feature } from '../showcase'
+import { FEATURE_COUNT, FEATURE_GROUPS, featureHref, SPONSORS, WHY, type Feature } from '../showcase'
 
 const FIRST_NAME: Record<NonNullable<Feature['as']>, string> = {
   'elena.rivera': 'Elena',
@@ -121,6 +121,50 @@ export function BuiltWith({ name, what }: { name: string; what: string }) {
 }
 
 /** The headline numbers a judge sees first. */
+/** The problem, in sourced numbers, and what Hearthline does about each part of it. */
+export function WhyItMatters() {
+  const { t } = useTranslation()
+  return (
+    <section id="why" aria-labelledby="why-title" className="scroll-mt-6">
+      <h2 id="why-title" className="text-2xl">
+        {t('showcase.why.title')}
+      </h2>
+      <p className="mt-1 max-w-3xl text-ink-soft">
+        {t('showcase.why.lead')}{' '}
+        <a href={WHY.lead.href} target="_blank" rel="noreferrer" className="text-sm text-ink-faint underline">
+          {WHY.lead.source}
+        </a>
+      </p>
+      <ul className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+        {WHY.items.map((item) => (
+          <li key={item.key} className="panel flex flex-col p-4">
+            <p className="kicker text-ink-faint">{t(`showcase.groups.${item.key}`)}</p>
+            <p className="figure mt-1 text-3xl font-semibold">{t(`showcase.why.${item.key}.figure`)}</p>
+            <p className="mt-1 text-sm">{t(`showcase.why.${item.key}.text`)}</p>
+            <a
+              href={item.href}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-1 text-xs text-ink-faint underline hover:text-ink-soft"
+            >
+              {item.source}
+            </a>
+            <p className="mt-3 border-t border-line pt-3 text-sm text-ink-soft">
+              {t(`showcase.why.${item.key}.answer`)}
+            </p>
+            <Link
+              to={featureHref({ key: item.key, tags: [], ...item.feature })}
+              className="mt-auto pt-3 text-sm font-medium text-ember hover:underline"
+            >
+              {t('showcase.why.see')} →
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}
+
 export function QuickFacts() {
   const { t } = useTranslation()
   const facts: [string, string][] = [

@@ -2053,6 +2053,31 @@
           "reset": "Đưa bản demo về trạng thái ban đầu, ngay từ trang này"
         }
       }
+    },
+    "why": {
+      "title": "Vì sao điều này quan trọng",
+      "lead": "Trong một năm, 3 đến 3,9 triệu người trưởng thành ở Mỹ phải rời nhà vì thảm họa. Mỗi phần của Hearthline giải quyết một khó khăn họ gặp phải.",
+      "see": "Xem",
+      "prepare": {
+        "figure": "47%",
+        "text": "chủ nhà ở Mỹ có danh mục tài sản trong nhà: danh sách mà hãng bảo hiểm yêu cầu sau khi mất mát.",
+        "answer": "Hearthline biến ảnh từng phòng thành danh mục có ngày tháng và giá trước khi có chuyện xảy ra."
+      },
+      "respond": {
+        "figure": "Tới 77%",
+        "text": "cuộc gọi mỗi ngày tới đường dây hỗ trợ của FEMA không được trả lời trong hai tuần sau bão Milton (2024). Thời gian chờ có lúc lên tới 2 giờ 14 phút.",
+        "answer": "Những gia đình đã chuẩn bị nhận được tiền trong vài giờ sau lệnh sơ tán, không phải chờ điện thoại."
+      },
+      "trust": {
+        "figure": "1,9–2,7 triệu",
+        "text": "người trưởng thành phải rời nhà đã nhận được lời mời có thể là lừa đảo trong vòng một tháng sau thảm họa.",
+        "answer": "Sentinel đánh dấu ảnh sao chép và các đợt gây quỹ giả; hai người quyết định, và người đã quyên góp cho danh sách giả được hoàn tiền."
+      },
+      "rebuild": {
+        "figure": "69%",
+        "text": "hộ được khảo sát mất nhà trong vụ cháy Los Angeles năm 2025 không đủ bảo hiểm, thiếu trung bình 542.000 đô la (khảo sát tự nguyện).",
+        "answer": "Danh mục cho thấy phần hợp đồng bảo hiểm không chi trả, và hồ sơ yêu cầu bồi thường được lập từ đó."
+      }
     }
   }
 }
