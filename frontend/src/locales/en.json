@@ -165,7 +165,8 @@
       "start": "Find and price items",
       "working": "Finding items and checking prices. This takes about 10–20 seconds.",
       "done": "Found {{count}} items in {{room}}.",
-      "failed": "The scan didn't finish: {{error}}"
+      "failed": "The scan didn't finish: {{error}}",
+      "aiBusy": "The AI that recognizes items is busy right now. Try the scan again in a minute; your photos are fine."
     },
     "col": {
       "room": "Room",
@@ -211,7 +212,13 @@
     "delete": "Delete item",
     "empty": "No items yet. Scan a room to get started.",
     "saveFailed": "Couldn't save that change. Please try again.",
-    "hint": "Double-click a cell to edit. Right-click a row to delete it or export. Tick Confirmed once you've checked an item."
+    "hint": "Double-click a cell to edit. Right-click a row to delete it or export. Tick Confirmed once you've checked an item.",
+    "view": {
+      "label": "How to show the inventory",
+      "items": "Items",
+      "category": "Value by category",
+      "chartTitle": "What each room held, by kind of item"
+    }
   },
   "alerts": {
     "sourceNws": "National Weather Service",
@@ -1090,7 +1097,9 @@
       "clothing": "Clothing",
       "kitchenware": "Kitchenware",
       "other": "Other"
-    }
+    },
+    "chartTitle": "The {{n}} biggest price rises since before the disaster",
+    "chartLimit": "Red: over the legal limit of {{limit}}%. Green: within it. Sort or filter the table and the chart follows."
   },
   "voice": {
     "start": "Speak instead of typing",
@@ -2032,6 +2041,8 @@
           "toolkit": "AI Toolkit: \"Ask the grid\" turns a question into the grid's filters",
           "grouping": "Row grouping, inline editing and Excel export: the home inventory",
           "masterDetail": "Master/detail: each ledger entry's postings, each batch's payments",
+          "pivot": "Pivot mode and a pivot chart: what each room held, by kind of item",
+          "charts": "An integrated chart linked to the grid: the biggest price rises against the legal limit on Price Watch",
           "sparklines": "Sparklines with AG Charts: price history on Price Watch",
           "map": "The live map follows the grid's filter model"
         }

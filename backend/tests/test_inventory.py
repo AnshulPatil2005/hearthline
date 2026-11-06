@@ -98,6 +98,21 @@ def test_scan_to_priced_inventory(fake_agents):
     assert summary["coverage_gap"] == "0.00"  # $80k policy covers $1k of contents
 
 
+def test_a_scan_while_the_ai_is_busy_says_so(monkeypatch):
+    from app import ai
+
+    def busy(*args, **kwargs):
+        raise ai.AIError("No AI model could answer: gemini-flash-lite-latest: RateLimitError")
+
+    monkeypatch.setattr(inventory, "detect_items", busy)
+    h = login_as("Elena Rivera")
+    room = client.post("/households/me/rooms", headers=h, json={"name": "Den"}).json()
+    photo = [("files", ("a.jpg", jpeg("red"), "image/jpeg"))]
+    scan = client.post(f"/households/me/rooms/{room['id']}/scans", headers=h, files=photo)
+    done = client.get(f"/scans/{scan.json()['id']}", headers=h).json()
+    assert done["status"] == "failed" and done["error"] == "ai_busy"  # the page translates it; no provider error
+
+
 def test_edit_confirm_delete_and_manual_items():
     h = login_as("Elena Rivera")
     item = client.post("/households/me/items", headers=h, json={"name": "Wedding album", "unit_price": "250"}).json()

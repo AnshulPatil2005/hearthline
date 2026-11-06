@@ -1,17 +1,19 @@
 import { useQueryClient } from '@tanstack/react-query'
 import type {
   CellValueChangedEvent,
+  ChartRef,
   ColDef,
   GetContextMenuItems,
+  GridApi,
   ICellRendererParams,
   ValueFormatterParams,
 } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { forwardRef, useMemo } from 'react'
+import { forwardRef, useEffect, useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, CATEGORIES, mediaUrl, type EvidenceLevel, type Item } from '../api'
 import { money } from '../format'
-import { gridTheme } from '../grid'
+import { chartColors, gridTheme } from '../grid'
 import { toRow, type Row } from '../rows'
 import { BuiltWith } from './Showcase'
 
@@ -21,6 +23,8 @@ const EVIDENCE_TINT: Record<EvidenceLevel, string> = {
   receipt: 'bg-sunken text-ink',
   memory: 'bg-amber-soft text-amber',
 }
+
+const CATEGORY_ORDER: readonly string[] = CATEGORIES
 
 const EDITABLE: Record<string, keyof Item> = {
   name: 'name',
@@ -72,6 +76,39 @@ const moneyCell = (p: ValueFormatterParams) =>
 const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid({ rows, onChanged, onError }, ref) {
   const { t } = useTranslation()
   const queryClient = useQueryClient()
+  // "By category" pivots the same rows (rooms down, kinds of item across) and charts the pivot: what each room held
+  const [view, setView] = useState<'items' | 'category'>('items')
+  const gridApi = useRef<GridApi<Row> | null>(null)
+  const chartBox = useRef<HTMLDivElement>(null)
+  const chart = useRef<ChartRef | undefined>(undefined)
+  const colors = useMemo(
+    () => ({
+      ...chartColors(),
+      chartThemeOverrides: {
+        bar: {
+          axes: {
+            'grouped-category': { label: { rotation: 0 } },
+            number: { label: { formatter: ({ value }: { value: number }) => money(value) } },
+          },
+        },
+      },
+    }),
+    [],
+  )
+
+  useEffect(() => {
+    const api = gridApi.current
+    if (!api) return
+    api.applyColumnState({ state: [{ colId: 'category', pivot: view === 'category' }] })
+    api.setGridOption('pivotMode', view === 'category')
+    if (view === 'category' && chartBox.current) {
+      chart.current = api.createPivotChart({ chartType: 'stackedColumn', chartContainer: chartBox.current })
+    }
+    return () => {
+      chart.current?.destroyChart()
+      chart.current = undefined
+    }
+  }, [view])
 
   const columnDefs = useMemo<ColDef<Row>[]>(
     () => [
@@ -94,6 +131,8 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
         valueFormatter: (p) => (p.value ? t(`inventory.category.${p.value}`, { defaultValue: p.value }) : ''),
         filter: 'agSetColumnFilter',
         width: 145,
+        enablePivot: true,
+        pivotComparator: (a: string, b: string) => CATEGORY_ORDER.indexOf(a) - CATEGORY_ORDER.indexOf(b),
       },
       {
         field: 'quantity',
@@ -185,14 +224,35 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
   return (
     // Short lists size to their rows; long ones scroll inside the grid so rendering stays fast.
     <>
-      <div className={rows.length > 25 ? 'h-[70vh]' : ''}>
+      <div role="group" aria-label={t('inventory.view.label')} className="mb-2 flex gap-1 text-sm">
+        {(['items', 'category'] as const).map((v) => (
+          <button
+            key={v}
+            onClick={() => setView(v)}
+            aria-pressed={view === v}
+            className={`rounded-md border px-3 py-1 ${view === v ? 'border-ink bg-ink text-paper' : 'border-line hover:bg-sunken'}`}
+          >
+            {t(`inventory.view.${v}`)}
+          </button>
+        ))}
+      </div>
+      <div className={rows.length > 25 && view === 'items' ? 'h-[70vh]' : ''}>
         <AgGridReact<Row>
           ref={ref}
+          onGridReady={(e) => (gridApi.current = e.api)}
+          enableCharts
+          cellSelection
+          {...colors}
+          removePivotHeaderRowWhenSingleValueColumn
+          processPivotResultColDef={(col) => {
+            const key = col.pivotKeys?.[0]
+            if (key) col.headerName = t(`inventory.category.${key}`, { defaultValue: key })
+          }}
           theme={gridTheme}
           rowData={rows}
           columnDefs={columnDefs}
           getRowId={(p) => String(p.data.id)}
-          domLayout={rows.length > 25 ? 'normal' : 'autoHeight'}
+          domLayout={rows.length > 25 && view === 'items' ? 'normal' : 'autoHeight'}
           defaultColDef={{ sortable: true, resizable: true, suppressHeaderMenuButton: true }}
           autoGroupColumnDef={{ headerName: t('inventory.col.room'), minWidth: 150 }}
           tooltipShowDelay={400}
@@ -205,9 +265,15 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
           rowHeight={48}
         />
       </div>
+      {view === 'category' && (
+        <figure className="mt-3">
+          <figcaption className="kicker text-ink-faint">{t('inventory.view.chartTitle')}</figcaption>
+          <div ref={chartBox} className="h-80" />
+        </figure>
+      )}
       <BuiltWith
         name="AG Grid Enterprise"
-        what="row grouping by room · inline editing · Excel export · prices from Channel3"
+        what="row grouping by room · pivot mode and a pivot chart (AG Charts) · inline editing · Excel export · prices from Channel3"
       />
     </>
   )

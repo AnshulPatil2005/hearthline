@@ -103,13 +103,26 @@ def find_candidates(query: str, max_unit_price: Decimal, limit: int = 8) -> list
     return out
 
 
+NO_AI_REASON = "No AI model could answer, so the Shopper picked the lowest-priced offer within budget for you to check."
+
+
+def cheapest_within(candidates: list[Candidate], budget_per_unit: Decimal) -> ShopperChoice:
+    """The fallback when no model answers. Confidence 0 is below the approval threshold, so the family approves
+    the pick before anything is paid, and a store's agent isn't asked to quote on a guess."""
+    affordable = [(c.unit_price, i) for i, c in enumerate(candidates) if c.unit_price <= budget_per_unit]
+    return ShopperChoice(choice=min(affordable)[1] if affordable else -1, reasoning=NO_AI_REASON, confidence=0.0)
+
+
 def choose(need: str, note: str, quantity: int, budget_per_unit: Decimal, candidates: list[Candidate]) -> ShopperChoice:
     listing = "\n".join(f"{i}. {c.title} | {c.retailer} | ${c.unit_price}" for i, c in enumerate(candidates))
     prompt = (
         f"Need: {need} (quantity {quantity})\nFamily's note: {note or '(none)'}\n"
         f"Budget per unit: about ${budget_per_unit}\n\nOffers:\n{listing}"
     )
-    choice = ai.parse(ShopperChoice, system=SYSTEM, content=[ai.text_part(prompt)], max_tokens=1500)
+    try:
+        choice = ai.parse(ShopperChoice, system=SYSTEM, content=[ai.text_part(prompt)], max_tokens=1500)
+    except ai.AIError:
+        return cheapest_within(candidates, budget_per_unit)
     if not -1 <= choice.choice < len(candidates):
         choice.choice = -1
     choice.confidence = min(max(choice.confidence, 0.0), 1.0)

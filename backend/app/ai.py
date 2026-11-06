@@ -17,10 +17,12 @@ from typing import Any
 from openai import (
     APIConnectionError,
     APITimeoutError,
+    AuthenticationError,
     BadRequestError,
     InternalServerError,
     NotFoundError,
     OpenAI,
+    PermissionDeniedError,
     RateLimitError,
 )
 from pydantic import BaseModel, ValidationError
@@ -32,8 +34,18 @@ class AIError(RuntimeError):
     pass
 
 
-# Errors that mean "this model can't answer right now" (busy, down, or it rejects the request): try the next.
-UNAVAILABLE = (RateLimitError, InternalServerError, APIConnectionError, APITimeoutError, NotFoundError, BadRequestError)
+# Errors that mean "this model can't answer right now" (busy, down, out of quota, a key it won't take, or it
+# rejects the request): try the next.
+UNAVAILABLE = (
+    RateLimitError,
+    InternalServerError,
+    APIConnectionError,
+    APITimeoutError,
+    NotFoundError,
+    BadRequestError,
+    AuthenticationError,
+    PermissionDeniedError,
+)
 
 
 def _provider_config(provider: str) -> tuple[str, str | None]:

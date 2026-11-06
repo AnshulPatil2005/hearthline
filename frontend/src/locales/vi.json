@@ -163,7 +163,8 @@
       "start": "Tìm và định giá đồ vật",
       "working": "Đang tìm đồ vật và kiểm tra giá. Mất khoảng 10–20 giây.",
       "done": "Đã tìm thấy {{count}} món trong {{room}}.",
-      "failed": "Quá trình quét chưa hoàn tất: {{error}}"
+      "failed": "Quá trình quét chưa hoàn tất: {{error}}",
+      "aiBusy": "AI nhận diện đồ vật đang bận. Hãy quét lại sau một phút; ảnh của bạn vẫn ổn."
     },
     "col": {
       "room": "Phòng",
@@ -208,7 +209,13 @@
     "delete": "Xóa đồ vật",
     "empty": "Chưa có đồ vật nào. Hãy quét một phòng để bắt đầu.",
     "saveFailed": "Không lưu được thay đổi. Vui lòng thử lại.",
-    "hint": "Nhấp đúp vào ô để sửa. Nhấp chuột phải vào một dòng để xóa hoặc xuất. Đánh dấu Đã xác nhận khi bạn đã kiểm tra đồ vật."
+    "hint": "Nhấp đúp vào ô để sửa. Nhấp chuột phải vào một dòng để xóa hoặc xuất. Đánh dấu Đã xác nhận khi bạn đã kiểm tra đồ vật.",
+    "view": {
+      "label": "Cách hiển thị danh mục",
+      "items": "Đồ vật",
+      "category": "Giá trị theo loại",
+      "chartTitle": "Mỗi phòng có gì, theo loại đồ vật"
+    }
   },
   "alerts": {
     "sourceNws": "Cơ quan Khí tượng Quốc gia Hoa Kỳ",
@@ -1068,7 +1075,9 @@
       "clothing": "Quần áo",
       "kitchenware": "Đồ bếp",
       "other": "Khác"
-    }
+    },
+    "chartTitle": "{{n}} mức tăng giá lớn nhất so với trước thảm họa",
+    "chartLimit": "Đỏ: vượt giới hạn luật định {{limit}}%. Xanh: trong giới hạn. Sắp xếp hoặc lọc bảng, biểu đồ sẽ cập nhật theo."
   },
   "voice": {
     "start": "Nói thay vì gõ",
@@ -1985,6 +1994,8 @@
           "toolkit": "AI Toolkit: \"Hỏi bảng\" biến câu hỏi thành bộ lọc của bảng",
           "grouping": "Nhóm hàng, sửa trực tiếp và xuất Excel: bảng kê đồ đạc",
           "masterDetail": "Chính/chi tiết: bút toán của mỗi giao dịch, khoản thanh toán của mỗi đợt",
+          "pivot": "Chế độ pivot và biểu đồ pivot: mỗi phòng có gì, theo loại đồ vật",
+          "charts": "Biểu đồ tích hợp liên kết với bảng: các mức tăng giá lớn nhất so với giới hạn luật định trên Theo dõi giá",
           "sparklines": "Biểu đồ mini bằng AG Charts: lịch sử giá trên trang theo dõi giá",
           "map": "Bản đồ trực tiếp theo mô hình bộ lọc của bảng"
         }

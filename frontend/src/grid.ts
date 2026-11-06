@@ -1,4 +1,5 @@
 import { AgChartsEnterpriseModule } from 'ag-charts-enterprise'
+import type { AgChartTheme } from 'ag-charts-types'
 import { AllCommunityModule, ModuleRegistry, themeQuartz } from 'ag-grid-community'
 import { AllEnterpriseModule, LicenseManager } from 'ag-grid-enterprise'
 
@@ -27,3 +28,22 @@ export const gridTheme = themeQuartz.withParams({
   wrapperBorder: { color: 'var(--line)' },
   headerRowBorder: { color: 'var(--ink)', width: 1 },
 })
+
+const cssVar = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+
+/** Grid options that draw integrated charts in the app's type and colours, light or dark. `fills` are CSS variables,
+ * one per series in order; without them the chart keeps AG Charts' palette. */
+export function chartColors(fills: string[] = []) {
+  const dark = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const colors = fills.map(cssVar)
+  const theme: AgChartTheme = {
+    baseTheme: dark ? 'ag-default-dark' : 'ag-default',
+    ...(colors.length ? { palette: { fills: colors, strokes: colors } } : {}),
+    params: {
+      fontFamily: 'Inter Variable, system-ui, sans-serif',
+      backgroundColor: cssVar('--surface'),
+      foregroundColor: cssVar('--ink'),
+    },
+  }
+  return { chartThemes: ['hearthline'], customChartThemes: { hearthline: theme } }
+}

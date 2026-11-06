@@ -11,6 +11,8 @@ from app.paypal import payouts
 from app.paypal.orders import Capture
 from tests.helpers import client, login_as
 
+REAL_CHOOSE = shopper.choose  # before the fixture swaps in a fake
+
 CANDIDATES = {
     "Steel-toe work boots": [
         Candidate("p1", "Mens Steel Toe Work Boot", "homedepot.com", D("129.99"), "https://x/p1"),
@@ -98,6 +100,21 @@ def test_blocked_purchase_is_never_paid(fakes, monkeypatch):
     p = client.get("/households/me/purchases", headers=login_as("Elena Rivera")).json()[0]
     assert p["status"] == "blocked" and fakes == []
     assert [c["rule"] for c in p["policy_checks"] if not c["passed"]] == ["known_retailer"]
+
+
+def test_without_the_ai_the_family_approves_the_cheapest_offer(fakes, monkeypatch):
+    from app import ai
+
+    def no_model(*args, **kwargs):
+        raise ai.AIError("No AI model could answer: none configured")
+
+    monkeypatch.setattr(shopper, "choose", REAL_CHOOSE)
+    monkeypatch.setattr(ai, "parse", no_model)
+    fund("Steel-toe work boots")
+    p = client.get("/households/me/purchases", headers=login_as("Elena Rivera")).json()[0]
+    assert p["status"] == "awaiting_approval" and fakes == []  # nothing paid on a guess
+    assert p["retailer"] == "walmart.com" and p["total"] == "89.00"  # the cheapest offer within budget
+    assert p["ai_reasoning"] == shopper.NO_AI_REASON
 
 
 def test_nothing_ships_to_an_address_nobody_proved(fakes):

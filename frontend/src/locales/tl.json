@@ -165,7 +165,8 @@
       "start": "Hanapin at presyuhan ang mga gamit",
       "working": "Hinahanap ang mga gamit at tinitingnan ang presyo. Mga 10–20 segundo ito.",
       "done": "May nakitang {{count}} gamit sa {{room}}.",
-      "failed": "Hindi natapos ang scan: {{error}}"
+      "failed": "Hindi natapos ang scan: {{error}}",
+      "aiBusy": "Abala ngayon ang AI na kumikilala ng mga gamit. Subukang i-scan ulit pagkalipas ng isang minuto; ayos lang ang mga larawan mo."
     },
     "col": {
       "room": "Kuwarto",
@@ -211,7 +212,13 @@
     "delete": "Burahin ang gamit",
     "empty": "Wala pang gamit. Mag-scan ng kuwarto para magsimula.",
     "saveFailed": "Hindi na-save ang pagbabago. Pakisubukan ulit.",
-    "hint": "I-double click ang cell para i-edit. I-right click ang row para burahin o i-export. Lagyan ng tsek ang Kumpirmado kapag nasuri mo na ang gamit."
+    "hint": "I-double click ang cell para i-edit. I-right click ang row para burahin o i-export. Lagyan ng tsek ang Kumpirmado kapag nasuri mo na ang gamit.",
+    "view": {
+      "label": "Paano ipakita ang imbentaryo",
+      "items": "Mga gamit",
+      "category": "Halaga ayon sa kategorya",
+      "chartTitle": "Ano ang laman ng bawat kuwarto, ayon sa uri ng gamit"
+    }
   },
   "alerts": {
     "sourceNws": "National Weather Service",
@@ -1090,7 +1097,9 @@
       "clothing": "Damit",
       "kitchenware": "Gamit sa kusina",
       "other": "Iba pa"
-    }
+    },
+    "chartTitle": "Ang {{n}} pinakamalaking pagtaas ng presyo mula bago ang sakuna",
+    "chartLimit": "Pula: lampas sa legal na limitasyon na {{limit}}%. Berde: pasok dito. I-sort o i-filter ang table at susunod ang chart."
   },
   "voice": {
     "start": "Magsalita sa halip na mag-type",
@@ -2032,6 +2041,8 @@
           "toolkit": "AI Toolkit: ginagawang filter ng \"Tanungin ang grid\" ang isang tanong",
           "grouping": "Pagpangkat ng row, pag-edit sa loob at pag-export sa Excel: ang imbentaryo ng bahay",
           "masterDetail": "Master/detail: mga posting ng bawat entry, mga bayad ng bawat batch",
+          "pivot": "Pivot mode at pivot chart: ano ang laman ng bawat kuwarto, ayon sa uri ng gamit",
+          "charts": "Integrated chart na naka-link sa grid: ang pinakamalaking pagtaas ng presyo laban sa legal na limitasyon sa Price Watch",
           "sparklines": "Sparklines gamit ang AG Charts: price history sa Price Watch",
           "map": "Sumusunod ang live na mapa sa filter model ng grid"
         }

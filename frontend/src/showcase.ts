@@ -116,6 +116,8 @@ export const SPONSORS: Sponsor[] = [
       { key: 'toolkit', href: as('sam.whitfield', '/command') },
       { key: 'grouping', href: as('elena.rivera', '/inventory') },
       { key: 'masterDetail', href: as('elena.rivera', '/money') },
+      { key: 'pivot', href: as('elena.rivera', '/inventory') },
+      { key: 'charts', href: '/price-watch' },
       { key: 'sparklines', href: '/price-watch' },
       { key: 'map', href: as('sam.whitfield', '/command') },
     ],

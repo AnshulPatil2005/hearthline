@@ -145,7 +145,11 @@ export default function ScanPanel() {
           <p className="text-sage">{t('inventory.scan.done', { count: scan.data!.item_count, room: roomName })}</p>
         )}
         {status === 'failed' && (
-          <p className="text-danger">{t('inventory.scan.failed', { error: scan.data!.error })}</p>
+          <p className="text-danger">
+            {scan.data!.error === 'ai_busy'
+              ? t('inventory.scan.aiBusy')
+              : t('inventory.scan.failed', { error: scan.data!.error })}
+          </p>
         )}
         {error && <p className="text-danger">{error}</p>}
       </div>

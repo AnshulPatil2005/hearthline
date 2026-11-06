@@ -1,13 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { ColDef, ICellRendererParams } from 'ag-grid-community'
+import type { ChartRef, ColDef, FirstDataRenderedEvent, ICellRendererParams } from 'ag-grid-community'
 import { AgGridReact } from 'ag-grid-react'
-import { useMemo } from 'react'
+import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, type PriceWatchReport, type PriceWatchRow } from '../api'
 import { useAuth } from '../auth'
 import { PublicFrame } from '../components/PublicFrame'
 import { money } from '../format'
-import { gridTheme } from '../grid'
+import { chartColors, gridTheme } from '../grid'
 import { BuiltWith } from '../components/Showcase'
 
 const STATUS_TONE: Record<PriceWatchRow['status'], string> = {
@@ -18,6 +18,8 @@ const STATUS_TONE: Record<PriceWatchRow['status'], string> = {
 }
 
 const cssColor = (name: string) => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+const price = (v: string | null | undefined) => (v === null || v === undefined ? null : Number(v))
+const CHARTED = 10 // the biggest changes, in the grid's order
 
 /** Public report: essential prices around the disaster compared with what they cost before it. */
 export default function PriceWatch() {
@@ -30,10 +32,54 @@ export default function PriceWatch() {
     onSuccess: () => void queryClient.invalidateQueries({ queryKey: ['price-watch'] }),
   })
   const limit = report.data?.event.limit_percent ?? 10
+  const chartBox = useRef<HTMLDivElement>(null)
+  const chart = useRef<ChartRef | undefined>(undefined)
+  // One bar per item, how much its price rose: red over the legal limit, green within it
+  const chartOptions = useMemo(() => {
+    const over = cssColor('--danger')
+    const within = cssColor('--sage')
+    return {
+      ...chartColors(['--danger']),
+      chartThemeOverrides: {
+        bar: {
+          axes: { number: { label: { formatter: ({ value }: { value: number }) => `${value}%` } } },
+          series: {
+            itemStyler: ({ yValue }: { yValue: number }) => {
+              const fill = yValue > limit ? over : within
+              return { fill, stroke: fill }
+            },
+          },
+        },
+      },
+    }
+  }, [limit])
+
+  // An integrated chart of the top rows, before the disaster and now. It's linked to the grid: sort or filter the
+  // grid and the chart follows.
+  function drawChart(e: FirstDataRenderedEvent<PriceWatchRow>) {
+    if (!chartBox.current || chart.current) return
+    chart.current = e.api.createRangeChart({
+      chartType: 'bar',
+      chartContainer: chartBox.current,
+      cellRange: {
+        rowStartIndex: 0,
+        rowEndIndex: Math.min(CHARTED, e.api.getDisplayedRowCount()) - 1,
+        columns: ['title', 'markup_percent'],
+      },
+      suppressChartRanges: true,
+    })
+  }
 
   const columns = useMemo<ColDef<PriceWatchRow>[]>(
     () => [
-      { field: 'title', headerName: t('priceWatch.col.item'), flex: 1, minWidth: 220, filter: 'agTextColumnFilter' },
+      {
+        field: 'title',
+        headerName: t('priceWatch.col.item'),
+        flex: 1,
+        minWidth: 220,
+        filter: 'agTextColumnFilter',
+        chartDataType: 'category',
+      },
       { field: 'seller', headerName: t('priceWatch.col.seller'), width: 190, filter: 'agSetColumnFilter' },
       {
         field: 'category',
@@ -47,6 +93,7 @@ export default function PriceWatch() {
         headerName: t('priceWatch.col.before'),
         width: 120,
         type: 'rightAligned',
+        valueGetter: (p) => price(p.data?.baseline_price),
         valueFormatter: (p) => (p.value ? money(p.value, { cents: true }) : '—'),
       },
       {
@@ -54,6 +101,7 @@ export default function PriceWatch() {
         headerName: t('priceWatch.col.now'),
         width: 120,
         type: 'rightAligned',
+        valueGetter: (p) => price(p.data?.current_price),
         valueFormatter: (p) => (p.value ? money(p.value, { cents: true }) : '—'),
       },
       {
@@ -63,6 +111,7 @@ export default function PriceWatch() {
         type: 'rightAligned',
         sort: 'desc',
         filter: 'agNumberColumnFilter',
+        chartDataType: 'series',
         valueFormatter: (p) => {
           if (p.value === null || p.value === undefined) return '—'
           const v = Number(p.value)
@@ -161,11 +210,24 @@ export default function PriceWatch() {
             getRowId={(p) => String(p.data.id)}
             defaultColDef={{ sortable: true, resizable: true, suppressHeaderMenuButton: true }}
             loading={report.isPending}
+            enableCharts
+            cellSelection
+            {...chartOptions}
+            onFirstDataRendered={drawChart}
           />
         </div>
+        {rows.length > 0 && (
+          <figure className="panel p-4">
+            <figcaption>
+              <span className="kicker text-ink-faint">{t('priceWatch.chartTitle', { n: CHARTED })}</span>
+              <span className="mt-1 block text-sm text-ink-soft">{t('priceWatch.chartLimit', { limit })}</span>
+            </figcaption>
+            <div ref={chartBox} className="mt-2 h-96" />
+          </figure>
+        )}
         <BuiltWith
           name="AG Grid Enterprise"
-          what="sparklines with AG Charts · set filters · prices and price history from Channel3"
+          what="a linked integrated chart and sparklines with AG Charts · set filters · prices and price history from Channel3"
         />
         <p className="text-xs text-ink-faint">{t('priceWatch.note')}</p>
       </div>

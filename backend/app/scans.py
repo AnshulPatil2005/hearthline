@@ -3,11 +3,15 @@ Render's free tier), so it opens its own database session and records failures o
 
 import logging
 
+from app import ai
 from app.agents import inventory, valuation
 from app.db import SessionLocal
 from app.models import EvidenceLevel, Item, Media, Scan, ScanStatus, now
 
 log = logging.getLogger(__name__)
+
+
+AI_BUSY = "ai_busy"  # the page shows a translated "try again in a minute"
 
 
 def process_scan(scan_id: int) -> None:
@@ -60,6 +64,6 @@ def process_scan(scan_id: int) -> None:
             db.rollback()
             scan = db.get(Scan, scan_id)
             scan.status = ScanStatus.FAILED
-            scan.error = str(e)[:500]
+            scan.error = AI_BUSY if isinstance(e, ai.AIError) else str(e)[:500]
         scan.finished_at = now()
         db.commit()

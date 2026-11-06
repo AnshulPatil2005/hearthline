@@ -149,7 +149,9 @@ The models are Google Gemini through its OpenAI-compatible API, falling back to 
 - **AG Grid Enterprise + AG Charts.** The household inventory (grouped by room, inline editing, Excel export); the
   ledger (master/detail of each transaction's postings); the review queue; the Command Center (**server-side row
   model** over 2,000 households, filters and grouping translated to SQL, set filters with server values,
-  sparklines); batch cash aid (master/detail); Price Watch (sparklines); **"Ask the grid"** with the **AI Toolkit**
+  sparklines); batch cash aid (master/detail); Price Watch (sparklines, and an **integrated chart** of the biggest
+  price rises against the legal limit, linked to the grid so it follows any sort or filter); the inventory's **pivot
+  mode** with a **pivot chart** (what each room held, by kind of item); **"Ask the grid"** with the **AI Toolkit**
   (`getStructuredSchema` → model → server check → `setState`).
 - **Bryntum.** **Gantt** for each rebuild plan and each business's reopening plan (only the contractor can move
   milestones that haven't been submitted; the server checks again). A rebuild runs on the Gantt's **scheduling

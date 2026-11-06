@@ -165,7 +165,8 @@
       "start": "Encontrar y valorar artículos",
       "working": "Buscando artículos y revisando precios. Tarda unos 10–20 segundos.",
       "done": "Se encontraron {{count}} artículos en {{room}}.",
-      "failed": "El escaneo no terminó: {{error}}"
+      "failed": "El escaneo no terminó: {{error}}",
+      "aiBusy": "La IA que reconoce los objetos está ocupada. Vuelva a escanear en un minuto; sus fotos están bien."
     },
     "col": {
       "room": "Habitación",
@@ -211,7 +212,13 @@
     "delete": "Eliminar artículo",
     "empty": "Aún no hay artículos. Escanea una habitación para empezar.",
     "saveFailed": "No se pudo guardar el cambio. Inténtalo de nuevo.",
-    "hint": "Haz doble clic en una celda para editarla. Clic derecho en una fila para eliminarla o exportar. Marca Confirmado cuando revises un artículo."
+    "hint": "Haz doble clic en una celda para editarla. Clic derecho en una fila para eliminarla o exportar. Marca Confirmado cuando revises un artículo.",
+    "view": {
+      "label": "Cómo mostrar el inventario",
+      "items": "Artículos",
+      "category": "Valor por categoría",
+      "chartTitle": "Lo que había en cada cuarto, por tipo de artículo"
+    }
   },
   "alerts": {
     "sourceNws": "Servicio Meteorológico Nacional",
@@ -1090,7 +1097,9 @@
       "clothing": "Ropa",
       "kitchenware": "Cocina",
       "other": "Otros"
-    }
+    },
+    "chartTitle": "Las {{n}} mayores subidas de precio desde antes del desastre",
+    "chartLimit": "Rojo: por encima del límite legal del {{limit}} %. Verde: dentro del límite. Ordene o filtre la tabla y el gráfico lo sigue."
   },
   "voice": {
     "start": "Hablar en lugar de escribir",
@@ -2032,6 +2041,8 @@
           "toolkit": "AI Toolkit: \"Pregúntale a la tabla\" convierte una pregunta en filtros",
           "grouping": "Agrupación de filas, edición en línea y exportación a Excel: el inventario del hogar",
           "masterDetail": "Maestro/detalle: los asientos de cada movimiento, los pagos de cada lote",
+          "pivot": "Modo pivote y un gráfico pivote: lo que había en cada cuarto, por tipo de artículo",
+          "charts": "Un gráfico integrado y enlazado con la tabla: las mayores subidas de precio frente al límite legal en Vigilancia de precios",
           "sparklines": "Minigráficos con AG Charts: historial de precios en la vigilancia de precios",
           "map": "El mapa en vivo sigue el modelo de filtros de la tabla"
         }
