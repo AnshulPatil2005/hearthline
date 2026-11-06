@@ -236,6 +236,11 @@ cd backend
 uv run python -m scripts.paypal_webhook https://<your-api-host>
 ```
 
+Every night until judging ends, the [live check](.github/workflows/live-check.yml) puts the hosted demo back to the
+start and then uses it the way a judge would: every persona signs in, the grids, Gantt, Scheduler Pro, Calendar and
+TaskBoard load, the Public API and MCP server answer, the audit chain holds, the sandbox has money for payouts and the
+AG Grid key hasn't expired. Anything broken fails the run, and GitHub emails us.
+
 ## How we built it
 
 Hearthline was built with Claude Code. For the Transaction Search integration we used **APIMatic's PayPal Context

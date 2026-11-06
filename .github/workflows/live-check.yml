@@ -1,0 +1,33 @@
+name: Live demo check
+
+# Every night until judging ends: put the hosted demo back to the start, then use it the way a judge would
+# (sign in, the grids, the Gantt, Scheduler Pro, the Public API and MCP server, the PayPal balance, the AG Grid key).
+# A failure emails the repository owner. Waking the free API once a day costs a few minutes of free instance hours.
+on:
+  schedule:
+    - cron: "0 10 * * *" # 10:00 UTC: 2 am in California, when nobody is likely to be mid-demo
+  workflow_dispatch:
+    inputs:
+      reset:
+        description: Put the demo back to the start first
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check the live demo
+        env:
+          RESET: ${{ github.event_name == 'schedule' && '1' || (inputs.reset && '1' || '0') }}
+        run: |
+          if [ "$(date -u +%Y%m%d)" -gt 20261216 ]; then
+            echo "::notice::Judging ended on December 15; nothing to check."
+            exit 0
+          fi
+          python3 .github/scripts/live_check.py
