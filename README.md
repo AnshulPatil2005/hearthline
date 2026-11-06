@@ -30,6 +30,13 @@ who prepared, fraud checks with people deciding, and claims built from the inven
 - **Security:** [SECURITY.md](SECURITY.md) is the threat model: what's protected, the trust boundaries, what stops
   each kind of fraud, and the known limitations
 
+| | | |
+|---|---|---|
+| ![The Command Center](docs/gallery/05-command-center-ask-the-grid.jpg) | ![A what-if on the rebuild Gantt](docs/gallery/07-rebuild-what-if-gantt.jpg) | ![Sentinel on a copycat fundraiser](docs/gallery/08-scam-review-sentinel.jpg) |
+| The Command Center: AG Grid over 2,005 households, filtered by asking | What if framing runs late? Bryntum Gantt moves move-in day | A copycat fundraiser: Sentinel flags it, people decide |
+
+More in the [gallery](docs/gallery).
+
 ## Try it
 
 Open the app: the first page is a guide. Pick a persona (no password), open any of the 27 features (each link signs

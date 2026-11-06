@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hearthline architecture</title>
+    <!-- Rendered to 11-architecture.jpg by e2e/gallery.py (1440 x 960 at 2x). -->
+    <style>
+      :root {
+        --paper: #f6f7f9;
+        --surface: #ffffff;
+        --ink: #111827;
+        --soft: #4b5563;
+        --faint: #636b78;
+        --line: #e3e5ea;
+        --ember: #c2410c;
+        --sage: #1d7a45;
+        --blue: #1d4ed8;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        width: 1440px;
+        height: 960px;
+        background: var(--paper);
+        color: var(--ink);
+        font: 15px/1.4 'Inter', 'Segoe UI', system-ui, sans-serif;
+        padding: 40px 48px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 30px;
+        letter-spacing: -0.01em;
+      }
+      .sub {
+        margin: 4px 0 26px;
+        color: var(--soft);
+        font-size: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 250px 1fr 300px;
+        gap: 28px;
+        align-items: stretch;
+      }
+      .col h2 {
+        margin: 0 0 10px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--faint);
+      }
+      .box {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 10px;
+      }
+      .box b {
+        display: block;
+        font-size: 15px;
+      }
+      .box.sponsor b {
+        color: var(--ember);
+      }
+      .box span {
+        color: var(--soft);
+        font-size: 13px;
+      }
+      .app {
+        border: 2px solid var(--ink);
+        border-radius: 12px;
+        padding: 16px;
+        background: var(--surface);
+      }
+      .app > .title {
+        font-weight: 700;
+        font-size: 18px;
+        margin-bottom: 12px;
+      }
+      .tier {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 12px 14px;
+        margin-bottom: 12px;
+        background: var(--paper);
+      }
+      .tier .name {
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--faint);
+        margin-bottom: 8px;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+      .chip {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 6px;
+        padding: 4px 8px;
+        font-size: 13px;
+      }
+      .chip.sponsor {
+        border-color: var(--ember);
+        color: var(--ember);
+        font-weight: 600;
+      }
+      .chip.code {
+        border-color: var(--sage);
+        color: var(--sage);
+        font-weight: 600;
+      }
+      .two {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .rule {
+        margin-top: 26px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 15px;
+      }
+      .step {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 14px;
+        white-space: nowrap;
+      }
+      .step b {
+        color: var(--ember);
+      }
+      .arrow {
+        color: var(--faint);
+        font-size: 18px;
+      }
+      .legend {
+        margin-top: 14px;
+        color: var(--faint);
+        font-size: 13px;
+      }
+      .legend i {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 3px;
+        margin: 0 4px 0 12px;
+        vertical-align: -1px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>How Hearthline fits together</h1>
+    <p class="sub">One FastAPI app and one React app on Render, with every dollar moving through the PayPal sandbox.</p>
+
+    <div class="grid">
+      <div class="col">
+        <h2>Who uses it</h2>
+        <div class="box"><b>Households</b><span>inventory, registry, aid, insurance, rebuild</span></div>
+        <div class="box"><b>Donors and family abroad</b><span>PayPal, Venmo, Pay Later, 6 currencies, mandates</span></div>
+        <div class="box"><b>Contractors</b><span>plans, milestone photos, escrow payments</span></div>
+        <div class="box"><b>Reviewers and relief staff</b><span>cases, batches, crews, books, disputes</span></div>
+        <div class="box"><b>Local businesses</b><span>Reopen Funds, gift cards, a pricing agent</span></div>
+        <div class="box"><b>Outside AI agents</b><span>Public API /v1 and the MCP server /mcp</span></div>
+      </div>
+
+      <div class="col">
+        <h2>Hearthline</h2>
+        <div class="app">
+          <div class="title">Web app → API</div>
+          <div class="tier">
+            <div class="name">Web app · React, TypeScript, Vite · 5 languages</div>
+            <div class="chips">
+              <span class="chip sponsor">AG Grid Enterprise + AG Charts</span>
+              <span class="chip sponsor">Bryntum Gantt</span>
+              <span class="chip sponsor">Bryntum Scheduler Pro</span>
+              <span class="chip sponsor">Bryntum Calendar</span>
+              <span class="chip sponsor">Bryntum TaskBoard</span>
+              <span class="chip">PayPal JS SDK v6</span>
+              <span class="chip">Leaflet + OpenStreetMap</span>
+              <span class="chip">Voice input</span>
+            </div>
+          </div>
+          <div class="two">
+            <div class="tier">
+              <div class="name">11 AI agents · propose and explain</div>
+              <div class="chips">
+                <span class="chip">Inventory</span><span class="chip">Valuation</span><span class="chip">Shopper</span>
+                <span class="chip">Store pricing</span><span class="chip">Sentinel</span><span class="chip">Site</span>
+                <span class="chip">Policy</span><span class="chip">Giving</span><span class="chip">Dispatch</span>
+                <span class="chip">Navigator</span><span class="chip">Funds</span>
+              </div>
+            </div>
+            <div class="tier">
+              <div class="name">Rules in code · decide what's allowed</div>
+              <div class="chips">
+                <span class="chip code">9 spending rules</span><span class="chip code">Verification levels</span>
+                <span class="chip code">Risk-based review</span><span class="chip code">Two-person batches</span>
+                <span class="chip code">Escrow + deposit cap</span><span class="chip code">Gouging guard</span>
+                <span class="chip code">Mandate limits</span><span class="chip code">Rate limits</span>
+              </div>
+            </div>
+          </div>
+          <div class="two">
+            <div class="tier">
+              <div class="name">Records</div>
+              <div class="chips">
+                <span class="chip">Double-entry ledger</span><span class="chip">Hash-chained audit log</span>
+                <span class="chip">Books vs PayPal</span><span class="chip">Neon Postgres</span>
+              </div>
+            </div>
+            <div class="tier">
+              <div class="name">Open to other agents</div>
+              <div class="chips">
+                <span class="chip sponsor">Public API v1 (OpenAPI, APIMatic)</span><span class="chip">MCP server</span>
+                <span class="chip">Store agents over MCP</span>
+              </div>
+            </div>
+          </div>
+          <div class="tier" style="margin-bottom: 0">
+            <div class="name">Hosting and checks</div>
+            <div class="chips">
+              <span class="chip sponsor">Render (Blueprint)</span><span class="chip">CI on every push</span>
+              <span class="chip">Nightly live check</span><span class="chip">250+ tests</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <h2>Services it calls</h2>
+        <div class="box">
+          <b>PayPal sandbox</b><span
+            >Orders, Payouts, Subscriptions, Vault, Disputes, Tracking, Transaction Search, Balances, Log in with
+            PayPal, signed webhooks, PayPal's MCP server</span
+          >
+        </div>
+        <div class="box sponsor">
+          <b>APIMatic's PayPal SDKs</b><span>Server SDK for Orders; Python SDK for Transaction Search and Vault</span>
+        </div>
+        <div class="box sponsor"><b>Channel3</b><span>product search, price history, price tracking</span></div>
+        <div class="box"><b>Google Gemini</b><span>with free OpenRouter models as a fallback</span></div>
+        <div class="box"><b>Public data</b><span>OpenFEMA, National Weather Service, Census TIGERweb, ECB rates</span></div>
+      </div>
+    </div>
+
+    <div class="rule">
+      <span class="step"><b>1</b> An AI agent proposes</span><span class="arrow">→</span>
+      <span class="step"><b>2</b> Rules in code check it</span><span class="arrow">→</span>
+      <span class="step"><b>3</b> A person approves</span><span class="arrow">→</span>
+      <span class="step"><b>4</b> PayPal moves the money</span><span class="arrow">→</span>
+      <span class="step"><b>5</b> The ledger and audit log record it</span>
+    </div>
+    <p class="legend">
+      <i style="background: var(--ember)"></i>sponsor tools <i style="background: var(--sage)"></i>rules enforced in
+      code, outside the AI
+    </p>
+  </body>
+</html>
