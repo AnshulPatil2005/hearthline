@@ -68,6 +68,9 @@ def new_donation(
     return donation
 
 
+FX_SHORTFALL = Decimal("0.02")  # how short of its target a gift from abroad for "the rest" may leave an item
+
+
 def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation:
     """Mark a donation captured, fund its item, and post it to the ledger. Safe to call twice."""
     if donation.status == "captured" or capture.status != "COMPLETED":
@@ -75,6 +78,7 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
     donation.status = "captured"
     donation.paypal_capture_id = capture.capture_id
     donation.fee = capture.fee
+    estimate = donation.amount  # the dollars the giver was told the family would get
     if capture.currency != "USD":  # the dollars PayPal's conversion gave, not our estimate
         donation.amount, donation.exchange_rate = capture.amount, capture.exchange_rate
     donation.captured_at = now()
@@ -83,8 +87,13 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
     item = donation.item
     newly_funded = False
     if item is not None:
+        gave_the_rest = estimate >= item.remaining
         item.funded_amount += donation.amount
-        if item.funded_amount >= item.target_amount and item.status == "open":
+        # A gift from abroad that set out to cover the rest can land a little short when PayPal's rate is worse than
+        # our estimate. The item counts as funded anyway: the Shopper buys within what was given.
+        nearly = item.remaining <= item.target_amount * FX_SHORTFALL
+        close_enough = capture.currency != "USD" and gave_the_rest and nearly
+        if item.status == "open" and (item.funded_amount >= item.target_amount or close_enough):
             item.status = "funded"
             newly_funded = True
     household_id = donation.rebuild_registry.household_id

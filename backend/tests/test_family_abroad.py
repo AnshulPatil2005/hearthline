@@ -121,3 +121,32 @@ def test_a_gift_in_pesos_funds_the_item_in_dollars(paypal):
         expected = next(e for e in books if e.key == d.paypal_capture_id)
         assert (expected.amount, expected.currency) == (pesos, "MXN")  # PayPal reports it in pesos
     assert item["status"] == "funded"
+
+
+@pytest.mark.parametrize(("worse_by", "funded"), [(D("0.995"), True), (D("0.95"), False)])
+def test_a_gift_for_the_rest_from_abroad_funds_the_item_when_paypals_rate_was_a_little_worse(
+    paypal, monkeypatch, worse_by, funded
+):
+    """The sandbox once converted pesos at a rate 3.5% worse than the ECB's: "the rest" left a bed frame $1.24 short
+    and the Shopper never bought it. Within 2% the item is funded; further off it stays open for the rest."""
+    login_as("Elena Rivera")
+    reg = client.get(f"/registries/{SLUG}").json()
+    frames = next(i for i in reg["items"] if i["name"] == "Twin bed frames")
+    pesos = fx.giver_pays(D(frames["remaining"]), "MXN")
+    started = client.post(
+        f"/registries/{SLUG}/donations", json={"item_id": frames["id"], "amount": str(pesos), "currency": "MXN"}
+    ).json()
+
+    def worse_rate(order_id):
+        capture = mxn_capture(order_id, "CAP-MX-WORSE", f"{pesos:.2f}")
+        breakdown = capture["purchase_units"][0]["payments"]["captures"][0]["seller_receivable_breakdown"]
+        rate = D(breakdown["exchange_rate"]["value"]) * D(frames["remaining"]) / (pesos * D("0.051687422038138"))
+        breakdown["exchange_rate"]["value"] = str(rate * worse_by)
+        net = D(breakdown["net_amount"]["value"])
+        breakdown["receivable_amount"]["value"] = f"{(net * rate * worse_by).quantize(D('0.01'))}"
+        return parse_capture(capture)
+
+    monkeypatch.setattr(orders, "capture_order", worse_rate)
+    item = client.post(f"/donations/{started['donation_id']}/capture").json()
+    assert D(item["funded_amount"]) < D(frames["target_amount"])  # short of the target either way
+    assert (item["status"] == "funded") is funded
