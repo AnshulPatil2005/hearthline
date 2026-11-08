@@ -43,9 +43,21 @@ async def landing(browser: Browser) -> None:
     await save(page, "01-landing")
 
 
+async def open_in(browser: Browser, lang: str, persona: str, path: str) -> Page:
+    ctx = await browser.new_context(viewport=VIEW, device_scale_factor=2, color_scheme="light")
+    await ctx.add_init_script(f"localStorage.setItem('hearthline.lang', '{lang}')")
+    page = await ctx.new_page()
+    await page.goto(f"{WEB}/login?as={persona}&next={path}", wait_until="networkidle", timeout=LONG)
+    return page
+
+
 async def navigator(browser: Browser) -> None:
-    page = await open_as(browser, "elena.rivera", "/home")
-    await page.get_by_text(re.compile("next steps", re.I)).first.wait_for(timeout=LONG)
+    """Elena reads Spanish: her steps and the navigator's explanation of them."""
+    page = await open_in(browser, "es", "elena.rivera", "/home")
+    nav = page.locator("section[aria-labelledby='navigator-title']")
+    await nav.get_by_role("button", name="Explícame mi plan").click(timeout=LONG)
+    await nav.get_by_text("Explicado por el navegador").wait_for(timeout=LONG)
+    await nav.evaluate("n => window.scrollTo(0, n.getBoundingClientRect().top + window.scrollY - 16)")
     await save(page, "02-recovery-navigator")
 
 

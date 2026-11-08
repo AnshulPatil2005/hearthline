@@ -6,7 +6,7 @@ Screenshots of the hosted demo for the Devpost gallery, 3:2 at 2880 x 1920. Reta
 | Image | Caption |
 |---|---|
 | [01-landing.jpg](01-landing.jpg) | The first page is a guide for judges: the problem in sourced numbers, and every feature one click away. |
-| [02-recovery-navigator.jpg](02-recovery-navigator.jpg) | Elena's next steps with real dates, worked out in code and explained by the recovery navigator in her language. |
+| [02-recovery-navigator.jpg](02-recovery-navigator.jpg) | Elena's next steps with real dates, worked out in code, and the recovery navigator explaining them in Spanish. |
 | [03-inventory-pivot-chart.jpg](03-inventory-pivot-chart.jpg) | AG Grid pivot mode and a pivot chart: what each room held, by kind of item, from photos taken before the fire. |
 | [04-registry-paypal.jpg](04-registry-paypal.jpg) | A family's Rebuild Registry: give for a specific need with PayPal, Venmo or Pay Later, in six currencies. |
 | [05-command-center-ask-the-grid.jpg](05-command-center-ask-the-grid.jpg) | The Command Center: AG Grid's server-side row model over 2,005 households. "Ask the grid" turned a question into these filters. |
