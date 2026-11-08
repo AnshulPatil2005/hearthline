@@ -72,7 +72,15 @@ def shop_now(item_id: int, home: MyHousehold, db: DB) -> Purchase:
         raise HTTPException(409, "Nothing has been donated for this item yet")
     if item.status in {"purchased", "delivered"}:
         raise HTTPException(409, "This item has already been bought")
-    return shopping.plan_purchase(db, item)
+    open_purchase = db.scalar(
+        select(Purchase).where(Purchase.registry_item_id == item.id, Purchase.status.not_in(shopping.CLOSED))
+    )
+    if open_purchase is not None:  # one at a time: a second could be paid for too
+        raise HTTPException(409, "The Shopper is already buying this item")
+    try:
+        return shopping.plan_purchase(db, item)
+    except shopping.ShoppingError as e:
+        raise HTTPException(409, str(e)) from None
 
 
 @router.post("/purchases/{purchase_id}/approve", response_model=PurchaseOut)
@@ -80,6 +88,10 @@ def approve(purchase_id: int, home: MyHousehold, user: CurrentUser, db: DB) -> P
     purchase = own_purchase(db, home.id, purchase_id)
     if purchase.status != "awaiting_approval":
         raise HTTPException(409, f"Purchase is {purchase.status}")
+    try:
+        shopping.check_still_allowed(db, purchase)
+    except shopping.ShoppingError as e:
+        raise HTTPException(409, str(e)) from None
     audit.record(db, actor_user_id=user.id, action="purchase.approved", subject_type="purchase", subject_id=purchase.id)
     return shopping.execute(db, purchase, approved_by=user.id)
 

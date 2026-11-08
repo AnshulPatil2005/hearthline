@@ -274,12 +274,20 @@ def approve_milestone(db: Session, milestone: Milestone, homeowner: User) -> Mil
     return milestone
 
 
+def complete_if_done(project: RebuildProject) -> None:
+    """Every milestone settled: paid to the contractor, or returned to the family after a dispute."""
+    if all(m.status in {"paid", "refunded"} for m in project.milestones):
+        project.status = "completed"
+
+
 def dispute_milestone(db: Session, milestone: Milestone, homeowner: User, reason: str) -> Milestone:
     from app import review
 
     if milestone.status not in {"submitted", "pending"}:
         raise RebuildError(f"This milestone is {milestone.status}")
     project = milestone.project
+    if project.status != "active":  # no money is held for a plan the family hasn't accepted, so there's none to settle
+        raise RebuildError("The plan hasn't been accepted yet; ask the contractor to change it instead")
     case = review.open_case(
         db,
         project.household,
@@ -334,8 +342,7 @@ def pay_milestone(db: Session, milestone: Milestone, approved_by: User) -> Miles
     milestone.status = "paid"
     milestone.paid_at = now()
     milestone.paypal_ref = result.batch_id
-    if all(m.status == "paid" for m in project.milestones):
-        project.status = "completed"
+    complete_if_done(project)
     audit.record(
         db,
         actor_user_id=approved_by.id,
@@ -364,6 +371,7 @@ def release_back_to_household(db: Session, milestone: Milestone, reason: str, de
         },
     )
     milestone.status = "refunded"
+    complete_if_done(project)
     audit.record(
         db,
         actor_user_id=decided_by.id,

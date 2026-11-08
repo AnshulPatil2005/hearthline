@@ -181,10 +181,14 @@ def start_card(
 
 
 def activate(db: Session, card: GiftCard, capture: Capture) -> GiftCard:
-    """The buyer paid: the card gets its value and the money goes into the campaign's escrow. Safe twice."""
+    """The buyer paid: the card gets its value and the money goes into the campaign's escrow. Safe twice, and
+    safe when the buyer's browser and PayPal's webhook get here at the same time."""
+    db.flush()
+    db.refresh(card, with_for_update=True)  # one at a time; the second sees "active" (no lock on SQLite)
     if card.status == "active" or capture.status != "COMPLETED":
         return card
     campaign = card.campaign
+    db.refresh(campaign, with_for_update=True)  # what other cards have added to `raised` meanwhile
     card.status, card.balance, card.activated_at = "active", card.face_value, now()
     card.paypal_capture_id = capture.capture_id
     if capture.payment_method == "venmo":

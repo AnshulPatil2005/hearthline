@@ -130,3 +130,30 @@ def test_webhook_captures_when_the_browser_never_came_back(fake_paypal, monkeypa
     assert (
         item_named(client.get(f"/registries/{SLUG}").json(), "Winter jackets for the kids")["funded_amount"] == "50.00"
     )
+
+
+def test_a_capture_and_its_webhook_at_the_same_time_count_the_gift_once():
+    """The donor's browser loads the gift, PayPal's webhook captures it, then the browser's capture lands with what it
+    loaded before: the item was funded twice for one gift."""
+    from app import registry
+    from app.models import Donation, RegistryItem
+    from app.paypal.orders import Capture
+
+    login_as("Elena Rivera")
+    with SessionLocal() as db:
+        item = db.query(RegistryItem).filter_by(name="Kitchen starter set").one()
+        before = item.funded_amount
+        gift = Donation(
+            registry_id=item.registry_id, registry_item_id=item.id, amount=Decimal("50.00"), paypal_order_id="O-RACE"
+        )
+        db.add(gift)
+        db.commit()
+        gift_id, item_id = gift.id, item.id
+    capture = Capture("O-RACE", "CAP-RACE", "COMPLETED", Decimal("50.00"), Decimal("2.00"), "paypal")
+    with SessionLocal() as browser, SessionLocal() as webhook:
+        stale = browser.get(Donation, gift_id)
+        assert stale.status == "created"  # what the browser read before the webhook landed
+        registry.apply_capture(webhook, webhook.get(Donation, gift_id), capture)
+        registry.apply_capture(browser, stale, capture)
+    with SessionLocal() as db:
+        assert db.get(RegistryItem, item_id).funded_amount == before + Decimal("50.00")

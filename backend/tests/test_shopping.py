@@ -126,6 +126,36 @@ def test_nothing_ships_to_an_address_nobody_proved(fakes):
     assert [c["rule"] for c in p["policy_checks"] if not c["passed"]] == ["ships_to_verified_address"]
 
 
+def test_a_second_shop_for_the_same_item_is_refused(fakes):
+    """Two purchases for one item could both be approved and paid."""
+    fund("Twin mattresses")  # $458: waits for the family's approval
+    h = login_as("Elena Rivera")
+    waiting = client.get("/households/me/purchases", headers=h).json()[0]
+    again = client.post(f"/households/me/registry/items/{waiting['registry_item_id']}/shop", headers=h)
+    assert again.status_code == 409 and "already buying" in again.json()["detail"]
+    assert len(client.get("/households/me/purchases", headers=h).json()) == 1
+
+
+def test_an_approval_checks_again_what_changed_since_the_proposal(fakes):
+    fund("Twin mattresses")
+    h = login_as("Elena Rivera")
+    waiting = client.get("/households/me/purchases", headers=h).json()[0]
+    with SessionLocal() as db:  # meanwhile the family's money was spent on something else
+        home = db.query(Household).filter_by(name="Rivera household").one()
+        ledger.record_spend(
+            db,
+            kind="purchase",
+            household_id=home.id,
+            amount=ledger.household_available(db, home.id),
+            paypal_ref="ELSEWHERE-1",
+            description="Spent elsewhere",
+            meta={},
+        )
+        db.commit()
+    r = client.post(f"/purchases/{waiting['id']}/approve", headers=h)
+    assert r.status_code == 409 and "enough money" in r.json()["detail"] and fakes == []
+
+
 def test_reject_and_payout_failure(fakes, monkeypatch):
     fund("Twin mattresses")
     h = login_as("Elena Rivera")

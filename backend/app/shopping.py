@@ -220,12 +220,28 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
     return purchase
 
 
+CLOSED = ("failed", "rejected", "blocked")  # purchases that no longer hold an item
+
+
+def check_still_allowed(db: Session, purchase: Purchase) -> None:
+    """The rules were checked when the Shopper proposed the purchase; an approval can come much later, so check
+    again what can change meanwhile: the item, the money held for the family, and today's spending."""
+    item = purchase.registry_item
+    if item is not None and item.status in {"purchased", "delivered"}:
+        raise ShoppingError("This item has already been bought")
+    if purchase.total > ledger.household_available(db, purchase.household_id):
+        raise ShoppingError("There isn't enough money held for the family to pay for this any more")
+    if spent_today(db, purchase.household_id) + purchase.total > policy.PER_DAY_MAX:
+        raise ShoppingError(f"This would go over the daily limit of ${policy.PER_DAY_MAX:,.0f}; approve it tomorrow")
+
+
 def execute(db: Session, purchase: Purchase, approved_by: int | None = None) -> Purchase:
     """Pay the retailer through PayPal and record the spend. Only for allowed proposals."""
     if purchase.status not in {"approved", "awaiting_approval"}:
         raise ShoppingError(f"Purchase is {purchase.status}")
     if not all(c["passed"] for c in purchase.policy_checks):
         raise ShoppingError("Purchase failed a spending rule")
+    check_still_allowed(db, purchase)
     item = purchase.registry_item
     local = db.get(Business, purchase.local_business_id) if purchase.local_business_id else None
     if local is not None and not local.payout_email:
@@ -279,9 +295,7 @@ def shop_item(item_id: int) -> None:
         if item is None or item.status != "funded":
             return
         already = db.scalar(
-            select(Purchase).where(
-                Purchase.registry_item_id == item_id, Purchase.status.not_in(["failed", "rejected", "blocked"])
-            )
+            select(Purchase).where(Purchase.registry_item_id == item_id, Purchase.status.not_in(CLOSED))
         )
         if already is not None:
             return

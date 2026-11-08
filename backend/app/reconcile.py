@@ -94,8 +94,10 @@ def window(db: Session, end: datetime | None = None) -> tuple[datetime, datetime
     return (max(opened, earliest) if opened else earliest), end
 
 
-def _real(ref: str | None, prefix: str = "") -> bool:
-    return bool(ref) and not ref.startswith("DEMO-") and ref.startswith(prefix)
+def _real(ref: str | None) -> bool:
+    """A record that went through PayPal (seeded demo records carry DEMO- references). A payout's reference is
+    PayPal's own batch id, so it says nothing about what was paid: the PayPal side is matched by our item id."""
+    return bool(ref) and not ref.startswith("DEMO-")
 
 
 def expected(db: Session, start: datetime) -> list[Expected]:
@@ -135,7 +137,7 @@ def expected(db: Session, start: datetime) -> list[Expected]:
                     claim.paypal_capture_id, "in", claim.approved_amount or Decimal(0), _aware(claim.paid_at), what
                 )
             )
-            if claim.payout_status == "sent" and _real(claim.payout_ref, "hearthline-claim-"):
+            if claim.payout_status == "sent" and _real(claim.payout_ref):
                 what = f"Insurance claim #{claim.id} passed on to the household's PayPal account"
                 out.append(
                     Expected(
@@ -144,19 +146,19 @@ def expected(db: Session, start: datetime) -> list[Expected]:
                 )
 
     for case in db.scalars(select(Case).where(Case.paypal_ref.is_not(None))):
-        if _real(case.paypal_ref, "hearthline-case-") and since(case.decided_at):
+        if _real(case.paypal_ref) and since(case.decided_at):
             what = f"Cash aid, case #{case.id} (approved by reviewers)"
             out.append(Expected(f"case-{case.id}", "out", case.amount_requested, _aware(case.decided_at), what))
     for m in db.scalars(select(Milestone).where(Milestone.paypal_ref.is_not(None))):
-        if _real(m.paypal_ref, "hearthline-milestone-") and since(m.paid_at):
+        if _real(m.paypal_ref) and since(m.paid_at):
             what = f"Contractor milestone #{m.id} (homeowner approved)"
             out.append(Expected(f"milestone-{m.id}", "out", m.amount, _aware(m.paid_at), what))
     for t in db.scalars(select(ReopenTranche).where(ReopenTranche.paypal_ref.is_not(None))):
-        if _real(t.paypal_ref, "hearthline-tranche-") and since(t.released_at):
+        if _real(t.paypal_ref) and since(t.released_at):
             what = f"Reopen step #{t.id}: {t.title} (staff released)"
             out.append(Expected(f"tranche-{t.id}", "out", t.amount, _aware(t.released_at), what))
     for p in db.scalars(select(Purchase).where(Purchase.paypal_ref.is_not(None))):
-        if _real(p.paypal_ref, "hearthline-purchase-") and since(p.paid_at):
+        if _real(p.paypal_ref) and since(p.paid_at):
             what = f"Shopper purchase #{p.id}: {p.title[:60]}"
             out.append(Expected(f"purchase-{p.id}", "out", p.total, _aware(p.paid_at), what))
     for item, batch in db.execute(select(AidBatchItem, AidBatch).join(AidBatch, AidBatchItem.batch_id == AidBatch.id)):

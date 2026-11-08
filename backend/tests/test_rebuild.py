@@ -175,6 +175,21 @@ def test_homeowner_wins_a_dispute_and_gets_the_money_back(fakes):
         assert ledger.household_available(db, hid) == D("10000.00")
         assert rebuild.escrow_balance(db, project["id"]) == D("0.00")
     assert fakes == []  # the contractor was never paid
+    assert client.get(f"/projects/{project['id']}", headers=h).json()["status"] == "completed"  # nothing left open
+
+
+def test_a_plan_the_family_hasnt_accepted_cant_be_disputed(fakes):
+    """No money is held for it yet, so settling a dispute would pay out or refund money that was never escrowed."""
+    hid = fund_household("10000")
+    h = login_as("Elena Rivera")
+    project = new_project(h)
+    dana = login_as("Dana Okafor")
+    sent = client.put(f"/projects/{project['id']}/plan", headers=dana, json=plan(("Demolition", "6000", False))).json()
+    milestone = sent["milestones"][0]
+    r = client.post(f"/milestones/{milestone['id']}/dispute", headers=h, json={"reason": "Not started"})
+    assert r.status_code == 409 and "hasn't been accepted" in r.json()["detail"]
+    with SessionLocal() as db:
+        assert ledger.household_available(db, hid) == D("10000.00")
 
 
 def test_weak_photo_check_goes_to_a_human_even_for_small_amounts(monkeypatch):

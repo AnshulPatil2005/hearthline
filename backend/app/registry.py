@@ -72,7 +72,10 @@ FX_SHORTFALL = Decimal("0.02")  # how short of its target a gift from abroad for
 
 
 def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation:
-    """Mark a donation captured, fund its item, and post it to the ledger. Safe to call twice."""
+    """Mark a donation captured, fund its item, and post it to the ledger. Safe to call twice, and safe when the
+    donor's browser and PayPal's webhook get here at the same time."""
+    db.flush()
+    db.refresh(donation, with_for_update=True)  # one at a time; the second sees "captured" (no lock on SQLite)
     if donation.status == "captured" or capture.status != "COMPLETED":
         return donation
     donation.status = "captured"
@@ -87,6 +90,7 @@ def apply_capture(db: Session, donation: Donation, capture: Capture) -> Donation
     item = donation.item
     newly_funded = False
     if item is not None:
+        db.refresh(item, with_for_update=True)  # what other gifts have added meanwhile
         gave_the_rest = estimate >= item.remaining
         item.funded_amount += donation.amount
         # A gift from abroad that set out to cover the rest can land a little short when PayPal's rate is worse than

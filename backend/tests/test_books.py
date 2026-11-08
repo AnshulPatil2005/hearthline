@@ -111,7 +111,7 @@ def test_reconciliation_traces_every_dollar(paypal_reporting):
             title="Cash aid",
             amount_requested=D("300.00"),
             status="approved",
-            paypal_ref="hearthline-case-1-1",
+            paypal_ref="5UXD2E8A7EBQJ",  # PayPal's own payout batch id, as stored
             decided_at=now - timedelta(hours=5),
         )
         db.add_all([gift, old_gift, demo_gift, aid])
@@ -121,12 +121,12 @@ def test_reconciliation_traces_every_dollar(paypal_reporting):
         tranche = db.query(ReopenTranche).first()
         if milestone is not None:  # paid in our books, absent from PayPal's report: missing
             milestone.paypal_ref, milestone.paid_at, milestone.amount = (
-                "hearthline-milestone-9-1",
+                "8KQW3BZ9N2TRL",
                 now - timedelta(hours=8),
                 D("1200.00"),
             )
         if tranche is not None:  # paid after PayPal's report was refreshed: waiting
-            tranche.paypal_ref, tranche.released_at = "hearthline-tranche-9-1", now - timedelta(minutes=10)
+            tranche.paypal_ref, tranche.released_at = "3HTV9C2LQ8MXA", now - timedelta(minutes=10)
         db.commit()
         milestone_id = milestone.id if milestone else None
 
