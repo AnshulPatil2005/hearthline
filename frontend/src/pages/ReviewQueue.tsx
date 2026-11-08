@@ -8,7 +8,7 @@ import { api, type QueueRow } from '../api'
 import { useAuth } from '../auth'
 import RiskBadge from '../components/RiskBadge'
 import { money } from '../format'
-import { gridTheme } from '../grid'
+import { gridTheme, byAmount } from '../grid'
 import { BuiltWith } from '../components/Showcase'
 
 export default function ReviewQueue() {
@@ -46,6 +46,7 @@ export default function ReviewQueue() {
         headerName: t('review.col.amount'),
         width: 120,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => (Number(p.value) ? money(p.value) : '—'),
       },
       { field: 'flag_count', headerName: t('review.col.flags'), width: 90 },

@@ -5,7 +5,9 @@ export default function ComingSoon() {
   const { t } = useTranslation()
   const { user } = useAuth()
   if (!user) return null
-  const features = t(`comingSoon.features.${user.role}`, { returnObjects: true }) as string[]
+  // Only some roles have a list; for the others t() returns the key as a string, and .map on it crashed the page
+  const listed: unknown = t(`comingSoon.features.${user.role}`, { returnObjects: true })
+  const features = Array.isArray(listed) ? (listed as string[]) : []
 
   return (
     <div className="max-w-2xl">

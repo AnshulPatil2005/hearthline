@@ -50,7 +50,10 @@ export function QrScanner({ onCode }: { onCode: (code: string) => void }) {
       .getUserMedia({ video: { facingMode: 'environment' } })
       .then(async (s) => {
         stream = s
-        if (!video.current || stopped) return
+        if (!video.current || stopped) {
+          s.getTracks().forEach((track) => track.stop()) // stopped while the permission prompt was open
+          return
+        }
         video.current.srcObject = s
         await video.current.play()
         const tick = async () => {

@@ -1758,7 +1758,7 @@
     "listen": "Listen",
     "overdue": "Overdue since {{date}}",
     "today": "Today",
-    "inDays_one": "Tomorrow, {{date}}",
+    "inDays_one": "In {{count}} day, {{date}}",
     "inDays_other": "In {{count}} days, {{date}}",
     "markDone": "Mark done: {{what}}",
     "allDone": "Nothing is waiting on you right now.",
@@ -1844,7 +1844,8 @@
         "detail": "Your contractor says: {{reason}}. The new schedule is on your Rebuild page.",
         "go": "See the schedule"
       }
-    }
+    },
+    "tomorrow": "Tomorrow, {{date}}"
   },
   "dispatch": {
     "title": "Dispatch agent",

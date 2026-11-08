@@ -58,6 +58,18 @@ export const serverWaking = {
   get: () => waking > 0,
 }
 
+// A sign-in that stopped working (it expired, or a demo reset recreated every user): whoever is listening (the auth
+// provider) signs the person out, and the route guard takes them back to the sign-in page.
+const sessionEndedListeners = new Set<() => void>()
+export const sessionEnded = {
+  listen(fn: () => void) {
+    sessionEndedListeners.add(fn)
+    return () => {
+      sessionEndedListeners.delete(fn)
+    }
+  },
+}
+
 export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
   const headers = new Headers(init.headers)
   const token = tokenStore.get()
@@ -71,6 +83,10 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<T> {
     lastAnswer = Date.now()
   } finally {
     if (mayBeAsleep) setWaking(-1)
+  }
+  if (res.status === 401 && token && tokenStore.get() === token) {
+    tokenStore.set(null)
+    sessionEndedListeners.forEach((fn) => fn())
   }
   if (!res.ok) {
     const body = await res.json().catch(() => null)

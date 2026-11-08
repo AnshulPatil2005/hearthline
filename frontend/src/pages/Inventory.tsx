@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import type { AgGridReact } from 'ag-grid-react'
-import { useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, type InventorySummary, type Item } from '../api'
 import InventoryGrid from '../components/InventoryGrid'
@@ -25,6 +25,7 @@ export default function Inventory() {
   const gridRef = useRef<AgGridReact<Row>>(null)
   const [notice, setNotice] = useState<string | null>(null)
   const items = useQuery({ queryKey: ['items'], queryFn: () => api<Item[]>('/households/me/items') })
+  const rows = useMemo(() => (items.data ?? []).map(toRow), [items.data]) // a new array only when the items change
   const summary = useQuery({
     queryKey: ['inventory-summary'],
     queryFn: () => api<InventorySummary>('/households/me/inventory-summary'),
@@ -90,12 +91,7 @@ export default function Inventory() {
         </p>
       ) : (
         <>
-          <InventoryGrid
-            ref={gridRef}
-            rows={(items.data ?? []).map(toRow)}
-            onChanged={() => setNotice(null)}
-            onError={setNotice}
-          />
+          <InventoryGrid ref={gridRef} rows={rows} onChanged={() => setNotice(null)} onError={setNotice} />
           <p className="text-xs text-ink-faint">{t('inventory.hint')}</p>
         </>
       )}

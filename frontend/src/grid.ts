@@ -47,3 +47,6 @@ export function chartColors(fills: string[] = []) {
   }
   return { chartThemes: ['hearthline'], customChartThemes: { hearthline: theme } }
 }
+
+/** Sort money the API sends as strings by its value: as text, "1500.00" comes before "250.00". */
+export const byAmount = (a: unknown, b: unknown) => Number(a ?? 0) - Number(b ?? 0)

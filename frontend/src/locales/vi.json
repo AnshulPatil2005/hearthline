@@ -1798,7 +1798,8 @@
         "detail": "Nhà thầu cho biết: {{reason}}. Lịch mới có trên trang Xây dựng lại của quý vị.",
         "go": "Xem lịch"
       }
-    }
+    },
+    "tomorrow": "Ngày mai, {{date}}"
   },
   "dispatch": {
     "title": "Trợ lý điều phối",

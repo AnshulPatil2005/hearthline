@@ -12,7 +12,15 @@ const TONE: Record<StaffBusiness['verification'], string> = {
   rejected: 'bg-danger-soft text-danger',
 }
 
-function Decide({ label, onDecide }: { label: string; onDecide: (approve: boolean, note: string) => void }) {
+function Decide({
+  label,
+  onDecide,
+  busy,
+}: {
+  label: string
+  onDecide: (approve: boolean, note: string) => void
+  busy: boolean // a decision is on its way: a second click could send a payout request twice
+}) {
   const { t } = useTranslation()
   const [note, setNote] = useState('')
   return (
@@ -26,13 +34,15 @@ function Decide({ label, onDecide }: { label: string; onDecide: (approve: boolea
       />
       <button
         onClick={() => onDecide(true, note)}
-        className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember"
+        disabled={busy}
+        className="rounded-lg bg-ember px-3 py-1.5 text-sm font-medium text-on-ember disabled:opacity-50"
       >
         {label}
       </button>
       <button
         onClick={() => onDecide(false, note)}
-        className="rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-sunken"
+        disabled={busy}
+        className="rounded-lg border border-line px-3 py-1.5 text-sm hover:bg-sunken disabled:opacity-50"
       >
         {t('businesses.reject')}
       </button>
@@ -113,6 +123,7 @@ export default function BusinessesReview() {
                   <Decide
                     label={t('businesses.verify')}
                     onDecide={(approve, note) => verify.mutate({ id: b.id, approve, note })}
+                    busy={verify.isPending}
                   />
                 </>
               )}
@@ -142,6 +153,7 @@ export default function BusinessesReview() {
                   <Decide
                     label={t('businesses.release', { amount: money(s.amount) })}
                     onDecide={(approve, note) => decide.mutate({ id: s.id, approve, note })}
+                    busy={decide.isPending}
                   />
                 </div>
               ))}

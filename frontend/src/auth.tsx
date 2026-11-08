@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useState, type ReactNode } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
-import { api, ApiError, tokenStore, type User } from './api'
+import { api, ApiError, sessionEnded, tokenStore, type User } from './api'
 
 type AuthState = {
   user: User | null
@@ -25,6 +25,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       })
       .finally(() => setLoading(false))
   }, [])
+
+  useEffect(
+    () =>
+      sessionEnded.listen(() => {
+        queryClient.clear()
+        setUser(null)
+      }),
+    [queryClient],
+  )
 
   const signInAsPersona = useCallback(
     async (userId: number) => {

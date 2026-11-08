@@ -38,6 +38,11 @@ function CreateRegistry({ home }: { home: Household }) {
       >
         {t('registry.create')}
       </button>
+      {create.isError && (
+        <p role="alert" className="mt-2 text-sm text-danger">
+          {create.error instanceof ApiError ? create.error.message : t('errors.generic')}
+        </p>
+      )}
     </section>
   )
 }
@@ -51,9 +56,11 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
   const [quantity, setQuantity] = useState(1)
   const [note, setNote] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [adding, setAdding] = useState(false) // a second click while the first is on its way would add it twice
 
   async function add() {
     setError(null)
+    setAdding(true)
     const body = fromInventory
       ? { inventory_item_id: Number(fromInventory), note }
       : { name, unit_price: price, quantity, note }
@@ -67,6 +74,8 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
       onAdded()
     } catch (e) {
       setError(e instanceof ApiError ? e.message : t('errors.generic'))
+    } finally {
+      setAdding(false)
     }
   }
 
@@ -128,7 +137,7 @@ function AddItem({ onAdded }: { onAdded: () => void }) {
         </div>
         <button
           onClick={() => void add()}
-          disabled={!fromInventory && (!name || !price)}
+          disabled={adding || (!fromInventory && (!name || !price))}
           className="rounded-lg bg-ember px-4 py-2 text-sm font-medium text-on-ember disabled:opacity-40"
         >
           {t('registry.add')}
@@ -238,7 +247,11 @@ export default function RegistryManage() {
                     </button>
                   )}
                   {Number(i.funded_amount) === 0 && (
-                    <button onClick={() => remove.mutate(i.id)} className="text-sm text-ink-faint hover:text-danger">
+                    <button
+                      onClick={() => remove.mutate(i.id)}
+                      disabled={remove.isPending}
+                      className="text-sm text-ink-faint hover:text-danger disabled:opacity-40"
+                    >
                       {t('registry.remove')}
                     </button>
                   )}
@@ -246,6 +259,14 @@ export default function RegistryManage() {
               ))}
             </ul>
           </section>
+
+          {(shop.isError || remove.isError) && (
+            <p role="alert" className="text-sm text-danger">
+              {(shop.error ?? remove.error) instanceof ApiError
+                ? (shop.error ?? remove.error)!.message
+                : t('errors.generic')}
+            </p>
+          )}
 
           <AddItem onAdded={refresh} />
         </>

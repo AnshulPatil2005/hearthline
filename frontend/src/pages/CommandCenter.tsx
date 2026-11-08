@@ -232,6 +232,7 @@ export default function CommandCenter() {
   const refresh = () => {
     gridApi.current?.refreshServerSide({ purge: false })
     void queryClient.invalidateQueries({ queryKey: ['command-summary'] })
+    void queryClient.invalidateQueries({ queryKey: ['aid-batches'] }) // first-72-hours aid is paid as a batch too
     setMapTick((n) => n + 1)
   }
 

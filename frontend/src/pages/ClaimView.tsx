@@ -105,8 +105,15 @@ export default function ClaimView() {
   const grid = useRef<AgGridReact<Row>>(null)
   const claim = useQuery({ queryKey: ['claim-packet', token], queryFn: () => api<ClaimPacket>(`/claims/${token}`) })
   const p = claim.data
-  const date = (iso: string | null) =>
-    iso ? parseTime(iso).toLocaleDateString(i18n.resolvedLanguage, { dateStyle: 'medium' }) : '—'
+  const date = (iso: string | null) => {
+    if (!iso) return '—'
+    // A day on its own (the loss date) is a calendar day: read in local time it would show a day early west of UTC
+    const day = /^\d{4}-\d{2}-\d{2}$/.test(iso)
+    return parseTime(day ? `${iso}T00:00:00` : iso).toLocaleDateString(i18n.resolvedLanguage, {
+      dateStyle: 'medium',
+      ...(day ? { timeZone: 'UTC' } : {}),
+    })
+  }
   const rows = useMemo<Row[]>(() => (p?.items ?? []).map((i) => ({ ...i, value: Number(i.value) })), [p])
   const columnDefs = useMemo<ColDef<Row>[]>(
     () => [

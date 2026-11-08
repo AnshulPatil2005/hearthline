@@ -1685,7 +1685,7 @@
     "loadingZone": "Iginuguhit ang zone mula sa mga county ng Census Bureau",
     "inside_one": "{{n}} nakatalang sambahayan ang nasa loob ng zone na ito.",
     "inside_other": "{{n}} nakatalang sambahayan ang nasa loob ng zone na ito.",
-    "areas_one": "Lugar: {{areas}}",
+    "areas_one": "{{count}} lugar: {{areas}}",
     "areas_other": "{{count}} lugar: {{areas}}",
     "unmapped": "Wala sa mapa (walang hugis ng county): {{areas}}",
     "willPropose": "Kapag binuksan, imumungkahi ang tulong sa unang 72 oras para sa mga naghandang sambahayan sa loob; isang tao pa rin ang mag-aapruba ng bayad.",
@@ -1758,7 +1758,7 @@
     "listen": "Pakinggan",
     "overdue": "Lampas na mula {{date}}",
     "today": "Ngayon",
-    "inDays_one": "Bukas, {{date}}",
+    "inDays_one": "Sa loob ng {{count}} araw, {{date}}",
     "inDays_other": "Sa loob ng {{count}} araw, {{date}}",
     "markDone": "Markahang tapos: {{what}}",
     "allDone": "Walang naghihintay sa iyo sa ngayon.",
@@ -1844,7 +1844,8 @@
         "detail": "Sabi ng iyong contractor: {{reason}}. Nasa iyong Rebuild page ang bagong iskedyul.",
         "go": "Tingnan ang iskedyul"
       }
-    }
+    },
+    "tomorrow": "Bukas, {{date}}"
   },
   "dispatch": {
     "title": "Dispatch agent",

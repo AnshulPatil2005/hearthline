@@ -88,6 +88,12 @@ function Detail({ id, onChanged }: { id: number; onChanged: () => void }) {
     // once per dispute opened, not on every refetch
   }, [d?.id])
 
+  if (detail.isError)
+    return (
+      <p role="alert" className="rounded-lg bg-danger-soft px-4 py-3 text-danger">
+        {detail.error instanceof ApiError ? detail.error.message : t('errors.generic')}
+      </p>
+    )
   if (!d) return <div className="h-64 animate-pulse rounded-xl bg-sunken" />
   const allowed = ORDER.filter((a) => d.demo || d.actions.includes(PAYPAL_ACTION[a]))
   const when = (iso: string) =>
@@ -320,7 +326,11 @@ export default function Disputes() {
         </div>
       </div>
 
-      {!list.isSuccess ? (
+      {list.isError ? (
+        <p role="alert" className="rounded-lg bg-danger-soft px-4 py-3 text-danger">
+          {list.error instanceof ApiError ? list.error.message : t('errors.generic')}
+        </p>
+      ) : !list.isSuccess ? (
         <div className="h-64 animate-pulse rounded-xl bg-sunken" />
       ) : rows.length === 0 ? (
         <p className="rounded-xl border border-dashed border-line p-8 text-center text-ink-soft">

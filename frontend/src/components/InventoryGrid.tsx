@@ -191,6 +191,8 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
         body: JSON.stringify({ [field]: e.newValue }),
       })
       e.node.setData(toRow(saved))
+      // The page's item list feeds the grid: keep it in step, or its next render puts the old value back
+      queryClient.setQueryData<Item[]>(['items'], (old) => old?.map((i) => (i.id === saved.id ? saved : i)))
       void queryClient.invalidateQueries({ queryKey: ['inventory-summary'] })
       onChanged()
     } catch {
@@ -209,6 +211,7 @@ const InventoryGrid = forwardRef<AgGridReact<Row>, Props>(function InventoryGrid
               action: async () => {
                 await api(`/items/${row.id}`, { method: 'DELETE' })
                 params.api.applyTransaction({ remove: [row] })
+                queryClient.setQueryData<Item[]>(['items'], (old) => old?.filter((i) => i.id !== row.id))
                 void queryClient.invalidateQueries({ queryKey: ['inventory-summary'] })
                 onChanged()
               },

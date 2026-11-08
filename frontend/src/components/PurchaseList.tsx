@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
-import { api, type Purchase } from '../api'
+import { api, ApiError, type Purchase } from '../api'
 import { money } from '../format'
 
 const TONE: Record<Purchase['status'], string> = {
@@ -24,6 +24,11 @@ function PurchaseCard({ p, onChanged }: { p: Purchase; onChanged: () => void }) 
   })
   return (
     <li className="panel p-4">
+      {act.isError && (
+        <p role="alert" className="mb-2 text-sm text-danger">
+          {act.error instanceof ApiError ? act.error.message : t('errors.generic')}
+        </p>
+      )}
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="font-medium">{p.title}</div>

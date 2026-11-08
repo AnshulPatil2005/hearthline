@@ -9,7 +9,7 @@ import { QrScanner } from '../components/GiftCardQr'
 import { ProjectGantt, Stat } from '../components/Milestones'
 import { Progress } from '../components/PublicFrame'
 import { money } from '../format'
-import { gridTheme } from '../grid'
+import { gridTheme, byAmount } from '../grid'
 import { codeFrom } from '../reopen'
 import { ConnectPayPal } from '../components/ConnectPayPal'
 import { LocalShop } from '../components/LocalShop'
@@ -232,7 +232,8 @@ function Redeem({ reopened, onRedeemed }: { reopened: boolean; onRedeemed: () =>
   )
   const redeem = useMutation({
     mutationFn: () =>
-      api<GiftCardInfo>('/business/me/redeem', { method: 'POST', body: JSON.stringify({ code, amount }) }),
+      // The card that was checked and shown, never whatever is now typed in the box
+      api<GiftCardInfo>('/business/me/redeem', { method: 'POST', body: JSON.stringify({ code: card!.code, amount }) }),
     onSuccess: (c) => {
       setMessage(
         t('business.redeem.done', { amount: money(amount, { cents: true }), left: money(c.balance, { cents: true }) }),
@@ -259,7 +260,11 @@ function Redeem({ reopened, onRedeemed }: { reopened: boolean; onRedeemed: () =>
         >
           <input
             value={code}
-            onChange={(e) => setCode(e.target.value)}
+            onChange={(e) => {
+              setCode(e.target.value)
+              setCard(null) // a different code: check it before taking anything from it
+              setMessage(null)
+            }}
             placeholder={t('business.redeem.codePlaceholder')}
             aria-label={t('business.redeem.code')}
             className="min-w-48 flex-1 rounded-lg border border-line bg-surface px-3 py-2 font-mono text-sm uppercase placeholder:normal-case"
@@ -311,6 +316,7 @@ function CardsGrid() {
         headerName: t('business.cards.paid'),
         width: 110,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => money(p.value),
       },
       {
@@ -318,6 +324,7 @@ function CardsGrid() {
         headerName: t('business.cards.worth'),
         width: 110,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => money(p.value, { cents: true }),
       },
       {
@@ -325,6 +332,7 @@ function CardsGrid() {
         headerName: t('business.cards.balance'),
         width: 110,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => money(p.value, { cents: true }),
       },
       {
@@ -436,6 +444,11 @@ export default function BusinessHome() {
                     hint={t('reopen.bonus', { bonus: c.bonus_percent })}
                   />
                 </div>
+                {reopened.isError && (
+                  <p role="alert" className="mt-3 text-sm text-danger">
+                    {errorText(reopened.error, t('errors.generic'))}
+                  </p>
+                )}
                 {c.status === 'live' && (
                   <div className="mt-4 flex flex-wrap items-center gap-3">
                     {confirming ? (
@@ -443,7 +456,8 @@ export default function BusinessHome() {
                         <span className="text-sm">{t('business.reopen.confirm')}</span>
                         <button
                           onClick={() => reopened.mutate()}
-                          className="rounded-lg bg-sage px-3 py-1.5 text-sm font-medium text-white"
+                          disabled={reopened.isPending}
+                          className="rounded-lg bg-sage px-3 py-1.5 text-sm font-medium text-white disabled:opacity-50"
                         >
                           {t('business.reopen.yes')}
                         </button>

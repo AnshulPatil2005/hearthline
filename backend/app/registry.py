@@ -45,7 +45,7 @@ def new_donation(
         if payment_method != "paypal":
             raise DonationError("Venmo and Pay Later take US dollars only; choose PayPal", 422)
         amount = fx.family_gets(given, currency)
-    if not MIN_GIFT <= amount <= MAX_GIFT:  # checked here so the Public API and the MCP tools can't skip it
+    if amount > MAX_GIFT or amount <= 0:  # checked here so the Public API and the MCP tools can't skip it
         raise DonationError(f"A gift can be ${MIN_GIFT:.0f} to ${MAX_GIFT:,.0f}", 422)
     item = None
     if item_id is not None:
@@ -57,6 +57,9 @@ def new_donation(
         slack = Decimal("1.02") if currency != "USD" else Decimal(1)  # an estimate can be a little over
         if amount > item.remaining * slack:
             raise DonationError(f"This item only needs ${item.remaining:.2f} more", 422)
+    # Under the minimum only to finish an item: otherwise its last few cents could never be given
+    if amount < MIN_GIFT and (item is None or amount < item.remaining):
+        raise DonationError(f"A gift can be ${MIN_GIFT:.0f} to ${MAX_GIFT:,.0f}", 422)
     donation = Donation(
         registry_id=reg.id,
         registry_item_id=item.id if item else None,

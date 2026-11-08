@@ -18,6 +18,7 @@ export default function ScanPanel() {
   const [photos, setPhotos] = useState<File[]>([])
   const [preparing, setPreparing] = useState(false)
   const [scanId, setScanId] = useState<number | null>(null)
+  const [uploading, setUploading] = useState(false) // until the scan exists: a second click would upload twice
   const [error, setError] = useState<string | null>(null)
 
   const scan = useQuery({
@@ -27,7 +28,7 @@ export default function ScanPanel() {
     refetchInterval: (q) => (q.state.data && ['done', 'failed'].includes(q.state.data.status) ? false : 2000),
   })
   const status = scan.data?.status
-  const busy = preparing || (scanId !== null && status !== 'done' && status !== 'failed')
+  const busy = preparing || uploading || (scanId !== null && status !== 'done' && status !== 'failed')
 
   useEffect(() => {
     if (status === 'done') {
@@ -59,6 +60,7 @@ export default function ScanPanel() {
 
   async function startScan() {
     setError(null)
+    setUploading(true)
     try {
       let roomId = Number(roomChoice)
       if (roomChoice === NEW_ROOM) {
@@ -77,6 +79,8 @@ export default function ScanPanel() {
       setPhotos([])
     } catch (e) {
       setError(e instanceof Error ? e.message : t('errors.generic'))
+    } finally {
+      setUploading(false)
     }
   }
 

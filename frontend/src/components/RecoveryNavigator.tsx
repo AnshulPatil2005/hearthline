@@ -48,9 +48,11 @@ function Due({ step }: { step: NavigatorStep }) {
       ? t('navigator.overdue', { date })
       : days === 0
         ? t('navigator.today')
-        : days > 0 && days <= 30
-          ? t('navigator.inDays', { count: days, date })
-          : date
+        : days === 1 // its own key: in Tagalog the plural "one" form also covers 2, 3, 5, 7...
+          ? t('navigator.tomorrow', { date })
+          : days > 0 && days <= 30
+            ? t('navigator.inDays', { count: days, date })
+            : date
   return <span className={`shrink-0 rounded-md px-1.5 py-0.5 text-xs font-medium ${tone}`}>{label}</span>
 }
 

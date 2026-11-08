@@ -32,7 +32,8 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
   const [picked, setAmount] = useState<number | null>(null)
   const amount = picked ?? presets[0]
   const names = new Intl.DisplayNames([i18n.resolvedLanguage ?? 'en'], { type: 'currency' })
-  const shown = (v: number) => money(v, { currency: foreign ? currency : 'USD' })
+  // Cents when there are any: "$65" on a button that charges $64.57 isn't what the donor pays
+  const shown = (v: number) => money(v, { currency: foreign ? currency : 'USD', cents: !Number.isInteger(v) })
   const [name, setName] = useState('')
   const [message, setMessage] = useState('')
   const [done, setDone] = useState(false)
@@ -73,7 +74,12 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
     )
   }
 
-  const valid = amount >= 1 && (remaining === null || toFamily(amount) <= remaining * (foreign ? 1.02 : 1))
+  // At least $1, unless it's exactly what's left: the last few cents of an item must be givable too
+  const finishes = remaining !== null && remaining < 1 && toFamily(amount) >= remaining
+  const valid =
+    (amount >= 1 || finishes) &&
+    amount > 0 &&
+    (remaining === null || toFamily(amount) <= remaining * (foreign ? 1.02 : 1))
   return (
     <div className="panel p-5">
       <div className="flex items-start justify-between gap-3">
@@ -123,7 +129,7 @@ export default function DonatePanel({ slug, item, onDone, onClose }: Props) {
             {foreign ? currency : '$'}
             <input
               type="number"
-              min={1}
+              min={remaining !== null && remaining < 1 ? 0.01 : 1}
               max={remaining === null ? undefined : toGiver(remaining)}
               value={amount}
               onChange={(e) => setAmount(Number(e.target.value))}

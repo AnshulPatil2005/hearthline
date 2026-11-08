@@ -3,7 +3,7 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, type Milestone, type Project } from '../api'
 import { GanttSlot, MilestoneStatusPill, PhotoStrip, SiteCheckView, Stat } from '../components/Milestones'
-import { money } from '../format'
+import { money, parseTime } from '../format'
 import { dateRange, paidOut } from '../rebuild'
 import { ConnectPayPal } from '../components/ConnectPayPal'
 import type { GanttPreview } from '../components/ProjectGantt'
@@ -18,14 +18,22 @@ const plusDays = (n: number) => day(new Date(Date.now() + n * 86_400_000))
 // The server enforces this; the editor shows it as you type.
 const depositCap = (total: number) => Math.min(Math.round(total * 10) / 100, 1000)
 
+/** The day an instant falls on here, as the date input wants it. The plan is saved at 8:00 and 17:00 local time,
+ * so reading the UTC date back would move a step a day each time it's sent (17:00 in California is the next day
+ * in UTC). */
+function localDay(iso: string): string {
+  const d = parseTime(iso)
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
 function startingRows(p: Project, t: (k: string) => string): Row[] {
   if (p.milestones.length > 0)
     return p.milestones.map((m) => ({
       title: m.title,
       done_looks_like: m.done_looks_like,
       amount: String(Number(m.amount)),
-      start: m.start_date.slice(0, 10),
-      end: m.end_date.slice(0, 10),
+      start: localDay(m.start_date),
+      end: localDay(m.end_date),
       is_deposit: m.is_deposit,
     }))
   return [

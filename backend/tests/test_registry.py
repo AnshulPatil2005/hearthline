@@ -176,3 +176,38 @@ def test_an_inventory_item_keeps_its_quantity_and_category_on_the_registry():
     assert r.status_code == 201, r.text
     item = r.json()
     assert (item["quantity"], item["category"], item["target_amount"]) == (4, "furniture", "320.00")
+
+
+def test_the_last_few_cents_of_an_item_can_be_given():
+    """A gift under $1 is refused, unless it's exactly what an item still needs: otherwise the item never finishes."""
+    from app import registry
+    from app.models import Registry, RegistryItem
+
+    login_as("Elena Rivera")
+    with SessionLocal() as db:
+        item = db.query(RegistryItem).filter_by(name="Kitchen starter set").one()
+        item.funded_amount = item.target_amount - Decimal("0.57")
+        db.commit()
+        reg = db.get(Registry, item.registry_id)
+        with pytest.raises(registry.DonationError):
+            registry.new_donation(
+                db,
+                reg,
+                item_id=None,
+                amount=Decimal("0.57"),
+                donor_name=None,
+                message="",
+                payment_method="paypal",
+                donor=None,
+            )
+        last = registry.new_donation(
+            db,
+            reg,
+            item_id=item.id,
+            amount=Decimal("0.57"),
+            donor_name=None,
+            message="",
+            payment_method="paypal",
+            donor=None,
+        )
+        assert last.amount == Decimal("0.57")

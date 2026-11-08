@@ -5,7 +5,7 @@ import { useCallback, useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { api, ApiError, type AidBatch, type AidBatchItem } from '../api'
 import { money } from '../format'
-import { gridTheme } from '../grid'
+import { gridTheme, byAmount } from '../grid'
 
 const STATUS_TONE: Record<AidBatch['status'], string> = {
   awaiting_approval: 'bg-amber-soft text-amber',
@@ -65,6 +65,7 @@ export function AidBatches({ onPaid }: Props) {
         headerName: t('command.batch.col.total'),
         width: 130,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => money(p.value),
       },
       {
@@ -153,6 +154,7 @@ export function AidBatches({ onPaid }: Props) {
         headerName: t('command.batch.col.amount'),
         width: 120,
         type: 'rightAligned',
+        comparator: byAmount,
         valueFormatter: (p) => money(p.value),
       },
       { field: 'receiver', headerName: t('command.col.paypal'), width: 230 },

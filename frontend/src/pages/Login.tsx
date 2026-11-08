@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useNavigate, useSearchParams } from 'react-router'
+import { useLocation, useNavigate, useSearchParams } from 'react-router'
 import { api, ApiError, type Role, type User } from '../api'
 import { useAuth } from '../auth'
 import { DemoTour } from '../components/DemoTour'
@@ -90,6 +90,12 @@ export default function Login() {
   const [pending, setPending] = useState<number | null>(null)
   const [error, setError] = useState(false)
   const personas = useQuery({ queryKey: ['personas'], queryFn: () => api<User[]>('/auth/personas') })
+  // A link to a section (/login#reset from the sponsor showcase): the router doesn't scroll to it, so this does,
+  // once the personas are in and the page has its final height
+  const { hash } = useLocation()
+  useEffect(() => {
+    if (hash && personas.isSuccess) document.getElementById(hash.slice(1))?.scrollIntoView()
+  }, [hash, personas.isSuccess])
   const [params] = useSearchParams()
   const autoTried = useRef(false)
 
