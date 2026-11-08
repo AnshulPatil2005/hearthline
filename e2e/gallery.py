@@ -147,11 +147,23 @@ async def architecture(browser: Browser) -> None:
     await save(page, "11-architecture")
 
 
+async def thumbnail(browser: Browser) -> None:
+    """Devpost's project thumbnail: 3:2, made from two of the screenshots above."""
+    ctx = await browser.new_context(viewport={"width": 1500, "height": 1000})
+    page = await ctx.new_page()
+    await page.goto((OUT / "thumbnail.html").as_uri())
+    await page.evaluate("document.fonts.ready")
+    await page.wait_for_timeout(500)
+    await page.screenshot(path=OUT / "thumbnail.png")
+    print("saved thumbnail")
+    await ctx.close()
+
+
 async def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     async with async_playwright() as p:
         browser = await p.chromium.launch(headless=True)
-        shots = [landing, navigator, inventory, registry, command_center, dispatch, what_if, scam_review, giving, price_watch, architecture]
+        shots = [landing, navigator, inventory, registry, command_center, dispatch, what_if, scam_review, giving, price_watch, architecture, thumbnail]
         only = set(os.environ.get("ONLY", "").split(",")) - {""}  # e.g. ONLY=dispatch,giving to retake some
         for shot in [s for s in shots if not only or s.__name__ in only]:
             try:

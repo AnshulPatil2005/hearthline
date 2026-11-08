@@ -16,3 +16,6 @@ Screenshots of the hosted demo for the Devpost gallery, 3:2 at 2880 x 1920. Reta
 | [09-giving-mandate.jpg](09-giving-mandate.jpg) | Giving mandates: a donor saves their PayPal account once and sets limits; the giving agent gives to verified needs and explains each gift. |
 | [10-price-watch-chart.jpg](10-price-watch-chart.jpg) | Price Watch: an AG Grid integrated chart of the biggest price rises since before the disaster, red over the legal limit. |
 | [11-architecture.jpg](11-architecture.jpg) | How it fits together: an AI agent proposes, rules in code check it, a person approves, PayPal moves the money, and the ledger records it. |
+
+The project thumbnail is [thumbnail.png](thumbnail.png) (1500 x 1000, 3:2), made from `thumbnail.html` and two of
+the screenshots above.
