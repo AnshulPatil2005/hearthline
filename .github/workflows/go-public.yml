@@ -1,0 +1,75 @@
+name: Make the repository public
+
+# The repository stays private until just before the submission deadline (Nov 12, 12:00 PT = 20:00 UTC), then this
+# makes it public, turns on private vulnerability reporting (SECURITY.md points to it), deletes the admin token it
+# used and disables itself. It tries every 15 minutes from 11:00 PT, because GitHub can start scheduled runs late;
+# a run that finds the repository already public just cleans up.
+#
+# Needs the REPO_ADMIN_TOKEN secret: a token with admin rights on this repository (changing visibility needs them;
+# the workflow's own GITHUB_TOKEN can't). A manual run with dry_run checks the token without changing anything.
+on:
+  schedule:
+    - cron: "0 19 12 11 *"
+    - cron: "15 19 12 11 *"
+    - cron: "30 19 12 11 *"
+    - cron: "45 19 12 11 *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Only check the token and say what would happen
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: go-public
+
+jobs:
+  public:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.REPO_ADMIN_TOKEN }}
+      REPO: ${{ github.repository }}
+      DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run }}
+    steps:
+      - name: Check the token
+        id: token
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::notice::No REPO_ADMIN_TOKEN secret: the switch already ran (or was never set up)."
+            echo "ok=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          read -r visibility permission < <(gh repo view "$REPO" --json visibility,viewerPermission --jq '"\(.visibility) \(.viewerPermission)"')
+          echo "The repository is $visibility; the token's permission is $permission."
+          if [ "$permission" != "ADMIN" ]; then
+            echo "::error::The token needs admin rights on $REPO to change its visibility."
+            exit 1
+          fi
+          echo "ok=true" >> "$GITHUB_OUTPUT"
+          echo "visibility=$visibility" >> "$GITHUB_OUTPUT"
+
+      - name: Make it public
+        if: steps.token.outputs.ok == 'true'
+        run: |
+          if [ "$DRY_RUN" = "true" ]; then
+            echo "::notice::Dry run: would make $REPO public (it is ${{ steps.token.outputs.visibility }}), turn on private vulnerability reporting, delete REPO_ADMIN_TOKEN and disable this workflow."
+            exit 0
+          fi
+          if [ "${{ steps.token.outputs.visibility }}" != "PUBLIC" ]; then
+            gh repo edit "$REPO" --visibility public --accept-visibility-change-consequences
+          fi
+          test "$(gh repo view "$REPO" --json visibility --jq .visibility)" = "PUBLIC"
+          gh api -X PUT "repos/$REPO/private-vulnerability-reporting" --silent \
+            || echo "::warning::Couldn't turn on private vulnerability reporting; do it in Settings > Security."
+          echo "### $REPO is public" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Clean up
+        if: steps.token.outputs.ok == 'true' && env.DRY_RUN != 'true'
+        run: |
+          gh secret delete REPO_ADMIN_TOKEN --repo "$REPO"
+          gh workflow disable go-public.yml --repo "$REPO"
+          echo "Deleted REPO_ADMIN_TOKEN and disabled this workflow." >> "$GITHUB_STEP_SUMMARY"
