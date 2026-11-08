@@ -9,6 +9,7 @@ from app.db import SessionLocal
 from app.models import Donation, Household, Purchase, RegistryItem
 from app.paypal import payouts
 from app.paypal.orders import Capture
+from app.paypal.rest import PayPalError
 from tests.helpers import client, login_as
 
 REAL_CHOOSE = shopper.choose  # before the fixture swaps in a fake
@@ -162,10 +163,10 @@ def test_reject_and_payout_failure(fakes, monkeypatch):
     p = client.get("/households/me/purchases", headers=h).json()[0]
     assert client.post(f"/purchases/{p['id']}/reject", headers=h).json()["status"] == "rejected"
 
-    def boom(*args, **kwargs):
-        raise RuntimeError("PayPal down")
+    def refused(*args, **kwargs):
+        raise PayPalError(422, {"name": "RECEIVER_UNREGISTERED", "message": "PayPal down"})
 
-    monkeypatch.setattr(payouts, "send_payouts", boom)
+    monkeypatch.setattr(payouts, "send_payouts", refused)
     with SessionLocal() as db:
         item = db.query(RegistryItem).filter_by(name="Twin mattresses").one()
         purchase = shopping.plan_purchase(db, item)
@@ -173,6 +174,29 @@ def test_reject_and_payout_failure(fakes, monkeypatch):
         failed = shopping.execute(db, purchase)
         assert failed.status == "failed" and "PayPal down" in failed.error
         assert ledger.household_available(db, item.rebuild_registry.household_id) == D("498.00")  # nothing spent
+
+
+def test_a_payout_with_no_answer_waits_and_a_retry_pays_once(fakes, monkeypatch):
+    """A timeout can come after PayPal paid. Marked failed, the family's next try was a new purchase with a new batch
+    id that PayPal would pay again; instead the same purchase waits, and approving it resends the same batch."""
+    import httpx
+
+    fund("Twin mattresses")
+    h = login_as("Elena Rivera")
+    waiting = client.get("/households/me/purchases", headers=h).json()[0]
+    real = payouts.send_payouts
+
+    def timeout(*args, **kwargs):
+        raise httpx.ReadTimeout("no answer")
+
+    monkeypatch.setattr(payouts, "send_payouts", timeout)
+    unknown = client.post(f"/purchases/{waiting['id']}/approve", headers=h).json()
+    assert unknown["status"] == "awaiting_approval" and "can't be paid twice" in unknown["error"]
+    again = client.post(f"/households/me/registry/items/{waiting['registry_item_id']}/shop", headers=h)
+    assert again.status_code == 409  # no second purchase for the same item
+    monkeypatch.setattr(payouts, "send_payouts", real)
+    paid = client.post(f"/purchases/{waiting['id']}/approve", headers=h).json()
+    assert paid["status"] == "paid" and len(fakes) == 1
 
 
 def test_shipping_simulation_marks_item_delivered(fakes):

@@ -269,8 +269,18 @@ def execute(db: Session, purchase: Purchase, approved_by: int | None = None) -> 
             batch_id=payouts.batch_id_for("purchase", purchase.id, purchase.created_at),
             subject="Hearthline purchase order",
         )
-    except Exception as e:  # report on the purchase; nothing was posted to the ledger
+    except PayPalError as e:  # PayPal said no: nothing was sent, and nothing posted to the ledger
         purchase.status, purchase.error = "failed", f"PayPal payout failed: {e}"[:500]
+        db.commit()
+        return purchase
+    except Exception as e:  # no answer (a timeout, a dropped connection): PayPal may have paid
+        # Not "failed": a new purchase would get a new batch id and could be paid again. This one waits for the
+        # family, and approving it again resends the same batch, which PayPal never pays twice.
+        log.warning("Payout for purchase %s has an unknown outcome: %s", purchase.id, e)
+        purchase.status = "awaiting_approval"
+        purchase.error = (
+            "PayPal didn't answer, so this may already be paid. Approve it again to check: it can't be paid twice."
+        )
         db.commit()
         return purchase
     purchase.status = "paid"
