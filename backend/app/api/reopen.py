@@ -185,6 +185,11 @@ def view_campaign(slug: str, db: DB) -> PublicCampaignOut:
     out = business_out(db, b)
     campaign = b.campaigns[-1]
     recent = [c for c in reversed(campaign.cards) if c.status == "active" and c.buyer_name][:8]
+    # Staff's notes on the business and on each step stay inside Hearthline: the public page shows neither
+    out.verification_note = None
+    if out.campaign is not None:
+        private = {"request_note": None, "decision_note": None}
+        out.campaign.tranches = [t.model_copy(update=private) for t in out.campaign.tranches]
     return PublicCampaignOut(**out.model_dump(), supporters=[c.buyer_name.split()[0] for c in recent])
 
 
@@ -197,6 +202,7 @@ class CardIn(BaseModel):
 class CardCreated(BaseModel):
     card_id: int
     order_id: str
+    token: str  # send it back to capture: only the buyer sees the card's code
 
 
 @router.post("/reopen/{slug}/cards", response_model=CardCreated, status_code=201)
@@ -217,14 +223,15 @@ def start_card(slug: str, body: CardIn, buyer: OptionalUser, db: DB) -> CardCrea
         db.rollback()
         raise HTTPException(502, f"PayPal couldn't start the payment: {paypal_reason(e)}") from None
     db.commit()
-    return CardCreated(card_id=card.id, order_id=card.paypal_order_id)
+    return CardCreated(card_id=card.id, order_id=card.paypal_order_id, token=reopen.buyer_token("card", card.id))
 
 
 @router.post("/gift-cards/{card_id}/capture", response_model=CardOut)
-def capture_card(card_id: int, db: DB) -> CardOut:
-    """Called after the buyer approves in the PayPal/Venmo window. Returns the card with its code."""
+def capture_card(card_id: int, db: DB, token: str = "") -> CardOut:
+    """Called after the buyer approves in the PayPal/Venmo window. Returns the card with its code, so it needs the
+    token the buyer got when the card was started (or in PayPal's return link)."""
     card = db.get(GiftCard, card_id)
-    if card is None or card.paypal_order_id is None:
+    if card is None or card.paypal_order_id is None or not reopen.is_buyer("card", card_id, token):
         raise HTTPException(404, "Gift card not found")
     if card.status == "pending":
         try:
@@ -246,6 +253,7 @@ class RegularIn(BaseModel):
 class RegularStarted(BaseModel):
     regular_id: int
     approval_url: str | None
+    token: str  # send it back to sync: only the regular sees their card's code
 
 
 class RegularOut(BaseModel):
@@ -263,14 +271,15 @@ def become_regular(slug: str, body: RegularIn, buyer: OptionalUser, db: DB) -> R
     if campaign is None:
         raise HTTPException(409, "This Reopen Fund is not taking new regulars right now")
     regular, link = run(reopen.start_regular, db, campaign, body.buyer_name, buyer, f"{get_settings().web_url}/paid")
-    return RegularStarted(regular_id=regular.id, approval_url=link)
+    return RegularStarted(regular_id=regular.id, approval_url=link, token=reopen.buyer_token("regular", regular.id))
 
 
 @router.post("/regulars/{regular_id}/sync", response_model=RegularOut)
-def sync_regular(regular_id: int, db: DB) -> RegularOut:
-    """After approval (PayPal's return page) or any time: the subscription's status and payments so far."""
+def sync_regular(regular_id: int, db: DB, token: str = "") -> RegularOut:
+    """After approval (PayPal's return page) or any time: the subscription's status and payments so far. Shows the
+    card's code, so it needs the regular's token (from starting, or PayPal's return link)."""
     regular = db.get(ReopenRegular, regular_id)
-    if regular is None:
+    if regular is None or not reopen.is_buyer("regular", regular_id, token):
         raise HTTPException(404, "Not found")
     run(reopen.sync_regular, db, regular)
     return RegularOut(

@@ -23,7 +23,6 @@ from app.schemas import ORM, Money
 
 router = APIRouter(tags=["registry"])
 DB = Annotated[Session, Depends(get_db)]
-MIN_DONATION = Decimal("1.00")
 
 
 def paypal_reason(e: ErrorException) -> str:
@@ -80,16 +79,16 @@ class RegistryIn(BaseModel):
 class RegistryItemIn(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=200)
     note: str = Field(default="", max_length=300)
-    category: str = "other"
+    category: str = Field(default="other", max_length=60)
     quantity: int = Field(default=1, ge=1, le=50)
-    unit_price: Money | None = Field(default=None, gt=0)
+    unit_price: Money | None = Field(default=None, gt=0, le=Decimal("100000"))
     priority: int = Field(default=100, ge=1, le=1000)
     inventory_item_id: int | None = None  # copy name and price from the household inventory
 
 
 class DonationIn(BaseModel):
     item_id: int | None = None  # None = the household's general fund
-    amount: Money = Field(ge=MIN_DONATION, le=Decimal("10000"))
+    amount: Money = Field(gt=0, le=Decimal("1000000"))  # in `currency`; the dollar limits are checked on the gift
     donor_name: str | None = Field(default=None, max_length=80)
     message: str = Field(default="", max_length=280)
     payment_method: Literal["paypal", "venmo", "paylater"] = "paypal"
@@ -191,6 +190,7 @@ def add_registry_item(body: RegistryItemIn, home: MyHousehold, db: DB) -> Regist
         source = db.get(Item, body.inventory_item_id)
         if source is None or source.household_id != home.id:
             raise HTTPException(404, "Inventory item not found")
+        # The inventory's values, overridden only by what the family actually sent (not the form's defaults)
         values = {
             "name": source.name,
             "category": source.category,
@@ -200,7 +200,7 @@ def add_registry_item(body: RegistryItemIn, home: MyHousehold, db: DB) -> Regist
             "match_url": source.match_url,
             "retailer": source.retailer,
             "inventory_item_id": source.id,
-        } | values
+        } | body.model_dump(exclude={"inventory_item_id"}, exclude_unset=True, exclude_none=True)
     if not values.get("name") or not values.get("unit_price"):
         raise HTTPException(422, "A registry item needs a name and a price")
     item = RegistryItem(registry_id=reg.id, **values)

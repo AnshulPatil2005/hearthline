@@ -355,7 +355,7 @@ def start_gift_card(db: Session, slug: str, amount: Decimal, buyer_name: str | N
         card = reopen.start_card(db, campaign, amount, buyer_name, None, "paypal")
     except reopen.ReopenError as e:
         raise PublicError(str(e)) from None
-    back = _web("/paid?" + urlencode({"kind": "gift_card", "id": card.id}))
+    back = _web("/paid?" + urlencode({"kind": "gift_card", "id": card.id, "t": reopen.buyer_token("card", card.id)}))
     card.paypal_order_id, link = orders.create_order_with_link(
         amount=amount,
         description=f"Hearthline Reopen Fund: {b.name} gift card",

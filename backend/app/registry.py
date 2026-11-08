@@ -13,6 +13,9 @@ from app.paypal.webhooks import on
 CUSTOM_ID_PREFIX = "donation:"
 
 
+MIN_GIFT, MAX_GIFT = Decimal("1.00"), Decimal("10000")  # in dollars, whatever currency the giver uses
+
+
 class DonationError(ValueError):
     def __init__(self, message: str, status: int = 409):
         super().__init__(message)
@@ -42,6 +45,8 @@ def new_donation(
         if payment_method != "paypal":
             raise DonationError("Venmo and Pay Later take US dollars only; choose PayPal", 422)
         amount = fx.family_gets(given, currency)
+    if not MIN_GIFT <= amount <= MAX_GIFT:  # checked here so the Public API and the MCP tools can't skip it
+        raise DonationError(f"A gift can be ${MIN_GIFT:.0f} to ${MAX_GIFT:,.0f}", 422)
     item = None
     if item_id is not None:
         item = db.get(RegistryItem, item_id)
@@ -57,7 +62,7 @@ def new_donation(
         registry_item_id=item.id if item else None,
         donor_user_id=donor.id if donor else None,
         donor_name=(donor_name or "").strip()[:80] or None,
-        message=message.strip(),
+        message=message.strip()[:280],
         amount=amount,
         payment_method=payment_method,
         currency=currency,

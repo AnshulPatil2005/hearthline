@@ -25,17 +25,20 @@ function BuyCard({ campaign, onBought }: { campaign: PublicCampaign; onBought: (
   const [name, setName] = useState('')
   const [card, setCard] = useState<GiftCardInfo | null>(null)
   const cardId = useRef<number | null>(null)
+  const cardToken = useRef('') // proves this browser bought the card: the capture answers with its code
   const checkout = usePayPalCheckout(async () => {
-    setCard(await api<GiftCardInfo>(`/gift-cards/${cardId.current}/capture`, { method: 'POST' }))
+    const token = encodeURIComponent(cardToken.current)
+    setCard(await api<GiftCardInfo>(`/gift-cards/${cardId.current}/capture?token=${token}`, { method: 'POST' }))
     onBought()
   })
 
   function pay(method: Method) {
-    const order = api<{ card_id: number; order_id: string }>(`/reopen/${campaign.slug}/cards`, {
+    const order = api<{ card_id: number; order_id: string; token: string }>(`/reopen/${campaign.slug}/cards`, {
       method: 'POST',
       body: JSON.stringify({ amount, buyer_name: name || null, payment_method: method }),
     }).then((r) => {
       cardId.current = r.card_id
+      cardToken.current = r.token
       return { orderId: r.order_id }
     })
     checkout.start(method, order)

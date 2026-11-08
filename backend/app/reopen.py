@@ -8,6 +8,8 @@
   in proportion to what each paid, through PayPal refunds.
 """
 
+import hashlib
+import hmac
 import secrets
 from datetime import UTC, datetime, timedelta
 from decimal import ROUND_DOWN, Decimal
@@ -17,6 +19,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app import audit, ledger
+from app.config import get_settings
 from app.models import (
     Business,
     GiftCard,
@@ -178,6 +181,16 @@ def start_card(
     db.add(card)
     db.flush()
     return card
+
+
+def buyer_token(kind: str, record_id: int) -> str:
+    """Proof that a request comes from whoever bought the card: its code is a bearer secret, and ids are guessable."""
+    key = get_settings().secret_key.encode()
+    return hmac.new(key, f"{kind}:{record_id}".encode(), hashlib.sha256).hexdigest()[:32]
+
+
+def is_buyer(kind: str, record_id: int, token: str | None) -> bool:
+    return bool(token) and hmac.compare_digest(token, buyer_token(kind, record_id))
 
 
 def activate(db: Session, card: GiftCard, capture: Capture) -> GiftCard:
@@ -474,7 +487,7 @@ def start_regular(
                 months=campaign.regular_months,
                 request_id=f"reopen-plan-{campaign.id}",
             )
-        back = f"{return_url}?kind=regular&id={regular.id}"
+        back = f"{return_url}?kind=regular&id={regular.id}&t={buyer_token('regular', regular.id)}"
         sub = subscriptions.subscribe(
             plan_id=campaign.paypal_plan_id,
             custom_id=f"{REGULAR_PREFIX}{regular.id}",

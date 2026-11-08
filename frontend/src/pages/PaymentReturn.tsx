@@ -17,6 +17,7 @@ export default function PaymentReturn() {
   const [params] = useSearchParams()
   const kind = params.get('kind')
   const id = params.get('id')
+  const token = encodeURIComponent(params.get('t') ?? '') // a gift card's or regular's proof of purchase
   const cancelled = params.get('cancelled') === '1'
   const capture = useQuery<GiftCardInfo | DonationDone | RegularInfo>({
     queryKey: ['paid', kind, id],
@@ -25,9 +26,9 @@ export default function PaymentReturn() {
     staleTime: Infinity, // capture once per visit
     queryFn: () =>
       kind === 'gift_card'
-        ? api<GiftCardInfo>(`/gift-cards/${id}/capture`, { method: 'POST' })
+        ? api<GiftCardInfo>(`/gift-cards/${id}/capture?token=${token}`, { method: 'POST' })
         : kind === 'regular'
-          ? api<RegularInfo>(`/regulars/${id}/sync`, { method: 'POST' })
+          ? api<RegularInfo>(`/regulars/${id}/sync?token=${token}`, { method: 'POST' })
           : api<DonationDone>(`/donations/${id}/capture`, { method: 'POST' }),
   })
   const card =

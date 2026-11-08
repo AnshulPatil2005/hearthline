@@ -74,7 +74,9 @@ def test_reopen_funds_and_gift_cards(paypal):
     }
     c = client.post("/v1/reopen-funds/morenos-bakery/gift-cards", json={"amount": "50", "buyer_name": "Kim"}).json()
     assert c["approval_url"] and "/v1/gift-cards/" in c["status_url"]
-    card = client.post(f"/gift-cards/{c['id']}/capture").json()
+    assert client.post(f"/gift-cards/{c['id']}/capture").status_code == 404  # a guessed id never shows the code
+    token = paypal[-1]["return_url"].split("&t=")[1]  # PayPal brings the buyer back with it
+    card = client.post(f"/gift-cards/{c['id']}/capture", params={"token": token}).json()
     status = client.get(f"/v1/gift-cards/{card['code']}").json()
     assert status["face_value"] == "60.00" and status["usable_now"] is False  # the bakery hasn't reopened yet
 
@@ -134,3 +136,21 @@ def test_a_registry_under_fraud_review_is_not_recommended(paypal):
         slug = db.query(Registry).filter_by(household_id=home.id).one().slug
     assert slug not in {r["slug"] for r in client.get("/v1/registries").json()}
     assert client.get(f"/v1/registries/{slug}").status_code == 200  # a direct link still works
+
+
+def test_the_mcp_tools_have_the_same_gift_limits_as_the_api(paypal):
+    """MCP's prepare_donation calls public_api directly, past the /v1 request model's checks."""
+    from decimal import Decimal
+
+    from app import public_api
+
+    login_as("Elena Rivera")
+    with SessionLocal() as db:
+        with pytest.raises(public_api.PublicError) as too_big:
+            public_api.start_donation(db, "rivera-family", Decimal("50000"))
+        assert too_big.value.status == 422 and "$10,000" in str(too_big.value)
+        with pytest.raises(public_api.PublicError):
+            public_api.start_donation(db, "rivera-family", Decimal("0.50"))
+        long = public_api.start_donation(db, "rivera-family", Decimal("20"), message="x" * 500)
+        assert long.amount == Decimal("20.00")
+    assert [m["amount"] for m in paypal] == [Decimal("20.00")]  # only the valid gift reached PayPal

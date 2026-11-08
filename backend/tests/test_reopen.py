@@ -103,7 +103,8 @@ def live_campaign(luis) -> dict:
 def buy(amount: str, name="Ana") -> dict:
     started = client.post("/reopen/morenos-bakery/cards", json={"amount": amount, "buyer_name": name})
     assert started.status_code == 201, started.text
-    return client.post(f"/gift-cards/{started.json()['card_id']}/capture").json()
+    s = started.json()
+    return client.post(f"/gift-cards/{s['card_id']}/capture", params={"token": s["token"]}).json()
 
 
 def test_only_a_verified_business_sells_cards_and_the_owner_cant_verify_itself(luis, paypal):
@@ -277,7 +278,8 @@ def test_regulars_prepay_monthly_and_each_payment_tops_up_their_card(luis, paypa
     second = client.post("/reopen/morenos-bakery/regulars", json={"buyer_name": "Bo"}).json()
     assert first["approval_url"].startswith("https://www.sandbox.paypal.com/") and len(subs["plans"]) == 1  # one plan
     assert subs["plans"][0] == ("Moreno's Bakery regulars", D("20.00"), 6)
-    assert subs["subs"][0][2].endswith(f"/paid?kind=regular&id={first['regular_id']}")
+    assert subs["subs"][0][2].endswith(f"/paid?kind=regular&id={first['regular_id']}&t={first['token']}")
+    assert client.post(f"/regulars/{first['regular_id']}/sync").status_code == 404  # a guessed id shows nothing
     with SessionLocal() as db:
         for event in (
             sale("WH-S1", "SALE-1", "I-SUB1"),
@@ -285,13 +287,13 @@ def test_regulars_prepay_monthly_and_each_payment_tops_up_their_card(luis, paypa
             sale("WH-S1b", "SALE-1", "I-SUB1"),
         ):
             handle(db, event, verified=True)  # the third repeats the first sale: counted once
-    card = client.post(f"/regulars/{first['regular_id']}/sync").json()
+    card = client.post(f"/regulars/{first['regular_id']}/sync", params={"token": first["token"]}).json()
     assert card["status"] == "active" and card["payments"] == 2
     assert card["card"]["face_value"] == "48.00" and card["card"]["balance"] == "48.00"  # 2 x $20 + 20% bonus
     page = client.get("/reopen/morenos-bakery").json()["campaign"]
     assert page["raised"] == "40.00" and page["regulars"] == 1 and page["regular_monthly"] == "20.00"
     subs["status"], subs["payments"] = "ACTIVE", [("SALE-9", D("20.00"), D("1.19"))]
-    synced = client.post(f"/regulars/{second['regular_id']}/sync").json()  # the return page after approval
+    synced = client.post(f"/regulars/{second['regular_id']}/sync", params={"token": second["token"]}).json()
     assert synced["status"] == "active" and synced["card"]["balance"] == "24.00"
 
 
@@ -312,5 +314,12 @@ def test_missing_the_deadline_cancels_regulars_and_refunds_their_payments(luis, 
         ("SALE-2", D("20.00")),
         ("SALE-1", D("20.00")),
     ]  # newest first, all of it (nothing released)
-    card = client.post(f"/regulars/{regular['regular_id']}/sync").json()
+    card = client.post(f"/regulars/{regular['regular_id']}/sync", params={"token": regular["token"]}).json()
     assert card["card"]["status"] == "refunded" and card["card"]["refunded_amount"] == "40.00"
+
+
+def test_the_public_page_keeps_staffs_notes_private(luis, paypal):
+    live_campaign(luis)
+    page = client.get("/reopen/morenos-bakery").json()
+    assert page["verification_note"] is None
+    assert all(t["request_note"] is None and t["decision_note"] is None for t in page["campaign"]["tranches"])

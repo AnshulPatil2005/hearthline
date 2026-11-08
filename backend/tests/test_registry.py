@@ -157,3 +157,22 @@ def test_a_capture_and_its_webhook_at_the_same_time_count_the_gift_once():
         registry.apply_capture(browser, stale, capture)
     with SessionLocal() as db:
         assert db.get(RegistryItem, item_id).funded_amount == before + Decimal("50.00")
+
+
+def test_an_inventory_item_keeps_its_quantity_and_category_on_the_registry():
+    """The form sends only the inventory item and a note; its defaults (1, "other") used to win."""
+    from app.models import Item
+
+    h = login_as("Elena Rivera")
+    with SessionLocal() as db:
+        home = db.query(Household).filter_by(name="Rivera household").one()
+        chairs = Item(
+            household_id=home.id, name="Dining chair", category="furniture", quantity=4, unit_price=Decimal("80")
+        )
+        db.add(chairs)
+        db.commit()
+        chairs_id = chairs.id
+    r = client.post("/households/me/registry/items", headers=h, json={"inventory_item_id": chairs_id, "note": "Oak"})
+    assert r.status_code == 201, r.text
+    item = r.json()
+    assert (item["quantity"], item["category"], item["target_amount"]) == (4, "furniture", "320.00")
