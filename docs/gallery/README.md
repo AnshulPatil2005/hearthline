@@ -1,5 +1,10 @@
 # Gallery
 
+**Demo video:** [hearthline-demo.mp4](hearthline-demo.mp4), 2:55, 1280 x 720, narrated and captioned, recorded on the
+hosted demo with real sandbox payments. Upload it to YouTube (public or unlisted) for Devpost. Re-record it with
+`uv run --with playwright --with imageio-ffmpeg --with edge-tts python ../e2e/video_tour.py` from `backend/` after a
+demo reset.
+
 Screenshots of the hosted demo for the Devpost gallery, 3:2 at 2880 x 1920. Retake them with
 `uv run --with playwright python ../e2e/gallery.py` from `backend/` (`ONLY=dispatch,giving` retakes some).
 

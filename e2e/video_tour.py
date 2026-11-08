@@ -748,7 +748,8 @@ def join() -> None:
         print("missing scenes:", ", ".join(missing))
     inputs = [arg for p in made for arg in ("-i", str(p))]
     streams = "".join(f"[{i}:v][{i}:a]" for i in range(len(made)))
-    out = OUT / "hearthline-demo.mp4"
+    joined = RAW / "joined.mp4"
+    RAW.mkdir(parents=True, exist_ok=True)
     subprocess.run(
         [
             ffmpeg(),
@@ -758,6 +759,83 @@ def join() -> None:
             *inputs,
             "-filter_complex",
             f"{streams}concat=n={len(made)}:v=1:a=1[v][a]",
+            "-map",
+            "[v]",
+            "-map",
+            "[a]",
+            "-c:v",
+            "libx264",
+            "-preset",
+            "veryfast",
+            "-crf",
+            "18",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+            str(joined),
+        ],
+        check=True,
+    )
+    out = OUT / "hearthline-demo.mp4"
+    tighten(joined, out)
+    print(f"hearthline-demo.mp4: {duration(out):.1f} s from {len(made)} scenes ({duration(joined):.1f} s untightened)")
+
+
+GAP_SPEED = 2.4  # how much faster the quiet stretches between lines play (scrolling, clicking, pages appearing)
+GAP_EDGE = 0.25  # seconds kept at normal speed at each end of a quiet stretch, so speech still breathes
+MIN_GAP = 0.8  # quiet shorter than this (a pause inside a line) is left alone
+
+
+def quiet_stretches(video: Path) -> list[tuple[float, float]]:
+    probe = subprocess.run(
+        [ffmpeg(), "-i", str(video), "-af", "silencedetect=noise=-38dB:d=0.5", "-f", "null", "-"],
+        capture_output=True,
+        text=True,
+    ).stderr
+    starts = [float(x.split("silence_start: ")[1].split()[0]) for x in probe.splitlines() if "silence_start" in x]
+    ends = [float(x.split("silence_end: ")[1].split()[0]) for x in probe.splitlines() if "silence_end" in x]
+    return [(s, e) for s, e in zip(starts, ends, strict=False) if e - s >= MIN_GAP]
+
+
+def tighten(video: Path, out: Path) -> None:
+    """Play the quiet stretches faster and leave the narration as it is."""
+    length = duration(video)
+    segments, at = [], 0.0  # (start, end, speed)
+    for s, e in quiet_stretches(video):
+        fast = (s + GAP_EDGE, e - GAP_EDGE)
+        if fast[0] > at:
+            segments.append((at, fast[0], 1.0))
+        segments.append((fast[0], fast[1], GAP_SPEED))
+        at = fast[1]
+    if at < length:
+        segments.append((at, length, 1.0))
+    n = len(segments)
+    graph = [
+        f"[0:v]split={n}{''.join(f'[vi{i}]' for i in range(n))}",
+        f"[0:a]asplit={n}{''.join(f'[ai{i}]' for i in range(n))}",
+    ]
+    for i, (s, e, speed) in enumerate(segments):
+        tempo = f"atempo=2.0,atempo={speed / 2:.4f}" if speed > 2 else f"atempo={speed}"
+        graph.append(f"[vi{i}]trim=start={s:.3f}:end={e:.3f},setpts=(PTS-STARTPTS)/{speed}[v{i}]")
+        graph.append(f"[ai{i}]atrim=start={s:.3f}:end={e:.3f},asetpts=PTS-STARTPTS,{tempo}[a{i}]")
+    graph.append(f"{''.join(f'[v{i}][a{i}]' for i in range(n))}concat=n={n}:v=1:a=1[vc][ac]")
+    graph.append("[ac]loudnorm=I=-16:TP=-1.5:LRA=11,aresample=48000[a]")  # as loud as most videos on YouTube
+    graph.append("[vc]fps=30[v]")
+    script = RAW / "tighten.txt"
+    script.write_text(";\n".join(graph), encoding="utf-8")
+    subprocess.run(
+        [
+            ffmpeg(),
+            "-y",
+            "-loglevel",
+            "error",
+            "-i",
+            str(video),
+            "-/filter_complex",  # ffmpeg 7+: the filter graph is read from the file
+            str(script),
             "-map",
             "[v]",
             "-map",
@@ -780,7 +858,6 @@ def join() -> None:
         ],
         check=True,
     )
-    print(f"hearthline-demo.mp4: {duration(out):.1f} s from {len(made)} scenes")
 
 
 async def record(only: list[str]) -> list[str]:
