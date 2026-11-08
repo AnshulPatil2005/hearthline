@@ -55,9 +55,13 @@ def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
     budget_per_unit = (item.funded_amount / item.quantity).quantize(Decimal("0.01"))
     query = f"{item.name} {item.note}".strip()
     local = local_first.candidates(db, item, home, budget_per_unit)
-    candidates = shopper.find_candidates(item.name, budget_per_unit)
-    if not candidates:
-        candidates = shopper.find_candidates(query, budget_per_unit)
+    try:
+        candidates = shopper.find_candidates(item.name, budget_per_unit)
+        if not candidates:
+            candidates = shopper.find_candidates(query, budget_per_unit)
+    except Exception as e:  # Channel3 down or refusing: nothing has been planned or bought
+        log.warning("Product search failed for registry item %s: %s", item.id, e)
+        raise ShoppingError("The product search isn't answering right now; try again in a minute") from e
     purchase = Purchase(
         household_id=home.id,
         registry_item_id=item.id,

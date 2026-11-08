@@ -1,7 +1,8 @@
+from decimal import Decimal
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -44,11 +45,18 @@ class HouseholdOut(ORM):
 
 
 class HouseholdUpdate(BaseModel):
-    address_line: str | None = None
-    city: str | None = None
-    state: str | None = None
-    postal_code: str | None = None
-    insured_contents_value: Money | None = None
+    address_line: str | None = Field(default=None, min_length=1, max_length=200)
+    city: str | None = Field(default=None, min_length=1, max_length=100)
+    state: str | None = Field(default=None, min_length=2, max_length=2)
+    postal_code: str | None = Field(default=None, min_length=3, max_length=10)
+    insured_contents_value: Money | None = Field(default=None, ge=0, le=Decimal("100000000"))
+
+    @model_validator(mode="after")
+    def _address_is_never_blank(self) -> "HouseholdUpdate":
+        for name in ("address_line", "city", "state", "postal_code"):
+            if name in self.model_fields_set and getattr(self, name) is None:
+                raise ValueError(f"{name} can't be empty")
+        return self
 
 
 def my_household(user: CurrentUser, db: DB) -> Household:

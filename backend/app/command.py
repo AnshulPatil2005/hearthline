@@ -195,7 +195,10 @@ def _group_key(name: str, key: Any) -> Any:
     if key is None:
         return None
     if name in {"verification_level", "household_size"}:
-        return int(key)
+        try:
+            return int(key)
+        except (TypeError, ValueError):
+            raise BadRequest(f"Not a group of {name}: {key!r}") from None
     if name == "payout_ready":
         return str(key).lower() == "true"
     return key
@@ -205,7 +208,10 @@ def rows(db: Session, req: dict) -> dict:
     """Answer one AG Grid server-side request: {startRow, endRow, rowGroupCols, groupKeys, valueCols,
     filterModel, sortModel}. Returns {rows, lastRow}."""
     hh = _households()
-    start, end = int(req.get("startRow") or 0), int(req.get("endRow") or 100)
+    try:
+        start, end = max(0, int(req.get("startRow") or 0)), int(req.get("endRow") or 100)
+    except (TypeError, ValueError):
+        raise BadRequest("startRow and endRow must be numbers") from None
     limit = max(1, min(end - start, 500))
     where = _where(hh, req.get("filterModel"))
     groups = [g["field"] for g in req.get("rowGroupCols") or []]

@@ -13,7 +13,10 @@ router = APIRouter(tags=["webhooks"])
 
 @router.post("/webhooks/paypal", include_in_schema=False, response_model=None)
 async def paypal_webhook(request: Request, db: Annotated[Session, Depends(get_db)]) -> dict | JSONResponse:
-    event = await request.json()
+    try:
+        event = await request.json()
+    except ValueError:  # not JSON at all
+        raise HTTPException(400, "Not a PayPal webhook event") from None
     if not isinstance(event, dict) or "id" not in event or "event_type" not in event:
         raise HTTPException(400, "Not a PayPal webhook event")
     verified = await webhooks.verify_signature({k.lower(): v for k, v in request.headers.items()}, event)

@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app import rebuild, rebuild_schedule
+from app import rebuild, rebuild_schedule, review
 from app.api.households import MyHousehold
 from app.auth import CurrentUser, require_role
 from app.db import get_db
@@ -199,7 +199,7 @@ def milestone_for(db: Session, milestone_id: int, user: User) -> Milestone:
 def run(fn, *args):
     try:
         return fn(*args)
-    except rebuild.RebuildError as e:
+    except (rebuild.RebuildError, review.ReviewError) as e:  # opening a review can find too few reviewers
         raise HTTPException(409, str(e)) from None
 
 

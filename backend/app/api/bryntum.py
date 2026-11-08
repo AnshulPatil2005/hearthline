@@ -88,6 +88,8 @@ def book_call(case_id: int, body: BookIn, me: Staff, db: DB) -> AppointmentOut:
 @router.post("/review/appointments/{appointment_id}/complete", response_model=AppointmentOut)
 def complete_call(appointment_id: int, me: Staff, db: DB) -> AppointmentOut:
     appt = _own_appointment(db, me, appointment_id)
+    if appt.status != "scheduled":  # a cancelled call must not count as the case's video check
+        raise HTTPException(409, f"This call is {appt.status}")
     appt.status = "completed"
     audit.record(db, actor_user_id=me.id, action="call.completed", subject_type="case", subject_id=appt.case_id)
     db.commit()
@@ -96,6 +98,9 @@ def complete_call(appointment_id: int, me: Staff, db: DB) -> AppointmentOut:
 
 @router.get("/review/cases/{case_id}/appointments", response_model=list[AppointmentOut])
 def case_calls(case_id: int, me: Staff, db: DB) -> list[AppointmentOut]:
+    case = db.get(Case, case_id)
+    if case is None or not (me.role in {Role.SUPERVISOR, Role.ORG_ADMIN} or review.is_assigned(case, me)):
+        raise HTTPException(404, "Case not found")  # as for the case itself: only its reviewers and supervisors
     calls = db.scalars(select(Appointment).where(Appointment.case_id == case_id).order_by(Appointment.starts_at))
     return [_out(a) for a in calls]
 
@@ -153,6 +158,20 @@ def calendar_load(me: Staff, db: DB, requestId: int | None = None, data: str | N
     }
 
 
+def _row_id(row: dict) -> int:
+    try:
+        return int(row["id"])
+    except (KeyError, TypeError, ValueError):
+        raise HTTPException(422, "Each changed call needs its id") from None
+
+
+def _when(value: str) -> datetime:
+    try:
+        return datetime.fromisoformat(value)
+    except (TypeError, ValueError):
+        raise HTTPException(422, f"Not a date and time: {value!r}") from None
+
+
 @router.post("/bryntum/calendar/sync")
 def calendar_sync(me: Staff, db: DB, payload: Annotated[dict, Body()]) -> dict:
     """Reviewers drag calls to reschedule them or delete them to cancel. New calls are booked from a
@@ -166,11 +185,11 @@ def calendar_sync(me: Staff, db: DB, payload: Annotated[dict, Body()]) -> dict:
         }
     changed = []
     for row in events.get("updated", []):
-        appt = _own_appointment(db, me, int(row["id"]))
+        appt = _own_appointment(db, me, _row_id(row))
         if "startDate" in row:
-            appt.starts_at = _aware(datetime.fromisoformat(row["startDate"]))
+            appt.starts_at = _aware(_when(row["startDate"]))
         if "endDate" in row:
-            appt.ends_at = _aware(datetime.fromisoformat(row["endDate"]))
+            appt.ends_at = _aware(_when(row["endDate"]))
         audit.record(
             db,
             actor_user_id=me.id,
@@ -181,7 +200,9 @@ def calendar_sync(me: Staff, db: DB, payload: Annotated[dict, Body()]) -> dict:
         )
         changed.append({"id": appt.id})
     for row in events.get("removed", []):
-        appt = _own_appointment(db, me, int(row["id"]))
+        appt = _own_appointment(db, me, _row_id(row))
+        if appt.status == "completed":  # a call that happened stays on the record
+            continue
         appt.status = "cancelled"
         audit.record(db, actor_user_id=me.id, action="call.cancelled", subject_type="case", subject_id=appt.case_id)
     db.commit()

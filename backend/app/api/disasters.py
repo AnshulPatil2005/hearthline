@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Query
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
@@ -68,7 +68,7 @@ class ZoneOut(BaseModel):
 
 
 class WarningIn(BaseModel):
-    alert_id: str
+    alert_id: str = Field(min_length=1, max_length=200)
 
 
 def _fail(e: real_disasters.RealDisasterError) -> HTTPException:

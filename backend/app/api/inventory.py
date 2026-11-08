@@ -4,7 +4,7 @@ from decimal import Decimal
 from typing import Annotated
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException, Response, UploadFile
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -66,18 +66,25 @@ class ItemOut(ORM):
 class ItemIn(BaseModel):
     name: str = Field(min_length=1, max_length=200)
     room_id: int | None = None
-    category: str = "other"
-    quantity: int = Field(default=1, ge=1)
-    unit_price: Money | None = Field(default=None, ge=0)
+    category: str = Field(default="other", min_length=1, max_length=60)
+    quantity: int = Field(default=1, ge=1, le=1000)
+    unit_price: Money | None = Field(default=None, ge=0, le=Decimal("1000000"))
 
 
 class ItemPatch(BaseModel):
     name: str | None = Field(default=None, min_length=1, max_length=200)
-    room_id: int | None = None
-    category: str | None = None
-    quantity: int | None = Field(default=None, ge=1)
-    unit_price: Money | None = Field(default=None, ge=0)
+    room_id: int | None = None  # null: no room
+    category: str | None = Field(default=None, min_length=1, max_length=60)
+    quantity: int | None = Field(default=None, ge=1, le=1000)
+    unit_price: Money | None = Field(default=None, ge=0, le=Decimal("1000000"))  # null: not priced
     confirmed: bool | None = None
+
+    @model_validator(mode="after")
+    def _required_fields_stay_set(self) -> "ItemPatch":
+        for name in ("name", "category", "quantity", "confirmed"):
+            if name in self.model_fields_set and getattr(self, name) is None:
+                raise ValueError(f"{name} can't be empty")
+        return self
 
 
 class RoomTotal(BaseModel):

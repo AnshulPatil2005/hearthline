@@ -171,14 +171,18 @@ def create_registry(body: RegistryIn, home: MyHousehold, user: CurrentUser, db: 
     db.add(reg)
     audit.record(db, actor_user_id=user.id, action="registry.created", subject_type="registry", subject_id=reg.slug)
     db.flush()
-    review.open_case(
-        db,
-        home,
-        kind="registry_verification",
-        title=f"New registry: {body.title}",
-        note=body.story[:500],
-        actor_user_id=user.id,
-    )
+    try:
+        review.open_case(
+            db,
+            home,
+            kind="registry_verification",
+            title=f"New registry: {body.title}",
+            note=body.story[:500],
+            actor_user_id=user.id,
+        )
+    except review.ReviewError as e:  # too few reviewers to check it: nothing is kept
+        db.rollback()
+        raise HTTPException(409, str(e)) from None
     return registry_out(db, reg)
 
 

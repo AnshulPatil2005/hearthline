@@ -7,7 +7,7 @@ from decimal import Decimal
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -80,7 +80,14 @@ def add_offer(body: OfferIn, b: MyBusiness, db: DB) -> Shop:
 class OfferPatch(BaseModel):
     available: bool | None = None
     stock: int | None = Field(default=None, ge=0, le=10000)
-    floor_price: Decimal | None = Field(default=None, gt=0, le=5000)
+    floor_price: Decimal | None = Field(default=None, gt=0, le=5000)  # null: no lowest price
+
+    @model_validator(mode="after")
+    def _required_fields_stay_set(self) -> "OfferPatch":
+        for name in ("available", "stock"):
+            if name in self.model_fields_set and getattr(self, name) is None:
+                raise ValueError(f"{name} can't be empty")
+        return self
 
 
 class AgentNoteIn(BaseModel):
