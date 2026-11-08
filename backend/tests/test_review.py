@@ -89,6 +89,25 @@ def test_large_cash_aid_needs_two_and_a_supervisor_on_disagreement(fakes):
     assert final.json()["status"] == "approved" and len(fakes["sent"]) == 1
 
 
+def test_a_supervisors_question_comes_back_to_the_supervisor(fakes):
+    """The reviewers split; the supervisor asks the family for more. After the reply only the supervisor can decide,
+    so the case must go back to them, not to reviewers who have already voted."""
+    h = login_as("Elena Rivera")
+    set_payout_email()
+    case = client.post("/households/me/cases", headers=h, json={"kind": "cash_aid", "amount": "2000"}).json()
+    first, second = assigned(case["id"])
+    url = f"/review/cases/{case['id']}/decision"
+    client.post(url, headers=login_as(first), json={"decision": "approve"})
+    client.post(url, headers=login_as(second), json={"decision": "reject", "reason": "Address unclear"})
+    grace = login_as("Grace Alvarez")
+    asked = client.post(url, headers=grace, json={"decision": "request_info", "reason": "Send a utility bill"}).json()
+    assert asked["status"] == "needs_info"
+    replied = client.post(f"/households/me/cases/{case['id']}/reply", headers=h, json={"note": "Attached"}).json()
+    assert replied["status"] == "escalated"
+    final = client.post(url, headers=grace, json={"decision": "approve", "reason": "The bill matches"})
+    assert final.json()["status"] == "approved" and len(fakes["sent"]) == 1
+
+
 def test_request_info_then_household_reply(fakes):
     h = login_as("Elena Rivera")
     case = client.post("/households/me/cases", headers=h, json={"kind": "contents_claim"}).json()

@@ -177,6 +177,36 @@ def test_the_monthly_limit_holds_across_rounds(vault):
     assert len(order_requests(vault)) == 2
 
 
+def test_pausing_during_a_round_stops_the_rest_of_it(vault, monkeypatch):
+    """The round checked the mandate once at the start; a pause during it still let every planned gift go out."""
+    from app import mandates
+    from app.models import GivingMandate
+
+    marcus = login_as("Marcus Chen")
+    mandate = active(marcus)
+    boots, crate = item_id(BOOTS), item_id(CRATE)
+
+    def plan(instruction, needs, budget, per_gift):
+        wanted = [(boots, D("40"), "Work boots"), (crate, D("40"), "Pepper's crate")]
+        return giving.check(needs, wanted, budget, per_gift), "Two gifts"
+
+    real_pay = mandates._pay
+
+    def pay_then_pause(db, m, gift):  # the donor presses Pause while the first payment goes through
+        made = real_pay(db, m, gift)
+        with SessionLocal() as other:
+            other.get(GivingMandate, m.id).status = "paused"
+            other.commit()
+        return made
+
+    monkeypatch.setattr(giving, "choose", plan)
+    monkeypatch.setattr(mandates, "_pay", pay_then_pause)
+    r = client.post(f"/donors/me/mandates/{mandate['id']}/run", headers=marcus).json()
+    assert r["given"] == 1 and len(order_requests(vault)) == 1
+    with SessionLocal() as db:
+        assert {g.registry_item_id for g in db.get(GivingMandate, mandate["id"]).gifts} == {boots}
+
+
 def test_the_agent_is_held_to_the_listed_needs_and_the_limits():
     needs = [
         giving.Need(1, "Boots", "", "clothing", D("139"), "Rivera household", "Sablewood, CA", "Sablewood Fire"),

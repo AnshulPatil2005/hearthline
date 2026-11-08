@@ -173,6 +173,24 @@ def test_tranches_need_money_in_escrow_and_staff_approval(luis, paypal):
     assert client.get("/business/me", headers=luis).json()["campaign"]["escrow"] == "100.00"
 
 
+def test_after_the_reopening_date_no_money_moves_to_the_business(luis, paypal):
+    """The refund that runs on the deadline can lag behind it; meanwhile the buyers are owed their money back."""
+    biz = live_campaign(luis)
+    ovens = biz["campaign"]["tranches"][0]
+    for _ in range(4):
+        buy("200")
+    client.post(f"/business/me/tranches/{ovens['id']}/request", headers=luis, json={"note": "Invoice"})
+    with SessionLocal() as db:  # the date passes before anyone runs the deadline check
+        c = db.query(ReopenCampaign).one()
+        c.reopen_by = datetime.now(UTC) - timedelta(hours=1)
+        db.commit()
+    grace = login_as("Grace Alvarez")
+    release = client.post(f"/command/tranches/{ovens['id']}/decide", headers=grace, json={"approve": True})
+    assert release.status_code == 409 and paypal["payouts"] == []
+    reopened = client.post("/business/me/reopened", headers=luis)
+    assert reopened.status_code == 409 and "refunded" in reopened.json()["detail"]
+
+
 def test_cards_are_spent_only_after_reopening(luis, paypal):
     live_campaign(luis)
     card = buy("100")

@@ -286,6 +286,18 @@ def _give(db: Session, mandate: GivingMandate, planned: giving.PlannedGift, by_a
     except IntegrityError:
         db.rollback()
         return None
+    # A round runs for a while (the agent, several payments): the donor may have paused or stopped the mandate, or
+    # another round spent the month meanwhile. The claim now counts against the month, so check both again; if
+    # either stops this gift, drop the claim so the need stays open for a later round.
+    db.refresh(mandate)
+    if (
+        mandate.status != "active"
+        or not mandate.paypal_payment_token_id
+        or given_this_month(db, mandate) > mandate.monthly_max
+    ):
+        db.delete(gift)
+        db.commit()
+        return None
     donor = mandate.donor
     try:
         donation = registry.new_donation(

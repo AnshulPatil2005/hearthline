@@ -144,9 +144,17 @@ def create_campaign(
     return campaign
 
 
+def missed_its_date(campaign: ReopenCampaign) -> bool:
+    """Past its reopening date while still live: the buyers are owed their money back, so none of it may move to the
+    business (the deadline check that refunds them runs at start-up and on demand, so it can lag behind)."""
+    return campaign.status == "live" and now() >= _aware(campaign.reopen_by)
+
+
 def mark_reopened(db: Session, campaign: ReopenCampaign, owner: User) -> ReopenCampaign:
     if campaign.status != "live":
         raise ReopenError(f"This campaign is {campaign.status}")
+    if missed_its_date(campaign):
+        raise ReopenError("The reopening date has passed, so the cards' buyers are being refunded")
     campaign.status, campaign.reopened_at = "reopened", now()
     audit.record(
         db, actor_user_id=owner.id, action="reopen.reopened", subject_type="reopen_campaign", subject_id=campaign.id
@@ -287,6 +295,8 @@ def request_tranche(db: Session, tranche: ReopenTranche, owner: User, note: str)
     campaign = tranche.campaign
     if campaign.status not in {"live", "reopened"}:
         raise ReopenError(f"This campaign is {campaign.status}")
+    if missed_its_date(campaign):
+        raise ReopenError("The reopening date has passed, so the cards' buyers are being refunded")
     if tranche.status not in {"pending", "rejected"}:
         raise ReopenError(f"This step is {tranche.status}")
     held = escrow_balance(db, campaign.id)
@@ -312,6 +322,8 @@ def decide_tranche(db: Session, tranche: ReopenTranche, staff: User, approve: bo
         raise ReopenError("Someone other than the owner has to approve this")
     if tranche.status != "requested":
         raise ReopenError(f"This step is {tranche.status}")
+    if approve and (campaign.status not in {"live", "reopened"} or missed_its_date(campaign)):
+        raise ReopenError("This campaign's money is going back to its buyers, so no step can be released")
     tranche.decided_by_user_id, tranche.decision_note = staff.id, note
     if not approve:
         tranche.status = "rejected"

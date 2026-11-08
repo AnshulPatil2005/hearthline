@@ -226,7 +226,10 @@ def respond(db: Session, case: Case, note: str, actor_user_id: int) -> Case:
     if case.status != "needs_info":
         raise ReviewError(f"This case is {case.status}")
     case.note = f"{case.note}\n\nHousehold reply: {note}".strip()[:1000]
-    case.status = "in_review"
+    # A supervisor's question goes back to the supervisor: the reviewers have voted and can't again, so
+    # "in_review" would leave the case where nobody can decide it.
+    asked_by_supervisor = any(r.decision == "request_info" and r.role == Role.SUPERVISOR for r in case.reviews)
+    case.status = "escalated" if asked_by_supervisor else "in_review"
     # Earlier "request_info" reviews no longer count; each assigned reviewer reviews again.
     for review in [r for r in case.reviews if r.decision == "request_info"]:
         case.reviews.remove(review)

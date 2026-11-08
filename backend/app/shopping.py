@@ -7,7 +7,7 @@ import logging
 import statistics
 import threading
 from datetime import UTC, datetime
-from decimal import Decimal
+from decimal import ROUND_DOWN, Decimal
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
@@ -50,9 +50,15 @@ def ships_to_verified_address(home: Household) -> bool:
     return trust.in_disaster_zone(home) and bool(home.residence_verified or home.vouched_by_user_id)
 
 
+def unit_budget(funded: Decimal, quantity: int) -> Decimal:
+    """Rounded down, never up: rounded up, the quantity times it could be a cent over what was given, and the
+    spending rules would then block the Shopper's own pick."""
+    return (funded / quantity).quantize(Decimal("0.01"), rounding=ROUND_DOWN)
+
+
 def plan_purchase(db: Session, item: RegistryItem) -> Purchase:
     home = item.rebuild_registry.household
-    budget_per_unit = (item.funded_amount / item.quantity).quantize(Decimal("0.01"))
+    budget_per_unit = unit_budget(item.funded_amount, item.quantity)
     query = f"{item.name} {item.note}".strip()
     local = local_first.candidates(db, item, home, budget_per_unit)
     try:

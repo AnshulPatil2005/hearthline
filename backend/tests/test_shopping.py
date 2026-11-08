@@ -209,3 +209,8 @@ def test_shipping_puts_the_tracking_number_on_donors_paypal_payments(fakes, no_l
     with SessionLocal() as db:
         item = db.query(RegistryItem).filter_by(name="Steel-toe work boots").one()
     assert no_live_tracking == [(f"O-{item.id}", f"CAP-{item.id}", shipped["tracking_number"])]
+
+
+def test_the_per_unit_budget_never_rounds_above_what_was_given():
+    per_unit = shopping.unit_budget(D("100.01"), 3)
+    assert per_unit == D("33.33") and per_unit * 3 <= D("100.01")
