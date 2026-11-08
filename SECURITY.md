@@ -94,6 +94,7 @@ account at PayPal ([`app/mandates.py`](backend/app/mandates.py)).
 | Another token signed with the same key used to sign in | Sign-in tokens carry `purpose: login`; the PayPal-connect state token can't be used as one | [`auth.py`](backend/app/auth.py) |
 | Replaying a PayPal sign-in code into someone else's account | The OAuth `state` is signed, short-lived and tied to the signed-in user | [`paypal_connect.py`](backend/app/paypal_connect.py) |
 | Guessing photo URLs | Media links are signed per item | [`media.py`](backend/app/media.py) |
+| Collecting other people's gift-card codes (a code is what spends a card) | The capture and sync that answer with a card's code need a token signed for its buyer, given when the card is started and in PayPal's return link; a guessed id gets a 404 | [`reopen.py`](backend/app/reopen.py) `buyer_token` |
 | Live PayPal by accident | The API refuses to start against live PayPal unless `ALLOW_LIVE_PAYPAL=true` is set on purpose | [`config.py`](backend/app/config.py) |
 
 ### Money and records
@@ -103,6 +104,7 @@ account at PayPal ([`app/mandates.py`](backend/app/mandates.py)).
 | Forged PayPal webhooks | Signature checked with PayPal; an unverified event is stored but not acted on, and gets a 401 so PayPal redelivers a genuine one | [`api/webhooks.py`](backend/app/api/webhooks.py) |
 | A webhook processed twice | Events are stored by PayPal's id and processed once | [`paypal/webhooks.py`](backend/app/paypal/webhooks.py) |
 | Money leaving with no decision behind it | Books matches every PayPal payout and payment to an approved record, for the same amount, and lists anything unmatched | [`reconcile.py`](backend/app/reconcile.py) |
+| A gift counted twice, or an item bought twice | A capture re-reads the gift under a row lock, so the donor's browser and PayPal's webhook can't both add it; one purchase per item at a time, re-checked at approval; a payout with no answer is retried as the same batch, which PayPal never pays twice | [`registry.py`](backend/app/registry.py), [`shopping.py`](backend/app/shopping.py) |
 | Quietly editing who approved what | The audit log is a hash chain: each event's hash covers its content and the previous hash. Staff can re-check the whole chain on the Books page | [`audit.py`](backend/app/audit.py), `GET /command/books/audit` |
 | Unbalanced books | Every posting set must balance before it's written | [`ledger.py`](backend/app/ledger.py) |
 
